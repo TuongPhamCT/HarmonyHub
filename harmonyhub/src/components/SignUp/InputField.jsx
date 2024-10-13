@@ -1,6 +1,6 @@
 import React from "react";
 
-function InputField({ label, placeholder, type = "text" }) {
+function InputField({ label, placeholder, type = "text", isRequired = false }) {
   return (
     <div className="flex flex-col justify-center mt-6 w-full">
       <label
@@ -18,6 +18,7 @@ function InputField({ label, placeholder, type = "text" }) {
             className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
           />
           <input
+            required={isRequired}
             type={type}
             id={`${label.toLowerCase()}Input`}
             placeholder={placeholder}

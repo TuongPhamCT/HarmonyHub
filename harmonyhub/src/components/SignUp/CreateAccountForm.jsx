@@ -6,16 +6,22 @@ function CreateAccountForm() {
     <section className="flex flex-col mt-9 w-full max-w-[382px]">
       <h2 className="text-2xl font-bold text-white">Create An Account</h2>
       <form>
-        <InputField label="Name" placeholder="Enter Your Name" />
+        <InputField
+          label="Name"
+          placeholder="Enter Your Name"
+          isRequired={true}
+        />
         <InputField
           label="E-Mail"
           placeholder="Enter Your E-Mail"
           type="email"
+          isRequired={true}
         />
         <InputField
           label="Password"
           placeholder="Enter Your Password"
           type="password"
+          isRequired={true}
         />
         <button className="flex justify-center items-center mt-6 w-full text-base font-bold text-white whitespace-nowrap px-6 py-1.5 bg-pink-500 rounded min-h-[34px]">
           Signup
