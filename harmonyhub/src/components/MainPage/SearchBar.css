@@ -1,0 +1,110 @@
+
+.searchbar {
+    display: flex;
+    width: calc(100% - 12px);
+    height: 54px;
+    margin-left: 6px;
+    margin-right: 6px;
+    border-radius: 6px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    flex-direction: row;
+    /* background-color: rgba(0, 0, 0, 0.5); */
+}
+
+.searchbar_left {
+    position: relative;
+    width: 30%;
+    height: 100%;
+    min-width: 180px;
+}
+
+.searchbar_right {
+    display: flex;
+    width: 65%;
+    height: 100%;
+    align-items: center;
+    flex-direction: row;
+    direction: rtl;
+    min-width: 860px;
+}
+
+#searchbox_background {
+    position: absolute;
+    top: 8%;
+    left: 20px;
+    width: calc(100% - 20px);
+    min-width: 60px;
+    max-width: 480px;
+    height: 82%;
+    user-select: text;
+    color: black;
+}
+
+#searchbox_button {
+    position: absolute;
+    left: 30px;
+    top: 20%;
+    height: 60%;
+}
+
+#searchbox_input {
+    position: absolute;
+    top: 8%;
+    left: 64px;
+    width: calc(100% - 74px);
+    min-width: 60px;
+    max-width: 340px;
+    height: 90%;
+    background-color: transparent;
+    color: white;
+    outline: none;
+}
+
+.header_button {
+    transition: filter 0.3s ease;
+    cursor: pointer;
+}
+
+.header_button:hover {
+    filter: brightness(0.8);
+}
+
+.searchbar h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    margin-right: 24px;
+    padding-left: 6px;
+    padding-right: 6px;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+.searchbar h2:hover {
+    color: #FAB5E7;
+}
+
+#header_login {
+    border-color: #EE10B0;
+    border-radius: 4px;
+    border-width: 1px;
+    color: #EE10B0;
+    text-align: center;
+    align-content: center;
+    width: 160px;
+    height: 48px;
+    margin-right: 24px;
+}
+
+#header_signup {
+    border-radius: 4px;
+    color: white;
+    background-color: #EE10B0;
+    text-align: center;
+    align-content: center;
+    width: 160px;
+    height: 48px;
+    margin-right: 64px;
+}

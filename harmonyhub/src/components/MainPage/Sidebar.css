@@ -1,0 +1,106 @@
+/* Sidebar.css */
+.sidebar {
+  position: inherit;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #181818;
+  color: white;
+  padding: 20px;
+  box-shadow: 0px 0 30px rgba(238, 16, 176, 0.7);
+  display: flex;
+  flex-direction: column;
+  border-right-color: #EE10B0;
+  border-right-width: 3px;
+  overflow: auto;
+  overflow-x: hidden;
+}
+  
+.sidebar h2 {
+  text-align: left;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  user-select: none;
+  margin: 6px 0px 6px 30px;
+  padding: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar ul li:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
+
+.sidebar ul li:active {
+  background-color: #EE10B0;
+  border-radius: 4px;
+}
+
+.sidebar ul li.active {
+  background-color: #EE10B0;
+  border-radius: 4px;
+  color: white;
+}
+
+.sidebar ul li.sidebar_header {
+  cursor: default;
+  background-color: transparent;
+}
+
+.sidebar ul li.sidebar_home {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.sidebar ul li.default {
+  font-size: 16px;
+}
+
+.sidebar ul li.sidebar_header {
+  font-size: 10px;
+  color: #EE10B0;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+#sidebar_logo {
+  margin: 2px 0px 2px 30px;
+}
+
+.sidebar ul li#sidebar_logout {
+  color: #EE10B0;
+}
+
+.sidebar ul li#sidebar_add_playlist {
+  color: #0E9EEF;
+}
+
+/*============================================================*/
+/* Icon */
+
+img.icon_home {
+  float: left;
+  vertical-align: middle;
+  margin-right: 4px;
+  margin-top: 3px;
+  width: 30px;
+  height: 30px;
+}
+
+img.icon_content {
+  float: left;
+  vertical-align: middle;
+  margin-right: 4px;
+  margin-top: 4px;
+  width: 18px;
+  height: 18px;
+}
