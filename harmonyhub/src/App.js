@@ -27,7 +27,7 @@ function App() {
       className={`App "bg-black w-screen h-screen"`}
     >
       {/* <SignUp ref={signUpRef} handleClose={hideSignUpModal} /> */}
-      <MainPage/>
+      <MainPage />
       {/* <button onClick={showSignUpModal}>Show signup Form</button><br></br> */}
     </div>
   );
