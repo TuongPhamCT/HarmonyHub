@@ -10,15 +10,15 @@ module.exports.register = function (req, res) {
 
   //check if email is exist
 
-  //send email verification link
   //generate jwt token
   const token = jwt.sign(
     {
-      data: { username, email, password },
+      data: { email },
     },
     process.env.JWT_SECRET,
     { expiresIn: "10m" }
   );
+
   //send email
   try {
     sendMail(token, email);
