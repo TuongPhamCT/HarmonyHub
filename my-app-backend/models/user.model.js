@@ -31,6 +31,10 @@ const User = sequelize.define(
       type: DataTypes.ENUM("admin", "user", "guest"), // Example role field
       defaultValue: "user",
     },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     // Other model options
