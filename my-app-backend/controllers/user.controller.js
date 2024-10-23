@@ -4,11 +4,20 @@ const jwt = require("jsonwebtoken");
 const { sendMail } = require("../utils/mail_sender.util");
 require("dotenv").config();
 
-module.exports.register = function (req, res) {
+module.exports.register = async function (req, res) {
   const { username, email, password } = req.body;
-  // Check if the user already
 
-  //check if email is exist
+  // Check if the user already exists by email
+  try {
+    user = await User.findOne({ where: { email } });
+    if (user) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "Server error", error });
+  }
+  //create user
+  user = await User.create({ username, email, password });
 
   //generate jwt token
   const token = jwt.sign(
@@ -21,7 +30,7 @@ module.exports.register = function (req, res) {
 
   //send email
   try {
-    sendMail(token, email);
+    await sendMail(token, email);
 
     //response
     res.status(201).json({
@@ -44,6 +53,9 @@ module.exports.verify = function (req, res) {
         "Email verification failed,possibly the link is invalid or expired"
       );
     } else {
+      //active user account
+      const email = decoded.data.email;
+      user = User.update({ active: true }, { where: { email } });
       res.send("Email verifified successfully");
     }
   });
