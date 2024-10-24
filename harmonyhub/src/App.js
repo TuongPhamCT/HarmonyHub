@@ -1,6 +1,8 @@
 import SignUp from "./components/SignUp/SignUp";
+import SignIn from "./components/SignIn/SignIn";
 import { useRef, useState } from "react";
 function App() {
+
   //ref for the signup modal
   const signUpRef = useRef();
 
@@ -25,6 +27,8 @@ function App() {
     >
       <SignUp ref={signUpRef} handleClose={hideSignUpModal} />
       <button onClick={showSignUpModal}>Show signup Form</button>
+      {/* Sign In */}
+      <SignIn />
     </div>
   );
 }
