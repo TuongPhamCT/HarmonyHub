@@ -17,7 +17,11 @@ module.exports.register = async function (req, res) {
     return res.status(500).json({ message: "Server error", error });
   }
   //create user
-  user = await User.create({ username, email, password });
+  try {
+    user = await User.create({ username, email, password });
+  } catch (error) {
+    return res.status(400).json({ message: "data incorect format", error });
+  }
 
   //generate jwt token
   const token = jwt.sign(
@@ -30,8 +34,8 @@ module.exports.register = async function (req, res) {
 
   //send email
   try {
-    await sendMail(token, email);
-
+    let response = await sendMail(token, email);
+    console.log(response);
     //response
     res.status(201).json({
       message:

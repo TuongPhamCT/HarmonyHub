@@ -36,8 +36,10 @@ const mailConfigurations = (token, targetEmail) => {
 
 const sendMail = async (token, targetEmail) => {
   try {
-    await transporter.sendMail(mailConfigurations(token, targetEmail));
-    console.log("Email sent successfully");
+    let response = await transporter.sendMail(
+      mailConfigurations(token, targetEmail)
+    );
+    return response;
   } catch (error) {
     console.log("Error sending email: ", error);
   }

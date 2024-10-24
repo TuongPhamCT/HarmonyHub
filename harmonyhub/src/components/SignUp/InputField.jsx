@@ -1,6 +1,10 @@
 import React from "react";
+import { forwardRef } from "react";
 
-function InputField({ label, placeholder, type = "text", isRequired = false }) {
+const InputField = forwardRef(function InputField(
+  { label, placeholder, type = "text", isRequired = false },
+  ref
+) {
   return (
     <div className="flex flex-col justify-center mt-6 w-full">
       <label
@@ -18,6 +22,7 @@ function InputField({ label, placeholder, type = "text", isRequired = false }) {
             className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
           />
           <input
+            ref={ref}
             required={isRequired}
             type={type}
             id={`${label.toLowerCase()}Input`}
@@ -28,6 +33,6 @@ function InputField({ label, placeholder, type = "text", isRequired = false }) {
       </div>
     </div>
   );
-}
+});
 
 export default InputField;
