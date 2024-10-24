@@ -1,14 +1,10 @@
-import React from "react";
-import { useRef } from "react";
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 import InputField from "./InputField";
 import axios from "axios";
-import AlertComponent from "../Utils/Alert/Alert";
+import Alert from "../Utils/Alert/Alert";
 
 function CreateAccountForm() {
   const [alertMessage, setAlertMessage] = useState("");
-  const alertRef = useRef();
-
   const usernameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -20,16 +16,12 @@ function CreateAccountForm() {
       const email = emailRef.current.value;
       const password = passwordRef.current.value;
       let responseData = await registerUser(username, email, password);
-      //add alert to show the response data
+      // Set the alert message
       setAlertMessage(JSON.stringify(responseData));
-      alertRef.current.showModal();
     } catch (error) {
       console.error("Error:", error);
+      setAlertMessage(`Error: ${error.message}`);
     }
-  };
-
-  const handleAlertClose = () => {
-    alertRef.current.close();
   };
 
   const registerUser = async (username, email, password) => {
@@ -49,20 +41,21 @@ function CreateAccountForm() {
       );
       return response.data;
     } catch (error) {
-      console.error("Error:", error);
-      return null;
+      throw error;
     }
   };
 
   return (
     <section className="flex flex-col mt-9 w-full max-w-[382px]">
       <h2 className="text-2xl font-bold text-white">Create An Account</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <InputField
           ref={usernameRef}
           label="Name"
           placeholder="Enter Your Name"
           isRequired={true}
+          pattern="^[a-zA-Z0-9_]{3,15}$"
+          errorMessage="Username must be 3-15 characters long and can only contain letters, numbers, and underscores."
         />
         <InputField
           ref={emailRef}
@@ -70,6 +63,8 @@ function CreateAccountForm() {
           placeholder="Enter Your E-Mail"
           type="email"
           isRequired={true}
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          errorMessage="Please enter a valid email address."
         />
         <InputField
           ref={passwordRef}
@@ -77,41 +72,14 @@ function CreateAccountForm() {
           placeholder="Enter Your Password"
           type="password"
           isRequired={true}
+          pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+          errorMessage="Password must be at least 8 characters long and contain at least one letter and one number."
         />
-        <button
-          className="flex justify-center items-center mt-6 w-full text-base font-bold text-white whitespace-nowrap px-6 py-1.5 bg-pink-500 rounded min-h-[34px]"
-          onClick={handleSubmit}
-        >
+        <button className="flex justify-center items-center mt-6 w-full text-base font-bold text-white whitespace-nowrap px-6 py-1.5 bg-pink-500 rounded min-h-[34px]">
           Signup
         </button>
       </form>
-      <div className="flex justify-center items-center mt-6 max-w-full text-sm font-light text-center text-white w-[122px]">
-        <button className="flex-1 shrink self-stretch my-auto basis-0">
-          Forgot password
-        </button>
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/74e2880fa463535349695bdcf5ff3b95019025251703a844e8dddeb4bb356de2?placeholderIfAbsent=true&apiKey=22c14f20518e4798aad5af9f84c700f9"
-          alt=""
-          className="object-contain shrink-0 self-stretch my-auto aspect-[1.06] w-[17px]"
-        />
-      </div>
-      <div className="flex gap-3 justify-center items-center mt-6 w-full text-sm text-center text-white whitespace-nowrap">
-        <div
-          className="flex-1 shrink self-stretch my-auto h-0 border border-white border-solid basis-0 w-[172px]"
-          aria-hidden="true"
-        />
-        <span className="self-stretch my-auto">Or</span>
-        <div
-          className="flex-1 shrink self-stretch my-auto h-0 border border-white border-solid basis-0 w-[171px]"
-          aria-hidden="true"
-        />
-      </div>
-      <AlertComponent
-        message={alertMessage}
-        handleClose={handleAlertClose}
-        ref={alertRef}
-      />
+      <Alert message={alertMessage} />
     </section>
   );
 }

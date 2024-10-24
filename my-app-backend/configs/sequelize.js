@@ -1,6 +1,7 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
+//get the database connection information from the .env file
 const sequelize = new Sequelize(
   process.env.DB_DATABASE,
   process.env.DB_USER,
