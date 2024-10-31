@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function InputField({ label, placeholder, type = "text", value, onChange, name, id }) {
+function InputField({ label, placeholder, type = "text", value, onChange, name }) {
 
 
   return (
@@ -27,7 +27,6 @@ function InputField({ label, placeholder, type = "text", value, onChange, name, 
             value={value}
             onChange={onChange}
             name={name}
-            itemID={id}
           />
         </div>
       </div>
