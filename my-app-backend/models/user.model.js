@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../configs/sequelize");
+
 // Define the User model
 const User = sequelize.define(
   "users",
@@ -27,8 +28,12 @@ const User = sequelize.define(
       allowNull: false,
     },
     role: {
-      type: DataTypes.ENUM("admin", "user", "guest"), // Example role field
+      type: DataTypes.ENUM("admin", "user"), // Example role field
       defaultValue: "user",
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   {
@@ -37,4 +42,5 @@ const User = sequelize.define(
     freezeTableName: true, // Prevent Sequelize from pluralizing the table name
   }
 );
+
 module.exports = User;

@@ -1,10 +1,9 @@
 import React from 'react';
 import InputField from "./InputField";
 import { useState } from 'react';
-
+import axios from 'axios'
 
 function SignInForm() {
-
     //control value of inputbox
     const [inputValue, setInputValue] = useState({
         email: "",
@@ -22,14 +21,29 @@ function SignInForm() {
 
     //function navigate to forgetpassword
     const handleForget = (event) => {
-
         alert("Forget password?")
     }
 
     //function navigate to signin
-    const handleSignIn = (event) => {
-        event.preventDefault();
-        alert("Get form input")
+    const handleSignIn = async () => {
+        try {
+            const data = await axios.post("http://localhost:5000/login", {
+                email: inputValue.email,
+                password: inputValue.password
+            });
+
+            // Handle successful login
+            console.log('Login successful:', data.data.metadata.user);
+            alert("Login successful!");
+
+        } catch (error) {
+            // Handle error
+            console.error('Login failed:', error.response ? error.response.data : error.message);
+            alert("Login failed. Please check your credentials and try again.");
+        } axios.post("http://localhost:5000/login", {
+            email: inputValue.email,
+            password: inputValue.password
+        })
 
     }
 
@@ -56,7 +70,7 @@ function SignInForm() {
                     value={inputValue.password}
 
                 />
-                <button className="flex justify-center items-center mt-6 w-full text-base font-bold text-white whitespace-nowrap px-6 py-1.5 bg-pink-500 rounded min-h-[34px]" onClick={() => handleSignIn}>
+                <button className="flex justify-center items-center mt-6 w-full text-base font-bold text-white whitespace-nowrap px-6 py-1.5 bg-pink-500 rounded min-h-[34px]" onClick={() => handleSignIn()}>
                     Login
                 </button>
             </div>
