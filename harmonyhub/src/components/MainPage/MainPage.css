@@ -2,42 +2,69 @@
 
 /* Flexbox container for sidebar and content */
 .wrapper {
+    position: relative;
     height: 100vh;
     background-color: #181818;
     overflow-y: hidden;
     user-select: none;
+    display: flex;
+    flex-direction: row;
   }
 
-.mainpage_sidebar {
-  position: fixed;
-  left: 0;
-  width: 250px;
-  height: 100%;
-  z-index: 20;
+@media (orientation: landscape) {
+  .mainpage_header {
+    position: absolute;
+    left: 0vh;
+    top: 4vh;
+    width: 100%;
+    z-index: 2;
+  }
+
+  .mainpage_sidebar {
+    /* display: none; */
+    width: 36vh;
+    height: 100%;
+    z-index: 20;
+  }
+
+  .mainpage_content_wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+    padding: 0vh;
+    color: white;
+    background-color: transparent;
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
 }
 
-.mainpage_header {
-  position: fixed;
-  left: 250px;
-  top: 36px;
-  width: calc(100% - 250px);
-  z-index: 2;
+
+@media (orientation: portrait) {
+  .mainpage_header {
+    position: absolute;
+    left: 0vh;
+    top: 4vh;
+    width: 100%;
+    z-index: 2;
+  }
 }
 
   /* Content area styles */
 .mainpage_content {
-    position: fixed;
+    position: relative;
     display: flex;
     flex-direction: column;
-    left: 250px;
-    width: calc(100% - 250px);
+    width: 100%;
     height: 100%;
-    padding: 0px;
+    padding: 0vh;
     color: white;
     background-color: transparent;
     overflow-y: auto;
     overflow-x: hidden;
-  }
+}
 
 .footer {
   vertical-align: bottom;

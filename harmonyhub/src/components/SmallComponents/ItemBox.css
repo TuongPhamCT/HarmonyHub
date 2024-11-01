@@ -1,0 +1,45 @@
+
+#itembox-container {
+    background-color: #1f1f1f;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1vh;
+    color: white;
+    justify-content: center;
+    padding: 0.5vh 2vh;
+    width: fit-content;
+}
+
+.itembox-image {
+    border-radius: 1vh;
+}
+
+#itembox-container p {
+    text-wrap-mode: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0.1vh 0.2vh;
+}
+
+#itembox-title {
+    font-weight: bold;
+    font-size: 2.0vh;
+}
+
+#itembox-subtitle-wrapper {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.6vh;
+}
+
+#itembox-subtitle {
+    flex: 1; 
+    font-size: 1.6vh;
+}
+
+#itembox-subtitle-right {
+    padding-left: 0.2vh;
+    font-size: 1.6vh;
+}
+
+

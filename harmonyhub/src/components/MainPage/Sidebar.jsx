@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import './Sidebar.css'; // Import the CSS file for styling
-import './ScrollBar.css'; // Import the CSS file for styling
+import '../ScrollBar.css'; // Import the CSS file for styling
 import logo from '../../assets/img/logo.png';
 import icon_home from '../../assets/img/sidebar_home.png';
 import icon_discover from '../../assets/img/sidebar_discover.png';
@@ -54,7 +54,7 @@ const Sidebar = () => {
 
     return (
       <div className="sidebar">
-        <img id="sidebar_logo" src={logo} loading="lazy" alt="Logo" width="140px" style={{paddingBottom:'8px'}}/>
+        <img id="sidebar_logo" src={logo} loading="lazy" alt="Logo" style={{width: "20vh"}}/>
         <ul ref={menuRef} onClick={handleClick}>
           {
             sidebar_items.map(

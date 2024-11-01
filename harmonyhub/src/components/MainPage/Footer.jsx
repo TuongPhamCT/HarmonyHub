@@ -15,10 +15,10 @@ export default function Footer() {
           <td width="35%">
             <p>
               <h2>About</h2>
-              Melodies is a website that has been created for over <span style={{color:'#EE10B0'}}>5 year’s </span>
+              Melodies is a website that has been created for over <span class="pink">5 year’s </span>
                now and it is one of the most famous music player website’s in the world. in this website you can
                listen and download songs for free. also of you want no limitation you can buy our
-               <span style={{color:'#0E9EEF'}}> premium pass’s.</span>
+               <span class="blue"> premium pass’s.</span>
             </p>
           </td>
           <td width="12%" class="footer_table_top">
@@ -53,7 +53,7 @@ export default function Footer() {
           </td>
           <td>
             <div class="footer_centered_div">
-              <img src={logo} alt="Logo" style={{marginBottom:'30px'}}/>
+              <img src={logo} id="footer_logo" alt="Logo" style={{marginBottom:'4vh'}}/>
                 <div class="footer_icon_list">
                   <img src={icon_facebook} alt="" class="footer_icon_img"></img>
                   <img src={icon_instagram} alt="" class="footer_icon_img"></img>
