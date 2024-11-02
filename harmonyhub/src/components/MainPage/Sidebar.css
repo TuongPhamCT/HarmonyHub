@@ -3,16 +3,16 @@
   position: inherit;
   top: 0;
   left: 0;
-  width: 250px;
+  width: 36vh;
   height: 100%;
   background-color: #181818;
   color: white;
-  padding: 20px;
-  box-shadow: 0px 0 30px rgba(238, 16, 176, 0.7);
+  padding: 2vh;
+  box-shadow: 0vh 0 4vh rgba(238, 16, 176, 0.7);
   display: flex;
   flex-direction: column;
   border-right-color: #EE10B0;
-  border-right-width: 3px;
+  border-right-width: 0.5vh;
   overflow: auto;
   overflow-x: hidden;
 }
@@ -28,26 +28,27 @@
 
 .sidebar ul li {
   user-select: none;
-  margin: 6px 0px 6px 30px;
-  padding: 4px;
-  font-size: 16px;
+  margin: 0.5vh 0vh 0.5vh 4vh;
+  padding: 0.6vh;
+  font-size: 2.4vh;
+  /* font-size: 2vh; */
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .sidebar ul li:hover {
   background-color: #575757;
-  border-radius: 4px;
+  border-radius: 0.5vh;
 }
 
 .sidebar ul li:active {
   background-color: #EE10B0;
-  border-radius: 4px;
+  border-radius: 0.5vh;
 }
 
 .sidebar ul li.active {
   background-color: #EE10B0;
-  border-radius: 4px;
+  border-radius: 0.5vh;
   color: white;
 }
 
@@ -57,23 +58,34 @@
 }
 
 .sidebar ul li.sidebar_home {
-  font-size: 24px;
+  font-size: 4vh;
   font-weight: bold;
 }
 
 .sidebar ul li.default {
-  font-size: 16px;
+  font-size: 2.4vh;
 }
 
 .sidebar ul li.sidebar_header {
-  font-size: 10px;
+  font-size: 1.6vh;
   color: #EE10B0;
-  margin-top: 12px;
-  margin-bottom: 12px;
+  margin-top: 1.2vh;
+  margin-bottom: 1.2vh;
 }
 
-#sidebar_logo {
-  margin: 2px 0px 2px 30px;
+#sidebar_logo_wrapper {
+  margin: 1vh 0vh 1vh 4vh;
+  position: relative;
+  width: 28vh;
+  height: 6vh;
+  justify-content: start;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+#sidebar_logo { 
+  width: 18vh;
 }
 
 .sidebar ul li#sidebar_logout {
@@ -90,17 +102,24 @@
 img.icon_home {
   float: left;
   vertical-align: middle;
-  margin-right: 4px;
-  margin-top: 3px;
-  width: 30px;
-  height: 30px;
+  margin-right: 1vh;
+  margin-top: 1vh;
+  width: 4vh;
+  height: 4vh;
 }
 
 img.icon_content {
   float: left;
   vertical-align: middle;
-  margin-right: 4px;
-  margin-top: 4px;
-  width: 18px;
-  height: 18px;
+  margin-right: 1vh;
+  margin-top: 0.7vh;
+  width: 2.5vh;
+  height: 2.5vh;
+}
+
+#icon_sidebar_toggle {
+  position: relative;
+  margin-right: 1vh;
+  height: 4vh;
+  width: 4vh;
 }

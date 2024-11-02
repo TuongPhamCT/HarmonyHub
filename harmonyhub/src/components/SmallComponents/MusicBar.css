@@ -1,0 +1,132 @@
+#musicbar-wrapper {
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    color: white;
+    width: 100%;
+    height: 12vh;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2vh 0vh;
+    /* border-width: 2px;
+    border-color: blue; */
+}
+
+#musicbar-wrapper p {
+    text-wrap-mode: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0.2vh 0vh;
+    /* color: red; */
+}
+
+#musicbar-container {
+    background-color: #1f1f1f;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    height: 100%;
+    /* border-width: 2px;
+    border-color: red; */
+}
+
+#musicbar-header {
+    font-weight: bold;
+    font-size: 3.6vh;
+    margin-right: 2.5vh;
+}
+
+/* Music title */
+
+#musicbar-music-wrapper {
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+}
+
+#musicbar-image {
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 1vh;
+    margin-right: 1vh;
+}
+
+#musicbar-title-wrapper {
+    display: flex;
+    overflow: hidden;
+    flex: 1;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+#musicbar-title {
+    font-weight: bold;
+    font-size: 2.4vh;
+}
+
+#musicbar-subtitle {
+    font-size: 1.6vh;
+}
+
+/* Relate date */
+
+#musicbar-release-date {
+    display: flex;
+    width: 10%;
+    font-size: 2vh;
+    align-items: center;
+    justify-content: center;
+}
+
+#musicbar-release-date p {
+    margin: 0vh 0.5vh;
+}
+
+/* Album */
+
+#musicbar-album {
+    display: flex;
+    width: 40%;
+    font-size: 2.2vh;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Favor*/
+
+#musicbar-favorite {
+    display: flex;
+    width: 7%;
+    align-items: center;
+    justify-content: center;
+}
+
+#musicbar-button-favor {
+    width: 4vh;
+    height: 4vh;
+}
+
+/* Time */
+
+#musicbar-time {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;   
+    font-size: 2.2vh;
+}
+
+/* More */
+
+#musicbar-more {
+    display: flex;
+    width: 3%;
+    align-items: center;
+    justify-content: center;   
+}
+
+#musicbar-button-more {
+    width: 3vh;
+    height: 3vh;
+}

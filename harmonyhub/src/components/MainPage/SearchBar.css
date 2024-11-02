@@ -1,11 +1,11 @@
 
 .searchbar {
     display: flex;
-    width: calc(100% - 12px);
-    height: 54px;
-    margin-left: 6px;
-    margin-right: 6px;
-    border-radius: 6px;
+    width: calc(100% - 4vh);
+    height: 8vh;
+    margin-left: 2vh;
+    margin-right: 2vh;
+    /* border-radius: 0.5vh; */
     justify-content: space-between;
     align-items: center;
     background-color: transparent;
@@ -13,11 +13,23 @@
     /* background-color: rgba(0, 0, 0, 0.5); */
 }
 
-.searchbar_left {
+.searchbar_left_wrapper {
     position: relative;
     width: 30%;
     height: 100%;
-    min-width: 180px;
+    min-width: 28vw;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.searchbar_left {
+    display: flex;
+    position: relative;
+    flex: 1;
+    height: 100%;
+    min-width: 18vh;
 }
 
 .searchbar_right {
@@ -27,16 +39,16 @@
     align-items: center;
     flex-direction: row;
     direction: rtl;
-    min-width: 860px;
+    min-width: 80vh;
 }
 
 #searchbox_background {
     position: absolute;
     top: 8%;
-    left: 20px;
-    width: calc(100% - 20px);
-    min-width: 60px;
-    max-width: 480px;
+    left: 2vh;
+    width: calc(100% - 2vh);
+    /* min-width: 10vh;
+    max-width: 280vh; */
     height: 82%;
     user-select: text;
     color: black;
@@ -44,40 +56,40 @@
 
 #searchbox_button {
     position: absolute;
-    left: 30px;
+    left: 3vh;
     top: 20%;
     height: 60%;
 }
 
 #searchbox_input {
+    font-size: 2.4vh;
     position: absolute;
     top: 8%;
-    left: 64px;
-    width: calc(100% - 74px);
-    min-width: 60px;
-    max-width: 340px;
+    left: 8vh;
+    width: calc(100% - 10vh);
+    min-width: 10vh;
+    max-width: 280vh;
     height: 90%;
     background-color: transparent;
     color: white;
     outline: none;
 }
 
-.header_button {
-    transition: filter 0.3s ease;
-    cursor: pointer;
-}
-
-.header_button:hover {
-    filter: brightness(0.8);
+#searchbox_sidebar_button {
+    position: relative;
+    margin-left: 3vh;
+    margin-right: 1vh;
+    height: 4vh;
+    width: 4vh;
 }
 
 .searchbar h2 {
-    font-size: 20px;
+    font-size: 3vh;
     font-weight: bold;
     color: white;
-    margin-right: 24px;
-    padding-left: 6px;
-    padding-right: 6px;
+    margin-right: 3vh;
+    padding-left: 1vh;
+    padding-right: 1vh;
     transition: color 0.3s ease;
     cursor: pointer;
 }
@@ -87,24 +99,22 @@
 }
 
 #header_login {
+    font-size: 2.4vh;
     border-color: #EE10B0;
-    border-radius: 4px;
-    border-width: 1px;
+    border-radius: 0.5vh;
+    border-width: 0.2vh;
     color: #EE10B0;
-    text-align: center;
-    align-content: center;
-    width: 160px;
-    height: 48px;
-    margin-right: 24px;
+    width: 24vh;
+    height: 7vh;
+    margin-right: 2vh;
 }
 
 #header_signup {
-    border-radius: 4px;
+    font-size: 2.4vh;
+    border-radius: 0.5vh;
     color: white;
     background-color: #EE10B0;
-    text-align: center;
-    align-content: center;
-    width: 160px;
-    height: 48px;
-    margin-right: 64px;
+    width: 24vh;
+    height: 7vh;
+    margin-right: 4vh;
 }
