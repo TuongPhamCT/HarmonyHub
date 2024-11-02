@@ -13,6 +13,7 @@ import icon_your_playlist from '../../assets/img/sidebar_your_playlist.png';
 import icon_add_playlist from '../../assets/img/sidebar_add_playlist.png';
 import icon_settings from '../../assets/img/sidebar_settings.png';
 import icon_logout from '../../assets/img/sidebar_logout.png';
+import sidebar_icon from '../../assets/img/sidebar_menu_icon.png';
 
 const sidebar_items = [
   {itemName: "Menu", class: "sidebar_header"},
@@ -32,7 +33,7 @@ const sidebar_items = [
   {itemName: "Logout", img: icon_logout, id:"sidebar_logout", imgClass: "icon_content"},
 ]
 
-const Sidebar = () => {
+const Sidebar = ({sidebarToggle, updateParent}) => {
     const menuRef = useRef(null); // Reference to the <ul> element
 
     const handleClick = (e) => {
@@ -52,16 +53,27 @@ const Sidebar = () => {
       e.target.classList.add('active'); // Add "active" class to the clicked item
     };
 
+    // Sidebar toggle button
+
+    const handleSidebarIconClick = () => {
+      // Call the function passed from the parent to update its state
+      updateParent(!sidebarToggle);
+  };
+
     return (
       <div className="sidebar">
-        <img id="sidebar_logo" src={logo} loading="lazy" alt="Logo" style={{width: "20vh"}}/>
+        <div id="sidebar_logo_wrapper">
+          <img id="icon_sidebar_toggle" src={sidebar_icon} loading="lazy" alt="" class="txt_button"
+            onClick={handleSidebarIconClick}></img>
+          <img id="sidebar_logo" src={logo} loading="lazy" alt="Logo"/>
+        </div>
         <ul ref={menuRef} onClick={handleClick}>
           {
             sidebar_items.map(
               (item, index) => (
                 <li key={index} id={item.id ? item.id : undefined}
                 class={(item.class ? item.class + (item.isActive ? ' active' : '') : undefined)}>
-                  {item.img ? <img src={item.img} class={item.imgClass} alt=""/> : undefined} {item.itemName}
+                  {item.img ? <img src={item.img} class={item.imgClass} alt="" loading="lazy"/> : undefined} {item.itemName}
                 </li>
               )
              )

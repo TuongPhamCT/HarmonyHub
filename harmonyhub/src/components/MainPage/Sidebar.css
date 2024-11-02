@@ -73,8 +73,19 @@
   margin-bottom: 1.2vh;
 }
 
-#sidebar_logo {
+#sidebar_logo_wrapper {
   margin: 1vh 0vh 1vh 4vh;
+  position: relative;
+  width: 28vh;
+  height: 6vh;
+  justify-content: start;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+#sidebar_logo { 
+  width: 18vh;
 }
 
 .sidebar ul li#sidebar_logout {
@@ -104,4 +115,11 @@ img.icon_content {
   margin-top: 0.7vh;
   width: 2.5vh;
   height: 2.5vh;
+}
+
+#icon_sidebar_toggle {
+  position: relative;
+  margin-right: 1vh;
+  height: 4vh;
+  width: 4vh;
 }

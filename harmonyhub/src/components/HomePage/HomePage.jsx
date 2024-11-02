@@ -5,6 +5,8 @@ import hero_img from '../../assets/img/homepage_hero_section.png';
 import Footer from '../MainPage/Footer';
 import ItemBox from '../SmallComponents/ItemBox';
 import ItemCollection from '../SmallComponents/ItemCollection';
+import MusicBar from '../SmallComponents/MusicBar';
+import MusicCollection from '../SmallComponents/MusicCollection';
 
 const demoList = [
     "song1", "song2", "song3", "song4", "song5"
@@ -14,6 +16,13 @@ const HomePage = () => {
     const collection = demoList.map(
         (item, index) => (
             <ItemBox imageWidth="24vh" imageHeight="24vh" title={item} subtitle="random subtitle" view={index + "M views"}></ItemBox>           
+        )
+    )
+
+    const musicCollection = demoList.map(
+        (item, index) => (
+            <MusicBar headerWidth="10vh" title={item} subtitle="random subtitle" header={"#" + (index + 1)}
+                releaseDate={"Nov " + (index + 1) + ", 2024"} album="Demo Album" time="2:00"></MusicBar>           
         )
     )
 
@@ -33,6 +42,7 @@ const HomePage = () => {
             <div>
                 <ItemCollection itemList={collection} title="Weekly Top" titleHighlight="Songs"></ItemCollection>
                 <ItemCollection itemList={collection} title="New Release" titleHighlight="Songs"></ItemCollection>
+                <MusicCollection musicList={musicCollection} title="Trending" titleHighlight="Songs" headerGap="10vh"></MusicCollection>
                 <ItemCollection itemList={collection} title="Top" titleHighlight="Albums"></ItemCollection>
                 <ItemCollection itemList={collection} title="Mood" titleHighlight="Playlists"></ItemCollection>
             </div>

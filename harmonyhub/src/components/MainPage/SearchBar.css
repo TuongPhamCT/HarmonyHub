@@ -13,9 +13,21 @@
     /* background-color: rgba(0, 0, 0, 0.5); */
 }
 
-.searchbar_left {
+.searchbar_left_wrapper {
     position: relative;
     width: 30%;
+    height: 100%;
+    min-width: 28vw;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.searchbar_left {
+    display: flex;
+    position: relative;
+    flex: 1;
     height: 100%;
     min-width: 18vh;
 }
@@ -61,6 +73,14 @@
     background-color: transparent;
     color: white;
     outline: none;
+}
+
+#searchbox_sidebar_button {
+    position: relative;
+    margin-left: 3vh;
+    margin-right: 1vh;
+    height: 4vh;
+    width: 4vh;
 }
 
 .searchbar h2 {

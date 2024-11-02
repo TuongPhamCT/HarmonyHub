@@ -6,7 +6,7 @@ export default function ItemBox(props) {
     const handleError = (e) => {
         e.target.onerror = null; // Prevents infinite loop if placeholder fails
         e.target.src = item_placeholder; // Placeholder image URL
-      };
+    };
 
     return (
         <div id="itembox-container">
