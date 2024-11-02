@@ -8,6 +8,8 @@ function CreateAccountForm() {
   const usernameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+  const alertRef = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,21 +17,37 @@ function CreateAccountForm() {
       const username = usernameRef.current.value;
       const email = emailRef.current.value;
       const password = passwordRef.current.value;
-      let responseData = await registerUser(username, email, password);
-      // Set the alert message
-      setAlertMessage(JSON.stringify(responseData));
+      const passwordConfirm = passwordConfirmRef.current.value;
+
+      if (password !== passwordConfirm) {
+        console.log("Passwords do not match.");
+        setAlertMessage("Passwords do not match.");
+      } else {
+        let responseData = await registerUser(username, email, password);
+        console.log(responseData);
+        // Set the alert message
+        setAlertMessage(JSON.stringify(responseData.message));
+        alertRef.current.showDialog();
+      }
     } catch (error) {
       console.error("Error:", error);
-      setAlertMessage(`Error: ${error.message}`);
+      if (error.response && error.response.data) {
+        setAlertMessage(
+          `Error: ${JSON.stringify(error.response.data.message)}`
+        );
+      } else {
+        setAlertMessage(`Error: ${error.message}`);
+      }
+      alertRef.current.showDialog();
     }
   };
 
-  const registerUser = async (username, email, password) => {
+  const registerUser = async (name, email, password) => {
     try {
       const response = await axios.post(
         "http://localhost:5000/register",
         {
-          username,
+          name,
           email,
           password,
         },
@@ -46,16 +64,15 @@ function CreateAccountForm() {
   };
 
   return (
-    <section className="flex flex-col mt-9 w-full max-w-[382px]">
-      <h2 className="text-2xl font-bold text-white">Create An Account</h2>
+    <section className="flex flex-col m-0 w-full max-w-[382px]">
       <form onSubmit={handleSubmit}>
         <InputField
           ref={usernameRef}
           label="Name"
           placeholder="Enter Your Name"
           isRequired={true}
-          pattern="^[a-zA-Z0-9_]{3,15}$"
-          errorMessage="Username must be 3-15 characters long and can only contain letters, numbers, and underscores."
+          pattern="^[a-zA-Z][a-zA-Z0-9_ ]{2,14}$"
+          errorMessage="Name is required and must start with a letter, and be between 3 and 15 characters long."
         />
         <InputField
           ref={emailRef}
@@ -75,11 +92,20 @@ function CreateAccountForm() {
           pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
           errorMessage="Password must be at least 8 characters long and contain at least one letter and one number."
         />
+        <InputField
+          ref={passwordConfirmRef}
+          label="Password Confirmation"
+          placeholder="Enter Your Password Again"
+          type="password"
+          isRequired={true}
+          pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+          errorMessage="Password must be at least 8 characters long and contain at least one letter and one number."
+        />
         <button className="flex justify-center items-center mt-6 w-full text-base font-bold text-white whitespace-nowrap px-6 py-1.5 bg-pink-500 rounded min-h-[34px]">
           Signup
         </button>
       </form>
-      <Alert message={alertMessage} />
+      <Alert message={alertMessage} ref={alertRef} />
     </section>
   );
 }
