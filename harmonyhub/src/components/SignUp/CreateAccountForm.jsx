@@ -20,8 +20,8 @@ function CreateAccountForm() {
       const passwordConfirm = passwordConfirmRef.current.value;
 
       if (password !== passwordConfirm) {
-        console.log("Passwords do not match.");
-        setAlertMessage("Passwords do not match.");
+        passwordConfirmRef.current.setCustomValidity("Passwords do not match.");
+        passwordConfirmRef.current.reportValidity();
       } else {
         let responseData = await registerUser(username, email, password);
         console.log(responseData);

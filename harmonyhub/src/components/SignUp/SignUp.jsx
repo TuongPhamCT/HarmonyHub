@@ -15,7 +15,12 @@ const SignUp = forwardRef(function SignUp({ handleClose, isVisible }, ref) {
       ></div>
 
       {/* Dialog */}
-      <dialog ref={ref} className={`z-50 ${isVisible ? "block" : "hidden"}`}>
+      <dialog
+        ref={ref}
+        className={`z-50 ${
+          isVisible ? "block" : "hidden"
+        } border-solid rounded-2xl border-2`}
+      >
         <main
           style={{ "--image-url": `url(${background})` }}
           className="flex overflow-hidden flex-col items-center pt-0 pb-10 pl-4 pr-4 mx-auto w-[400px] h-[700px] bg-[image:var(--image-url)] bg-cover bg-center"
