@@ -1,4 +1,5 @@
 const sequelize = require("../configs/sequelize");
+const path = require("path");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const { sendMail } = require("../utils/mail_sender.util");
@@ -9,7 +10,7 @@ const { CREATED } = require("../core/success.response");
 const { UserAccessService } = require("../services/user.service");
 
 module.exports.register = async function (req, res) {
-  const { username, email, password } = req.body;
+  const { name, email, password } = req.body;
 
   // Check if the user already exists by email
   try {
@@ -22,7 +23,7 @@ module.exports.register = async function (req, res) {
   }
   //create user
   try {
-    user = await User.create({ username, email, password });
+    user = await User.create({ name, email, password });
   } catch (error) {
     return res.status(400).json({ message: "data incorect format", error });
   }
@@ -57,14 +58,24 @@ module.exports.verify = function (req, res) {
   jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
     if (err) {
       console.log(err);
-      res.send(
-        "Email verification failed,possibly the link is invalid or expired"
-      );
+      const filePath = path.join(__dirname, "../public/unverified.html");
+      res.sendFile(filePath, function (err) {
+        if (err) {
+          console.log(err);
+          res.status(err.status).end();
+        }
+      });
     } else {
       //active user account
       const email = decoded.data.email;
       user = User.update({ active: true }, { where: { email } });
-      res.send("Email verifified successfully");
+      const filePath = path.join(__dirname, "../public/verified.html");
+      res.sendFile(filePath, function (err) {
+        if (err) {
+          console.log(err);
+          res.status(err.status).end();
+        }
+      });
     }
   });
 };
@@ -83,4 +94,3 @@ module.exports.login = async (req, res, next) => {
     next(error); // Pass the error to the error handler middleware
   }
 };
-

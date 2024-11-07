@@ -10,7 +10,7 @@ function SocialLoginButton({ provider, iconSrc }) {
         className="object-contain shrink-0 self-stretch my-auto w-5 aspect-square"
       />
       <span className="flex-1 shrink self-stretch my-auto basis-0">
-        {provider} Login
+        {provider}
       </span>
     </button>
   );
