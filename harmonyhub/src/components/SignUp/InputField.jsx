@@ -1,6 +1,27 @@
 import React from "react";
+import { forwardRef } from "react";
 
-function InputField({ label, placeholder, type = "text" }) {
+const InputField = forwardRef(function InputField(
+  {
+    label,
+    placeholder,
+    type = "text",
+    isRequired = false,
+    pattern,
+    errorMessage,
+  },
+  ref
+) {
+  const handleInvalid = (e) => {
+    if (errorMessage) {
+      e.target.setCustomValidity(errorMessage);
+    }
+  };
+
+  const handleInput = (e) => {
+    e.target.setCustomValidity("");
+  };
+
   return (
     <div className="flex flex-col justify-center mt-6 w-full">
       <label
@@ -18,15 +39,20 @@ function InputField({ label, placeholder, type = "text" }) {
             className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
           />
           <input
+            ref={ref}
+            required={isRequired}
             type={type}
             id={`${label.toLowerCase()}Input`}
             placeholder={placeholder}
+            pattern={pattern}
+            onInvalid={handleInvalid}
+            onInput={handleInput}
             className="flex-1 shrink self-stretch my-auto basis-0 bg-transparent border-none outline-none text-white"
           />
         </div>
       </div>
     </div>
   );
-}
+});
 
 export default InputField;
