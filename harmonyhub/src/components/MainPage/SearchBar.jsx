@@ -5,8 +5,41 @@ import "../../components/Global.css";
 import searchbox from "../../assets/img/header_search_bar.png";
 import search_icon from "../../assets/img/header_search_icon.png";
 import sidebar_icon from "../../assets/img/sidebar_menu_icon.png";
+import header_profile from "../../assets/img/header_profile.png";
+import back_icon from "../../assets/img/header_back.png";
 
-const SearchBar = ({ sidebarToggle, updateParent }) => {
+const SearchBarGuestMode = ({toggleSignUpFunction}) => {
+  const handleSignUpButton = () => {
+    toggleSignUpFunction();
+  }
+  
+  return (
+    <div class="searchbar_right">
+      <p id="header_signup" class="txt_button" onClick={handleSignUpButton}>
+        Sign Up
+      </p>
+      <p id="header_login" class="txt_button">
+        Login
+      </p>
+      <h2>Premium</h2>
+      <h2>Contact</h2>
+      <h2>About Us</h2>
+    </div>
+  );
+}
+
+const SearchBarLoggedMode = () => {
+  return (
+    <div class="searchbar_right">
+      <img id="header-profile-button" src={header_profile} class="txt_button" alt=""/>
+      <h2>Premium</h2>
+      <h2>About</h2>
+      <h2>Share</h2>
+    </div>
+  );
+}
+
+const SearchBar = ({ sidebarToggle, inDetailToggle, updateSidebar, updateInDetailToggle, isLogin }) => {
   //ref for the signup modal
   const signUpRef = useRef();
 
@@ -28,8 +61,15 @@ const SearchBar = ({ sidebarToggle, updateParent }) => {
   //function to toggle the sidebar
   const handleSidebarIconClick = () => {
     // Call the function passed from the parent to update its state
-    updateParent(!sidebarToggle);
+    updateSidebar(!sidebarToggle);
   };
+
+  //function to toggle the back button
+  const handleBackIconClick = () => {
+    // Call the function passed from the parent to update its state
+    updateSidebar(!sidebarToggle);
+  };
+
 
   return (
     <div class="searchbar">
@@ -47,7 +87,15 @@ const SearchBar = ({ sidebarToggle, updateParent }) => {
           style={{ display: sidebarToggle ? "flex" : "none" }}
           onClick={handleSidebarIconClick}
         ></img>
-        <div class="searchbar_left">
+        <img
+          src={back_icon}
+          id="searchbox_back_button"
+          class="txt_button"
+          alt=""
+          style={{ display: inDetailToggle ? "flex" : "none" }}
+          onClick={handleBackIconClick}
+        ></img>
+        <div class="searchbar_left" style={{ display: !inDetailToggle ? "flex" : "none" }}>
           <img id="searchbox_background" src={searchbox} alt=""></img>
           <img
             id="searchbox_button"
@@ -62,17 +110,7 @@ const SearchBar = ({ sidebarToggle, updateParent }) => {
           ></input>
         </div>
       </div>
-      <div class="searchbar_right">
-        <p id="header_signup" class="txt_button" onClick={showSignUpModal}>
-          Sign Up
-        </p>
-        <p id="header_login" class="txt_button">
-          Login
-        </p>
-        <h2>Premium</h2>
-        <h2>Contact</h2>
-        <h2>About Us</h2>
-      </div>
+      {isLogin ? <SearchBarLoggedMode/> : <SearchBarGuestMode toggleSignUpFunction={showSignUpModal}/>}
     </div>
   );
 };
