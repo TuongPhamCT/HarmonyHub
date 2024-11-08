@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef,useEffect } from 'react';
 import './Sidebar.css'; // Import the CSS file for styling
 import '../ScrollBar.css'; // Import the CSS file for styling
 import logo from '../../assets/img/logo.png';
@@ -14,11 +14,13 @@ import icon_add_playlist from '../../assets/img/sidebar_add_playlist.png';
 import icon_settings from '../../assets/img/sidebar_settings.png';
 import icon_logout from '../../assets/img/sidebar_logout.png';
 import sidebar_icon from '../../assets/img/sidebar_menu_icon.png';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const sidebar_items = [
   {itemName: "Menu", class: "sidebar_header"},
-  {itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", isActive: true},
-  {itemName: "Discover", img: icon_discover, imgClass: "icon_content"},
+  {itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", id:"sidebar_home"},
+  {itemName: "Discover", img: icon_discover, imgClass: "icon_content", id:"sidebar_discover"},
   {itemName: "Albums", img: icon_albums, imgClass: "icon_content"},
   {itemName: "Artists", img: icon_artists, imgClass: "icon_content"},
   {itemName: "Library", class: "sidebar_header"},
@@ -34,23 +36,57 @@ const sidebar_items = [
 ]
 
 const Sidebar = ({sidebarToggle, updateParent}) => {
+    const navigate = useNavigate();
     const menuRef = useRef(null); // Reference to the <ul> element
+    const location = useLocation();
+    const pathname = location.pathname;
 
-    const handleClick = (e) => {
-      if (e.target.tagName !== 'LI' || e.target.classList.contains('sidebar_header')){
-        return;
-      }
-      switch (e.target.id){
-        case "sidebar_add_playlist":
-          return;
-        case "sidebar_logout":
-          return;
+    useEffect(() => {
+      const items = menuRef.current.querySelectorAll('li');
+      items.forEach((item) => item.classList.remove('active')); // Remove "active" class from all items
+      switch (pathname){
+        case "/":
+          items[1].classList.add('active');
+          break;
+        case "/discover":
+          items[2].classList.add('active');
+          break;
         default:
           break;
       }
-      const items = menuRef.current.querySelectorAll('li');
-      items.forEach((item) => item.classList.remove('active')); // Remove "active" class from all items
-      e.target.classList.add('active'); // Add "active" class to the clicked item
+    },[]
+    );
+    const handleClick = (e) => {
+        // if (e.target.tagName !== 'LI' || e.target.classList.contains('sidebar_header')){
+        //   return;
+        // }
+        // switch (e.target.id){
+        //   case "sidebar_add_playlist":
+        //     return;
+        //   case "sidebar_logout":
+        //     return;
+        //   default:
+        //     break;
+        // }
+
+        const items = menuRef.current.querySelectorAll('li');
+        
+
+        switch (e.target.id){
+            case "sidebar_home":
+              navigate('/');
+              return;
+            case "sidebar_discover":
+              navigate('/discover');
+              return;
+            case "sidebar_add_playlist":
+              return;
+            case "sidebar_logout":
+              return;
+            default:
+              break;
+        }
+
     };
 
     // Sidebar toggle button
