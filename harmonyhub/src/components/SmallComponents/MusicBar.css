@@ -28,6 +28,13 @@
     height: 100%;
     /* border-width: 2px;
     border-color: red; */
+    border-radius: 1vh;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#musicbar-container:hover {
+    background-color: #575757;
 }
 
 #musicbar-header {

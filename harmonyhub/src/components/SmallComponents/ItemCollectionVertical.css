@@ -1,0 +1,33 @@
+
+#item-collectionv-wrapper {
+    width: 95%;
+    margin-left: 1%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 2vh 0vh;
+}
+
+#item-collectionv-list-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#item-collectionv-container {
+    position: relative;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    /* grid-template-columns: repeat(auto-fill, minmax(24vh, 1fr)); */
+    gap: 2vh
+}
+
+.item-collectionv-title {
+    margin-left: 2vh;
+    font-weight: bold;
+    font-size: 4.0vh;
+    padding: 2vh 0vh;
+}

@@ -6,6 +6,7 @@
     height: 100vh;
     background-color: #181818;
     overflow-y: hidden;
+    overflow-x: hidden;
     user-select: none;
     display: flex;
     flex-direction: row;
@@ -15,7 +16,7 @@
   .mainpage_header {
     position: absolute;
     left: 0vh;
-    top: 4vh;
+    top: 0vh;
     width: 100%;
     z-index: 2;
   }
@@ -46,7 +47,7 @@
   .mainpage_header {
     position: absolute;
     left: 0vh;
-    top: 4vh;
+    top: 0vh;
     width: 100%;
     z-index: 2;
   }
@@ -62,7 +63,7 @@
   }
 }
 
-  /* Content area styles */
+/* Content area styles */
 .mainpage_content {
     position: relative;
     display: flex;
@@ -78,4 +79,14 @@
 
 .footer {
   vertical-align: bottom;
+}
+
+/* Go Up Button */
+#go-up-button {
+  position: absolute;
+  z-index: 5;
+  width: 8vh;
+  height: 8vh;
+  right: 5vh;
+  bottom: 5vh;
 }
