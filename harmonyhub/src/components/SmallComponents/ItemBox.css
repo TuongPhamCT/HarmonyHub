@@ -48,4 +48,64 @@
     font-size: 1.6vh;
 }
 
+.itembox-genres {
+    position: absolute;
+    bottom: -18%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-weight: regular;
+    text-align: center;
+    font-family: 'Just Another Hand', cursive;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 3vh;
+}
+
+.itembox-moodplaylist-img {
+    position: absolute;
+    bottom: -22%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-weight: regular;
+    text-align: center;
+    font-family: 'Just Another Hand', cursive;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 3vh;
+}
+
+.itembox-image-artist {
+    border-radius: 15vh;
+}
+
+.itembox-video-name {
+    font-Size: 20px;
+    color: white;
+    font-Weight: bold;
+    text-align: center;
+    margin: 20px 0;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'Just Another Hand', cursive;
+}
+
+.itembox-video-artist {
+    font-Size: 12px;
+    color: white;
+    font-Weight: light;
+    text-align: center;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'Just Another Hand', cursive;
+}
+
+.infor-row {
+    display: flex;
+    justify-content: space-between;
+}
+
 

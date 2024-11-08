@@ -1,9 +1,8 @@
 // import React from 'react';
 import view_all from '../../assets/img/component_view_all.png';
-import './ItemCollection.css';
 import '../Global.css';
 
-export default function ItemCollection(props) {
+export default function KindList(props) {
     
     return (
         <div id="item-collection-wrapper">
