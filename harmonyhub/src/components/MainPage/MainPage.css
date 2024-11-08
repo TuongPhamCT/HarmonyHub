@@ -50,6 +50,16 @@
     width: 100%;
     z-index: 2;
   }
+
+  .mainpage_sidebar {
+    /* display: none; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36vh;
+    height: 100%;
+    z-index: 20;
+  }
 }
 
   /* Content area styles */
