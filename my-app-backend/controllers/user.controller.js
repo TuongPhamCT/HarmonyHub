@@ -3,6 +3,7 @@ const path = require("path");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const { sendMail } = require("../utils/mail_sender.util");
+const Song = require("../models/song.model");
 require("dotenv").config();
 
 //login
@@ -88,7 +89,7 @@ module.exports.login = async (req, res, next) => {
       metadata,
       options: {
         limit: 10,
-      }
+      },
     });
   } catch (error) {
     next(error); // Pass the error to the error handler middleware

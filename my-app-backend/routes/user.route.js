@@ -6,6 +6,6 @@ router.post("/register", controller.register);
 router.get("/verify/:token", controller.verify);
 
 //User login api
-router.post("/login", controller.login)
+router.post("/login", controller.login);
 
 module.exports = router;
