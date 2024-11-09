@@ -14,12 +14,14 @@ import icon_add_playlist from '../../assets/img/sidebar_add_playlist.png';
 import icon_settings from '../../assets/img/sidebar_settings.png';
 import icon_logout from '../../assets/img/sidebar_logout.png';
 import sidebar_icon from '../../assets/img/sidebar_menu_icon.png';
+import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router-dom';
 
 const sidebar_items = [
   {itemName: "Menu", class: "sidebar_header"},
-  {itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", isActive: true},
-  {itemName: "Discover", img: icon_discover, imgClass: "icon_content"},
-  {itemName: "Albums", img: icon_albums, imgClass: "icon_content"},
+  {itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", isActive: true, id:"sidebar_home"},
+  {itemName: "Discover", img: icon_discover, imgClass: "icon_content", id:"sidebar_discover"},
+  {itemName: "Albums", img: icon_albums, imgClass: "icon_content", id:"sidebar_albums"},
   {itemName: "Artists", img: icon_artists, imgClass: "icon_content"},
   {itemName: "Library", class: "sidebar_header"},
   {itemName: "Recently Added", img: icon_recently_added, imgClass: "icon_content"},
@@ -35,18 +37,28 @@ const sidebar_items = [
 
 const Sidebar = ({sidebarToggle, updateParent}) => {
     const menuRef = useRef(null); // Reference to the <ul> element
+    const nav = useNavigate();
 
     const handleClick = (e) => {
       if (e.target.tagName !== 'LI' || e.target.classList.contains('sidebar_header')){
         return;
       }
       switch (e.target.id){
+        case "sidebar_home":
+          nav('/');
+          break;
+        case "sidebar_discover":
+          nav('/discover');
+          break;
+        case "sidebar_albums":
+          nav('/albums');
+          break;
         case "sidebar_add_playlist":
           return;
         case "sidebar_logout":
           return;
         default:
-          break;
+          return;
       }
       const items = menuRef.current.querySelectorAll('li');
       items.forEach((item) => item.classList.remove('active')); // Remove "active" class from all items

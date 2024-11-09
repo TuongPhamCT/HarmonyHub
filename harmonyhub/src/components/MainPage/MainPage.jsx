@@ -5,9 +5,11 @@ import Sidebar from './Sidebar';
 import HomePage from '../HomePage/HomePage';
 import SearchBar from './SearchBar';
 import goUpButton from '../../assets/img/component_up.png';
-//import AllAlbumsPage from '../AlbumsPage/AllAlbumsPage';
+import AlbumsPage from '../AlbumsPage/AlbumsPage';
+import {Routes, Route} from "react-router-dom";
+import DiscoverPage from '../DiscoverPage/DiscoverPage';
 
-const MainPage = () => {
+function MainPage () {
     const [sidebarToggle, setSidebarToggle] = useState(false);
     const [inDetailToggle, setInDetailToggle] = useState(false);
     
@@ -41,8 +43,11 @@ const MainPage = () => {
                     </SearchBar>
                 </div>
                 <div id="content-area" class="mainpage_content">
-                    <HomePage/>
-                    {/* <AllAlbumsPage/> */}
+                    <Routes>
+                        <Route path='/' element={<HomePage/>} />
+                        <Route path='/discover' element={<DiscoverPage/>} />
+                        <Route path='/albums' element={<AlbumsPage/>} />
+                    </Routes>
                 </div>
             </div>
         </div>

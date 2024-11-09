@@ -3,7 +3,7 @@ import './HomePage.css'; // Import the CSS file for styling
 import '../../components/Global.css'
 import hero_img from '../../assets/img/homepage_hero_section.png';
 import Footer from '../MainPage/Footer';
-import ItemBox from '../SmallComponents/ItemBox';
+import { MusicBox, AlbumBox, ArtistBox, PlaylistBox } from '../SmallComponents/ItemBox';
 import ItemCollection from '../SmallComponents/ItemCollection';
 import MusicBar from '../SmallComponents/MusicBar';
 import MusicCollection from '../SmallComponents/MusicCollection';
@@ -13,11 +13,30 @@ const demoList = [
 ]
 
 const HomePage = () => {
-    const collection = demoList.map(
+    const musicBoxCollection = demoList.map(
         (item, index) => (
-            <ItemBox imageWidth="24vh" imageHeight="24vh" title={item} subtitle="random subtitle" view={index + "M views"}></ItemBox>           
+            <MusicBox id={"mb-col" + index} title={item} subtitle="random subtitle"></MusicBox>           
         )
     )
+
+    const albumCollection = demoList.map(
+        (item, index) => (
+            <AlbumBox id={"al-col" + index} title={"album " + index} subtitle="random subtitle"></AlbumBox>           
+        )
+    )
+
+    const artistCollection = demoList.map(
+        (item, index) => (
+            <ArtistBox id={"al-col" + index} title={"artist " + index} subtitle="random subtitle"></ArtistBox>           
+        )
+    )
+
+    const playlistCollection = demoList.map(
+        (item, index) => (
+            <PlaylistBox id={"al-col" + index} title={"playlist " + index}/>           
+        )
+    )
+
 
     const musicCollection = demoList.map(
         (item, index) => (
@@ -40,11 +59,12 @@ const HomePage = () => {
                 </div>
             </div>
             <div>
-                <ItemCollection itemList={collection} title="Weekly Top" titleHighlight="Songs"></ItemCollection>
-                <ItemCollection itemList={collection} title="New Release" titleHighlight="Songs"></ItemCollection>
+                <ItemCollection itemList={musicBoxCollection} title="Weekly Top" titleHighlight="Songs"></ItemCollection>
+                <ItemCollection itemList={musicBoxCollection} title="New Release" titleHighlight="Songs"></ItemCollection>
                 <MusicCollection musicList={musicCollection} title="Trending" titleHighlight="Songs" headerGap="10vh"></MusicCollection>
-                <ItemCollection itemList={collection} title="Top" titleHighlight="Albums"></ItemCollection>
-                <ItemCollection itemList={collection} title="Mood" titleHighlight="Playlists"></ItemCollection>
+                <ItemCollection itemList={artistCollection} title="Popular" titleHighlight="Artists"></ItemCollection>                
+                <ItemCollection itemList={albumCollection} title="Top" titleHighlight="Albums"></ItemCollection>
+                <ItemCollection itemList={playlistCollection} title="Mood" titleHighlight="Playlists"></ItemCollection>
             </div>
             <Footer/>
         </div>
