@@ -4,7 +4,7 @@ import './ItemCollection.css';
 import '../Global.css';
 
 export default function ItemCollection(props) {
-    
+
     return (
         <div id="item-collection-wrapper">
             <p class="item-collection-title">{props.title} <span class="pink">{props.titleHighlight}</span></p>

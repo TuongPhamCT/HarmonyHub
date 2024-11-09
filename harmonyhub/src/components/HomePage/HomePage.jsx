@@ -15,7 +15,7 @@ const demoList = [
 const HomePage = () => {
     const collection = demoList.map(
         (item, index) => (
-            <ItemBox imageWidth="24vh" imageHeight="24vh" title={item} subtitle="random subtitle" titleHighlight = "Songs"></ItemBox>           
+            <ItemBox imageWidth="24vh" imageHeight="24vh" title={item} subtitle="random subtitle" view={index + "M views"}></ItemBox>           
         )
     )
 
