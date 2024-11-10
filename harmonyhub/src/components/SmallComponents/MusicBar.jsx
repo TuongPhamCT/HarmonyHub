@@ -37,14 +37,14 @@ export default function MusicBar(props) {
                 </div>
                 <div id="musicbar-favorite">
                     <img id="musicbar-button-favor" src={favorToggle ? button_love_on : button_love_off }
-                     class="highlight-button" alt="" onClick={toggleFavor}></img>
+                     className="highlight-button" alt="" onClick={toggleFavor}></img>
                 </div>
                 <div id="musicbar-time">
                     <p>{props.time || "-:-"}</p>
                 </div>
                 {props.hasMore ?
                     <div id="musicbar-more">
-                        <img id="musicbar-button-more" src={button_more} class="highlight-button" alt=""></img>
+                        <img id="musicbar-button-more" src={button_more} className="highlight-button" alt=""></img>
                     </div>
                     : null}
             </div>

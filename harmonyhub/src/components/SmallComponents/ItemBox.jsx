@@ -12,7 +12,7 @@ export default function ItemBox(props) {
         <div id="itembox-container">
             <div id="itembox-image-container"
                  style={{width: props.imageWidth, height: props.imageHeight}}
-                 class={props.roundImage ? "round" : "square"}>
+                 className={props.roundImage ? "round" : "square"}>
                 <img src={props.image || item_placeholder}
                 alt="" onError={handleError} id="itembox-image"></img>
                 {props.imageTitle ? <p id="itembox-image-title">props.imageTitle</p> : null}

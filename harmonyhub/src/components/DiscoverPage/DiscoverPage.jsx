@@ -12,42 +12,42 @@ const demoList = [
 const DiscoverPage = () => {
     const genreCollection = demoList.map(
         (item, index) => (
-            <GenreBox id={"gr-col" + index} title={"genre " + item}/>           
+            <GenreBox key={"gr-col" + index} title={"genre " + item}/>           
         )
     )
 
     const playlistCollection = demoList.map(
         (item, index) => (
-            <PlaylistBox id={"pl-col" + index} title={"playlist " + index}/>           
+            <PlaylistBox key={"pl-col" + index} title={"playlist " + index}/>           
         )
     )
     
     const artistCollection = demoList.map(
         (item, index) => (
-            <ArtistBox id={"art-col" + index} title={"artist " + index}></ArtistBox>           
+            <ArtistBox key={"art-col" + index} title={"artist " + index}></ArtistBox>           
         )
     )
 
     const videoCollection = demoList.map(
         (item, index) => (
-            <MvBox id={"mv-col" + item} title={"video" + item} subtitle="random subtitle" view={index + "M views"}></MvBox>       
+            <MvBox key={"mv-col" + item} title={"video" + item} subtitle="random subtitle" view={index + "M views"}></MvBox>       
         )
     )
 
     const albumCollection = demoList.map(
         (item) => (
-            <AlbumBox id={"al-col" + item} title={"album " + item} subtitle="random subtitle"></AlbumBox>           
+            <AlbumBox key={"al-col" + item} title={"album " + item} subtitle="random subtitle"></AlbumBox>           
         )
     )
 
     const songCollection = demoList.map(
         (item, index) => (
-            <MusicBox id={"m-col" + index} title={item} subtitle="random subtitle"></MusicBox>           
+            <MusicBox key={"m-col" + index} title={item} subtitle="random subtitle"></MusicBox>           
         )
     )
 
     return (
-        <div class="discover-page">
+        <div className="discover-page">
             <ItemCollection itemList={genreCollection} title="Music" titleHighlight="Genres"></ItemCollection>
             <ItemCollection itemList={playlistCollection} title="Mood" titleHighlight="Playlist"></ItemCollection>
             <ItemCollection itemList={artistCollection} title="Popular" titleHighlight="Artists"></ItemCollection>
