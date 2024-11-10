@@ -22,7 +22,7 @@
 }
 
 .footer_container p {
-    text-align: left;
+    text-align: justify;
     font-size: 1.8vh;
     margin-left: 1vh;
 }
@@ -111,4 +111,10 @@ span .pink {
 
 span .blue {
     color: #0E9EEF;
+}
+
+span.header {
+    font-size: 3vh;
+    font-weight: bold;
+    padding-bottom: 4vh;
 }

@@ -1,7 +1,4 @@
-// import SignUp from "./components/SignUp/SignUp";
 import MainPage from "./components/MainPage/MainPage";
-// import SignIn from "./components/SignIn/SignIn";
-import { useRef, useState } from "react";
 
 function App() {
   // //ref for the signup modal

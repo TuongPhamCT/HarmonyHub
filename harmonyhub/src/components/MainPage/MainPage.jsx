@@ -1,48 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './MainPage.css'; // Import the CSS file for styling
 import '../Global.css';
 import Sidebar from './Sidebar';
 import HomePage from '../HomePage/HomePage';
 import SearchBar from './SearchBar';
 import goUpButton from '../../assets/img/component_up.png';
-//import AllAlbumsPage from '../AlbumsPage/AllAlbumsPage';
+import AlbumsPage from '../AlbumsPage/AlbumsPage';
+import {Routes, Route} from "react-router-dom";
+import DiscoverPage from '../DiscoverPage/DiscoverPage';
+import { sMainController } from '../../store';
 
-const MainPage = () => {
-    const [sidebarToggle, setSidebarToggle] = useState(false);
-    const [inDetailToggle, setInDetailToggle] = useState(false);
-    
-    const updateSidebarToggle = (newState) => {
-        setSidebarToggle(newState);
-    }
+const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 
-    const updateInDetailToggle = (newState) => {
-        setInDetailToggle(newState);
-    }
+function MainPage () {
 
-    const goUp = () => {
+    const handleGoUp = () => {
         const component = document.getElementById("content-area");
         component.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     return (
-        <div class="wrapper">
-            <div class="mainpage_sidebar" style={{display: (sidebarToggle ? 'none' : 'flex' )}}>
-                <Sidebar sidebarToggle={sidebarToggle} updateParent={updateSidebarToggle}></Sidebar>
-            </div>
-            <img id="go-up-button" src={goUpButton} alt="" class="txt_button" onClick={goUp}></img>
-            <div class="mainpage_content_wrapper">
-                <div class="mainpage_header">
-                    <SearchBar
-                        sidebarToggle={sidebarToggle}
-                        inDetailToggle={inDetailToggle}
-                        updateSidebar={updateSidebarToggle}
-                        updateInDetailToggle={updateInDetailToggle}
-                        isLogin={true}>
-                    </SearchBar>
+        <div className="wrapper">
+            <ssShowSidebar.Wrap>
+                {(sidebarToggle) => (
+                    <div className="mainpage_sidebar" style={{display: (sidebarToggle ? 'flex' : 'none' )}}>
+                        <Sidebar/>
+                    </div>   
+                )}
+            </ssShowSidebar.Wrap>
+            <img id="go-up-button" src={goUpButton} alt="" className="txt_button" onClick={handleGoUp}></img>
+            <div className="mainpage_content_wrapper">
+                <div className="mainpage_header">
+                    <SearchBar/>
                 </div>
-                <div id="content-area" class="mainpage_content">
-                    <HomePage/>
-                    {/* <AllAlbumsPage/> */}
+                <div id="content-area" className="mainpage_content">
+                    <Routes>
+                        <Route path='/' element={<HomePage/>} />
+                        <Route path='/discover' element={<DiscoverPage/>} />
+                        <Route path='/albums' element={<AlbumsPage/>} />
+                    </Routes>
+                    {/* <sMainController.DevTool name="sMainController"/> */}
                 </div>
             </div>
         </div>
