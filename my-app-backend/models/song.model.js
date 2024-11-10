@@ -11,13 +11,10 @@ const Song = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    title: {
+    name: {
       type: DataTypes.STRING,
     },
     artist: {
-      type: DataTypes.STRING,
-    },
-    poster: {
       type: DataTypes.STRING,
     },
     duration: {
@@ -26,7 +23,7 @@ const Song = sequelize.define(
     image: {
       type: DataTypes.STRING,
     },
-    fileURL: {
+    fileName: {
       type: DataTypes.STRING,
     },
     lyric: {

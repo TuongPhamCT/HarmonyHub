@@ -1,9 +1,7 @@
-const sequelize = require("../configs/sequelize");
 const path = require("path");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const { sendMail } = require("../utils/mail_sender.util");
-const Song = require("../models/song.model");
 require("dotenv").config();
 
 //login
