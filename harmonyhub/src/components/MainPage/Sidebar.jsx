@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Sidebar.css'; // Import the CSS file for styling
 import '../ScrollBar.css'; // Import the CSS file for styling
 import logo from '../../assets/img/logo.png';
@@ -14,12 +14,14 @@ import icon_add_playlist from '../../assets/img/sidebar_add_playlist.png';
 import icon_settings from '../../assets/img/sidebar_settings.png';
 import icon_logout from '../../assets/img/sidebar_logout.png';
 import sidebar_icon from '../../assets/img/sidebar_menu_icon.png';
+import { useLocation, useNavigate } from 'react-router';
+import { sMainController } from '../../store';
 
 const sidebar_items = [
   {itemName: "Menu", class: "sidebar_header"},
-  {itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", isActive: true},
-  {itemName: "Discover", img: icon_discover, imgClass: "icon_content"},
-  {itemName: "Albums", img: icon_albums, imgClass: "icon_content"},
+  {itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", id:'/'},
+  {itemName: "Discover", img: icon_discover, imgClass: "icon_content", id:'/discover'},
+  {itemName: "Albums", img: icon_albums, imgClass: "icon_content", id:'/albums'},
   {itemName: "Artists", img: icon_artists, imgClass: "icon_content"},
   {itemName: "Library", class: "sidebar_header"},
   {itemName: "Recently Added", img: icon_recently_added, imgClass: "icon_content"},
@@ -33,37 +35,60 @@ const sidebar_items = [
   {itemName: "Logout", img: icon_logout, id:"sidebar_logout", imgClass: "icon_content"},
 ]
 
-const Sidebar = ({sidebarToggle, updateParent}) => {
+const Sidebar = () => {
     const menuRef = useRef(null); // Reference to the <ul> element
+    const nav = useNavigate();
+
+    const location = useLocation();
+    useEffect(() => {
+      const items = menuRef.current.querySelectorAll('li');
+      items.forEach((item) => {
+        if (item.id === location.pathname){
+          if (item.classList.contains('active') === false){
+            item.classList.add('active');
+          }
+        } else {
+          item.classList.remove('active')
+        }
+      }); // Remove "active" class from all items
+    },[location]);
 
     const handleClick = (e) => {
       if (e.target.tagName !== 'LI' || e.target.classList.contains('sidebar_header')){
         return;
       }
       switch (e.target.id){
+        case '/':
+          nav('/');
+          break;
+        case '/discover':
+          nav('/discover');
+          break;
+        case '/albums':
+          nav('/albums');
+          break;
         case "sidebar_add_playlist":
           return;
         case "sidebar_logout":
           return;
         default:
-          break;
+          return;
       }
-      const items = menuRef.current.querySelectorAll('li');
-      items.forEach((item) => item.classList.remove('active')); // Remove "active" class from all items
-      e.target.classList.add('active'); // Add "active" class to the clicked item
+      // const items = menuRef.current.querySelectorAll('li');
+      // items.forEach((item) => item.classList.remove('active')); // Remove "active" class from all items
+      // e.target.classList.add('active'); // Add "active" class to the clicked item
     };
 
     // Sidebar toggle button
 
     const handleSidebarIconClick = () => {
-      // Call the function passed from the parent to update its state
-      updateParent(!sidebarToggle);
+      sMainController.set({showSidebar: !sMainController.value.showSidebar});
   };
 
     return (
       <div className="sidebar">
         <div id="sidebar_logo_wrapper">
-          <img id="icon_sidebar_toggle" src={sidebar_icon} loading="lazy" alt="" class="txt_button"
+          <img id="icon_sidebar_toggle" src={sidebar_icon} loading="lazy" alt="" className="txt_button"
             onClick={handleSidebarIconClick}></img>
           <img id="sidebar_logo" src={logo} loading="lazy" alt="Logo"/>
         </div>
@@ -72,8 +97,8 @@ const Sidebar = ({sidebarToggle, updateParent}) => {
             sidebar_items.map(
               (item, index) => (
                 <li key={index} id={item.id ? item.id : undefined}
-                class={(item.class ? item.class + (item.isActive ? ' active' : '') : undefined)}>
-                  {item.img ? <img src={item.img} class={item.imgClass} alt="" loading="lazy"/> : undefined} {item.itemName}
+                className={(item.class ? item.class + (item.isActive ? ' active' : '') : undefined)}>
+                  {item.img ? <img src={item.img} className={item.imgClass} alt="" loading="lazy"/> : undefined} {item.itemName}
                 </li>
               )
              )

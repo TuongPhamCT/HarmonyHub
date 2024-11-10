@@ -1,27 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './MainPage.css'; // Import the CSS file for styling
+import '../Global.css';
 import Sidebar from './Sidebar';
 import HomePage from '../HomePage/HomePage';
 import SearchBar from './SearchBar';
+import goUpButton from '../../assets/img/component_up.png';
+import AlbumsPage from '../AlbumsPage/AlbumsPage';
+import {Routes, Route} from "react-router-dom";
+import DiscoverPage from '../DiscoverPage/DiscoverPage';
+import { sMainController } from '../../store';
 
-const MainPage = () => {
-    const [sidebarToggle, setSidebarToggle] = useState(false);
-    
-    const updateSidebarToggle = (newState) => {
-        setSidebarToggle(newState);
+const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
+
+function MainPage () {
+
+    const handleGoUp = () => {
+        const component = document.getElementById("content-area");
+        component.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     return (
-        <div class="wrapper">
-            <div class="mainpage_sidebar" style={{display: (sidebarToggle ? 'none' : 'flex' )}}>
-                <Sidebar sidebarToggle={sidebarToggle} updateParent={updateSidebarToggle}></Sidebar>
-            </div>
-            <div class="mainpage_content_wrapper">
-                <div class="mainpage_header">
-                    <SearchBar sidebarToggle={sidebarToggle} updateParent={updateSidebarToggle} ></SearchBar>
+        <div className="wrapper">
+            <ssShowSidebar.Wrap>
+                {(sidebarToggle) => (
+                    <div className="mainpage_sidebar" style={{display: (sidebarToggle ? 'flex' : 'none' )}}>
+                        <Sidebar/>
+                    </div>   
+                )}
+            </ssShowSidebar.Wrap>
+            <img id="go-up-button" src={goUpButton} alt="" className="txt_button" onClick={handleGoUp}></img>
+            <div className="mainpage_content_wrapper">
+                <div className="mainpage_header">
+                    <SearchBar/>
                 </div>
-                <div class="mainpage_content">
-                    <HomePage></HomePage>
+                <div id="content-area" className="mainpage_content">
+                    <Routes>
+                        <Route path='/' element={<HomePage/>} />
+                        <Route path='/discover' element={<DiscoverPage/>} />
+                        <Route path='/albums' element={<AlbumsPage/>} />
+                    </Routes>
+                    {/* <sMainController.DevTool name="sMainController"/> */}
                 </div>
             </div>
         </div>

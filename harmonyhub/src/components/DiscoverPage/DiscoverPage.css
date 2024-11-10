@@ -1,0 +1,6 @@
+/* DiscoverPage.css */
+.discover-page {
+    display: inline-block;
+    width: 100%;
+    flex-direction: column;
+  }

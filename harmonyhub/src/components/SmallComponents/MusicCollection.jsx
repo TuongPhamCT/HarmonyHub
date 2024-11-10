@@ -4,7 +4,7 @@ import '../Global.css';
 export default function MusicCollection(props) {
     return (
         <div id="music-collection-wrapper">
-            <p class="item-collection-title">{props.title} <span class="pink">{props.titleHighlight}</span></p>
+            <p className="item-collection-title">{props.title} <span className="pink">{props.titleHighlight}</span></p>
             <div id="music-collection-labels-wrapper">
                 {/* Gap */}
                 <div style={{width: props.headerGap, marginRight: "2.5vh"}}></div>
@@ -21,7 +21,7 @@ export default function MusicCollection(props) {
             <div id="music-collection-container">
                 {props.musicList}
             </div>
-            <p id="music-collection-view-all-button" class="txt_button">✚ View All</p>
+            <p id="music-collection-view-all-button" className="txt_button">✚ View All</p>
         </div>
     )
 }
