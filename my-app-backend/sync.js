@@ -1,9 +1,5 @@
 // sync.js
 const sequelize = require("./configs/sequelize");
-const Song = require("./models/song.model");
-const Genre = require("./models/genre.model");
-const { create, drop } = require("lodash");
-//const GenreSong = require("./models/genreSong.model");
 require("./models/association");
 
 // Test DB connection and sync models

@@ -6,6 +6,7 @@ const bodyParser = require("body-parser"); // Only if using an older version of 
 
 const userRoute = require("./routes/user.route");
 const songRoute = require("./routes/song.route");
+const albumRoute = require("./routes/album.route");
 const sequelize = require("./configs/sequelize");
 const Song = require("./models/song.model");
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cors());
 app.use("", userRoute);
 app.use("", songRoute);
+app.use("", albumRoute);
 
 require("./sync");
 

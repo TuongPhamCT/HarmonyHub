@@ -19,3 +19,7 @@ module.exports.createSong = async (songName, artist, songFile) => {
     fileName: songFile.filename,
   });
 };
+
+module.exports.getSongById = async (songId) => {
+  return Song.findByPk(songId);
+};

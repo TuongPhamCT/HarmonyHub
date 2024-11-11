@@ -17,5 +17,8 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.post("/song", upload.single("file"), controller.createSong);
+// router.get("/songs", controller.getAllSongs);
+// router.get("/song/:id", controller.getSongById);
+router.get("/song/:id/play", controller.playSongById);
 
 module.exports = router;
