@@ -14,6 +14,9 @@ const Album = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    description: {
+      type: DataTypes.STRING,
+    },
     image: {
       type: DataTypes.STRING,
     },

@@ -27,6 +27,14 @@ Song.belongsTo(User, {
   foreignKey: "post_user_id",
 });
 
+//define the association between User and Song(1-n)
+User.hasMany(Song, {
+  foreignKey: "artist_id",
+});
+Song.belongsTo(User, {
+  foreignKey: "artist_id",
+});
+
 //define the association between User and Album(1-n)
 User.hasMany(Album, {
   foreignKey: "artist_id",
@@ -52,4 +60,12 @@ Song.belongsToMany(Playlist, {
 Playlist.belongsToMany(Song, {
   through: "playlist_song",
   foreignKey: "playlist_id",
+});
+
+//define the association between User and Playlist(1-n)
+User.hasMany(Playlist, {
+  foreignKey: "user_id",
+});
+Playlist.belongsTo(User, {
+  foreignKey: "user_id",
 });

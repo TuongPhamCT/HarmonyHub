@@ -20,7 +20,7 @@ const Song = sequelize.define(
     image: {
       type: DataTypes.STRING,
     },
-    fileName: {
+    fileURL: {
       type: DataTypes.STRING,
     },
     lyric: {

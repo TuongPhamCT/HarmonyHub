@@ -1,4 +1,5 @@
 const Album = require("../models/album.model");
+const albumService = require("../services/album.service");
 
 module.exports.getAlbums = async (req, res) => {
   try {
@@ -23,5 +24,17 @@ module.exports.getAlbums = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error fetching albums", error: error.message });
+  }
+};
+
+module.exports.getAlbumById = async (req, res) => {
+  const albumId = req.params.id;
+  try {
+    const album = await albumService.getAlbumDetails(albumId);
+    res.json(album);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching album", error: error.message });
   }
 };

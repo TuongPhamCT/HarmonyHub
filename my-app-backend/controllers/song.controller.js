@@ -7,29 +7,37 @@ const createReadStream = fs.createReadStream;
 
 module.exports.createSong = async (req, res) => {
   console.log(req.body);
-  var songName = req.body.name;
-  var artist = req.body.artist;
-  var songFile = req.file;
+  let songName = req.body.name;
+  let artist = req.body.artist;
+  let songFile = req.files.file ? req.files.file[0] : null;
+  let songImage = req.files.image ? req.files.image[0] : null;
+  console.log(songFile);
+  console.log(songImage);
 
   try {
-    await songService.createSong(songName, artist, songFile);
+    await songService.createSong(songName, artist, songFile, songImage);
     res.status(201).json({ message: "Song created successfully" });
   } catch (error) {
     res.status(400).json({ message: "data incorect format", error });
   }
 };
 
+module.exports.getSongById = async (req, res) => {
+  let songId = req.params.id;
+  let song = await songService.getSongById(songId);
+  song = songService.changePathOfSongForClient(song);
+  res.json(song);
+};
+
 module.exports.playSongById = async (req, res) => {
   let songId = req.params.id;
   let song = await songService.getSongById(songId);
-
-  const filePath = path.join(__dirname, "..", "public\\songs", song.fileName);
 
   const CHUNK_SIZE = 10 ** 6 / 2;
 
   const range = req.headers.range || "0";
 
-  const audioSize = statSync(filePath).size;
+  const audioSize = statSync(song.path).size;
 
   const start = Number(range.replace(/\D/g, ""));
   const end = Math.min(start + CHUNK_SIZE, audioSize - 1);
