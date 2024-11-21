@@ -8,6 +8,7 @@ const userRoute = require("./routes/user.route");
 const songRoute = require("./routes/song.route");
 const albumRoute = require("./routes/album.route");
 const artistRoute = require("./routes/artist.route");
+const playlistRoute = require("./routes/playlist.route");
 const sequelize = require("./configs/sequelize");
 const Song = require("./models/song.model");
 
@@ -18,6 +19,7 @@ app.use("", userRoute);
 app.use("", songRoute);
 app.use("", albumRoute);
 app.use("", artistRoute);
+app.use("", playlistRoute);
 
 require("./sync");
 

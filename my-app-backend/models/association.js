@@ -10,62 +10,80 @@ const Playlist = require("./playlist.model");
 Song.belongsToMany(Genre, {
   through: "genre_song",
   as: "song",
+  timestamps: false,
   foreignKey: "song_id",
 });
 
 Genre.belongsToMany(Song, {
   through: "genre_song",
   as: "genre",
+  timestamps: false,
   foreignKey: "genre_id",
 });
 
 //define the association between User and Song(1-n)
 User.hasMany(Song, {
   foreignKey: "post_user_id",
+  timestamps: false,
 });
 Song.belongsTo(User, {
   foreignKey: "post_user_id",
+  timestamps: false,
 });
 
 //define the association between User and Song(1-n)
 User.hasMany(Song, {
   foreignKey: "artist_id",
+  timestamps: false,
 });
 Song.belongsTo(User, {
   foreignKey: "artist_id",
+  timestamps: false,
 });
 
 //define the association between User and Album(1-n)
 User.hasMany(Album, {
   foreignKey: "artist_id",
+  timestamps: false,
 });
 Album.belongsTo(User, {
   foreignKey: "artist_id",
+  timestamps: false,
 });
 
 //define the association between Album and Song(1-n)
 Album.hasMany(Song, {
   foreignKey: "album_id",
+  timestamps: false,
 });
 Song.belongsTo(Album, {
   foreignKey: "album_id",
+  timestamps: false,
 });
 
-//define the association between Playlist and Song(n-n)
+// Define the association between Playlist and Song (n-n)
 Song.belongsToMany(Playlist, {
-  through: "playlist_song",
+  through: {
+    model: "playlist_song",
+  },
+  timestamps: false,
   foreignKey: "song_id",
 });
 
 Playlist.belongsToMany(Song, {
-  through: "playlist_song",
+  through: {
+    model: "playlist_song",
+  },
+  timestamps: false,
   foreignKey: "playlist_id",
 });
 
 //define the association between User and Playlist(1-n)
 User.hasMany(Playlist, {
   foreignKey: "user_id",
+  timestamps: false,
 });
 Playlist.belongsTo(User, {
   foreignKey: "user_id",
+  timestamps: false,
 });

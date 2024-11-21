@@ -22,7 +22,7 @@ const Genre = sequelize.define(
   },
   {
     // Other model options
-    timestamps: true, // createdAt and updatedAt fields
+    timestamps: false, // createdAt and updatedAt fields
     freezeTableName: true, // Prevent Sequelize from pluralizing the table name
   }
 );
