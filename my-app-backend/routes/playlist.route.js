@@ -1,7 +1,8 @@
-var express = require("express");
-var router = express();
-var controller = require("../controllers/playlist.controller");
+const express = require("express");
+const router = express();
+const controller = require("../controllers/playlist.controller");
+const { verifyToken } = require("../middleware/authjwt.middleware");
 
-router.get("/playlists/:userId", controller.getAllPlaylistsByUserId);
-router.get("/playlist/:id", controller.getPlaylistById);
+router.get("/playlists", [verifyToken], controller.getAllPlaylists);
+router.get("/playlist/:id", [verifyToken], controller.getPlaylistById);
 module.exports = router;

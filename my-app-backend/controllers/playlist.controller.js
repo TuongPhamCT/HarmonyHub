@@ -1,10 +1,9 @@
 const Playlist = require("../models/playlist.model");
 const playlistService = require("../services/playlist.service");
 
-module.exports.getAllPlaylistsByUserId = async (req, res) => {
+module.exports.getAllPlaylists = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const playlists = await playlistService.getPlaylistsByUserId(userId);
+    const playlists = await playlistService.getPlaylistsByUserId(req.userId);
     res.json(playlists);
   } catch (error) {
     res

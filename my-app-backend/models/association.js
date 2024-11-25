@@ -4,6 +4,7 @@ const Genre = require("./genre.model");
 const User = require("./user.model");
 const Album = require("./album.model");
 const Playlist = require("./playlist.model");
+const PlayHistory = require("./playHistory.model");
 //const GenreSong = require("./genreSong.model");
 
 //define the association between Song and Genre(n-n)
@@ -85,5 +86,25 @@ User.hasMany(Playlist, {
 });
 Playlist.belongsTo(User, {
   foreignKey: "user_id",
+  timestamps: false,
+});
+
+//define the association between User and PlayHistory(1-n)
+User.hasMany(PlayHistory, {
+  foreignKey: "user_id",
+  timestamps: false,
+});
+PlayHistory.belongsTo(User, {
+  foreignKey: "user_id",
+  timestamps: false,
+});
+
+//define the association between Song and PlayHistory(1-n)
+Song.hasMany(PlayHistory, {
+  foreignKey: "song_id",
+  timestamps: false,
+});
+PlayHistory.belongsTo(Song, {
+  foreignKey: "song_id",
   timestamps: false,
 });
