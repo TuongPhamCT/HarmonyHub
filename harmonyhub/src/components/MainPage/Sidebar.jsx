@@ -18,94 +18,100 @@ import { useLocation, useNavigate } from 'react-router';
 import { sMainController } from '../../store';
 
 const sidebar_items = [
-  {itemName: "Menu", class: "sidebar_header"},
-  {itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", id:'/'},
-  {itemName: "Discover", img: icon_discover, imgClass: "icon_content", id:'/discover'},
-  {itemName: "Albums", img: icon_albums, imgClass: "icon_content", id:'/albums'},
-  {itemName: "Artists", img: icon_artists, imgClass: "icon_content"},
-  {itemName: "Library", class: "sidebar_header"},
-  {itemName: "Recently Added", img: icon_recently_added, imgClass: "icon_content"},
-  {itemName: "Most Played", img: icon_most_played, imgClass: "icon_content"},
-  {itemName: "Playlist and favorite", class: "sidebar_header"},
-  {itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content"},
-  {itemName: "Your Playlist", img: icon_your_playlist, imgClass: "icon_content"},
-  {itemName: "Add playlist", img: icon_add_playlist, id:"sidebar_add_playlist", imgClass: "icon_content"},
-  {itemName: "General", class: "sidebar_header"},
-  {itemName: "Settings", img: icon_settings, imgClass: "icon_content"},
-  {itemName: "Logout", img: icon_logout, id:"sidebar_logout", imgClass: "icon_content"},
+  { itemName: "Menu", class: "sidebar_header" },
+  { itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", id: '/' },
+  { itemName: "Discover", img: icon_discover, imgClass: "icon_content", id: '/discover' },
+  { itemName: "Albums", img: icon_albums, imgClass: "icon_content", id: '/albums' },
+  { itemName: "Artists", img: icon_artists, imgClass: "icon_content", id: '/artists' },
+  { itemName: "Library", class: "sidebar_header" },
+  { itemName: "Recently Added", img: icon_recently_added, imgClass: "icon_content" },
+  { itemName: "Most Played", img: icon_most_played, imgClass: "icon_content" },
+  { itemName: "Playlist and favorite", class: "sidebar_header" },
+  { itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content" },
+  { itemName: "YourPlaylist", img: icon_your_playlist, imgClass: "icon_content", id: '/yourplaylist' },
+  { itemName: "Add playlist", img: icon_add_playlist, id: "sidebar_add_playlist", imgClass: "icon_content" },
+  { itemName: "General", class: "sidebar_header" },
+  { itemName: "Settings", img: icon_settings, imgClass: "icon_content" },
+  { itemName: "Logout", img: icon_logout, id: "sidebar_logout", imgClass: "icon_content" },
 ]
 
 const Sidebar = () => {
-    const menuRef = useRef(null); // Reference to the <ul> element
-    const nav = useNavigate();
+  const menuRef = useRef(null); // Reference to the <ul> element
+  const nav = useNavigate();
 
-    const location = useLocation();
-    useEffect(() => {
-      const items = menuRef.current.querySelectorAll('li');
-      items.forEach((item) => {
-        if (item.id === location.pathname){
-          if (item.classList.contains('active') === false){
-            item.classList.add('active');
-          }
-        } else {
-          item.classList.remove('active')
+  const location = useLocation();
+  useEffect(() => {
+    const items = menuRef.current.querySelectorAll('li');
+    items.forEach((item) => {
+      if (item.id === location.pathname) {
+        if (item.classList.contains('active') === false) {
+          item.classList.add('active');
         }
-      }); // Remove "active" class from all items
-    },[location]);
+      } else {
+        item.classList.remove('active')
+      }
+    }); // Remove "active" class from all items
+  }, [location]);
 
-    const handleClick = (e) => {
-      if (e.target.tagName !== 'LI' || e.target.classList.contains('sidebar_header')){
+  const handleClick = (e) => {
+    if (e.target.tagName !== 'LI' || e.target.classList.contains('sidebar_header')) {
+      return;
+    }
+    switch (e.target.id) {
+      case '/':
+        nav('/');
+        break;
+      case '/discover':
+        nav('/discover');
+        break;
+      case '/albums':
+        nav('/albums');
+        break;
+      case '/artists':
+        nav('/artists');
+        break;
+      case '/yourplaylist':
+        nav('/yourplaylist');
+        break;
+      case "sidebar_add_playlist":
         return;
-      }
-      switch (e.target.id){
-        case '/':
-          nav('/');
-          break;
-        case '/discover':
-          nav('/discover');
-          break;
-        case '/albums':
-          nav('/albums');
-          break;
-        case "sidebar_add_playlist":
-          return;
-        case "sidebar_logout":
-          return;
-        default:
-          return;
-      }
-      // const items = menuRef.current.querySelectorAll('li');
-      // items.forEach((item) => item.classList.remove('active')); // Remove "active" class from all items
-      // e.target.classList.add('active'); // Add "active" class to the clicked item
-    };
-
-    // Sidebar toggle button
-
-    const handleSidebarIconClick = () => {
-      sMainController.set({showSidebar: !sMainController.value.showSidebar});
+      case "sidebar_logout":
+        return;
+      default:
+        return;
+    }
+    // const items = menuRef.current.querySelectorAll('li');
+    // items.forEach((item) => item.classList.remove('active')); // Remove "active" class from all items
+    // e.target.classList.add('active'); // Add "active" class to the clicked item
   };
 
-    return (
-      <div className="sidebar">
-        <div id="sidebar_logo_wrapper">
-          <img id="icon_sidebar_toggle" src={sidebar_icon} loading="lazy" alt="" className="txt_button"
-            onClick={handleSidebarIconClick}></img>
-          <img id="sidebar_logo" src={logo} loading="lazy" alt="Logo"/>
-        </div>
-        <ul ref={menuRef} onClick={handleClick}>
-          {
-            sidebar_items.map(
-              (item, index) => (
-                <li key={index} id={item.id ? item.id : undefined}
-                className={(item.class ? item.class + (item.isActive ? ' active' : '') : undefined)}>
-                  {item.img ? <img src={item.img} className={item.imgClass} alt="" loading="lazy"/> : undefined} {item.itemName}
-                </li>
-              )
-             )
-          }
-        </ul>
+  // Sidebar toggle button
+
+  const handleSidebarIconClick = () => {
+    sMainController.set({ showSidebar: !sMainController.value.showSidebar });
+  };
+
+  return (
+    <div className="sidebar">
+      <div id="sidebar_logo_wrapper">
+        <img id="icon_sidebar_toggle" src={sidebar_icon} loading="lazy" alt="" className="txt_button"
+          onClick={handleSidebarIconClick}></img>
+        <img id="sidebar_logo" src={logo} loading="lazy" alt="Logo" />
       </div>
-    );
-  };
-  
-  export default Sidebar;
+      <ul ref={menuRef} onClick={handleClick}>
+        {
+          sidebar_items.map(
+            (item, index) => (
+              <li key={index} id={item.id ? item.id : undefined}
+                className={(item.class ? item.class + (item.isActive ? ' active' : '') : undefined)}>
+                {item.img ? <img src={item.img} className={item.imgClass} alt="" loading="lazy" /> : undefined} {item.itemName}
+              </li>
+            )
+          )
+        }
+      </ul>
+    </div>
+  );
+};
+
+export default Sidebar;

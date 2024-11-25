@@ -6,13 +6,16 @@ import HomePage from '../HomePage/HomePage';
 import SearchBar from './SearchBar';
 import goUpButton from '../../assets/img/component_up.png';
 import AlbumsPage from '../AlbumsPage/AlbumsPage';
-import {Routes, Route} from "react-router-dom";
+import { Routes, Route, Router } from "react-router-dom";
 import DiscoverPage from '../DiscoverPage/DiscoverPage';
 import { sMainController } from '../../store';
+import ArtitstsPage from '../ArtistsPage/ArtitstsPage';
+import YourPlaylist from '../YourPlaylistPage/YourPlaylist';
+import PlaylistDetail from '../YourPlaylistPage/PlaylistDetail';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 
-function MainPage () {
+function MainPage() {
 
     const handleGoUp = () => {
         const component = document.getElementById("content-area");
@@ -23,21 +26,25 @@ function MainPage () {
         <div className="wrapper">
             <ssShowSidebar.Wrap>
                 {(sidebarToggle) => (
-                    <div className="mainpage_sidebar" style={{display: (sidebarToggle ? 'flex' : 'none' )}}>
-                        <Sidebar/>
-                    </div>   
+                    <div className="mainpage_sidebar" style={{ display: (sidebarToggle ? 'flex' : 'none') }}>
+                        <Sidebar />
+                    </div>
                 )}
             </ssShowSidebar.Wrap>
             <img id="go-up-button" src={goUpButton} alt="" className="txt_button" onClick={handleGoUp}></img>
             <div className="mainpage_content_wrapper">
                 <div className="mainpage_header">
-                    <SearchBar/>
+                    <SearchBar />
                 </div>
                 <div id="content-area" className="mainpage_content">
                     <Routes>
-                        <Route path='/' element={<HomePage/>} />
-                        <Route path='/discover' element={<DiscoverPage/>} />
-                        <Route path='/albums' element={<AlbumsPage/>} />
+                        <Route path='/' element={<HomePage />} />
+                        <Route path='/discover' element={<DiscoverPage />} />
+                        <Route path='/albums' element={<AlbumsPage />} />
+                        <Route path='/artists' element={<ArtitstsPage />} />
+                        <Route path='/yourplaylist/:playlistId' element={<PlaylistDetail />} />
+                        <Route path='/yourplaylist' element={<YourPlaylist />} >
+                        </Route>
                     </Routes>
                     {/* <sMainController.DevTool name="sMainController"/> */}
                 </div>
