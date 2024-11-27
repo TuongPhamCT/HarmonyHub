@@ -15,25 +15,25 @@ const demoList = [
 const HomePage = () => {
     const musicBoxCollection = demoList.map(
         (item, index) => (
-            <MusicBox key={"mb-col" + index} title={item} subtitle="random subtitle"></MusicBox>           
+            <MusicBox key={"mb-col" + index} title={item} subtitle="random subtitle"></MusicBox>
         )
     )
 
     const albumCollection = demoList.map(
         (item, index) => (
-            <AlbumBox key={"al-col" + index} title={"album " + index} subtitle="random subtitle"></AlbumBox>           
+            <AlbumBox key={"al-col" + index} title={"album " + index} subtitle="random subtitle"></AlbumBox>
         )
     )
 
     const artistCollection = demoList.map(
         (item, index) => (
-            <ArtistBox key={"al-col" + index} title={"artist " + index} subtitle="random subtitle"></ArtistBox>           
+            <ArtistBox key={"al-col" + index} title={"artist " + index} subtitle="random subtitle"></ArtistBox>
         )
     )
 
     const playlistCollection = demoList.map(
         (item, index) => (
-            <PlaylistBox key={"al-col" + index} title={"playlist " + index}/>           
+            <PlaylistBox key={"al-col" + index} title={"playlist " + index} />
         )
     )
 
@@ -41,7 +41,7 @@ const HomePage = () => {
     const musicCollection = demoList.map(
         (item, index) => (
             <MusicBar key={"mb" + index} headerWidth="10vh" title={item} subtitle="random subtitle" header={"#" + (index + 1)}
-                releaseDate={"Nov " + (index + 1) + ", 2024"} album="Demo Album" time="2:00"></MusicBar>           
+                releaseDate={"Nov " + (index + 1) + ", 2024"} album="Demo Album" time="2:00"></MusicBar>
         )
     )
 
@@ -62,11 +62,11 @@ const HomePage = () => {
                 <ItemCollection itemList={musicBoxCollection} title="Weekly Top" titleHighlight="Songs"></ItemCollection>
                 <ItemCollection itemList={musicBoxCollection} title="New Release" titleHighlight="Songs"></ItemCollection>
                 <MusicCollection musicList={musicCollection} title="Trending" titleHighlight="Songs" headerGap="10vh"></MusicCollection>
-                <ItemCollection itemList={artistCollection} title="Popular" titleHighlight="Artists"></ItemCollection>                
+                <ItemCollection itemList={artistCollection} title="Popular" titleHighlight="Artists"></ItemCollection>
                 <ItemCollection itemList={albumCollection} title="Top" titleHighlight="Albums"></ItemCollection>
                 <ItemCollection itemList={playlistCollection} title="Mood" titleHighlight="Playlists"></ItemCollection>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

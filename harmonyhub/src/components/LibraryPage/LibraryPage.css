@@ -1,0 +1,40 @@
+/* LibraryPage.css */
+#library-page {
+    display: inline-block;
+    width: 100%;
+    flex-direction: column;
+    padding-top: 6vh;
+}
+
+#library-title {
+    margin-left: 3vh;
+    font-weight: bold;
+    font-size: 6.0vh;
+    padding: 2vh 0vh;
+}
+
+#library-page hr {
+    border-color: rgb(160, 160, 160);
+}
+
+#library-tabs-wrapper {
+    position: relative;
+    width: calc(100% - 6vh);
+    height: 7vh;
+    margin-left: 3vh;
+    margin-bottom: 2vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+#library-tabs-container {
+    position: relative;
+    width: calc(max(100% - 36vh, 36vh));
+    height: 100%;
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 1vh
+}

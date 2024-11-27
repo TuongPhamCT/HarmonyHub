@@ -11,7 +11,7 @@ const demoList = [
 const AlbumsPage = () => {
     const collection = demoList.map(
         (item, index) => (
-            <ItemBox imageWidth="24vh" imageHeight="24vh" title={item} subtitle="random subtitle" view={index + "M views"}></ItemBox>           
+            <ItemBox key={"album" + index} imageWidth="24vh" imageHeight="24vh" title={item} subtitle="random subtitle" view={index + "M views"}></ItemBox>           
         )
     )
 

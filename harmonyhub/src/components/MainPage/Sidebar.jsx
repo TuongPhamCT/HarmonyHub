@@ -6,7 +6,7 @@ import icon_home from '../../assets/img/sidebar_home.png';
 import icon_discover from '../../assets/img/sidebar_discover.png';
 import icon_albums from '../../assets/img/sidebar_albums.png';
 import icon_artists from '../../assets/img/sidebar_artists.png';
-import icon_recently_added from '../../assets/img/sidebar_recently_added.png';
+import icon_library from '../../assets/img/sidebar_library.png';
 import icon_most_played from '../../assets/img/sidebar_most_played.png';
 import icon_your_favorites from '../../assets/img/sidebar_your_favorites.png';
 import icon_your_playlist from '../../assets/img/sidebar_your_playlist.png';
@@ -25,8 +25,8 @@ const sidebar_items = [
   {itemName: "Discover", img: icon_discover, imgClass: "icon_content", id:'/discover'},
   {itemName: "Albums", img: icon_albums, imgClass: "icon_content", id:'/albums'},
   {itemName: "Artists", img: icon_artists, imgClass: "icon_content"},
-  {itemName: "Library", class: "sidebar_header"},
-  {itemName: "Recently Added", img: icon_recently_added, imgClass: "icon_content"},
+  // {itemName: "Library", class: "sidebar_header"},
+  {itemName: "Library", img: icon_library, imgClass: "icon_content", id: '/library'},
   {itemName: "Most Played", img: icon_most_played, imgClass: "icon_content"},
   {itemName: "Playlist and favorite", class: "sidebar_header"},
   {itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content"},
@@ -47,8 +47,9 @@ const Sidebar = () => {
     const location = useLocation();
     useEffect(() => {
       const items = menuRef.current.querySelectorAll('li');
+      const path = "/" + location.pathname.split('/')[1];
       items.forEach((item) => {
-        if (item.id === location.pathname){
+        if (item.id === path){
           if (item.classList.contains('active') === false){
             item.classList.add('active');
           }
@@ -77,6 +78,8 @@ const Sidebar = () => {
           break;
         case '/addsong':
           nav('/addsong');
+        case '/library':
+          nav('/library/song');
           break;
         case "sidebar_add_playlist":
           return;
