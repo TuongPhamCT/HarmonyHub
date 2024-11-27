@@ -6,11 +6,18 @@ import Footer from '../MainPage/Footer';
 
 
 const demoList = [
+    "1", "2", "3", "4", "5"
+];
+
+const demoListArtist = [
+    "1", "2", "3", "4"
+];
+const demoListVideo = [
     "1", "2", "3", "4", "5", "6"
 ];
 
 const DiscoverPage = () => {
-    const genreCollection = demoList.map(
+    const genreCollection = demoListArtist.map(
         (item, index) => (
             <GenreBox key={"gr-col" + index} title={"genre " + item}/>           
         )
@@ -28,7 +35,7 @@ const DiscoverPage = () => {
         )
     )
 
-    const videoCollection = demoList.map(
+    const videoCollection = demoListVideo.map(
         (item, index) => (
             <MvBox key={"mv-col" + item} title={"video" + item} subtitle="random subtitle" view={index + "M views"}></MvBox>       
         )
@@ -47,7 +54,10 @@ const DiscoverPage = () => {
     )
 
     return (
+        
         <div className="discover-page">
+            <br/>
+            <br/>
             <ItemCollection itemList={genreCollection} title="Music" titleHighlight="Genres"></ItemCollection>
             <ItemCollection itemList={playlistCollection} title="Mood" titleHighlight="Playlist"></ItemCollection>
             <ItemCollection itemList={artistCollection} title="Popular" titleHighlight="Artists"></ItemCollection>

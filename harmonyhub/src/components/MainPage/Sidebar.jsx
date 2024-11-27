@@ -14,6 +14,8 @@ import icon_add_playlist from '../../assets/img/sidebar_add_playlist.png';
 import icon_settings from '../../assets/img/sidebar_settings.png';
 import icon_logout from '../../assets/img/sidebar_logout.png';
 import sidebar_icon from '../../assets/img/sidebar_menu_icon.png';
+import new_song from '../../assets/img/new_song.png';
+import add_song from '../../assets/img/add_song.png';
 import { useLocation, useNavigate } from 'react-router';
 import { sMainController } from '../../store';
 
@@ -30,6 +32,9 @@ const sidebar_items = [
   {itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content"},
   {itemName: "Your Playlist", img: icon_your_playlist, imgClass: "icon_content"},
   {itemName: "Add playlist", img: icon_add_playlist, id:"sidebar_add_playlist", imgClass: "icon_content"},
+  {itemName: "Admin", class: "sidebar_header"},
+  {itemName: "Approve", img: new_song, imgClass: "icon_content", id:'/approve'},
+  {itemName: "Add Song", img: add_song, imgClass: "icon_content", id:'/addsong'},
   {itemName: "General", class: "sidebar_header"},
   {itemName: "Settings", img: icon_settings, imgClass: "icon_content"},
   {itemName: "Logout", img: icon_logout, id:"sidebar_logout", imgClass: "icon_content"},
@@ -68,6 +73,11 @@ const Sidebar = () => {
         case '/albums':
           nav('/albums');
           break;
+        case '/approve':
+          nav('/approve');
+          break;
+        case '/addsong':
+          nav('/addsong');
         case '/library':
           nav('/library/song');
           break;
