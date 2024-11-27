@@ -9,6 +9,8 @@ import AlbumsPage from '../AlbumsPage/AlbumsPage';
 import {Routes, Route} from "react-router-dom";
 import DiscoverPage from '../DiscoverPage/DiscoverPage';
 import { sMainController } from '../../store';
+import ApprovePage from '../Approve/Approve';
+import AddSongPage from '../AddSongPage/AddSong';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 
@@ -38,6 +40,8 @@ function MainPage () {
                         <Route path='/' element={<HomePage/>} />
                         <Route path='/discover' element={<DiscoverPage/>} />
                         <Route path='/albums' element={<AlbumsPage/>} />
+                        <Route path='/approve' element={<ApprovePage/>} />
+                        <Route path='/addsong' element={<AddSongPage/>} />
                     </Routes>
                     {/* <sMainController.DevTool name="sMainController"/> */}
                 </div>

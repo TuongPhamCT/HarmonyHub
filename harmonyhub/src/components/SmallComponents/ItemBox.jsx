@@ -89,8 +89,8 @@ export const MvBox = (props) => {
 export const GenreBox = (props) => {
     return (
         <ItemBox
-            imageWidth="34vh"
-            imageHeight="24vh"
+            imageWidth="31vh"
+            imageHeight="23vh"
             imageTitle={props.title}
         />
     );
