@@ -11,20 +11,11 @@ const PlayHistory = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    userId: {
-      type: DataTypes.INTEGER,
-    },
-    songId: {
-      type: DataTypes.INTEGER,
-    },
     playTime: {
       type: DataTypes.INTEGER,
     },
     playAt: {
       type: DataTypes.DATE,
-    },
-    name: {
-      type: DataTypes.STRING,
     },
   },
   {

@@ -56,3 +56,20 @@ module.exports.playSongById = async (req, res) => {
   const stream = createReadStream(filePath, { start, end });
   stream.pipe(res);
 };
+
+module.exports.getMostPlaySongs = async (req, res) => {
+  let { startTime, endTime, numberOfSongs } = req.query;
+
+  try {
+    let songs = await songService.getMostPlaySongs(
+      startTime,
+      endTime,
+      numberOfSongs
+    );
+    res.json(songs);
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Error fetching most played songs", error });
+  }
+};

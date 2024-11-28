@@ -52,5 +52,5 @@ router.post(
 // router.get("/songs", controller.getAllSongs);
 router.get("/song/:id", controller.getSongById);
 router.get("/song/:id/play", controller.playSongById);
-
+router.get("/most-play-songs", controller.getMostPlaySongs);
 module.exports = router;

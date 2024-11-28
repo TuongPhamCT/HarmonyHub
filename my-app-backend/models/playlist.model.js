@@ -18,6 +18,13 @@ const Playlist = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "users",
+        key: "id",
+      },
+    },
   },
   {
     // Other model options

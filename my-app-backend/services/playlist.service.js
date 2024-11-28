@@ -1,10 +1,17 @@
 var Playlist = require("../models/playlist.model");
 const Song = require("../models/song.model");
+const User = require("../models/user.model");
 
-module.exports.getPlaylistsByUserId = async (userId) => {
+module.exports.getPlaylistsByUserId = async (userEmail) => {
   try {
     const playlists = await Playlist.findAll({
-      where: { user_id: userId },
+      include: [
+        {
+          model: User,
+          where: { email: userEmail },
+          attributes: [], // Exclude user attributes from the result
+        },
+      ],
     });
     return playlists;
   } catch (error) {
@@ -36,5 +43,18 @@ module.exports.getPlaylistDetails = async (playlistId) => {
     return playlist;
   } catch (error) {
     throw new Error(`Error fetching playlist details: ${error.message}`);
+  }
+};
+
+module.exports.createPlaylist = async (title, isPublic, userId) => {
+  try {
+    const playlist = await Playlist.create({
+      title,
+      isPublic,
+      user_id: userId,
+    });
+    return playlist;
+  } catch (error) {
+    throw new Error(`Error creating playlist: ${error.message}`);
   }
 };

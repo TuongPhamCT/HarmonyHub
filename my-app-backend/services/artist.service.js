@@ -58,7 +58,6 @@ module.exports.getLastestPlaylistsByUserId = async (userId, limit = 5) => {
   try {
     const lastestPlaylists = await Playlist.findAll({
       where: { user_id: userId },
-      order: [["createdAt", "DESC"]],
       limit: limit,
     });
     return lastestPlaylists;

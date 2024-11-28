@@ -5,22 +5,31 @@ require("dotenv").config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+const verifyToken = async (req, res, next) => {
+  let token = req.headers["authorization"];
 
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
   }
 
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({
-        message: "Unauthorized!",
-      });
+  token = token.substring(7, token.length);
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.userEmail = decoded.data.email;
+
+    const user = await User.findOne({ where: { email: decoded.data.email } });
+    if (!user) {
+      return res.status(404).send({ message: "User not found!" });
     }
-    req.userId = decoded.id;
+
+    req.userId = user.id;
     next();
-  });
+  } catch (err) {
+    return res.status(401).send({
+      message: "Unauthorized!",
+    });
+  }
 };
 
 isAdmin = (req, res, next) => {

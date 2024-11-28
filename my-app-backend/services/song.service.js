@@ -1,5 +1,6 @@
 const Song = require("../models/song.model");
 const path = require("path");
+const sequelize = require("../configs/sequelize");
 
 const { getAudioDurationInSeconds } = require("get-audio-duration");
 
@@ -33,4 +34,25 @@ module.exports.changePathOfSongForClient = (song) => {
   song.image = convertBackslashToSlash(song.image);
   song.image = deletePublicFromPath(song.image);
   return song;
+};
+
+module.exports.getMostPlaySongs = async (startTime, endTime, numberOfSongs) => {
+  try {
+    const songs = await sequelize.query(
+      `SELECT s.id, s.name, s.duration, s."fileURL", s.image, COUNT(*) as playCount 
+       FROM play_history ph 
+       JOIN song s ON ph.song_id = s.id 
+       WHERE ph."playAt" BETWEEN :startTime AND :endTime 
+       GROUP BY s.id 
+       ORDER BY playCount DESC 
+       LIMIT :numberOfSongs`,
+      {
+        replacements: { startTime, endTime, numberOfSongs },
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+    return songs;
+  } catch (error) {
+    throw new Error(`Error fetching most played songs: ${error.message}`);
+  }
 };
