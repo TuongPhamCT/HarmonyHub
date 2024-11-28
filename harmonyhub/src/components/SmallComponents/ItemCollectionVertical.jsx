@@ -8,7 +8,7 @@ export default function ItemCollectionVertical(props) {
             <p className="item-collectionv-title">{props.title} <span className="pink">{props.titleHighlight}</span></p>
             <div id="item-collectionv-list-wrapper">
                 <div id="item-collectionv-container"
-                 style={{gridTemplateColumns: "repeat(auto-fill, minmax(" + (props.columnWidth || "24vh")  + ", 1fr))"}}>
+                 style={{gridTemplateColumns: "repeat(auto-fill, minmax(" + ("calc(" + props.columnWidth + " + 2vh)" || "24vh")  + ", 1fr))"}}>
                     {props.itemList || null}
                 </div>
             </div>
