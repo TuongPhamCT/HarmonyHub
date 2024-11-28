@@ -13,6 +13,7 @@ import ApprovePage from '../Approve/Approve';
 import AddSongPage from '../AddSongPage/AddSong';
 import LibraryPage from '../LibraryPage/LibraryPage';
 import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
+import MostPlayedPage from '../MostPlayedPage/MostPlayedPage';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 
@@ -46,6 +47,7 @@ function MainPage () {
                         <Route path='/addsong' element={<AddSongPage/>} />
                         <Route path='/library/*' element={<LibraryPage/>} />
                         <Route path='/albumdetails' element={<AlbumDetailsPage/>} />
+                        <Route path='/mostplayed/*' element={<MostPlayedPage/>} />
                     </Routes>
                     {/* <sMainController.DevTool name="sMainController"/> */}
                 </div>

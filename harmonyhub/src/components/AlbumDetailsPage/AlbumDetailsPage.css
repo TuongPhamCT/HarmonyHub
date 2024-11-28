@@ -8,23 +8,54 @@
 
 /* Album in4 section */
 #hero_section { 
-    width: calc(100% - 4vh);
-    aspect-ratio: 1.81;
+    width: 100%;
+    
     margin-left: 2vh;
     margin-top: 2vh;
     position: relative;
     color: white;
     max-height: 50vh;
+    background: linear-gradient(to right, #1171e2 60%, #53add6 90%, #8bcbe7 100%);
   }
   
   
   #hero_content {
-    position: absolute;
-    top: 50%;
-    left: 3vw;
-    transform: translateY(-50%);
-    width: 35%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
+
+  .column {
+    flex: 1; /* Mỗi cột chiếm đều 1/3 chiều rộng */
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column; /* Sắp xếp nội dung trong cột theo chiều dọc */
+    justify-content: center; /* Căn giữa nội dung theo chiều dọc */
+    align-items: center; /* Căn giữa nội dung theo chiều ngang */
+    height: 100%;
+    padding: 2vh;
+}
+
+.column img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.middle-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Khoảng cách đều giữa các hàng trong cột giữa */
+  text-align: center;
+  height: 100%; /* Đảm bảo cột giữa chiếm toàn bộ chiều cao */
+}
+
+.middle-column .row {
+  flex: 1; /* Mỗi hàng trong cột giữa chiếm chiều cao bằng nhau */
+  display: flex;
+  justify-content: center; /* Căn giữa nội dung trong hàng */
+  align-items: center;
+}
   
   #hero_section p {
     text-align: justify;

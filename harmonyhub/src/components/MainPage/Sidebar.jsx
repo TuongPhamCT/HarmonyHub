@@ -81,6 +81,9 @@ const Sidebar = () => {
         case '/library':
           nav('/library/song');
           break;
+        case '/mostplayed':
+          nav('/mostplayed/day');
+          break;
         case "sidebar_add_playlist":
           return;
         case "sidebar_logout":

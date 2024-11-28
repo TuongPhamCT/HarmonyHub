@@ -26,16 +26,19 @@ const AlbumDetailsPage = () =>{
     
     <div className='album-details-page'>
         <div id="hero_section">
-            <div id="back_button">
-                <button id="btn_back" >
-                    <img src={back_btn}></img>
-                </button>
-            </div>
             <div id="hero_content">
-                <p className="hero_title">Trending songs <span className="pink">Mix</span></p>
-                <p>tate mcree, nightmares, the neighborhood, doja cat and ...</p>
+                <div className='column'>
+                    <img src={album}></img>
+                </div>
+                <div className='column middle-column'>
+                    <div class="row">Text Row 1</div>
+                    <div class="row">Text Row 2</div>
+                    <div class="row">Text Row 3</div>
+                </div>
+                <div className='column'>
+                    <p className="hero_title">Trending songs <span className="pink">Mix</span></p>
+                </div>
             </div>
-            
         </div>
         <div>
             <MusicCollection musicList={musicCollection} headerGap="10vh"></MusicCollection>
@@ -46,3 +49,6 @@ const AlbumDetailsPage = () =>{
 }
 
 export default AlbumDetailsPage;
+
+{/* <p className="hero_title">Trending songs <span className="pink">Mix</span></p>
+<p>tate mcree, nightmares, the neighborhood, doja cat and ...</p> */}
