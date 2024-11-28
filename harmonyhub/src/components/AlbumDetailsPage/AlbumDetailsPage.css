@@ -1,0 +1,96 @@
+/* AlbumDetailsPage.css */
+.album-details-page {
+    display: inline-block;
+    width: 100%;
+    flex-direction: column;
+    padding-top: 6vh;
+}
+
+/* Album in4 section */
+#hero_section { 
+    width: calc(100% - 4vh);
+    aspect-ratio: 1.81;
+    margin-left: 2vh;
+    margin-top: 2vh;
+    position: relative;
+    color: white;
+    max-height: 50vh;
+  }
+  
+  
+  #hero_content {
+    position: absolute;
+    top: 50%;
+    left: 3vw;
+    transform: translateY(-50%);
+    width: 35%;
+  }
+  
+  #hero_section p {
+    text-align: justify;
+    font-size: 1.0vw;
+  }
+  
+  .hero_title {
+    font-size: 3vw !important;
+    font-weight: bold;
+    padding-bottom: 2vh;
+  }
+  
+  #hero_buttons {
+    display: flex;
+    font-size: 1.0vw;
+    margin-top: 2vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  #back_button {
+    display: flex;
+    font-size: 1.0vw;
+    margin-top: 2vh;
+    width: 100%;
+    justify-content: left;
+    align-items: left;
+  }
+  
+  #btn_discover {
+    font-weight: bold;
+    border-radius: 0.5vh;
+    color: white;
+    background-color: #EE10B0;
+    width: 9vw;
+    height: 3vw;
+    margin-right: 10%;
+  }
+  
+  #btn_create_playlist {
+    font-weight: bold;
+    border-color: #0E9EEF;
+    border-radius: 0.5vh;
+    border-width: 0.2vh;
+    color: #0E9EEF;
+    width: 9vw;
+    height: 3vw;
+  }
+
+  #btn_back {
+    font-weight: bold;
+    border-color: black;
+    border-radius: 0.5vh;
+    border-width: 0.2vh;
+    color: #0E9EEF;
+    width: 2vw;
+    height: 2vw;
+    margin-left: 3vh;
+    margin-top: 2vh;
+ }
+
+ .image-button img {
+    width: 2vw; 
+    height: 2vw;
+  }
+  
+  .image-button:hover {
+    filter: brightness(0.7); /* Màu nền khi hover */
+  }
