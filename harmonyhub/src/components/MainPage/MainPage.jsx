@@ -12,6 +12,10 @@ import { sMainController } from '../../store';
 import ApprovePage from '../Approve/Approve';
 import AddSongPage from '../AddSongPage/AddSong';
 import LibraryPage from '../LibraryPage/LibraryPage';
+import AboutPage from '../contact/about';
+import PolicyPage from '../contact/policy';
+import SocialMediaPage from '../contact/social_media';
+import SupportPage from '../contact/support';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 
@@ -44,6 +48,10 @@ function MainPage () {
                         <Route path='/approve' element={<ApprovePage/>} />
                         <Route path='/addsong' element={<AddSongPage/>} />
                         <Route path='/library/*' element={<LibraryPage/>} />
+                        <Route path='/about_us' element={<AboutPage/>} />
+                        <Route path='/policy' element={<PolicyPage/>} />
+                        <Route path='/social_media' element={<SocialMediaPage/>} />
+                        <Route path='/support' element={<SupportPage/>} />
                     </Routes>
                     {/* <sMainController.DevTool name="sMainController"/> */}
                 </div>
