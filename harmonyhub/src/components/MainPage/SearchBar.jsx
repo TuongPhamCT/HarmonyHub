@@ -12,11 +12,11 @@ import { sMainController, sUser } from "../../store";
 //const ssShowLogin = sHeaderController.slice(n => n.showLogIn);
 const ssShowSignUp = sMainController.slice((n) => n.showSignUp);
 
-const SearchBarGuestMode = ({toggleSignUpFunction}) => {
+const SearchBarGuestMode = ({ toggleSignUpFunction }) => {
   const handleSignUpButton = () => {
     toggleSignUpFunction();
   }
-  
+
   return (
     <div className="searchbar_right">
       <p id="header_signup" className="txt_button" onClick={handleSignUpButton}>
@@ -35,7 +35,7 @@ const SearchBarGuestMode = ({toggleSignUpFunction}) => {
 const SearchBarLoggedMode = () => {
   return (
     <div className="searchbar_right">
-      <img id="header-profile-button" src={header_profile} className="txt_button" alt=""/>
+      <img id="header-profile-button" src={header_profile} className="txt_button" alt="" />
       <h2>Premium</h2>
       <h2>About</h2>
       <h2>Share</h2>
@@ -63,7 +63,7 @@ const SearchBar = () => {
   const handleSidebarIconClick = () => {
     // Call the function passed from the parent to update its state
     sMainController.set((v) => v.value.showSidebar = !v.value.showSidebar);
-  };  
+  };
 
   //function to toggle the back button
   const handleBackIconClick = () => {
@@ -120,7 +120,7 @@ const SearchBar = () => {
         )}
       </sMainController.Wrap>
       <sUser.Wrap>
-        {() => (sUser.value.loggedUser ? <SearchBarLoggedMode/> : <SearchBarGuestMode toggleSignUpFunction={showSignUpModal}/>)}
+        {() => (sUser.value.loggedUser ? <SearchBarLoggedMode /> : <SearchBarGuestMode toggleSignUpFunction={showSignUpModal} />)}
       </sUser.Wrap>
     </div>
   );
