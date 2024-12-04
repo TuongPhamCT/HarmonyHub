@@ -15,7 +15,7 @@ export default function Footer() {
           <tr>
             <td width="35%">
               <p>
-                <span className="header">About</span><br/>
+                <span className="header">About</span><br />
                 Melodies is a website that has been created for over <span className="pink">5 year’s </span>
                 now and it is one of the most famous music player website’s in the world. in this website you can
                 listen and download songs for free. also of you want no limitation you can buy our
@@ -43,7 +43,7 @@ export default function Footer() {
               </ul>
             </td>
             <td width="12%" className="footer_table_top">
-            <h2>Contact</h2>
+              <h2>Contact</h2>
               <hr></hr>
               <ul>
                 <li>About</li>
@@ -54,13 +54,13 @@ export default function Footer() {
             </td>
             <td>
               <div className="footer_centered_div">
-                <img src={logo} id="footer_logo" alt="Logo" style={{marginBottom:'4vh'}}/>
-                  <div className="footer_icon_list">
-                    <img src={icon_facebook} alt="" className="footer_icon_img"></img>
-                    <img src={icon_instagram} alt="" className="footer_icon_img"></img>
-                    <img src={icon_x} alt="" className="footer_icon_img"></img>
-                    <img src={icon_phone} alt="" className="footer_icon_img"></img>
-                  </div>
+                <img src={logo} id="footer_logo" alt="Logo" style={{ marginBottom: '4vh' }} />
+                <div className="footer_icon_list">
+                  <img src={icon_facebook} alt="" className="footer_icon_img"></img>
+                  <img src={icon_instagram} alt="" className="footer_icon_img"></img>
+                  <img src={icon_x} alt="" className="footer_icon_img"></img>
+                  <img src={icon_phone} alt="" className="footer_icon_img"></img>
+                </div>
               </div>
             </td>
           </tr>

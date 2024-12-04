@@ -1,7 +1,7 @@
 import './MusicCollection.css';
 import '../Global.css';
 
-export default function MusicCollection(props) {
+export default function AdminMusicCollection(props) {
     return (
         <div id="music-collection-wrapper">
             <p className="item-collection-title">{props.title} <span className="pink">{props.titleHighlight}</span></p>
@@ -12,16 +12,14 @@ export default function MusicCollection(props) {
                 <div id="music-collection-labels">
                     <div style={{width: "30%"}}></div>
                     <p style={{width: "10%"}}>Release Date</p>
-                    <p style={{width: "38%"}}>Album</p>
-                    {/* Gap */}
-                    <div style={{width: "8%"}}></div>
-                    <p style={{width: "13%"}}>Time</p>
+                    <p style={{width: "37%"}}>Album</p>  
+                    <p style={{width: "11%"}}>Time</p>
+                    <p style={{width: "10%"}}>Actions</p>
                 </div>
             </div>
             <div id="music-collection-container">
                 {props.musicList}
             </div>
-            <p id="music-collection-view-all-button" className="txt_button">✚ View All</p>
         </div>
     )
 }

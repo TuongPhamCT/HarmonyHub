@@ -1,8 +1,9 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../configs/sequelize");
 
-const Album = sequelize.define(
-  "album",
+// Define the
+const PlayHistory = sequelize.define(
+  "play_history",
   {
     // Define model attributes
     id: {
@@ -10,26 +11,27 @@ const Album = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    userId: {
+      type: DataTypes.INTEGER,
     },
-    description: {
-      type: DataTypes.STRING,
+    songId: {
+      type: DataTypes.INTEGER,
     },
-    image: {
-      type: DataTypes.STRING,
+    playTime: {
+      type: DataTypes.INTEGER,
     },
-    releaseDate: {
+    playAt: {
       type: DataTypes.DATE,
     },
-    //artist_id
+    name: {
+      type: DataTypes.STRING,
+    },
   },
   {
     // Other model options
-    timestamps: true, // createdAt and updatedAt fields
+    timestamps: false, // createdAt and updatedAt fields
     freezeTableName: true, // Prevent Sequelize from pluralizing the table name
   }
 );
 
-module.exports = Album;
+module.exports = PlayHistory;

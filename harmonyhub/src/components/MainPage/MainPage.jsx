@@ -12,6 +12,9 @@ import { sMainController } from '../../store';
 import ArtitstsPage from '../ArtistsPage/ArtitstsPage';
 import YourPlaylist from '../YourPlaylistPage/YourPlaylist';
 import PlaylistDetail from '../YourPlaylistPage/PlaylistDetail';
+import ApprovePage from '../Approve/Approve';
+import AddSongPage from '../AddSongPage/AddSong';
+import LibraryPage from '../LibraryPage/LibraryPage';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 
@@ -38,13 +41,15 @@ function MainPage() {
                 </div>
                 <div id="content-area" className="mainpage_content">
                     <Routes>
-                        <Route path='/' element={<HomePage />} />
-                        <Route path='/discover' element={<DiscoverPage />} />
-                        <Route path='/albums' element={<AlbumsPage />} />
+                        <Route path='/' element={<HomePage/>} />
+                        <Route path='/discover' element={<DiscoverPage/>} />
+                        <Route path='/albums' element={<AlbumsPage/>} />
                         <Route path='/artists' element={<ArtitstsPage />} />
                         <Route path='/yourplaylist/:playlistId' element={<PlaylistDetail />} />
                         <Route path='/yourplaylist' element={<YourPlaylist />} >
-                        </Route>
+                        <Route path='/approve' element={<ApprovePage/>} />
+                        <Route path='/addsong' element={<AddSongPage/>} />
+                        <Route path='/library/*' element={<LibraryPage/>} />
                     </Routes>
                     {/* <sMainController.DevTool name="sMainController"/> */}
                 </div>

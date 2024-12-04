@@ -2,8 +2,8 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../configs/sequelize");
 
 // Define the User model
-const User = sequelize.define(
-  "musics",
+const Song = sequelize.define(
+  "song",
   {
     // Define model attributes
     id: {
@@ -11,39 +11,22 @@ const User = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    title: {
+    name: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    artist: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     duration: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     image: {
-        type: DataTypes.STRING,
-        allowNull: true,
+      type: DataTypes.STRING,
     },
     fileURL: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
     },
     lyric: {
-        type: DataTypes.STRING,
-        allowNull: true,
+      type: DataTypes.STRING,
     },
-    genre_id: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'Users', // Table name in the database
-            key: 'id',      // Field in the Users table
-        },
-        onDelete: 'CASCADE'
-    },
-    play_count: {
+    playCount: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
@@ -55,4 +38,4 @@ const User = sequelize.define(
   }
 );
 
-module.exports = Music;
+module.exports = Song;

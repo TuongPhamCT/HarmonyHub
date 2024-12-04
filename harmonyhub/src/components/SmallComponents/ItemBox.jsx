@@ -1,5 +1,6 @@
 // import React from 'react'
 import item_placeholder from '../../assets/img/placeholder_disc.png';
+import { sComponents } from './componentStore';
 import './ItemBox.css';
 
 export default function ItemBox(props) {
@@ -33,8 +34,8 @@ export default function ItemBox(props) {
 export const ArtistBox = (props) => {
     return (
         <ItemBox
-            imageWidth="24vh"
-            imageHeight="24vh"
+            imageWidth={sComponents.value.artistBoxWidth}
+            imageHeight={sComponents.value.artistBoxHeight}
             title={props.title}
             titleAlign="center"
             roundImage={true}
@@ -45,8 +46,8 @@ export const ArtistBox = (props) => {
 export const MusicBox = (props) => {
     return (
         <ItemBox
-            imageWidth="24vh"
-            imageHeight="24vh"
+            imageWidth={sComponents.value.musicBoxWidth}
+            imageHeight={sComponents.value.mvBoxHeight}
             title={props.title}
             subtitle={props.subtitle}
         />
@@ -56,8 +57,8 @@ export const MusicBox = (props) => {
 export const AlbumBox = (props) => {
     return (
         <ItemBox
-            imageWidth="24vh"
-            imageHeight="24vh"
+            imageWidth={sComponents.value.albumBoxWidth}
+            imageHeight={sComponents.value.albumBoxHeight}
             title={props.title}
             subtitle={props.subtitle}
         />
@@ -67,8 +68,8 @@ export const AlbumBox = (props) => {
 export const PlaylistBox = (props) => {
     return (
         <ItemBox
-            imageWidth="24vh"
-            imageHeight="24vh"
+            imageWidth={sComponents.value.playlistBoxWidth}
+            imageHeight={sComponents.value.playlistBoxHeight}
             title={props.title}
         />
     );   
@@ -77,8 +78,8 @@ export const PlaylistBox = (props) => {
 export const MvBox = (props) => {
     return (
         <ItemBox
-            imageWidth="42vh"
-            imageHeight="24vh"
+            imageWidth={sComponents.value.mvBoxWidth}
+            imageHeight={sComponents.value.mvBoxHeight}
             title={props.title}
             subtitle={props.subtitle}
             view={props.view}
@@ -89,8 +90,8 @@ export const MvBox = (props) => {
 export const GenreBox = (props) => {
     return (
         <ItemBox
-            imageWidth="34vh"
-            imageHeight="24vh"
+            imageWidth={sComponents.value.genreBoxWidth}
+            imageHeight={sComponents.value.mvBoxHeight}
             imageTitle={props.title}
         />
     );
