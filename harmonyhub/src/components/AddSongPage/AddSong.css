@@ -1,0 +1,123 @@
+.addsongpage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.gradient-label {
+  font-size: 40px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #EE10B0, #0E9EEF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 20px 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.image-upload {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-box,
+.audio-box {
+  border: 2px dashed #333;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.image-box {
+  width: 18vw;
+  height: 18vw;
+}
+
+.audio-box {
+  width: 30vw;
+  height: 8vh;
+}
+
+.image-box:hover{
+  background-color: rgba(27, 140, 155, 0.1);
+}
+.audio-box:hover {
+  background-color: rgba(193, 36, 135, 0.1);
+}
+
+
+
+.info-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  width: 60%;
+}
+
+.info-fields input,
+.info-fields textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  color: black;
+  background-color: rgb(213, 227, 235);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Thêm hiệu ứng chuyển đổi mượt */
+}
+
+.info-fields input:focus,
+.info-fields textarea:focus {
+  outline: none;
+  border: 3px solid #3c51db; /* Viền màu hồng nổi bật */
+  box-shadow: 0 0 5px rgba(238, 16, 176, 0.5); /* Hiệu ứng đổ bóng */
+}
+
+.info-fields input::placeholder,
+.info-fields textarea::placeholder {
+  color: rgb(93, 16, 75);
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 300;
+  opacity: 0.8;
+}
+
+.info-fields textarea {
+  resize: none;
+  overflow: hidden;
+}
+
+.upload-button {
+  background-color: #EE10B0;
+  color: white;
+  padding: 1.2vh 12vw;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+  background-color: #9e0a99;
+}

@@ -1,0 +1,69 @@
+.contactpage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.gradient-label {
+    font-size: 40px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #EE10B0, #0E9EEF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 20px 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding-left: 6%;
+    padding-right: 6%;
+}
+
+.content h2 {
+    width: 100%;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: left !important;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.content li {
+    margin-left: 2%;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.paragraph {
+    font-size: 18px;
+    font-weight: 400;
+    text-align: justify;
+    line-height: 2;
+    text-indent: 3em;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.name {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: justify;
+    line-height: 1.5;
+    text-indent: 3em;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.detail {
+    font-size: 18px;
+    font-weight: 400;
+    text-align: justify;
+    line-height: 1.5;
+    font-family: 'Libre Baskerville', serif;
+}
