@@ -16,14 +16,14 @@ export default function Footer() {
             <td width="35%">
               <p>
                 <span className="header">About</span><br />
-                Melodies is a website that has been created for over <span className="pink">5 year’s </span>
+                Harmony Hub is a website that has been created for over <span className="pink">5 year’s </span>
                 now and it is one of the most famous music player website’s in the world. in this website you can
                 listen and download songs for free. also of you want no limitation you can buy our
                 <span className="blue"> premium pass’s.</span>
               </p>
             </td>
             <td width="12%" className="footer_table_top">
-              <h2>Melodies</h2>
+              <h2>HarmonyHub</h2>
               <hr></hr>
               <ul>
                 <li>Songs</li>
@@ -35,31 +35,31 @@ export default function Footer() {
               <h2>Access</h2>
               <hr></hr>
               <ul>
-                <li>Explore</li>
-                <li>Artists</li>
-                <li>Playlists</li>
-                <li>Albums</li>
-                <li>Trending</li>
+                <li><a href="/discover">Explore</a></li>
+                <li><a href="">Artists</a></li>
+                <li><a href="">Playlists</a></li>
+                <li><a href="/albums">Albums</a></li>
+                <li><a href="">Trending</a></li>
               </ul>
             </td>
             <td width="12%" className="footer_table_top">
               <h2>Contact</h2>
               <hr></hr>
               <ul>
-                <li>About</li>
-                <li>Policy</li>
-                <li>Social Media</li>
-                <li>Support</li>
+                <li><a href="/about_us">About Us</a></li>
+                <li><a href="/policy">Policy</a></li>
+                <li><a href="/social_media">Social Media</a></li>
+                <li><a href="/support">Support</a></li>
               </ul>
             </td>
             <td>
               <div className="footer_centered_div">
                 <img src={logo} id="footer_logo" alt="Logo" style={{ marginBottom: '4vh' }} />
                 <div className="footer_icon_list">
-                  <img src={icon_facebook} alt="" className="footer_icon_img"></img>
-                  <img src={icon_instagram} alt="" className="footer_icon_img"></img>
-                  <img src={icon_x} alt="" className="footer_icon_img"></img>
-                  <img src={icon_phone} alt="" className="footer_icon_img"></img>
+                  <a href="https://www.facebook.com/"><img src={icon_facebook} alt="" className="footer_icon_img"></img></a>
+                  <a href="https://www.instagram.com/"><img src={icon_instagram} alt="" className="footer_icon_img"></img></a>
+                  <a href="https://x.com/home"><img src={icon_x} alt="" className="footer_icon_img"></img></a>
+                  <a href="https://www.whatsapp.com/"><img src={icon_phone} alt="" className="footer_icon_img"></img></a>
                 </div>
               </div>
             </td>
