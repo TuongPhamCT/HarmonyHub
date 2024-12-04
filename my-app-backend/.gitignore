@@ -25,3 +25,7 @@ yarn-error.log*
 
 # Ignore all .mp3 files
 *.mp3
+
+#songs and images
+/public/songs
+/public/song_images

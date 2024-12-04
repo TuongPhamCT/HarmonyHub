@@ -11,9 +11,6 @@ const PlayHistory = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    playTime: {
-      type: DataTypes.INTEGER,
-    },
     playAt: {
       type: DataTypes.DATE,
     },

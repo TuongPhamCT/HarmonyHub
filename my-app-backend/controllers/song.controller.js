@@ -11,11 +11,12 @@ module.exports.createSong = async (req, res) => {
   let artist = req.body.artist;
   let songFile = req.files.file ? req.files.file[0] : null;
   let songImage = req.files.image ? req.files.image[0] : null;
+  let userId = req.userId;
   console.log(songFile);
   console.log(songImage);
 
   try {
-    await songService.createSong(songName, artist, songFile, songImage);
+    await songService.createSong(songName, artist, songFile, songImage, userId);
     res.status(201).json({ message: "Song created successfully" });
   } catch (error) {
     res.status(400).json({ message: "data incorect format", error });
@@ -32,6 +33,8 @@ module.exports.getSongById = async (req, res) => {
 module.exports.playSongById = async (req, res) => {
   let songId = req.params.id;
   let song = await songService.getSongById(songId);
+
+  await songService.addPlayHistory(songId, req.userId, new Date());
 
   const CHUNK_SIZE = 10 ** 6 / 2;
 
@@ -71,5 +74,48 @@ module.exports.getMostPlaySongs = async (req, res) => {
     res
       .status(400)
       .json({ message: "Error fetching most played songs", error });
+  }
+};
+
+module.exports.deleteSongById = async (req, res) => {
+  let songId = req.params.id;
+  try {
+    let song = await songService.getSongById(songId);
+    if (song.post_user_id !== req.userId) {
+      return res
+        .status(403)
+        .json({ message: "You don't have permission to delete this song" });
+    } else {
+      await songService.deleteSong(song);
+      res.status(200).json({ message: "Song deleted successfully" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting song", error });
+  }
+};
+
+module.exports.updateSongById = async (req, res) => {
+  const songId = req.params.id;
+  const { name, artist } = req.body;
+  const songImage = req.files.image ? req.files.image[0] : null;
+
+  let song = await songService.getSongById(songId);
+  if (song.post_user_id !== req.userId) {
+    return res
+      .status(403)
+      .json({ message: "You don't have permission to update this song" });
+  }
+
+  try {
+    await songService.updateSongById(songId, {
+      name,
+      artist,
+      image: songImage ? songImage.path : undefined,
+    });
+    res.status(200).json("Song updated successfully");
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error updating song", error: error.message });
   }
 };

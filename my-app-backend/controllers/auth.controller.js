@@ -141,7 +141,7 @@ module.exports.login = async (req, res) => {
       data: { email },
     },
     process.env.JWT_SECRET,
-    { expiresIn: "10m" }
+    { expiresIn: "12h" }
   );
 
   res.status(200).send({

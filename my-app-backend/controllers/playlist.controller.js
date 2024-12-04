@@ -40,3 +40,50 @@ module.exports.createPlaylist = async (req, res) => {
       .json({ message: "Error creating playlist", error: error.message });
   }
 };
+
+module.exports.deletePlaylistById = async (req, res) => {
+  let playlistId = req.params.id;
+  let userId = req.userId;
+  try {
+    await playlistService.deletePlaylistById(playlistId, userId);
+    res
+      .status(201)
+      .json({ message: "Delete playlist successfully", playlistId });
+  } catch (error) {
+    res.status(error.status || 500).json({ message: error.message });
+  }
+};
+
+module.exports.addSongToPlaylist = async (req, res) => {
+  const playlistId = req.params.id;
+  const { songId } = req.body;
+  const userId = req.userId;
+  try {
+    const result = await playlistService.addSongToPlaylist(
+      playlistId,
+      songId,
+      userId
+    );
+    res.status(200).json(result);
+  } catch (error) {
+    res
+      .status(error.status || 500)
+      .json({ message: "Error adding song to playlist", error: error });
+  }
+};
+
+module.exports.removeSongFromPlaylist = async (req, res) => {
+  const playlistId = req.params.id;
+  const { songId } = req.body;
+  userId = req.userId;
+  try {
+    await playlistService.removeSongFromPlaylist(playlistId, songId, userId);
+    res
+      .status(200)
+      .json({ message: "Song removed from playlist successfully" });
+  } catch (error) {
+    res
+      .status(error.status || 500)
+      .json({ message: "Error removing song from playlist", error: error });
+  }
+};
