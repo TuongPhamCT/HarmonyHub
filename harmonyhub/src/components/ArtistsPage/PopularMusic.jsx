@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Image1 from '../../assets/img/popular_song_image1.png'
-import Image2 from '../../assets/img/popular_song_image2.png'
-import Image3 from '../../assets/img/popular_song_image3.png'
-import Image4 from '../../assets/img/popular_song_image4.png'
-import Image5 from '../../assets/img/popular_song_image5.png'
-import FavoriteButton from './FavoriteButton';
+import React, { useState } from 'react';
+import Image1 from '../../assets/img/popular_song_image1.png';
+import Image2 from '../../assets/img/popular_song_image2.png';
+import Image3 from '../../assets/img/popular_song_image3.png';
+import Image4 from '../../assets/img/popular_song_image4.png';
+import Image5 from '../../assets/img/popular_song_image5.png';
 import EditButton from './EditButton';
+import FavoriteButton from './FavoriteButton';
 
-function PopularMusic(props) {
+function PopularMusic() {
     const allSongs = [
         { "ID": 1, "Image": Image1, "Name": "Benzethonium Chloride", "Realease Date": "12/20/2012", "isFavorite": true, "Played": 8755698, "Time": "2:02" },
         { "ID": 2, "Image": Image2, "Name": "Calcium Acetate", "Realease Date": "7/22/2010", "isFavorite": false, "Played": 30993449, "Time": "2:00" },

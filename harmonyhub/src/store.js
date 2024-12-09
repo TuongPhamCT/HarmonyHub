@@ -6,7 +6,8 @@ export const sUser = signify ({
 
 export const sMainController = signify ({
     showHeaderBackButton: false,
+    showHeaderSearchBar: true,
     showSignUp: false,
-    showLogIn: false,
+    showSignIn: false,
     showSidebar: true
 });

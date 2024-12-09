@@ -7,6 +7,8 @@ import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { ToggleButton } from '../SmallComponents/ToggleButton';
 import { TextButton } from '../SmallComponents/TextButton';
 import { sComponents } from '../SmallComponents/componentStore';
+import { useEffect } from 'react';
+import { sMainController } from '../../store';
 // import { useEffect } from 'react';
 
 const demoList = [
@@ -23,9 +25,12 @@ export default function LibraryPage() {
     const nav = useNavigate();
     const location = useLocation();
 
-    // useEffect(() => {
-
-    // },[location]);
+    useEffect(() => {
+        sMainController.set((v) => {
+            v.value.showHeaderBackButton = false;
+            v.value.showHeaderSearchBar = true;
+        });
+    },[]);
 
     const handleTabClick = (path) => {
         switch (path) {

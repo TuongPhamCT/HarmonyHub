@@ -10,7 +10,7 @@ export default function ItemBox(props) {
     };
 
     return (
-        <div id="itembox-container">
+        <div id="itembox-container" onClick={props.onClick}>
             <div id="itembox-image-container"
                  style={{width: props.imageWidth, height: props.imageHeight}}
                  className={props.roundImage ? "round" : "square"}>
@@ -39,6 +39,7 @@ export const ArtistBox = (props) => {
             title={props.title}
             titleAlign="center"
             roundImage={true}
+            onClick={props.onClick}
         />
     );
 }
@@ -50,6 +51,7 @@ export const MusicBox = (props) => {
             imageHeight={sComponents.value.mvBoxHeight}
             title={props.title}
             subtitle={props.subtitle}
+            onClick={props.onClick}
         />
     );
 }
@@ -61,6 +63,7 @@ export const AlbumBox = (props) => {
             imageHeight={sComponents.value.albumBoxHeight}
             title={props.title}
             subtitle={props.subtitle}
+            onClick={props.onClick}
         />
     );
 }
@@ -71,6 +74,7 @@ export const PlaylistBox = (props) => {
             imageWidth={sComponents.value.playlistBoxWidth}
             imageHeight={sComponents.value.playlistBoxHeight}
             title={props.title}
+            onClick={props.onClick}
         />
     );   
 }
@@ -83,6 +87,7 @@ export const MvBox = (props) => {
             title={props.title}
             subtitle={props.subtitle}
             view={props.view}
+            onClick={props.onClick}
         />
     );
 }
@@ -93,6 +98,7 @@ export const GenreBox = (props) => {
             imageWidth={sComponents.value.genreBoxWidth}
             imageHeight={sComponents.value.mvBoxHeight}
             imageTitle={props.title}
+            onClick={props.onClick}
         />
     );
 }
