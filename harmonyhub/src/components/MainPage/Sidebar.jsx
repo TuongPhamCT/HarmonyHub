@@ -30,7 +30,7 @@ const sidebar_items = [
   {itemName: "Most Played", img: icon_most_played, imgClass: "icon_content"},
   {itemName: "Playlist and favorite", class: "sidebar_header"},
   {itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content"},
-  { itemName: "YourPlaylist", img: icon_your_playlist, imgClass: "icon_content", id: '/yourplaylist' },
+  {itemName: "Your Playlist", img: icon_your_playlist, imgClass: "icon_content", id: '/yourplaylist' },
   {itemName: "Add playlist", img: icon_add_playlist, id:"sidebar_add_playlist", imgClass: "icon_content"},
   {itemName: "Admin", class: "sidebar_header"},
   {itemName: "Approve", img: new_song, imgClass: "icon_content", id:'/approve'},
@@ -56,17 +56,16 @@ const Sidebar = () => {
         } else {
           item.classList.remove('active')
         }
-      } else {
-        item.classList.remove('active')
       }
-    }); // Remove "active" class from all items
+    ); // Remove "active" class from all items
   }, [location]);
 
   const handleClick = (e) => {
     if (e.target.tagName !== 'LI' || e.target.classList.contains('sidebar_header')) {
       return;
     }
-    switch (e.target.id) {
+
+    switch (e.target.id){
       case '/':
         nav('/');
         break;
@@ -76,45 +75,29 @@ const Sidebar = () => {
       case '/albums':
         nav('/albums');
         break;
-
-      case "sidebar_add_playlist":
-        return;
-      switch (e.target.id){
-        case '/':
-          nav('/');
-          break;
-        case '/discover':
-          nav('/discover');
-          break;
-        case '/albums':
-          nav('/albums');
-          break;
-                case '/artists':
+      case '/artists':
         nav('/artists');
         break;
       case '/yourplaylist':
         nav('/yourplaylist');
         break;
-        case '/approve':
-          nav('/approve');
-          break;
-        case '/addsong':
-          nav('/addsong');
-          break;
-        case '/library':
-          nav('/library/song');
-          break;
-        case "sidebar_add_playlist":
-          return;
-        case "sidebar_logout":
-          return;
-        default:
-          return;
-      }
-      // const items = menuRef.current.querySelectorAll('li');
-      // items.forEach((item) => item.classList.remove('active')); // Remove "active" class from all items
-      // e.target.classList.add('active'); // Add "active" class to the clicked item
-    };
+      case '/approve':
+        nav('/approve');
+        break;
+      case '/addsong':
+        nav('/addsong');
+        break;
+      case '/library':
+        nav('/library/song');
+        break;
+      case "sidebar_add_playlist":
+        return;
+      case "sidebar_logout":
+        return;
+      default:
+        return;
+    } 
+  };
 
   // Sidebar toggle button
 
