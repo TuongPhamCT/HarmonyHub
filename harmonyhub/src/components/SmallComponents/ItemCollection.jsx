@@ -12,7 +12,7 @@ export default function ItemCollection(props) {
                     {props.itemList || null}
                 </div>
                 <div id="item-collection-view-all-wrapper">
-                    <img id="item-collection-view-all-icon" alt="" src={view_all}></img>
+                    <img id="item-collection-view-all-icon" alt="" src={view_all} onClick={props.onViewAll}></img>
                     <p id="item-collection-view-all-txt">View All</p>
                 </div>
             </div>
@@ -29,7 +29,7 @@ export const MvCollection = (props) => {
                     {props.itemList || null}
                 </div>
                 <div id="item-collection-view-all-wrapper">
-                    <img id="item-collection-view-all-icon" alt="" src={view_all}></img>
+                    <img id="item-collection-view-all-icon" alt="" src={view_all} onClick={props.onViewAll}></img>
                     <p id="item-collection-view-all-txt">View All</p>
                 </div>
             </div>

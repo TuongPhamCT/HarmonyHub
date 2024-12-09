@@ -6,6 +6,7 @@ import HomePage from '../HomePage/HomePage';
 import SearchBar from './SearchBar';
 import goUpButton from '../../assets/img/component_up.png';
 import AlbumsPage from '../AlbumsPage/AlbumsPage';
+import AllAlbumsPage from '../AlbumsPage/AllAlbumsPage';
 import {Routes, Route} from "react-router-dom";
 import DiscoverPage from '../DiscoverPage/DiscoverPage';
 import { sMainController } from '../../store';
@@ -41,6 +42,7 @@ function MainPage () {
                         <Route path='/' element={<HomePage/>} />
                         <Route path='/discover' element={<DiscoverPage/>} />
                         <Route path='/albums' element={<AlbumsPage/>} />
+                        <Route path='/albums/:view' element={<AllAlbumsPage/>} />
                         <Route path='/approve' element={<ApprovePage/>} />
                         <Route path='/addsong' element={<AddSongPage/>} />
                         <Route path='/library/*' element={<LibraryPage/>} />

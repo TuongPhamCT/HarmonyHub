@@ -78,6 +78,7 @@ const Sidebar = () => {
           break;
         case '/addsong':
           nav('/addsong');
+          break;
         case '/library':
           nav('/library/song');
           break;
@@ -96,7 +97,7 @@ const Sidebar = () => {
     // Sidebar toggle button
 
     const handleSidebarIconClick = () => {
-      sMainController.set({showSidebar: !sMainController.value.showSidebar});
+      sMainController.set((v) => v.value.showSidebar = !v.value.showSidebar);
   };
 
     return (

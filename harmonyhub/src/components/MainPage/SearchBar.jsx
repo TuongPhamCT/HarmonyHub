@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import SignUp from "../SignUp/SignUp";
 import "./SearchBar.css";
 import "../../components/Global.css";
@@ -8,21 +8,27 @@ import sidebar_icon from "../../assets/img/sidebar_menu_icon.png";
 import header_profile from "../../assets/img/header_profile.png";
 import back_icon from "../../assets/img/header_back.png";
 import { sMainController, sUser } from "../../store";
+import SignIn from "../SignIn/SignIn";
+import { useLocation, useNavigate } from "react-router";
 
-//const ssShowLogin = sHeaderController.slice(n => n.showLogIn);
+const ssShowSignIn = sMainController.slice(n => n.showSignIn);
 const ssShowSignUp = sMainController.slice((n) => n.showSignUp);
 
-const SearchBarGuestMode = ({toggleSignUpFunction}) => {
+const SearchBarGuestMode = ({ toggleSignUpFunction, toggleSignInFunction }) => {
   const handleSignUpButton = () => {
     toggleSignUpFunction();
   }
-  
+
+  const handleSignInButton = () => {
+    toggleSignInFunction();
+  }
+
   return (
     <div className="searchbar_right">
       <p id="header_signup" className="txt_button" onClick={handleSignUpButton}>
         Sign Up
       </p>
-      <p id="header_login" className="txt_button">
+      <p id="header_login" className="txt_button" onClick={handleSignInButton}>
         Login
       </p>
       <h2>Premium</h2>
@@ -35,7 +41,7 @@ const SearchBarGuestMode = ({toggleSignUpFunction}) => {
 const SearchBarLoggedMode = () => {
   return (
     <div className="searchbar_right">
-      <img id="header-profile-button" src={header_profile} className="txt_button" alt=""/>
+      <img id="header-profile-button" src={header_profile} className="txt_button" alt="" />
       <h2>Premium</h2>
       <h2>About</h2>
       <h2>Share</h2>
@@ -44,13 +50,39 @@ const SearchBarLoggedMode = () => {
 }
 
 const SearchBar = () => {
-  //ref for the signup modal
+  const nav = useNavigate();
+  //ref for the signUp & signIn modal
   const signUpRef = useRef();
+  const signInRef = useRef();
+  const location = useLocation();
+
+  useEffect(() => {
+    const segments = location.pathname.split('/').filter(segment => segment !== '');
+    const pathLength = segments.length;
+
+    if (pathLength <= 1) {
+      sMainController.set((v) => {
+        v.value.showHeaderBackButton = false;
+        v.value.showHeaderSearchBar = true;
+      });
+    } else {
+      sMainController.set((v) => {
+        v.value.showHeaderBackButton = true;
+        v.value.showHeaderSearchBar = true;
+      });
+    }
+  }, [location]);
 
   //function to show the modal
   const showSignUpModal = () => {
     signUpRef.current.showModal();
     sMainController.set((v) => v.value.showSignUp = true);
+  };
+
+  //function to show the modal
+  const showSignInModal = () => {
+    signInRef.current.showModal();
+    sMainController.set((v) => v.value.showSignIn = true);
   };
 
   //function to hide the modal
@@ -59,16 +91,23 @@ const SearchBar = () => {
     sMainController.set((v) => v.value.showSignUp = false);
   };
 
+  //function to hide the modal
+  const hideSignInModal = () => {
+    signInRef.current.close();
+    sMainController.set((v) => v.value.showSignIn = false);
+  };
+
   //function to toggle the sidebar
   const handleSidebarIconClick = () => {
     // Call the function passed from the parent to update its state
     sMainController.set((v) => v.value.showSidebar = !v.value.showSidebar);
-  };  
+  };
 
   //function to toggle the back button
   const handleBackIconClick = () => {
     // Call the function passed from the parent to update its state
-    sMainController.set((v) => v.value.showHeaderBackButton = !v.value.showHeaderBackButton);
+    //sMainController.set((v) => v.value.showHeaderBackButton = !v.value.showHeaderBackButton);
+    nav(-1);
   };
 
 
@@ -83,6 +122,15 @@ const SearchBar = () => {
           />
         )}
       </ssShowSignUp.Wrap>
+      <ssShowSignIn.Wrap>
+        {(signInToggle) => (
+          <SignIn
+            ref={signInRef}
+            handleClose={hideSignInModal}
+            isVisible={signInToggle}
+          />
+        )}
+      </ssShowSignIn.Wrap>
       <sMainController.Wrap>
         {(controller) => (
           <div className="searchbar_left_wrapper">
@@ -102,7 +150,7 @@ const SearchBar = () => {
               style={{ display: controller.showHeaderBackButton ? "flex" : "none" }}
               onClick={handleBackIconClick}
             ></img>
-            <div className="searchbar_left" style={{ display: !controller.showHeaderBackButton ? "flex" : "none" }}>
+            <div className="searchbar_left" style={{ display: controller.showHeaderSearchBar ? "flex" : "none" }}>
               <img id="searchbox_background" src={searchbox} alt=""></img>
               <img
                 id="searchbox_button"
@@ -120,7 +168,11 @@ const SearchBar = () => {
         )}
       </sMainController.Wrap>
       <sUser.Wrap>
-        {() => (sUser.value.loggedUser ? <SearchBarLoggedMode/> : <SearchBarGuestMode toggleSignUpFunction={showSignUpModal}/>)}
+        {() => (
+          sUser.value.loggedUser ?
+            <SearchBarLoggedMode />
+            :
+            <SearchBarGuestMode toggleSignUpFunction={showSignUpModal} toggleSignInFunction={showSignInModal} />)}
       </sUser.Wrap>
     </div>
   );
