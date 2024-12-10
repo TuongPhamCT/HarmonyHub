@@ -35,9 +35,7 @@ module.exports.createPlaylist = async (req, res) => {
     );
     res.status(201).json({ message: "Create playlist successfully", playlist });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error creating playlist", error: error.message });
+    res.status(error.status || 500).json({ message: error.message });
   }
 };
 
@@ -47,7 +45,7 @@ module.exports.deletePlaylistById = async (req, res) => {
   try {
     await playlistService.deletePlaylistById(playlistId, userId);
     res
-      .status(201)
+      .status(200)
       .json({ message: "Delete playlist successfully", playlistId });
   } catch (error) {
     res.status(error.status || 500).json({ message: error.message });
@@ -82,8 +80,6 @@ module.exports.removeSongFromPlaylist = async (req, res) => {
       .status(200)
       .json({ message: "Song removed from playlist successfully" });
   } catch (error) {
-    res
-      .status(error.status || 500)
-      .json({ message: "Error removing song from playlist", error: error });
+    res.status(error.status || 500).json({ message: error.message });
   }
 };
