@@ -36,10 +36,10 @@ export default function Footer() {
               <hr></hr>
               <ul>
                 <li><a href="/discover">Explore</a></li>
-                <li><a href="">Artists</a></li>
-                <li><a href="">Playlists</a></li>
+                <li><a href="/artists">Artists</a></li>
+                <li><a href="/yourplaylist">Playlists</a></li>
                 <li><a href="/albums">Albums</a></li>
-                <li><a href="">Trending</a></li>
+                <li><a href="/">Trending</a></li>
               </ul>
             </td>
             <td width="12%" className="footer_table_top">
