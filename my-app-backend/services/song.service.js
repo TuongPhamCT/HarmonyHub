@@ -8,17 +8,15 @@ const { getAudioDurationInSeconds } = require("get-audio-duration");
 
 module.exports.createSong = async (
   songName,
-  artist,
+  artistId,
   songFile,
   songImage,
-  userId,
-  artistId
+  userId
 ) => {
   let durationInSeconds = await getAudioDurationInSeconds(songFile.path);
   let duration = Math.floor(durationInSeconds); // Cast float to int
   return Song.create({
     name: songName,
-    artist: artist,
     duration: duration,
     fileURL: songFile.path,
     image: songImage.path,

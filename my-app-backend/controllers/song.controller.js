@@ -8,7 +8,7 @@ const createReadStream = fs.createReadStream;
 module.exports.createSong = async (req, res) => {
   console.log(req.body);
   let songName = req.body.name;
-  let artist = req.body.artist;
+  let artistId = req.body.artistId;
   let songFile = req.files.file ? req.files.file[0] : null;
   let songImage = req.files.image ? req.files.image[0] : null;
   let userId = req.userId;
@@ -16,7 +16,13 @@ module.exports.createSong = async (req, res) => {
   console.log(songImage);
 
   try {
-    await songService.createSong(songName, artist, songFile, songImage, userId);
+    await songService.createSong(
+      songName,
+      artistId,
+      songFile,
+      songImage,
+      userId
+    );
     res.status(201).json({ message: "Song created successfully" });
   } catch (error) {
     res.status(400).json({ message: "data incorect format", error });
