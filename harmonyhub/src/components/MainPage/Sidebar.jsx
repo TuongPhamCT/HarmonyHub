@@ -88,7 +88,7 @@ const Sidebar = () => {
         nav('/addsong');
         break;
       case '/library':
-        nav('/library/song');
+        nav('/library');
         break;
       case "sidebar_add_playlist":
         return;

@@ -20,10 +20,13 @@ import AboutPage from '../contact/about';
 import PolicyPage from '../contact/policy';
 import SocialMediaPage from '../contact/social_media';
 import SupportPage from '../contact/support';
+import SearchResultsPage from '../SearchResultsPage/SearchResultsPage';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 
 function MainPage() {
+
+
 
     const handleGoUp = () => {
         const component = document.getElementById("content-area");
@@ -55,11 +58,12 @@ function MainPage() {
                         <Route path='/yourplaylist' element={<YourPlaylist />} />
                         <Route path='/approve' element={<ApprovePage/>} />
                         <Route path='/addsong' element={<AddSongPage/>} />
-                        <Route path='/library/*' element={<LibraryPage/>} />
+                        <Route path='/library' element={<LibraryPage/>} />
                         <Route path='/about_us' element={<AboutPage/>} />
                         <Route path='/policy' element={<PolicyPage/>} />
                         <Route path='/social_media' element={<SocialMediaPage/>} />
                         <Route path='/support' element={<SupportPage/>} />
+                        <Route path='/search' element={<SearchResultsPage/>} />
                     </Routes>
                     {/* <sMainController.DevTool name="sMainController"/> */}
                 </div>
