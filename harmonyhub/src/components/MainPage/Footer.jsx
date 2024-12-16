@@ -9,7 +9,7 @@ import icon_phone from '../../assets/img/footer_icon_phone.png';
 export default function Footer() {
   return (
     <div className="footer_container">
-      <img src={footer_background} alt="" width="100%"></img>
+      <img src={footer_background} alt="" width="100%" id="img_footer"></img>
       <table border="0" cellPadding="10" cellSpacing="10" id="footer_table">
         <tbody>
           <tr>

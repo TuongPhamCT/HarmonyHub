@@ -36,7 +36,7 @@ const sidebar_items = [
   {itemName: "Approve", img: new_song, imgClass: "icon_content", id:'/approve'},
   {itemName: "Add Song", img: add_song, imgClass: "icon_content", id:'/addsong'},
   {itemName: "General", class: "sidebar_header"},
-  {itemName: "Settings", img: icon_settings, imgClass: "icon_content"},
+  {itemName: "Settings", img: icon_settings, imgClass: "icon_content", id:'/settings'},
   {itemName: "Logout", img: icon_logout, id:"sidebar_logout", imgClass: "icon_content"},
 ]
 
@@ -95,6 +95,9 @@ const Sidebar = () => {
           break;
       case "sidebar_add_playlist":
         return;
+      case '/settings':
+        nav('/albumdetails');
+        break;
       case "sidebar_logout":
         return;
       default:

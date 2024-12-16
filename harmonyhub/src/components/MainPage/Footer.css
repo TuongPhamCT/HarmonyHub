@@ -14,11 +14,16 @@
     vertical-align: middle;
     height: 100%;
     justify-content: space-between;
+    background-color: #181818;
 }
 
 .footer_container h2 {
     font-size: 3vh;
     font-weight: bold;
+}
+
+#img_footer {
+    background-color: transparent;
 }
 
 .footer_container p {
