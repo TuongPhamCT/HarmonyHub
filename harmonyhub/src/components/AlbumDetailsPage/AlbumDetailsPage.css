@@ -1,127 +1,97 @@
-/* AlbumDetailsPage.css */
 .album-details-page {
-    display: inline-block;
-    width: 100%;
-    flex-direction: column;
-    padding-top: 6vh;
+  display: inline-block;
+  width: 100%;
+  flex-direction: column;
+  background: linear-gradient(90deg, #085F8F, #053754);
 }
 
-/* Album in4 section */
-#hero_section { 
-    width: 100%;
-    
-    margin-left: 2vh;
-    margin-top: 2vh;
-    position: relative;
-    color: white;
-    max-height: 50vh;
-    background: linear-gradient(to right, #1171e2 60%, #53add6 90%, #8bcbe7 100%);
-  }
+#app_bar {
+  width: 98%;
+  margin-left: 2vh;
+  margin-top: 6%;
+  padding-top: 3vh;
+  padding-bottom: 5vh;
+  position: relative;
+  background: linear-gradient(90deg, #0E9EEF, #0B77B3);
+  border-radius: 1.5vh;
+  flex-direction: row;
+}
+
+#app_bar_content {
+  flex-direction: row;
+  display: flex;
+  margin-top: 5%;
+  margin-left: 2%;
   
-  
-  #hero_content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .column {
-    flex: 1; /* Mỗi cột chiếm đều 1/3 chiều rộng */
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column; /* Sắp xếp nội dung trong cột theo chiều dọc */
-    justify-content: center; /* Căn giữa nội dung theo chiều dọc */
-    align-items: center; /* Căn giữa nội dung theo chiều ngang */
-    height: 100%;
-    padding: 2vh;
 }
 
-.column img {
-  max-width: 100%;
-  height: auto;
+#album_img {
+  width: 20%;
+  height: 20%;
+  margin-right: 2vh;
+  border-radius: 1vh;
+  box-shadow: 7px 9px 4px rgba(0, 0, 0, 0.35);
 }
 
-
-.middle-column {
+.album-text {
+  height: 20%;
+  width: 55%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Khoảng cách đều giữa các hàng trong cột giữa */
-  text-align: center;
-  height: 100%; /* Đảm bảo cột giữa chiếm toàn bộ chiều cao */
+  margin-left: 2vh;
+  padding: 2vh 0vh;
+  justify-content: space-between;
 }
 
-.middle-column .row {
-  flex: 1; /* Mỗi hàng trong cột giữa chiếm chiều cao bằng nhau */
+.album-text h3 {
+  font-size: 2.5vh;
+  font-weight: bold;
+  color: white;
+}
+
+.album-title {
+  font-weight: bold;
+  font-size: 6.0vh;
+}
+
+.pinkpro {
+  font-size: 10vh;
+  color: #EE10B0;
+  margin-left: 10%;
+}
+
+.album-desscription {
+  width: 30vw;
+}
+
+.album-action {
+  width: 25%;
   display: flex;
-  justify-content: center; /* Căn giữa nội dung trong hàng */
-  align-items: center;
+  flex-direction: row;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  position: absolute;
+  bottom: 0; /* Đặt ở góc dưới */
+  right: 0; /* Đặt ở bên phải */
+  padding-bottom: 5%;
+  padding-right: 2%;
 }
-  
-  #hero_section p {
-    text-align: justify;
-    font-size: 1.0vw;
-  }
-  
-  .hero_title {
-    font-size: 3vw !important;
-    font-weight: bold;
-    padding-bottom: 2vh;
-  }
-  
-  #hero_buttons {
-    display: flex;
-    font-size: 1.0vw;
-    margin-top: 2vh;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-  #back_button {
-    display: flex;
-    font-size: 1.0vw;
-    margin-top: 2vh;
-    width: 100%;
-    justify-content: left;
-    align-items: left;
-  }
-  
-  #btn_discover {
-    font-weight: bold;
-    border-radius: 0.5vh;
-    color: white;
-    background-color: #EE10B0;
-    width: 9vw;
-    height: 3vw;
-    margin-right: 10%;
-  }
-  
-  #btn_create_playlist {
-    font-weight: bold;
-    border-color: #0E9EEF;
-    border-radius: 0.5vh;
-    border-width: 0.2vh;
-    color: #0E9EEF;
-    width: 9vw;
-    height: 3vw;
-  }
 
-  #btn_back {
-    font-weight: bold;
-    border-color: black;
-    border-radius: 0.5vh;
-    border-width: 0.2vh;
-    color: #0E9EEF;
-    width: 2vw;
-    height: 2vw;
-    margin-left: 3vh;
-    margin-top: 2vh;
- }
+.album-action h2 {
+  font-size: 2vw;
+  font-weight: 600;
+  color: #EE10B0;
+  cursor: pointer;
+}
 
- .image-button img {
-    width: 2vw; 
-    height: 2vw;
-  }
-  
-  .image-button:hover {
-    filter: brightness(0.7); /* Màu nền khi hover */
-  }
+.album-action img {
+  width: 8vh;
+  height: 8vh;
+  border-radius: 1vh;
+  color: white;
+  font-size: 2vh;
+  font-weight: bold;
+  border: none;
+  margin-left: 2vh;
+  cursor: pointer;
+}

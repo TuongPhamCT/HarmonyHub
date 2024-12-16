@@ -45,7 +45,7 @@ const HomePage = () => {
         )
     )
 
-    return (
+    return ( 
         <div className="homepage">
             <div id="hero_section">
                 <img src={hero_img} id="hero_img" alt=""></img>
