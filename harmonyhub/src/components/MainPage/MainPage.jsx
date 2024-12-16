@@ -21,6 +21,8 @@ import PolicyPage from '../contact/policy';
 import SocialMediaPage from '../contact/social_media';
 import SupportPage from '../contact/support';
 import SearchResultsPage from '../SearchResultsPage/SearchResultsPage';
+import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
+import MostPlayedPage from '../MostPlayedPage/MostPlayedPage';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 
@@ -64,6 +66,8 @@ function MainPage() {
                         <Route path='/social_media' element={<SocialMediaPage/>} />
                         <Route path='/support' element={<SupportPage/>} />
                         <Route path='/search' element={<SearchResultsPage/>} />
+                        <Route path='/albumdetails' element={<AlbumDetailsPage/>} />
+                        <Route path='/mostplayed/*' element={<MostPlayedPage/>} />
                     </Routes>
                     {/* <sMainController.DevTool name="sMainController"/> */}
                 </div>

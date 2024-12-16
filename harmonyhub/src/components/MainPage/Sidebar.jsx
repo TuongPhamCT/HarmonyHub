@@ -27,7 +27,7 @@ const sidebar_items = [
   { itemName: "Artists", img: icon_artists, imgClass: "icon_content", id: '/artists' },
   // {itemName: "Library", class: "sidebar_header"},
   {itemName: "Library", img: icon_library, imgClass: "icon_content", id: '/library'},
-  {itemName: "Most Played", img: icon_most_played, imgClass: "icon_content"},
+  {itemName: "Most Played", img: icon_most_played, imgClass: "icon_content",id: '/mostplayed'},
   {itemName: "Playlist and favorite", class: "sidebar_header"},
   {itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content"},
   {itemName: "Your Playlist", img: icon_your_playlist, imgClass: "icon_content", id: '/yourplaylist' },
@@ -36,7 +36,7 @@ const sidebar_items = [
   {itemName: "Approve", img: new_song, imgClass: "icon_content", id:'/approve'},
   {itemName: "Add Song", img: add_song, imgClass: "icon_content", id:'/addsong'},
   {itemName: "General", class: "sidebar_header"},
-  {itemName: "Settings", img: icon_settings, imgClass: "icon_content"},
+  {itemName: "Settings", img: icon_settings, imgClass: "icon_content", id:'/settings'},
   {itemName: "Logout", img: icon_logout, id:"sidebar_logout", imgClass: "icon_content"},
 ]
 
@@ -90,8 +90,14 @@ const Sidebar = () => {
       case '/library':
         nav('/library');
         break;
+        case '/mostplayed':
+          nav('/mostplayed/day');
+          break;
       case "sidebar_add_playlist":
         return;
+      case '/settings':
+        nav('/albumdetails');
+        break;
       case "sidebar_logout":
         return;
       default:
