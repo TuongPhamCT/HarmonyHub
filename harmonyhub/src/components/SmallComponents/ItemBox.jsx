@@ -1,5 +1,6 @@
 // import React from 'react'
 import item_placeholder from '../../assets/img/placeholder_disc.png';
+import button_more from '../../assets/img/component_more_vertical.png';
 import { sComponents } from './componentStore';
 import './ItemBox.css';
 
@@ -18,15 +19,24 @@ export default function ItemBox(props) {
                 alt="" onError={handleError} id="itembox-image"></img>
                 {props.imageTitle ? <p id="itembox-image-title">props.imageTitle</p> : null}
             </div>
-            <p id="itembox-title" style={{width: props.imageWidth, textAlign: (props.titleAlign || 'left')}}>{props.title}</p>
-            {
-                props.subtitle || props.view ?
-                <div id="itembox-subtitle-wrapper" style={{width: props.imageWidth}}>
-                    {props.subtitle ? <p id="itembox-subtitle">{props.subtitle}</p> : null}
-                    {props.view ? <p id="itembox-subtitle-right">{props.view}</p> : null}
-                </div> : null
-            }
-
+            <div id="itembox-content-container">
+                <div id="itembox-title-container">
+                    <p id="itembox-title" style={{width: "calc(" + props.imageWidth + " - 2vh)", textAlign: (props.titleAlign || 'left')}}>{props.title}</p>
+                    {
+                        props.subtitle || props.view ?
+                        <div id="itembox-subtitle-wrapper" style={{width: "calc(" + props.imageWidth + " - 2vh)"}}>
+                            {props.subtitle ? <p id="itembox-subtitle">{props.subtitle}</p> : null}
+                            {props.view ? <p id="itembox-subtitle-right">{props.view}</p> : null}
+                        </div> : null
+                    }
+                </div>
+                {
+                    props.showMore ?
+                        <img id="itembox-more-button" src={button_more} className="highlight-button" alt=""></img>
+                    :
+                        null
+                }
+            </div>
         </div>
     )
 }
@@ -52,6 +62,7 @@ export const MusicBox = (props) => {
             title={props.title}
             subtitle={props.subtitle}
             onClick={props.onClick}
+            showMore={true}
         />
     );
 }
@@ -64,6 +75,7 @@ export const AlbumBox = (props) => {
             title={props.title}
             subtitle={props.subtitle}
             onClick={props.onClick}
+            showMore={true}
         />
     );
 }
@@ -75,6 +87,7 @@ export const PlaylistBox = (props) => {
             imageHeight={sComponents.value.playlistBoxHeight}
             title={props.title}
             onClick={props.onClick}
+            showMore={true}
         />
     );   
 }
@@ -88,6 +101,7 @@ export const MvBox = (props) => {
             subtitle={props.subtitle}
             view={props.view}
             onClick={props.onClick}
+            showMore={true}
         />
     );
 }
