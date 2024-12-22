@@ -1,16 +1,36 @@
 /*MainPage.css*/
 
+
+/* Flexbox container for playbar */
+
+.playbar-wrapper {
+  position: relative;
+  height: 100vh;
+  background-color: #181818;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  user-select: none;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.playbar {
+  height: 16vh;
+  width: 100%;
+}
+
 /* Flexbox container for sidebar and content */
 .wrapper {
-    position: relative;
-    height: 100vh;
-    background-color: #181818;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    user-select: none;
-    display: flex;
-    flex-direction: row;
-  }
+  position: relative;
+  height: 100%;
+  background-color: #181818;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
 
 @media (orientation: landscape) {
   .mainpage_header {
@@ -18,6 +38,15 @@
     left: 0vh;
     top: 0vh;
     width: 100%;
+    z-index: 2;
+  }
+
+  .mainpage_playbar {
+    position: absolute;
+    left: 0vh;
+    bottom: 0vh;
+    width: 100%;
+    height: 20vh;
     z-index: 2;
   }
 

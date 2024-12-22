@@ -5,13 +5,13 @@ import { ArtistBox } from '../SmallComponents/ItemBox';
 const demoList = [
     "1", "2", "3", "4", "5", "6"
 ];
+
 function AlsoListen(props) {
     const alsoListen = demoList.map(
         (item, index) => (
             <ArtistBox key={"art-col" + index} title={"artist " + index} />
         )
     )
-
 
     return (
         <div>
