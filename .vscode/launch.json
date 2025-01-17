@@ -9,8 +9,8 @@
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\my-app-backend\\index.js",
-      "envFile": "${workspaceFolder}\\my-app-backend\\.env",
+      "program": "${workspaceFolder}/my-app-backend/index.js",
+      "envFile": "${workspaceFolder}/my-app-backend/.env",
       "cwd": "${workspaceFolder}/my-app-backend"
     }
   ]

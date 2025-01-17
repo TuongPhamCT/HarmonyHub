@@ -135,6 +135,13 @@ module.exports.login = async (req, res) => {
     });
   }
 
+  //check if user is activated
+  if (!user.active) {
+    return res.status(401).send({
+      message: "User not activated",
+    });
+  }
+
   //generate jwt token
   const token = jwt.sign(
     {

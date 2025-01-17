@@ -46,7 +46,9 @@ module.exports.playSongById = async (req, res) => {
 
   const range = req.headers.range || "0";
 
-  const audioSize = statSync(song.path).size;
+  const songPath = path.join(__dirname, "..", song.fileURL);
+
+  const audioSize = statSync(songPath).size;
 
   const start = Number(range.replace(/\D/g, ""));
   const end = Math.min(start + CHUNK_SIZE, audioSize - 1);
@@ -62,7 +64,7 @@ module.exports.playSongById = async (req, res) => {
 
   res.writeHead(206, headers);
 
-  const stream = createReadStream(filePath, { start, end });
+  const stream = createReadStream(songPath, { start, end });
   stream.pipe(res);
 };
 

@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
-const bodyParser = require("body-parser"); // Only if using an older version of Express
+const bodyParser = require("body-parser");
 
 const authRoute = require("./routes/auth.route");
 const songRoute = require("./routes/song.route");
