@@ -9,7 +9,7 @@ import icon_phone from '../../assets/img/footer_icon_phone.png';
 export default function Footer() {
   return (
     <div className="footer_container">
-      <img src={footer_background} alt="" width="100%"></img>
+      <img src={footer_background} alt="" width="100%" id="img_footer"></img>
       <table border="0" cellPadding="10" cellSpacing="10" id="footer_table">
         <tbody>
           <tr>
@@ -36,10 +36,10 @@ export default function Footer() {
               <hr></hr>
               <ul>
                 <li><a href="/discover">Explore</a></li>
-                <li><a href="">Artists</a></li>
-                <li><a href="">Playlists</a></li>
+                <li><a href="/artists">Artists</a></li>
+                <li><a href="/yourplaylist">Playlists</a></li>
                 <li><a href="/albums">Albums</a></li>
-                <li><a href="">Trending</a></li>
+                <li><a href="/">Trending</a></li>
               </ul>
             </td>
             <td width="12%" className="footer_table_top">

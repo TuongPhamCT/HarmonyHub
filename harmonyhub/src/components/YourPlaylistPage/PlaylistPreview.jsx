@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Image1 from '../../assets/img/popular_song_image1.png'
+//import Image1 from '../../assets/img/popular_song_image1.png'
 
 
 function PlaylistPreview(props) {

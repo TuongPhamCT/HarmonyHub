@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 
 function PlaylistTitle(props) {
-    const playlítDemo = [
+    const playlistDemo = [
         { "ID": playlistId, },
     ]
     const { playlistId } = useParams()

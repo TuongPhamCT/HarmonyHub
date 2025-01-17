@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import item_placeholder from '../../assets/img/placeholder_disc.png';
 import button_more from '../../assets/img/component_more.png';
 import './MusicBar.css';
 
 export default function ApproveMusicBar(props) {
-    const [favorToggle, setFavorToggle] = useState(props.favor || false);
+    //const [favorToggle, setFavorToggle] = useState(props.favor || false);
     
     const handleError = (e) => {
         e.target.onerror = null; // Prevents infinite loop if placeholder fails
