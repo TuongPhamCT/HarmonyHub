@@ -8,24 +8,40 @@ const createReadStream = fs.createReadStream;
 module.exports.createSong = async (req, res) => {
   console.log(req.body);
   let songName = req.body.name;
-  let artistId = req.body.artistId;
+  let genres = req.body.genres;
   let songFile = req.files.file ? req.files.file[0] : null;
   let songImage = req.files.image ? req.files.image[0] : null;
   let userId = req.userId;
-  console.log(songFile);
-  console.log(songImage);
 
   try {
-    await songService.createSong(
-      songName,
-      artistId,
-      songFile,
-      songImage,
-      userId
-    );
-    res.status(201).json({ message: "Song created successfully" });
+    // Validate request
+    if (!songName || !genres || !songFile) {
+      return res.status(400).send({ message: "All fields are required" });
+    }
+
+    // Check if genres exist
+    const genreDocs = await Genre.find({ _id: { $in: genres } });
+    if (genreDocs.length !== genres.length) {
+      return res.status(400).send({ message: "Some genres do not exist" });
+    }
+
+    // Create a new song
+    const song = new Song({
+      name: songName,
+      fileURL: `/public/songs/${songFile.filename}`,
+      imageURL: `/public/images/${songImage.filename}`,
+      userId,
+      genres: genreDocs.map((genre) => genre._id), // Associate genres with the song
+    });
+
+    // Save song in the database
+    const savedSong = await song.save();
+
+    res
+      .status(201)
+      .json({ message: "Song created successfully", song: savedSong });
   } catch (error) {
-    res.status(400).json({ message: "data incorect format", error });
+    res.status(400).json({ message: "Data incorrect format", error });
   }
 };
 

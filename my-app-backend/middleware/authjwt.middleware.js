@@ -24,6 +24,7 @@ const verifyToken = async (req, res, next) => {
     }
 
     req.userId = user.id;
+    req.userRole = user.role;
     next();
   } catch (err) {
     return res.status(401).send({
@@ -33,18 +34,12 @@ const verifyToken = async (req, res, next) => {
 };
 
 isAdmin = (req, res, next) => {
-  const user = User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-  });
-
-  if (user.role === "admin") {
+  if (req.userRole === "admin") {
     next();
-    res.status(403).send({ message: "Require Admin Role!" });
     return;
   }
+
+  res.status(403).send({ message: "Require Admin Role!" });
 };
 
 const authJwt = {

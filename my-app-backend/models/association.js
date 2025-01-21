@@ -32,16 +32,6 @@ Song.belongsTo(User, {
   timestamps: false,
 });
 
-//define the association between User and Song(1-n)
-User.hasMany(Song, {
-  foreignKey: "artist_id",
-  timestamps: false,
-});
-Song.belongsTo(User, {
-  foreignKey: "artist_id",
-  timestamps: false,
-});
-
 //define the association between User and Album(1-n)
 User.hasMany(Album, {
   foreignKey: "artist_id",
