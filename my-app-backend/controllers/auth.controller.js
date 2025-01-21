@@ -123,7 +123,7 @@ module.exports.login = async (req, res) => {
   user = await User.findOne({ where: { email } });
 
   if (!user) {
-    return res.status(404).send({ message: "User Not found." });
+    return res.status(401).send({ message: "User Not found." });
   }
 
   var passwordIsValid = bcrypt.compareSync(password, user.password);
