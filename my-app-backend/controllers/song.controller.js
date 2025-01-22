@@ -1,6 +1,9 @@
 const songService = require("../services/song.service");
 const path = require("path");
 const fs = require("fs");
+const Genre = require("../models/genre.model");
+const Song = require("../models/song.model");
+const { getAudioDurationInSeconds } = require("get-audio-duration");
 
 const statSync = fs.statSync;
 const createReadStream = fs.createReadStream;
@@ -8,10 +11,13 @@ const createReadStream = fs.createReadStream;
 module.exports.createSong = async (req, res) => {
   console.log(req.body);
   let songName = req.body.name;
-  let genres = req.body.genres;
+  let genres = req.body.genres.map(Number);
   let songFile = req.files.file ? req.files.file[0] : null;
   let songImage = req.files.image ? req.files.image[0] : null;
   let userId = req.userId;
+  let lyric = req.body.lyric;
+  let durationInSeconds = await getAudioDurationInSeconds(songFile.path);
+  let duration = Math.floor(durationInSeconds); // Cast float to int
 
   try {
     // Validate request
@@ -20,28 +26,38 @@ module.exports.createSong = async (req, res) => {
     }
 
     // Check if genres exist
-    const genreDocs = await Genre.find({ _id: { $in: genres } });
+    const genreDocs = await Genre.findAll({
+      where: {
+        id: genres,
+      },
+    });
     if (genreDocs.length !== genres.length) {
       return res.status(400).send({ message: "Some genres do not exist" });
     }
 
     // Create a new song
-    const song = new Song({
+    const song = await Song.create({
       name: songName,
       fileURL: `/public/songs/${songFile.filename}`,
-      imageURL: `/public/images/${songImage.filename}`,
-      userId,
-      genres: genreDocs.map((genre) => genre._id), // Associate genres with the song
+      image: `/public/images/${songImage.filename}`,
+      duration: duration,
+      lyric: lyric,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      post_user_id: userId,
+      playCount: 0,
     });
 
-    // Save song in the database
-    const savedSong = await song.save();
+    // Associate genres with the song
+    await song.setGenres(genreDocs);
 
     res
       .status(201)
-      .json({ message: "Song created successfully", song: savedSong });
+      .json({ message: "Song created successfully", song: song.toJSON() });
   } catch (error) {
-    res.status(400).json({ message: "Data incorrect format", error });
+    res
+      .status(400)
+      .json({ message: error.message || "Error creating song", error });
   }
 };
 

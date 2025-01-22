@@ -98,3 +98,8 @@ PlayHistory.belongsTo(Song, {
   foreignKey: "song_id",
   timestamps: false,
 });
+
+//define the association between Song and Genre(n-n)
+//define the association between Song and Genre(n-n)
+Song.belongsToMany(Genre, { through: "SongGenres" });
+Genre.belongsToMany(Song, { through: "SongGenres" });
