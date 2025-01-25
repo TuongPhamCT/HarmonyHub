@@ -2,21 +2,22 @@ import React, { forwardRef } from "react"
 import background from "../../assets/img/signinbackground.png";
 import SignInForm from "./SignInForm";
 import SocialLogin from "../SignUp/SocialLogin"
-import SignUpOption from "./SignUpOption";
 
 
-const SignIn = forwardRef(function SignIn({ handleClose }, ref) {
+const SignIn = forwardRef(function SignIn({ handleClose, handleSignUp }, ref) {
     return (
-        <dialog ref={ref}>
+        <dialog ref={ref} className="overflow-hidden">
             <main
-                style={{ "--image-url": `url(${background})` }}
-                className="flex flex-col items-center pt-4 pb-32 mx-auto w-full max-w-[480px] max-h-[800px] bg-[image:var(--image-url)] bg-cover bg-center h-screen"
+                style={{
+                    "--image-url": `url(${background})`
+                }}
+                className="flex flex-col items-center mx-auto w-full max-w-[480px] max-h-[800px] bg-[image:var(--image-url)] bg-cover bg-center h-screen border border-white p-2"
             >
                 <form
                     method="dialog"
                     className="text-white font-bold text-right flex justify-end w-full "
                 >
-                    <button onClick={handleClose} className="">
+                    <button onClick={handleClose} className="w-6 h-6">
                         X
                     </button>
                 </form>
@@ -33,7 +34,9 @@ const SignIn = forwardRef(function SignIn({ handleClose }, ref) {
                 </section>
                 <SignInForm />
                 <SocialLogin />
-                <SignUpOption />
+                <div className="flex justify-center items-center h-full max-w-[400px] w-[400px]">
+                    <button className="text-white back bg-[#0E9EEF] p-1 px-5 rounded" onClick={() => handleSignUp()}>Sign Up</button>
+                </div>
             </main>
         </dialog>
     )

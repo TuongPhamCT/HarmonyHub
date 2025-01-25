@@ -20,43 +20,43 @@ import { useLocation, useNavigate } from 'react-router';
 import { sMainController } from '../../store';
 
 const sidebar_items = [
-  {itemName: "Menu", class: "sidebar_header"},
-  {itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", id:'/'},
-  {itemName: "Discover", img: icon_discover, imgClass: "icon_content", id:'/discover'},
-  {itemName: "Albums", img: icon_albums, imgClass: "icon_content", id:'/albums'},
-  { itemName: "Artists", img: icon_artists, imgClass: "icon_content", id: '/artists' },
+  { itemName: "Menu", class: "sidebar_header" },
+  { itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", id: '/' },
+  { itemName: "Discover", img: icon_discover, imgClass: "icon_content", id: '/discover' },
+  { itemName: "Albums", img: icon_albums, imgClass: "icon_content", id: '/albums' },
+  { itemName: "Artists", img: icon_artists, imgClass: "icon_content", id: '/artist' },
   // {itemName: "Library", class: "sidebar_header"},
-  {itemName: "Library", img: icon_library, imgClass: "icon_content", id: '/library'},
-  {itemName: "Most Played", img: icon_most_played, imgClass: "icon_content",id: '/mostplayed'},
-  {itemName: "Playlist and favorite", class: "sidebar_header"},
-  {itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content"},
-  {itemName: "Your Playlist", img: icon_your_playlist, imgClass: "icon_content", id: '/yourplaylist' },
-  {itemName: "Add playlist", img: icon_add_playlist, id:"sidebar_add_playlist", imgClass: "icon_content"},
-  {itemName: "Admin", class: "sidebar_header"},
-  {itemName: "Approve", img: new_song, imgClass: "icon_content", id:'/approve'},
-  {itemName: "Add Song", img: add_song, imgClass: "icon_content", id:'/addsong'},
-  {itemName: "General", class: "sidebar_header"},
-  {itemName: "Settings", img: icon_settings, imgClass: "icon_content", id:'/settings'},
-  {itemName: "Logout", img: icon_logout, id:"sidebar_logout", imgClass: "icon_content"},
+  { itemName: "Library", img: icon_library, imgClass: "icon_content", id: '/library' },
+  { itemName: "Most Played", img: icon_most_played, imgClass: "icon_content", id: '/mostplayed' },
+  { itemName: "Playlist and favorite", class: "sidebar_header" },
+  { itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content" },
+  { itemName: "Your Playlist", img: icon_your_playlist, imgClass: "icon_content", id: '/yourplaylist' },
+  { itemName: "Add playlist", img: icon_add_playlist, id: "sidebar_add_playlist", imgClass: "icon_content" },
+  { itemName: "Admin", class: "sidebar_header" },
+  { itemName: "Approve", img: new_song, imgClass: "icon_content", id: '/approve' },
+  { itemName: "Add Song", img: add_song, imgClass: "icon_content", id: '/addsong' },
+  { itemName: "General", class: "sidebar_header" },
+  { itemName: "Settings", img: icon_settings, imgClass: "icon_content", id: '/settings' },
+  { itemName: "Logout", img: icon_logout, id: "sidebar_logout", imgClass: "icon_content" },
 ]
 
 const Sidebar = () => {
   const menuRef = useRef(null); // Reference to the <ul> element
   const nav = useNavigate();
 
-    const location = useLocation();
-    useEffect(() => {
-      const items = menuRef.current.querySelectorAll('li');
-      const path = "/" + location.pathname.split('/')[1];
-      items.forEach((item) => {
-        if (item.id === path){
-          if (item.classList.contains('active') === false){
-            item.classList.add('active');
-          }
-        } else {
-          item.classList.remove('active')
+  const location = useLocation();
+  useEffect(() => {
+    const items = menuRef.current.querySelectorAll('li');
+    const path = "/" + location.pathname.split('/')[1];
+    items.forEach((item) => {
+      if (item.id === path) {
+        if (item.classList.contains('active') === false) {
+          item.classList.add('active');
         }
+      } else {
+        item.classList.remove('active')
       }
+    }
     ); // Remove "active" class from all items
   }, [location]);
 
@@ -65,7 +65,7 @@ const Sidebar = () => {
       return;
     }
 
-    switch (e.target.id){
+    switch (e.target.id) {
       case '/':
         nav('/');
         break;
@@ -75,8 +75,8 @@ const Sidebar = () => {
       case '/albums':
         nav('/albums');
         break;
-      case '/artists':
-        nav('/artists');
+      case '/artist':
+        nav('/artist');
         break;
       case '/yourplaylist':
         nav('/yourplaylist');
@@ -90,9 +90,9 @@ const Sidebar = () => {
       case '/library':
         nav('/library');
         break;
-        case '/mostplayed':
-          nav('/mostplayed/day');
-          break;
+      case '/mostplayed':
+        nav('/mostplayed/day');
+        break;
       case "sidebar_add_playlist":
         return;
       case '/settings':
@@ -102,7 +102,7 @@ const Sidebar = () => {
         return;
       default:
         return;
-    } 
+    }
   };
 
   // Sidebar toggle button

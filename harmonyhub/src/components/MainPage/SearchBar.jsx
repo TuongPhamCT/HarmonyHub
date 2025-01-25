@@ -97,6 +97,12 @@ const SearchBar = () => {
     sMainController.set((v) => v.value.showSignIn = false);
   };
 
+  //function to show signup modal when in signin
+  const handleSignUpFromSignIn = () => {
+    hideSignInModal();
+    showSignUpModal();
+  };
+
   //function to toggle the sidebar
   const handleSidebarIconClick = () => {
     // Call the function passed from the parent to update its state
@@ -127,6 +133,7 @@ const SearchBar = () => {
           <SignIn
             ref={signInRef}
             handleClose={hideSignInModal}
+            handleSignUp={handleSignUpFromSignIn}
             isVisible={signInToggle}
           />
         )}
