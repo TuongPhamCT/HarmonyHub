@@ -13,27 +13,27 @@ export default function ItemBox(props) {
     return (
         <div id="itembox-container" onClick={props.onClick}>
             <div id="itembox-image-container"
-                 style={{width: props.imageWidth, height: props.imageHeight}}
-                 className={props.roundImage ? "round" : "square"}>
+                style={{ width: props.imageWidth, height: props.imageHeight }}
+                className={props.roundImage ? "round" : "square"}>
                 <img src={props.image || item_placeholder}
-                alt="" onError={handleError} id="itembox-image"></img>
+                    alt="" onError={handleError} id="itembox-image"></img>
                 {props.imageTitle ? <p id="itembox-image-title">props.imageTitle</p> : null}
             </div>
             <div id="itembox-content-container">
                 <div id="itembox-title-container">
-                    <p id="itembox-title" style={{width: "calc(" + props.imageWidth + " - 2vh)", textAlign: (props.titleAlign || 'left')}}>{props.title}</p>
+                    <p id="itembox-title" style={{ width: "calc(" + props.imageWidth + " - 2vh)", textAlign: (props.titleAlign || 'left') }}>{props.title}</p>
                     {
                         props.subtitle || props.view ?
-                        <div id="itembox-subtitle-wrapper" style={{width: "calc(" + props.imageWidth + " - 2vh)"}}>
-                            {props.subtitle ? <p id="itembox-subtitle">{props.subtitle}</p> : null}
-                            {props.view ? <p id="itembox-subtitle-right">{props.view}</p> : null}
-                        </div> : null
+                            <div id="itembox-subtitle-wrapper" style={{ width: "calc(" + props.imageWidth + " - 2vh)" }}>
+                                {props.subtitle ? <p id="itembox-subtitle">{props.subtitle}</p> : null}
+                                {props.view ? <p id="itembox-subtitle-right">{props.view}</p> : null}
+                            </div> : null
                     }
                 </div>
                 {
                     props.showMore ?
                         <img id="itembox-more-button" src={button_more} className="highlight-button" alt=""></img>
-                    :
+                        :
                         null
                 }
             </div>
@@ -89,7 +89,7 @@ export const PlaylistBox = (props) => {
             onClick={props.onClick}
             showMore={true}
         />
-    );   
+    );
 }
 
 export const MvBox = (props) => {

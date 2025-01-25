@@ -1,22 +1,41 @@
 import React from 'react';
-import ArtistsBanner from './ArtistsBanner'
-import PopularMusic from './PopularMusic'
-import ArtitstsAlbum from './ArtitstsAlbum';
-import SingleSong from './SingleSong';
-import ArtistsPlaylist from './ArtistsPlaylist';
-import AlsoListen from './AlsoListen';
-
+import { AlbumBox, ArtistBox } from '../SmallComponents/ItemBox';
+import { useNavigate } from 'react-router';
 
 function ArtitstsPage(props) {
+    const demoList = [
+        "1", "2", "3", "4", "5", "6", "7", "8"
+    ];
+
+    const navigate = useNavigate();
+
+    const artist = demoList.map(
+        (item) => (
+            <ArtistBox
+                key={"al-col" + item}
+                title={"Artist name" + item}
+                subtitle="random subtitle"
+                onClick={() => navigate('/artist/' + item)}
+            >
+            </ArtistBox>
+        )
+    )
 
     return (
-        <div className='h-full mt-[8vh] mx-9 flex flex-col gap-10 bg-black'>
-            <ArtistsBanner />
-            <PopularMusic />
-            <ArtitstsAlbum />
-            <SingleSong />
-            <ArtistsPlaylist />
-            <AlsoListen />
+        <div className='mt-[10vh] px-[4vh]'>
+            <div>
+                <h1 className='text-3xl font-bold text-[#ee10b0] mb-[1em]'>Popular Artist</h1>
+                <div className='grid grid-cols-4 gap-5'>
+                    {artist}
+                </div>
+            </div>
+            <div>
+                <h1 className='text-3xl font-bold text-[#ee10b0] my-[1em]'>Favorite Artist</h1>
+                <div className='grid grid-cols-4 gap-5'>
+                    {artist}
+                </div>
+            </div>
+
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemCollection from '../SmallComponents/ItemCollection';
-import { ArtistBox } from '../SmallComponents/ItemBox';
+import ItemCollection from '../../SmallComponents/ItemCollection';
+import { ArtistBox } from '../../SmallComponents/ItemBox';
 
 const demoList = [
     "1", "2", "3", "4", "5", "6"

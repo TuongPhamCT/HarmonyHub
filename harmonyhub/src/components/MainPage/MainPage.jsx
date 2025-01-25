@@ -24,6 +24,7 @@ import SearchResultsPage from '../SearchResultsPage/SearchResultsPage';
 import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
 import MostPlayedPage from '../MostPlayedPage/MostPlayedPage';
 import Playbar from './Playbar';
+import ArtistDetail from '../ArtistsPage/ArtistDetail';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
@@ -40,7 +41,7 @@ function MainPage() {
             <ssPlayingSong.Wrap>
                 {(playingSong) => (
                     <div className="playbar" style={{ display: (playingSong == null ? 'flex' : 'none') }}>
-                        <Playbar/>
+                        <Playbar />
                     </div>
                 )}
             </ssPlayingSong.Wrap>
@@ -60,23 +61,24 @@ function MainPage() {
                     </div>
                     <div id="content-area" className="mainpage_content">
                         <Routes>
-                            <Route path='/' element={<HomePage/>} />
-                            <Route path='/discover' element={<DiscoverPage/>} />
-                            <Route path='/albums' element={<AlbumsPage/>} />
-                            <Route path='/albums/:view' element={<AllAlbumsPage/>} />
-                            <Route path='/artists' element={<ArtitstsPage />} />
-                            <Route path='/yourplaylist/:playlistId' element={<PlaylistDetail />} />
+                            <Route path='/' element={<HomePage />} />
+                            <Route path='/discover' element={<DiscoverPage />} />
+                            <Route path='/albums' element={<AlbumsPage />} />
+                            <Route path='/albums/:view' element={<AllAlbumsPage />} />
+                            <Route path='/artist' element={<ArtitstsPage />} />
+                            <Route path='/artist/:id' element={<ArtistDetail />} />
                             <Route path='/yourplaylist' element={<YourPlaylist />} />
-                            <Route path='/approve' element={<ApprovePage/>} />
-                            <Route path='/addsong' element={<AddSongPage/>} />
-                            <Route path='/library' element={<LibraryPage/>} />
-                            <Route path='/about_us' element={<AboutPage/>} />
-                            <Route path='/policy' element={<PolicyPage/>} />
-                            <Route path='/social_media' element={<SocialMediaPage/>} />
-                            <Route path='/support' element={<SupportPage/>} />
-                            <Route path='/search' element={<SearchResultsPage/>} />
-                            <Route path='/albumdetails' element={<AlbumDetailsPage/>} />
-                            <Route path='/mostplayed/*' element={<MostPlayedPage/>} />
+                            <Route path='/yourplaylist/:playlistId' element={<PlaylistDetail />} />
+                            <Route path='/approve' element={<ApprovePage />} />
+                            <Route path='/addsong' element={<AddSongPage />} />
+                            <Route path='/library' element={<LibraryPage />} />
+                            <Route path='/about_us' element={<AboutPage />} />
+                            <Route path='/policy' element={<PolicyPage />} />
+                            <Route path='/social_media' element={<SocialMediaPage />} />
+                            <Route path='/support' element={<SupportPage />} />
+                            <Route path='/search' element={<SearchResultsPage />} />
+                            <Route path='/albumdetails' element={<AlbumDetailsPage />} />
+                            <Route path='/mostplayed/*' element={<MostPlayedPage />} />
                         </Routes>
                         {/* <sMainController.DevTool name="sMainController"/> */}
                     </div>

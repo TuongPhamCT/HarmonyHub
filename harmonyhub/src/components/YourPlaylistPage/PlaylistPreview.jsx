@@ -1,29 +1,23 @@
 import React, { useState } from 'react';
-//import Image1 from '../../assets/img/popular_song_image1.png'
-
 
 function PlaylistPreview(props) {
-    const [isHovered, setIsHovered] = useState(false)
-
-
-    const imageStyles = {
-        backgroundColor: isHovered ? 'black' : 'transparent',
-        opacity: isHovered ? 0.4 : 1,
-        zIndex: 2,
-    }
 
     return (
-        <div className='bg-[#4287f5] w-fit'>
+        <div className='bg-[#f0f] w-fit'>
             <img
                 className='w-48 h-48'
                 src={props.imageUrl} alt='playlistimage'
-                onClick={() => props.click(props.id)}
-                style={imageStyles}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                onClick={() => props.onClick(props.id)}
             />
-            <p className='text-white text-base'>{props.name}</p>
-            <p className='text-[#5E5967] text-sm'>{props.author}</p>
+            <div className='flex justify-between items-center mt-2 relative'>
+                <div>
+                    <p className='text-white text-base'>{props.name}</p>
+                    <p className='text-[#5E5967] text-sm'>{props.author}</p>
+                </div>
+                <div className="relative"></div>
+                <svg onClick={() => props.handleMore(props.id)} xmlns="http://www.w3.org/2000/svg" className='w-6 h-6 cursor-pointer' fill='#fff' viewBox="0 0 16 16"></svg>
+                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+            </div>
         </div>
     );
 }
