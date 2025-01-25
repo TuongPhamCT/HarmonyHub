@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Image1 from '../../assets/img/popular_song_image1.png';
-import Image2 from '../../assets/img/popular_song_image2.png';
-import Image3 from '../../assets/img/popular_song_image3.png';
-import Image4 from '../../assets/img/popular_song_image4.png';
-import Image5 from '../../assets/img/popular_song_image5.png';
+import Image1 from '../../../assets/img/popular_song_image1.png';
+import Image2 from '../../../assets/img/popular_song_image2.png';
+import Image3 from '../../../assets/img/popular_song_image3.png';
+import Image4 from '../../../assets/img/popular_song_image4.png';
+import Image5 from '../../../assets/img/popular_song_image5.png';
 import EditButton from './EditButton';
 import FavoriteButton from './FavoriteButton';
 

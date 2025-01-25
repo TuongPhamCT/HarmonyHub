@@ -1,5 +1,5 @@
 import React from 'react';
-import Artistbg from '../../assets/img/artistbackround.png'
+import Artistbg from '../../../assets/img/artistbackround.png'
 
 function ArtistsBanner(props) {
 
