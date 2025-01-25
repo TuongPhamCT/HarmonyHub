@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import item_placeholder from '../../assets/img/placeholder_disc.png';
-import button_more from '../../assets/img/component_more.png';
+import button_more from '../../assets/img/component_more_vertical.png';
 import button_love_on from '../../assets/img/component_love_on.png';
 import button_love_off from '../../assets/img/component_love_off.png';
 import './MusicBar.css';
@@ -42,11 +42,9 @@ export default function MusicBar(props) {
                 <div id="musicbar-time">
                     <p>{props.time || "-:-"}</p>
                 </div>
-                {props.hasMore ?
-                    <div id="musicbar-more">
-                        <img id="musicbar-button-more" src={button_more} className="highlight-button" alt=""></img>
-                    </div>
-                    : null}
+                <div id="musicbar-more">
+                    <img id="musicbar-button-more" src={button_more} className="highlight-button" alt=""></img>
+                </div>
             </div>
         </div>
     )
