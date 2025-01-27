@@ -2,6 +2,9 @@ import React from 'react';
 import InputField from "./InputField";
 import { useState } from 'react';
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { setsAccessToken, sAccessToken } from '../config/store.ts'
 
 function SignInForm() {
     //control value of inputbox
@@ -27,28 +30,46 @@ function SignInForm() {
     //function navigate to signin
     const handleSignIn = async () => {
         try {
-            const data = await axios.post("http://localhost:5000/login", {
+            const { data } = await axios.post("http://localhost:5000/login", {
                 email: inputValue.email,
                 password: inputValue.password
-            });
-
+            },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
             // Handle successful login
-            console.log('Login successful:', data.data.metadata.user);
-            alert("Login successful!");
-
+            toast.success("Login successful!");
+            // clear input fields
+            setInputValue({
+                email: "",
+                password: ""
+            });
+            setsAccessToken(data.accessToken);
+            localStorage.setItem("accessToken", data.accessToken);
         } catch (error) {
             // Handle error
-            console.error('Login failed:', error.response ? error.response.data : error.message);
+            console.error('Login failed:', error);
             alert("Login failed. Please check your credentials and try again.");
-        } axios.post("http://localhost:5000/login", {
-            email: inputValue.email,
-            password: inputValue.password
-        })
-
+        }
     }
 
     return (
         <section className="flex flex-col my-9 w-full max-w-[382px]">
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <h2 className="text-2xl font-bold text-white">Login To Continue</h2>
             <div>
                 <InputField
@@ -68,7 +89,6 @@ function SignInForm() {
                     name="password"
                     onChange={handleChange}
                     value={inputValue.password}
-
                 />
                 <button className="flex justify-center items-center mt-6 w-full text-base font-bold text-white whitespace-nowrap px-6 py-1.5 bg-pink-500 rounded min-h-[34px]" onClick={() => handleSignIn()}>
                     Login
