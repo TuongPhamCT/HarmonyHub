@@ -6,7 +6,6 @@ import PopularMusic from '../ArtistsPage/components/PopularMusic';
 function PlaylistDetail(props) {
     const { playlistId } = useParams();
     return (
-        //134D91
         <div className='mt-[8vh] mx-[2vh]'>
             <div className='px-5 flex flex-col bg-[#1472DE] h-[400px]'>
                 <div className='flex items-center justify-between mb-6'>

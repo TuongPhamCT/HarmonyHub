@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 function PlaylistPreview(props) {
+
 
     return (
         <div className='bg-[#f0f] w-fit'>
