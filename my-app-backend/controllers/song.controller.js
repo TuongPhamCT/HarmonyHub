@@ -63,9 +63,15 @@ module.exports.createSong = async (req, res) => {
 
 module.exports.getSongById = async (req, res) => {
   let songId = req.params.id;
-  let song = await songService.getSongById(songId);
-  song = songService.changePathOfSongForClient(song);
-  res.json(song);
+  try {
+    let song = await songService.getSongById(songId);
+    song = songService.changePathOfSongForClient(song);
+    res.json(song);
+  } catch (error) {
+    res
+      .status(404)
+      .json({ message: "Song not found with id: " + songId, error });
+  }
 };
 
 module.exports.playSongById = async (req, res) => {
@@ -73,6 +79,8 @@ module.exports.playSongById = async (req, res) => {
   let song = await songService.getSongById(songId);
 
   await songService.addPlayHistory(songId, req.userId, new Date());
+  song.playCount += 1;
+  await song.save();
 
   const CHUNK_SIZE = 10 ** 6 / 2;
 
