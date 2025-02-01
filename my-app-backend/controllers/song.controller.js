@@ -1,6 +1,9 @@
 const songService = require("../services/song.service");
 const path = require("path");
 const fs = require("fs");
+const Genre = require("../models/genre.model");
+const Song = require("../models/song.model");
+const { getAudioDurationInSeconds } = require("get-audio-duration");
 
 const statSync = fs.statSync;
 const createReadStream = fs.createReadStream;
@@ -8,32 +11,67 @@ const createReadStream = fs.createReadStream;
 module.exports.createSong = async (req, res) => {
   console.log(req.body);
   let songName = req.body.name;
-  let artistId = req.body.artistId;
+  let genres = req.body.genres.map(Number);
   let songFile = req.files.file ? req.files.file[0] : null;
   let songImage = req.files.image ? req.files.image[0] : null;
   let userId = req.userId;
-  console.log(songFile);
-  console.log(songImage);
+  let lyric = req.body.lyric;
+  let durationInSeconds = await getAudioDurationInSeconds(songFile.path);
+  let duration = Math.floor(durationInSeconds); // Cast float to int
 
   try {
-    await songService.createSong(
-      songName,
-      artistId,
-      songFile,
-      songImage,
-      userId
-    );
-    res.status(201).json({ message: "Song created successfully" });
+    // Validate request
+    if (!songName || !genres || !songFile) {
+      return res.status(400).send({ message: "All fields are required" });
+    }
+
+    // Check if genres exist
+    const genreDocs = await Genre.findAll({
+      where: {
+        id: genres,
+      },
+    });
+    if (genreDocs.length !== genres.length) {
+      return res.status(400).send({ message: "Some genres do not exist" });
+    }
+
+    // Create a new song
+    const song = await Song.create({
+      name: songName,
+      fileURL: `/public/songs/${songFile.filename}`,
+      image: `/public/images/${songImage.filename}`,
+      duration: duration,
+      lyric: lyric,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      post_user_id: userId,
+      playCount: 0,
+    });
+
+    // Associate genres with the song
+    await song.setGenres(genreDocs);
+
+    res
+      .status(201)
+      .json({ message: "Song created successfully", song: song.toJSON() });
   } catch (error) {
-    res.status(400).json({ message: "data incorect format", error });
+    res
+      .status(400)
+      .json({ message: error.message || "Error creating song", error });
   }
 };
 
 module.exports.getSongById = async (req, res) => {
   let songId = req.params.id;
-  let song = await songService.getSongById(songId);
-  song = songService.changePathOfSongForClient(song);
-  res.json(song);
+  try {
+    let song = await songService.getSongById(songId);
+    song = songService.changePathOfSongForClient(song);
+    res.json(song);
+  } catch (error) {
+    res
+      .status(404)
+      .json({ message: "Song not found with id: " + songId, error });
+  }
 };
 
 module.exports.playSongById = async (req, res) => {
@@ -41,6 +79,8 @@ module.exports.playSongById = async (req, res) => {
   let song = await songService.getSongById(songId);
 
   await songService.addPlayHistory(songId, req.userId, new Date());
+  song.playCount += 1;
+  await song.save();
 
   const CHUNK_SIZE = 10 ** 6 / 2;
 

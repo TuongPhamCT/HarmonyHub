@@ -1,4 +1,5 @@
-const Genre = require("../models/genre.model"); // Assuming you have a Genre model
+const Genre = require("../models/genre.model");
+const { Op } = require("sequelize");
 
 module.exports.create = async (req, res) => {
   try {
@@ -9,22 +10,19 @@ module.exports.create = async (req, res) => {
       return res.status(400).send({ message: "Genre name is required" });
     }
 
-    // Create a new genre
-    const genre = new Genre({
-      name,
-      description,
-    });
-
     // Check if the genre already exists
-    const existingGenre = await Genre.findOne({ name });
+    const existingGenre = await Genre.findOne({ where: { name } });
     if (existingGenre) {
       return res.status(400).send({ message: "Genre already exists" });
     }
 
-    // Save genre in the database
-    const savedGenre = await genre.save();
+    // Create a new genre
+    const genre = await Genre.create({
+      name,
+      description,
+    });
 
-    res.status(201).send(savedGenre);
+    res.status(201).send(genre);
   } catch (error) {
     res.status(500).send({
       message: error.message || "Some error occurred while creating the genre.",
@@ -43,16 +41,28 @@ module.exports.getGenres = async (req, res) => {
     } = req.query;
 
     // Create a regex for case-insensitive search
-    const searchRegex = new RegExp(search, "i");
+    const searchRegex = `%${search}%`;
 
     // Find genres with search, sorting, and pagination
-    const genres = await Genre.find({ name: searchRegex })
-      .sort({ [sortBy]: order === "asc" ? 1 : -1 })
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
+    const genres = await Genre.findAll({
+      where: {
+        name: {
+          [Op.iLike]: searchRegex,
+        },
+      },
+      order: [[sortBy, order.toUpperCase()]],
+      offset: (page - 1) * limit,
+      limit: Number(limit),
+    });
 
     // Get total count for pagination
-    const totalGenres = await Genre.countDocuments({ name: searchRegex });
+    const totalGenres = await Genre.count({
+      where: {
+        name: {
+          [Op.iLike]: searchRegex,
+        },
+      },
+    });
 
     res.status(200).send({
       genres,
@@ -68,7 +78,8 @@ module.exports.getGenres = async (req, res) => {
 
 module.exports.getGenreById = async (req, res) => {
   try {
-    const genre = await Genre.findById(req.params.id);
+    const { id } = req.params;
+    const genre = await Genre.findByPk(id);
 
     if (!genre) {
       return res.status(404).send({ message: "Genre not found" });
@@ -77,7 +88,8 @@ module.exports.getGenreById = async (req, res) => {
     res.status(200).send(genre);
   } catch (error) {
     res.status(500).send({
-      message: error.message || "Some error occurred while retrieving genre.",
+      message:
+        error.message || "Some error occurred while retrieving the genre.",
     });
   }
 };
@@ -88,27 +100,33 @@ module.exports.updateGenreById = async (req, res) => {
     const { name, description } = req.body;
 
     // Validate request
-    if (!name) {
-      return res.status(400).send({ message: "Genre name is required" });
+    if (!name && !description) {
+      return res
+        .status(400)
+        .send({ message: "At least one field is required to update" });
     }
 
     // Check if the genre already exists
-    const existingGenre = await Genre.findOne({ name });
-    if (existingGenre && existingGenre._id.toString() !== id) {
-      return res.status(400).send({ message: "Genre already exists" });
+    if (name) {
+      const existingGenre = await Genre.findOne({ where: { name } });
+      if (existingGenre && existingGenre.id !== parseInt(id)) {
+        return res.status(400).send({ message: "Genre already exists" });
+      }
     }
 
-    // Update genre in the database
-    const updatedGenre = await Genre.findByIdAndUpdate(
-      id,
-      { name, description },
-      { new: true }
-    );
+    // Build the update object
+    const updateData = {};
+    if (name) updateData.name = name;
+    if (description) updateData.description = description;
 
-    if (!updatedGenre) {
+    // Update genre in the database
+    const [updated] = await Genre.update(updateData, { where: { id } });
+
+    if (!updated) {
       return res.status(404).send({ message: "Genre not found" });
     }
 
+    const updatedGenre = await Genre.findByPk(id);
     res.status(200).send(updatedGenre);
   } catch (error) {
     res.status(500).send({
@@ -122,9 +140,9 @@ module.exports.deleteGenreById = async (req, res) => {
     const { id } = req.params;
 
     // Delete genre from the database
-    const deletedGenre = await Genre.findByIdAndDelete(id);
+    const deleted = await Genre.destroy({ where: { id } });
 
-    if (!deletedGenre) {
+    if (!deleted) {
       return res.status(404).send({ message: "Genre not found" });
     }
 

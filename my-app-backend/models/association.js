@@ -32,16 +32,6 @@ Song.belongsTo(User, {
   timestamps: false,
 });
 
-//define the association between User and Song(1-n)
-User.hasMany(Song, {
-  foreignKey: "artist_id",
-  timestamps: false,
-});
-Song.belongsTo(User, {
-  foreignKey: "artist_id",
-  timestamps: false,
-});
-
 //define the association between User and Album(1-n)
 User.hasMany(Album, {
   foreignKey: "artist_id",
@@ -108,3 +98,8 @@ PlayHistory.belongsTo(Song, {
   foreignKey: "song_id",
   timestamps: false,
 });
+
+//define the association between Song and Genre(n-n)
+//define the association between Song and Genre(n-n)
+Song.belongsToMany(Genre, { through: "SongGenres" });
+Genre.belongsToMany(Song, { through: "SongGenres" });

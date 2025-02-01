@@ -5,10 +5,10 @@ const { verifyToken, isAdmin } = require("../middleware/authjwt.middleware");
 
 //router.post("/register", controller.register);
 
-router.post("/genre", [verifyToken, isAdmin], controller.createGenre);
+router.post("/genre", [verifyToken, isAdmin], controller.create);
 router.get("/genres", controller.getGenres);
 router.get("/genre/:id", controller.getGenreById);
-router.put("/genre/:id", [verifyToken, isAdmin], controller.updateGenreById);
+router.patch("/genre/:id", [verifyToken, isAdmin], controller.updateGenreById);
 router.delete("/genre/:id", [verifyToken, isAdmin], controller.deleteGenreById);
 
 module.exports = router;
