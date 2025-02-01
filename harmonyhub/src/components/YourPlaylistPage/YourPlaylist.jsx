@@ -9,6 +9,12 @@ function YourPlaylist(props) {
     const [playlistView, setPlaylistView] = useState([]);
     const [selectedId, setSelectedId] = useState(null);
     const [moreOption, setMoreOption] = useState(false);
+    const [editOption, setEditOption] = useState(false);
+
+    const [updateData, setUpdateData] = useState({
+        title: '',
+        isPublic: false
+    });
 
     // Fetch playlists on mount
     const fetchData = async () => {
@@ -23,12 +29,31 @@ function YourPlaylist(props) {
             console.error('Error fetching playlist:', error);
         }
     };
+
+
+
     useEffect(() => {
         const fetchPlaylist = async () => {
             await fetchData();
         };
         fetchPlaylist();
     }, []);
+
+    useEffect(() => {
+        const handleSetUpdateData = () => {
+            if (!selectedId) return;
+            try {
+                const playlist = playlistView.find((playlist) => playlist.id === selectedId);
+                setUpdateData({
+                    title: playlist.title,
+                    isPublic: playlist.isPublic
+                });
+            } catch (error) {
+                console.error('Error setting update data:', error);
+            }
+        };
+        handleSetUpdateData();
+    }, [playlistView, selectedId, editOption]);
 
     const handleMore = (id) => {
         setSelectedId(id);
@@ -40,8 +65,34 @@ function YourPlaylist(props) {
     };
 
     const handleEdit = (id) => {
-        console.log('Edit', id);
+        setSelectedId(id);
+        setMoreOption(false);
+        setEditOption(true);
+
+        try {
+            axios.put(`/update-playlist/${id}`, {
+                title: updateData.title,
+                isPublic: updateData.isPublic
+            });
+            toast.success("Playlist updated successfully!");
+            setEditOption(false);
+            setSelectedId(null);
+            fetchData();
+        } catch (error) {
+            console.error('Error updating playlist:', error);
+            toast.error("Error updating playlist!");
+        }
     };
+
+    function handleChange(event) {
+        const { name, type, checked, value } = event.target;
+
+        setUpdateData(prevState => ({
+            ...prevState,
+            [name]: type === "checkbox" ? checked : value
+        }));
+    }
+
 
     const handleDelete = async (id) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this playlist?');
@@ -56,19 +107,6 @@ function YourPlaylist(props) {
         }
     };
 
-    // Close the dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (moreOption) {
-                setMoreOption(false);
-                setSelectedId(null);
-            }
-        };
-
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
-    }, [moreOption]);
-
     // Render playlist elements
     const playlistViewElements = playlistView.map((playlist) => (
         <div key={playlist.id} className="bg-transparent w-fit">
@@ -78,6 +116,46 @@ function YourPlaylist(props) {
                 alt="Playlist"
                 onClick={() => viewPlaylistDetail(playlist.id)}
             />
+            {editOption && playlist.id === selectedId && (
+                <div className='absolute left-[190px] z-10 bg-gray-700 w-[80%] max-w-[200px] p-[1rem] rounded-md shadow-lg'>
+                    <h2 className='text-yellow-500  text-xl font-bold'>Edit Playlist</h2>
+                    <form>
+                        <ul>
+                            <li className='my-[0.5rem]'>
+                                <label htmlFor="title">Title</label>
+                                <input
+                                    className='w-full rounded-md p-[0.5rem] bg-gray-900 text-white'
+                                    type="text" id="title" name="title" defaultValue={playlist.title}
+                                    value={updateData.title}
+                                    onChange={handleChange}
+                                />
+                            </li>
+                            <li>
+                                <label htmlFor="isPublic">Public</label>
+                                <input className='ml-[0.5rem]' type="checkbox" id="isPublic" name="isPublic" defaultChecked={playlist.isPublic}
+                                    value={updateData.isPublic}
+                                    onChange={handleChange}
+                                />
+                            </li>
+                        </ul>
+                        <div className='flex justify-end my-[0.5rem]'>
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setEditOption(false);
+                                    setSelectedId(null);
+                                }}
+                                className='p-[0.4rem] bg-gray-900 mx-[0.5rem]' type="reset">Cancel</button>
+                            <button
+                                onClick={(e) => {
+                                    handleEdit(playlist.id);
+                                }}
+                                className='p-[0.4rem] bg-gray-900' type="submit">Save</button>
+                        </div>
+                    </form>
+                </div>
+            )
+            }
             <div className="flex justify-between items-center mt-2 relative">
                 <p className="text-white text-lg">{playlist.title}</p>
                 <svg
@@ -104,7 +182,7 @@ function YourPlaylist(props) {
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    handleEdit(playlist.id);
+                                    setEditOption(true);
                                 }}
                                 className="block px-4 py-2 text-sm hover:bg-gray-700 w-full text-left"
                             >
@@ -141,7 +219,7 @@ function YourPlaylist(props) {
                 theme="colored"
             />
             <h1 className="text-4xl font-bold indent-5 mb-5">Your Playlist</h1>
-            <div className="grid grid-cols-4 gap-5">{playlistViewElements}</div>
+            <div className="grid grid-cols-5 gap-[0.5rem]">{playlistViewElements}</div>
         </div>
     );
 }
