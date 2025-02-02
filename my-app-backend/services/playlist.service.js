@@ -163,20 +163,25 @@ module.exports.removeSongFromPlaylist = async (playlistId, songId, userId) => {
   return { message: "Song removed from playlist successfully" };
 };
 
-module.exports.updatePlaylistById = async (playlistId, {
-  title,
-  isPublic
-}) => {
-  const playlist = await Playlist.findByPk(playlistId);
+module.exports.updatePlaylistById = async (
+  playlistId,
+  userId,
+  { title, isPublic }
+) => {
+  let playlist = await Playlist.findByPk(playlistId);
   if (!playlist) {
-    const error = new Error("Playlist not found");
+    let error = new Error("Playlist not found");
     error.status = 404;
     throw error;
   }
 
-  await playlist.update({
-    title: title || playlist.title,
-    isPublic: isPublic || playlist.isPublic,
-  });
-  return playlist;
-}
+  if (playlist.user_id !== userId) {
+    let error = new Error("You don't have permission to update this playlist");
+    error.status = 403;
+    throw error;
+  }
+
+  if (title) playlist.title = title;
+  if (isPublic) playlist.isPublic = isPublic;
+  await playlist.save();
+};
