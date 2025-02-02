@@ -14,5 +14,6 @@ export const sMainController = signify ({
     showHeaderSearchBar: true,
     showSignUp: false,
     showSignIn: false,
-    showSidebar: true
+    showSidebar: true,
+    canScroll: true,
 });

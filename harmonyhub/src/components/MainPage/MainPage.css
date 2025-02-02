@@ -119,3 +119,10 @@
   right: 5vh;
   bottom: 5vh;
 }
+
+/* Utils */
+
+/* CSS để ngăn cuộn */
+.no-scroll {
+  overflow: hidden;
+}

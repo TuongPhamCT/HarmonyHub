@@ -3,12 +3,28 @@ import item_placeholder from '../../assets/img/placeholder_disc.png';
 import button_more from '../../assets/img/component_more_vertical.png';
 import { sComponents } from './componentStore';
 import './ItemBox.css';
+import { useState, useRef } from 'react';
+import { ItemDropDownMenu } from './partials/ItemDropDown';
+import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 
 export default function ItemBox(props) {
+    const [showMenu, setShowMenu] = useState(false);
+    const buttonRef = useRef(null);
+
     const handleError = (e) => {
         e.target.onerror = null; // Prevents infinite loop if placeholder fails
         e.target.src = item_placeholder; // Placeholder image URL
     };
+
+    const handleOpenMore = () => {
+        toggleMainContentScroll(false);
+        setShowMenu(true);
+    }
+
+    const handleCloseMore = () => {
+        toggleMainContentScroll(true);
+        setShowMenu(false);
+    }
 
     return (
         <div id="itembox-container" onClick={props.onClick}>
@@ -21,10 +37,10 @@ export default function ItemBox(props) {
             </div>
             <div id="itembox-content-container">
                 <div id="itembox-title-container">
-                    <p id="itembox-title" style={{ width: "calc(" + props.imageWidth + " - 2vh)", textAlign: (props.titleAlign || 'left') }}>{props.title}</p>
+                    <p id="itembox-title" style={{ width: "calc(" + props.imageWidth + " - 4vh)", textAlign: (props.titleAlign || 'left') }}>{props.title}</p>
                     {
                         props.subtitle || props.view ?
-                            <div id="itembox-subtitle-wrapper" style={{ width: "calc(" + props.imageWidth + " - 2vh)" }}>
+                            <div id="itembox-subtitle-wrapper" style={{ width: "calc(" + props.imageWidth + " - 4vh)" }}>
                                 {props.subtitle ? <p id="itembox-subtitle">{props.subtitle}</p> : null}
                                 {props.view ? <p id="itembox-subtitle-right">{props.view}</p> : null}
                             </div> : null
@@ -32,11 +48,24 @@ export default function ItemBox(props) {
                 </div>
                 {
                     props.showMore ?
-                        <img id="itembox-more-button" src={button_more} className="highlight-button" alt=""></img>
+                        <img
+                            id="itembox-more-button"
+                            onClick={handleOpenMore}
+                            src={button_more}
+                            ref={buttonRef}
+                            className="highlight-button"
+                            alt=""
+                        ></img>
                         :
                         null
                 }
             </div>
+
+            {
+                showMenu && (
+                    <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={[{name: "Button", onClick: () => {}}]}/>
+                )
+            }
         </div>
     )
 }
