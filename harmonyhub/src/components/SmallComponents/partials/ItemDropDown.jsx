@@ -9,10 +9,22 @@ export const ItemDropDownMenu = ({ buttonRef, onClose, menuItems }) => {
   useEffect(() => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-      setPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
+      const menuElement = document.querySelector(".dropdown-menu").getBoundingClientRect();
+
+      console.log(menuElement.width);
+
+      // Nếu dropdown vượt quá màn hình, dịch sang trái
+      if (rect.left + window.scrollX + menuElement.width > window.innerWidth) {
+        setPosition({
+          top: rect.bottom + window.scrollY,
+          left: rect.left + window.scrollX + rect.width - menuElement.width, // Giới hạn trong màn hình
+        });
+      } else {
+        setPosition({
+          top: rect.bottom + window.scrollY,
+          left: rect.left + window.scrollX,
+        });
+      }
     }
   }, [buttonRef]);
 
@@ -34,6 +46,12 @@ export const ItemDropDownMenu = ({ buttonRef, onClose, menuItems }) => {
     };
   }, [onClose, buttonRef]);
 
+  const handleClick = (menuItemAction) => {
+    if (typeof menuItemAction === "function") {
+      menuItemAction();
+    }
+    onClose();
+  }
 
   return createPortal(
     <div className="dropdown-menu"
@@ -49,7 +67,7 @@ export const ItemDropDownMenu = ({ buttonRef, onClose, menuItems }) => {
           menuItems && menuItems.map((item, index) => (
             <li
               key={index} 
-              onClick={item.onClick}
+              onClick={() => handleClick(item.onClick)}
             >
               {item.name}
             </li>

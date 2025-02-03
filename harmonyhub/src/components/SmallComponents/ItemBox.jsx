@@ -17,8 +17,8 @@ export default function ItemBox(props) {
     };
 
     const handleOpenMore = () => {
-        toggleMainContentScroll(false);
-        setShowMenu(true);
+        toggleMainContentScroll(showMenu);
+        setShowMenu(!showMenu);
     }
 
     const handleCloseMore = () => {
@@ -37,10 +37,10 @@ export default function ItemBox(props) {
             </div>
             <div id="itembox-content-container">
                 <div id="itembox-title-container">
-                    <p id="itembox-title" style={{ width: "calc(" + props.imageWidth + " - 4vh)", textAlign: (props.titleAlign || 'left') }}>{props.title}</p>
+                    <p id="itembox-title" style={{ width: "calc(" + props.imageWidth + " - 2vh)", textAlign: (props.titleAlign || 'left') }}>{props.title}</p>
                     {
                         props.subtitle || props.view ?
-                            <div id="itembox-subtitle-wrapper" style={{ width: "calc(" + props.imageWidth + " - 4vh)" }}>
+                            <div id="itembox-subtitle-wrapper" style={{ width: "calc(" + props.imageWidth + " - 2vh)" }}>
                                 {props.subtitle ? <p id="itembox-subtitle">{props.subtitle}</p> : null}
                                 {props.view ? <p id="itembox-subtitle-right">{props.view}</p> : null}
                             </div> : null
@@ -63,7 +63,7 @@ export default function ItemBox(props) {
 
             {
                 showMenu && (
-                    <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={[{name: "Button", onClick: () => {}}]}/>
+                    <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={props.menuItems || null}/>
                 )
             }
         </div>
@@ -84,6 +84,18 @@ export const ArtistBox = (props) => {
 }
 
 export const MusicBox = (props) => {
+
+    const createMenuItems = () => {
+        return [
+            {
+                name: "Add to Playlist",
+                onClick: () => {
+                    console.log("Do something");
+                }
+            },
+        ];
+    }
+    
     return (
         <ItemBox
             imageWidth={sComponents.value.musicBoxWidth}
@@ -92,6 +104,7 @@ export const MusicBox = (props) => {
             subtitle={props.subtitle}
             onClick={props.onClick}
             showMore={true}
+            menuItems={createMenuItems()}
         />
     );
 }
@@ -104,12 +117,24 @@ export const AlbumBox = (props) => {
             title={props.title}
             subtitle={props.subtitle}
             onClick={props.onClick}
-            showMore={true}
+            showMore={false}
         />
     );
 }
 
 export const PlaylistBox = (props) => {
+
+    const createMenuItems = () => {
+        return [
+            {
+                name: "Save playlist",
+                onClick: () => {
+                    console.log("Do something");
+                }
+            },
+        ];
+    }
+
     return (
         <ItemBox
             imageWidth={sComponents.value.playlistBoxWidth}
@@ -117,6 +142,7 @@ export const PlaylistBox = (props) => {
             title={props.title}
             onClick={props.onClick}
             showMore={true}
+            menuItems={createMenuItems()}
         />
     );
 }

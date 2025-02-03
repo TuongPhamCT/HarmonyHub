@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import item_placeholder from '../../assets/img/placeholder_disc.png';
 import button_more from '../../assets/img/component_more_vertical.png';
 import button_love_on from '../../assets/img/component_love_on.png';
 import button_love_off from '../../assets/img/component_love_off.png';
 import './MusicBar.css';
+import { ItemDropDownMenu } from './partials/ItemDropDown';
+import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 
 export default function MusicBar(props) {
     const [favorToggle, setFavorToggle] = useState(props.favor || false);
+    const [showMenu, setShowMenu] = useState(false);
+    const buttonRef = useRef(null);
     
     const handleError = (e) => {
         e.target.onerror = null; // Prevents infinite loop if placeholder fails
@@ -16,6 +20,27 @@ export default function MusicBar(props) {
     // Toggle favorite
     const toggleFavor = () => {
         setFavorToggle(!favorToggle);
+    }
+
+    const handleOpenMore = () => {
+        toggleMainContentScroll(showMenu);
+        setShowMenu(!showMenu);
+    }
+
+    const handleCloseMore = () => {
+        toggleMainContentScroll(true);
+        setShowMenu(false);
+    }
+
+    const createMenuItems = () => {
+        return [
+            {
+                name: "Add to Playlist",
+                onClick: () => {
+                    console.log("Do something");
+                }
+            },
+        ];
     }
 
     return (
@@ -43,9 +68,15 @@ export default function MusicBar(props) {
                     <p>{props.time || "-:-"}</p>
                 </div>
                 <div id="musicbar-more">
-                    <img id="musicbar-button-more" src={button_more} className="highlight-button" alt=""></img>
+                    <img id="musicbar-button-more" src={button_more} ref={buttonRef} className="highlight-button" alt="" onClick={handleOpenMore}></img>
                 </div>
             </div>
+
+            {
+                showMenu && (
+                    <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={createMenuItems()}/>
+                )
+            }
         </div>
     )
 }

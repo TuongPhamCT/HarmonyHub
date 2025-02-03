@@ -4,8 +4,8 @@
   left: 100%;
   z-index: 9999;
   top: 100%;
-  margin-top: 5px;
-  width: 150px;
+  margin-top: 0.5vh;
+  width: 25vh;
   background: #2f2f2f;
   color: white;
   border-radius: 0.5vh;
