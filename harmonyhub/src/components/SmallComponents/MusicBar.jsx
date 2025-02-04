@@ -6,10 +6,14 @@ import button_love_off from '../../assets/img/component_love_off.png';
 import './MusicBar.css';
 import { ItemDropDownMenu } from './partials/ItemDropDown';
 import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
+import { AddToPlaylist } from './partials/AddToPlaylist';
+import { CreatePlaylist } from './partials/CreatePlaylist';
 
 export default function MusicBar(props) {
     const [favorToggle, setFavorToggle] = useState(props.favor || false);
     const [showMenu, setShowMenu] = useState(false);
+    const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
+    const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
     const buttonRef = useRef(null);
     
     const handleError = (e) => {
@@ -75,6 +79,29 @@ export default function MusicBar(props) {
             {
                 showMenu && (
                     <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={createMenuItems()}/>
+                )
+            }
+            {
+                showAddToPlaylist && (
+                    <AddToPlaylist
+                        onCreatePlaylist={() => {
+                            setShowCreatePlaylist(!showCreatePlaylist);
+                            setShowAddToPlaylist(!showAddToPlaylist);
+                            toggleMainContentScroll(false);
+                        }}
+                        onClose={() => {
+                            setShowAddToPlaylist(!showAddToPlaylist);
+                            toggleMainContentScroll(true);
+                        }}
+                    />
+                )
+            }
+            {
+                showCreatePlaylist && (
+                    <CreatePlaylist onClose={() => {
+                        setShowCreatePlaylist(!showCreatePlaylist);
+                        toggleMainContentScroll(true);
+                    }} />
                 )
             }
         </div>
