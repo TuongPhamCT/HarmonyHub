@@ -23,7 +23,8 @@
     justify-content: space-between;
     flex-direction: row;
     overflow-x: auto;
-    gap: 1vh
+    gap: 1vh;
+    padding-bottom: 2vh;
 }
 
 .item-collection-title {

@@ -1,6 +1,7 @@
 
 #itembox-container {
     background-color: #1f1f1f;
+    position: relative;
     display: flex;
     flex-direction: column;
     border-radius: 1vh;
@@ -93,6 +94,7 @@
 #itembox-more-button {
     height: 4vh;
     width: 4vh;
+    margin-right: 2vh;
     padding: 0.2vh;
     border-radius: 50%;
     transition: background-color 1.2s ease;

@@ -136,7 +136,15 @@
 #musicbar-button-more {
     width: 3vh;
     height: 3vh;
+    border-radius: 50%;
+    transition: background-color 1.2s ease;
 }
+
+#musicbar-button-more:active {
+    background-color: #707070;
+    border-radius: 50%;
+}
+
 
 /* admin button */
 #musicbar-actions {

@@ -6,6 +6,7 @@ import item_placeholder from '../../assets/img/placeholder_disc.png';
 import love_off from '../../assets/img/playbar/playbar-love-off.png';
 import love_on from '../../assets/img/playbar/playbar-love-on.png';
 import micro from '../../assets/img/playbar/playbar-microphone.png';
+import micro_active from '../../assets/img/playbar/playbar-microphone-active.png';
 import more from '../../assets/img/playbar/playbar-more.png';
 import next from '../../assets/img/playbar/playbar-next.png';
 import previous from '../../assets/img/playbar/playbar-previous.png';
@@ -18,6 +19,7 @@ import speaker_off from '../../assets/img/playbar/playbar-speaker-off.png';
 import speaker_on from '../../assets/img/playbar/playbar-speaker-on.png';
 import play from '../../assets/img/playbar/playbar-play.png';
 import pause from '../../assets/img/playbar/playbar-pause.png';
+import { PlaybarLyric } from './partials/playbarLyric';
 
 export default function Playbar() {
   const audioRef = useRef(null); // Tham chiếu đến thẻ audio
@@ -30,6 +32,8 @@ export default function Playbar() {
   const [randomToggle, setRandomToggle] = useState(false);
   const [playToggle, setPlayToggle] = useState(false);
   const [repeatToggle, setRepeatToggle] = useState("none");
+
+  const [showLyric, setShowLyric] = useState(false);
 
   // // Cập nhật tiến độ khi nhạc đang phát
   // const handleTimeUpdate = () => {
@@ -95,6 +99,14 @@ export default function Playbar() {
       setVolume(cacheVolume > 0 ? cacheVolume : 1);
       setSpeakerOn(true);
     }
+  }
+
+  const handleToggleLyric = () => {
+    setShowLyric(!showLyric);
+  }
+
+  const getLyric = () => {
+    return "bla bla\nbla bla bla\nbla bla bla\nbla bla\nbla\nbla\nbla";
   }
 
   const RepeatImage = {
@@ -180,9 +192,10 @@ export default function Playbar() {
       </div>
       <div id="playbar-right-container">
         <img
-          src={ micro }
+          src={ showLyric ? micro_active : micro }
           className="playbar-button playbar-button-big-size"
           alt=""
+          onClick={handleToggleLyric}
         ></img>
         <img
           src={ speakerOn ? speaker_on : speaker_off }
@@ -201,6 +214,12 @@ export default function Playbar() {
           style={{ width: "15vh" }}
         />
       </div>
+
+      {
+        showLyric && (
+            <PlaybarLyric lyric={getLyric()}/>
+        )
+      }
     </div>
   )
 }

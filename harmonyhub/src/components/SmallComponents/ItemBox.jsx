@@ -3,12 +3,30 @@ import item_placeholder from '../../assets/img/placeholder_disc.png';
 import button_more from '../../assets/img/component_more_vertical.png';
 import { sComponents } from './componentStore';
 import './ItemBox.css';
+import { useState, useRef } from 'react';
+import { ItemDropDownMenu } from './partials/ItemDropDown';
+import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
+import { CreatePlaylist } from './partials/CreatePlaylist';
+import { AddToPlaylist } from './partials/AddToPlaylist';
 
 export default function ItemBox(props) {
+    const [showMenu, setShowMenu] = useState(false);
+    const buttonRef = useRef(null);
+
     const handleError = (e) => {
         e.target.onerror = null; // Prevents infinite loop if placeholder fails
         e.target.src = item_placeholder; // Placeholder image URL
     };
+
+    const handleOpenMore = () => {
+        toggleMainContentScroll(showMenu);
+        setShowMenu(!showMenu);
+    }
+
+    const handleCloseMore = () => {
+        toggleMainContentScroll(true);
+        setShowMenu(false);
+    }
 
     return (
         <div id="itembox-container" onClick={props.onClick}>
@@ -32,11 +50,24 @@ export default function ItemBox(props) {
                 </div>
                 {
                     props.showMore ?
-                        <img id="itembox-more-button" src={button_more} className="highlight-button" alt=""></img>
+                        <img
+                            id="itembox-more-button"
+                            onClick={handleOpenMore}
+                            src={button_more}
+                            ref={buttonRef}
+                            className="highlight-button"
+                            alt=""
+                        ></img>
                         :
                         null
                 }
             </div>
+
+            {
+                showMenu && (
+                    <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={props.menuItems || null}/>
+                )
+            }
         </div>
     )
 }
@@ -55,15 +86,55 @@ export const ArtistBox = (props) => {
 }
 
 export const MusicBox = (props) => {
+    const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
+    const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
+
+    const createMenuItems = () => {
+        return [
+            {
+                name: "Add to Playlist",
+                onClick: () => {
+                    setShowAddToPlaylist(!showAddToPlaylist)
+                }
+            },
+        ];
+    }
+    
     return (
-        <ItemBox
-            imageWidth={sComponents.value.musicBoxWidth}
-            imageHeight={sComponents.value.mvBoxHeight}
-            title={props.title}
-            subtitle={props.subtitle}
-            onClick={props.onClick}
-            showMore={true}
-        />
+        <div>
+            <ItemBox
+                imageWidth={sComponents.value.musicBoxWidth}
+                imageHeight={sComponents.value.mvBoxHeight}
+                title={props.title}
+                subtitle={props.subtitle}
+                onClick={props.onClick}
+                showMore={true}
+                menuItems={createMenuItems()}
+            />
+            {
+                showAddToPlaylist && (
+                    <AddToPlaylist
+                        onCreatePlaylist={() => {
+                            setShowCreatePlaylist(!showCreatePlaylist);
+                            setShowAddToPlaylist(!showAddToPlaylist);
+                            toggleMainContentScroll(false);
+                        }}
+                        onClose={() => {
+                            setShowAddToPlaylist(!showAddToPlaylist);
+                            toggleMainContentScroll(true);
+                        }}
+                    />
+                )
+            }
+            {
+                showCreatePlaylist && (
+                    <CreatePlaylist onClose={() => {
+                        setShowCreatePlaylist(!showCreatePlaylist);
+                        toggleMainContentScroll(true);
+                    }} />
+                )
+            }
+        </div>
     );
 }
 
@@ -75,12 +146,24 @@ export const AlbumBox = (props) => {
             title={props.title}
             subtitle={props.subtitle}
             onClick={props.onClick}
-            showMore={true}
+            showMore={false}
         />
     );
 }
 
 export const PlaylistBox = (props) => {
+
+    const createMenuItems = () => {
+        return [
+            {
+                name: "Save playlist",
+                onClick: () => {
+                    console.log("Do something");
+                }
+            },
+        ];
+    }
+
     return (
         <ItemBox
             imageWidth={sComponents.value.playlistBoxWidth}
@@ -88,6 +171,7 @@ export const PlaylistBox = (props) => {
             title={props.title}
             onClick={props.onClick}
             showMore={true}
+            menuItems={createMenuItems()}
         />
     );
 }

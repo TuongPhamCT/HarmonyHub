@@ -1,0 +1,47 @@
+.create-playlist-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: 50%;
+  top: 50%;
+  z-index: 9999;
+  width: 40vh;
+  height: fit-content;
+  background: #181818;
+  color: white;
+  border-radius: 2vh;
+  border-width: 0.1vh;
+  border-color: white;
+  text-align: center;
+  align-items: center;
+  padding: 4vh 4vh;
+  transform: translate(-50%, -50%);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#create-playlist-input {
+  border-color: white;
+  background-color: transparent;
+  padding: 2vh;
+  border-radius: 1vh;
+  border-width: 0.2vh;
+  width: 90%;
+  font-size: 2vh;
+}
+
+#create-playlist-title {
+  width: 90%;
+  font-size: 3vh;
+  font-weight: bold;
+  text-align: left;
+  padding-bottom: 2vh;
+}
+
+#create-playlist-buttons {
+  width: 90%;
+  height: 6vh;
+  padding-top: 2vh;
+  display: flex;
+  justify-content: space-between;
+}

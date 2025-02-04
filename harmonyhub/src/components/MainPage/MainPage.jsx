@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './MainPage.css'; // Import the CSS file for styling
 import '../Global.css';
 import Sidebar from './Sidebar';
@@ -28,6 +28,7 @@ import ArtistDetail from '../ArtistsPage/ArtistDetail';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
+const ssCanScrollContent = sMainController.slice((n) => n.canScroll);
 
 function MainPage() {
 
@@ -35,6 +36,19 @@ function MainPage() {
         const component = document.getElementById("content-area");
         component.scrollTo({ top: 0, behavior: "smooth" });
     }
+
+    // handle Scrolling content area
+    const handleContentScroll = (e) => {
+        if (ssCanScrollContent.value === false) {
+            e.preventDefault();
+        }
+    };
+
+    // Avoid Scrolling content
+    useEffect(() => {
+        const component = document.getElementById("content-area");
+        component.addEventListener('wheel', handleContentScroll, { passive: false });
+    }, []);
 
     return (
         <div className="playbar-wrapper">
