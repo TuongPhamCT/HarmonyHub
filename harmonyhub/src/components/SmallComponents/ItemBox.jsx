@@ -6,6 +6,8 @@ import './ItemBox.css';
 import { useState, useRef } from 'react';
 import { ItemDropDownMenu } from './partials/ItemDropDown';
 import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
+import { CreatePlaylist } from './partials/CreatePlaylist';
+import { AddToPlaylist } from './partials/AddToPlaylist';
 
 export default function ItemBox(props) {
     const [showMenu, setShowMenu] = useState(false);
@@ -84,28 +86,55 @@ export const ArtistBox = (props) => {
 }
 
 export const MusicBox = (props) => {
+    const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
+    const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
 
     const createMenuItems = () => {
         return [
             {
                 name: "Add to Playlist",
                 onClick: () => {
-                    console.log("Do something");
+                    setShowAddToPlaylist(!showAddToPlaylist)
                 }
             },
         ];
     }
     
     return (
-        <ItemBox
-            imageWidth={sComponents.value.musicBoxWidth}
-            imageHeight={sComponents.value.mvBoxHeight}
-            title={props.title}
-            subtitle={props.subtitle}
-            onClick={props.onClick}
-            showMore={true}
-            menuItems={createMenuItems()}
-        />
+        <div>
+            <ItemBox
+                imageWidth={sComponents.value.musicBoxWidth}
+                imageHeight={sComponents.value.mvBoxHeight}
+                title={props.title}
+                subtitle={props.subtitle}
+                onClick={props.onClick}
+                showMore={true}
+                menuItems={createMenuItems()}
+            />
+            {
+                showAddToPlaylist && (
+                    <AddToPlaylist
+                        onCreatePlaylist={() => {
+                            setShowCreatePlaylist(!showCreatePlaylist);
+                            setShowAddToPlaylist(!showAddToPlaylist);
+                            toggleMainContentScroll(false);
+                        }}
+                        onClose={() => {
+                            setShowAddToPlaylist(!showAddToPlaylist);
+                            toggleMainContentScroll(true);
+                        }}
+                    />
+                )
+            }
+            {
+                showCreatePlaylist && (
+                    <CreatePlaylist onClose={() => {
+                        setShowCreatePlaylist(!showCreatePlaylist);
+                        toggleMainContentScroll(true);
+                    }} />
+                )
+            }
+        </div>
     );
 }
 
