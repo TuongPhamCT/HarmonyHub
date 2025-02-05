@@ -6,6 +6,7 @@ import SingleSong from './components/SingleSong';
 import ArtistsPlaylist from './components/ArtistsPlaylist';
 import AlsoListen from './components/AlsoListen';
 import { useParams } from 'react-router';
+import Footer from '../MainPage/Footer';
 
 
 function ArtitstsPage(props) {
@@ -20,6 +21,7 @@ function ArtitstsPage(props) {
             <SingleSong />
             <ArtistsPlaylist />
             <AlsoListen />
+            <Footer/>
         </div>
     );
 }

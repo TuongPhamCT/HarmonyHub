@@ -10,7 +10,7 @@ import AllAlbumsPage from '../AlbumsPage/AllAlbumsPage';
 import { Routes, Route } from "react-router-dom";
 import DiscoverPage from '../DiscoverPage/DiscoverPage';
 import { sMainController, sPlaybar } from '../../store';
-import ArtitstsPage from '../ArtistsPage/ArtitstsPage';
+import ArtistsPage from '../ArtistsPage/ArtistsPage';
 import YourPlaylist from '../YourPlaylistPage/YourPlaylist';
 import PlaylistDetail from '../YourPlaylistPage/PlaylistDetail';
 import ApprovePage from '../Approve/Approve';
@@ -79,7 +79,7 @@ function MainPage() {
                             <Route path='/discover' element={<DiscoverPage />} />
                             <Route path='/albums' element={<AlbumsPage />} />
                             <Route path='/albums/:view' element={<AllAlbumsPage />} />
-                            <Route path='/artist' element={<ArtitstsPage />} />
+                            <Route path='/artist' element={<ArtistsPage />} />
                             <Route path='/artist/:id' element={<ArtistDetail />} />
                             <Route path='/yourplaylist' element={<YourPlaylist />} />
                             <Route path='/yourplaylist/:playlistId' element={<PlaylistDetail />} />
@@ -92,7 +92,7 @@ function MainPage() {
                             <Route path='/support' element={<SupportPage />} />
                             <Route path='/search' element={<SearchResultsPage />} />
                             <Route path='/albumdetails' element={<AlbumDetailsPage />} />
-                            <Route path='/mostplayed/*' element={<MostPlayedPage />} />
+                            <Route path='/mostplayed' element={<MostPlayedPage />} />
                         </Routes>
                         {/* <sMainController.DevTool name="sMainController"/> */}
                     </div>

@@ -1,8 +1,9 @@
 import React from 'react';
 import { AlbumBox, ArtistBox } from '../SmallComponents/ItemBox';
 import { useNavigate } from 'react-router';
+import Footer from '../MainPage/Footer';
 
-function ArtitstsPage(props) {
+function ArtistsPage(props) {
     const demoList = [
         "1", "2", "3", "4", "5", "6", "7", "8"
     ];
@@ -35,9 +36,9 @@ function ArtitstsPage(props) {
                     {artist}
                 </div>
             </div>
-
+            <Footer/>
         </div>
     );
 }
 
-export default ArtitstsPage;
+export default ArtistsPage;
