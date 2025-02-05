@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import SignUp from "../SignUp/SignUp";
 import "./SearchBar.css";
 import "../../components/Global.css";
@@ -50,6 +50,8 @@ const SearchBarLoggedMode = () => {
 }
 
 const SearchBar = () => {
+  const [searchValue, setSearchValue] = useState("");
+
   const nav = useNavigate();
   //ref for the signUp & signIn modal
   const signUpRef = useRef();
@@ -116,6 +118,12 @@ const SearchBar = () => {
     nav(-1);
   };
 
+  const handleSearch = () => {
+    if (searchValue !== "") {
+      nav('/search/results?keyword=' + searchValue);
+    }
+  }
+
 
   return (
     <div className="searchbar">
@@ -164,11 +172,19 @@ const SearchBar = () => {
                 src={search_icon}
                 className="txt_button"
                 alt=""
+                onClick={handleSearch}
               ></img>
               <input
                 type="text"
                 id="searchbox_input"
                 placeholder="Search for Musics, Artists, ..."
+                value={searchValue}
+                onChange={(event) => {setSearchValue(event.target.value)}}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
               ></input>
             </div>
           </div>

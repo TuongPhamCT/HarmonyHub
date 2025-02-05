@@ -7,7 +7,7 @@ import SearchBar from './SearchBar';
 import goUpButton from '../../assets/img/component_up.png';
 import AlbumsPage from '../AlbumsPage/AlbumsPage';
 import AllAlbumsPage from '../AlbumsPage/AllAlbumsPage';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import DiscoverPage from '../DiscoverPage/DiscoverPage';
 import { sMainController, sPlaybar } from '../../store';
 import ArtistsPage from '../ArtistsPage/ArtistsPage';
@@ -25,12 +25,17 @@ import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
 import MostPlayedPage from '../MostPlayedPage/MostPlayedPage';
 import Playbar from './Playbar';
 import ArtistDetail from '../ArtistsPage/ArtistDetail';
+import AllSongsPage from '../AllSongsPage/AllSongsPage';
+import AllPlaylistsPage from '../AllPlaylistsPage/AllPlaylistsPage';
+import PlaylistDetailPage from '../PlaylistDetailPage/PlaylistDetailPage';
+import AllGenresPage from '../AllGenresPage/AllGenresPage';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
 const ssCanScrollContent = sMainController.slice((n) => n.canScroll);
 
 function MainPage() {
+    const { pathname } = useLocation();
 
     const handleGoUp = () => {
         const component = document.getElementById("content-area");
@@ -49,6 +54,12 @@ function MainPage() {
         const component = document.getElementById("content-area");
         component.addEventListener('wheel', handleContentScroll, { passive: false });
     }, []);
+
+    // tự scroll lên top khi đổi path
+    useEffect(() => {
+        const component = document.getElementById("content-area");
+        component.scrollTo({ top: 0 });
+    }, [pathname]);
 
     return (
         <div className="playbar-wrapper">
@@ -90,9 +101,13 @@ function MainPage() {
                             <Route path='/policy' element={<PolicyPage />} />
                             <Route path='/social_media' element={<SocialMediaPage />} />
                             <Route path='/support' element={<SupportPage />} />
-                            <Route path='/search' element={<SearchResultsPage />} />
-                            <Route path='/albumdetails' element={<AlbumDetailsPage />} />
+                            <Route path='/search/results' element={<SearchResultsPage />} />
+                            <Route path='/albumdetails/:albumId' element={<AlbumDetailsPage />} />
                             <Route path='/mostplayed' element={<MostPlayedPage />} />
+                            <Route path='/songs/:view' element={<AllSongsPage />} />
+                            <Route path='/playlists/:view' element={<AllPlaylistsPage />} />
+                            <Route path='/playlist/:playlistId' element={<PlaylistDetailPage />} />
+                            <Route path='/genres' element={<AllGenresPage />} />
                         </Routes>
                         {/* <sMainController.DevTool name="sMainController"/> */}
                     </div>

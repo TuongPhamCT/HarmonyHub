@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../components/Global.css'
-import './AlbumDetailsPage.css'
+import './PlaylistDetailPage.css'
 import Footer from '../MainPage/Footer';
 import MusicBar from '../SmallComponents/MusicBar';
 import MusicCollection from '../SmallComponents/MusicCollection';
@@ -13,7 +13,7 @@ const demoList = [
     "song1", "song2", "song3", "song4", "song5","song6","song7","song8"
 ]
 
-const AlbumDetailsPage = () =>{
+const PlaylistDetailPage = () =>{
     const { id } = useParams();
     const [songs, setSongs] = useState([]);
 
@@ -49,30 +49,35 @@ const AlbumDetailsPage = () =>{
 
     return( 
         <div>
-            <div className='album-details-page'>
+            <div className='playlist-details-page'>
                 <div id="app_bar">
                     <div id="app_bar_content">
                         
-                        <img src={album} id="album_img" alt=""></img>
-                        <div className="album-text">
-                            <p className="album-title">{title} {/*<span className="pink">Mix</span>*/}</p>
-                            <div className="album-desscription">
+                        <img src={album} id="playlist_img" alt=''></img>
+                        <div className="playlist-text">
+                            <p className="playlist-title">{title} {/*<span className="pink">Mix</span>*/}</p>
+                            <div className="playlist-desscription">
                                 <h3>{description}</h3>
                             </div>
                             <h3>{songs.length} Songs <span className="pinkpro">.</span> {totalTime}</h3>
                         </div>
-                        <div className="album-action">
+                        <div className="playlist-action">
                             <h2 >Play All</h2>
-                            <img src={playBTN} alt=""></img>
+                            <img src={playBTN} alt=''></img>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <MusicCollection
-                        musicList={songs}
-                        headerGap="10vh"
-                        disableViewAll={true}
-                    ></MusicCollection>
+                    {
+                        songs.length > 0 ?
+                            <MusicCollection
+                                musicList={songs}
+                                headerGap="10vh"
+                                disableViewAll={true}
+                            ></MusicCollection>
+                        :
+                            null
+                    }
                 </div>
                 <Footer/>
             </div>
@@ -81,4 +86,4 @@ const AlbumDetailsPage = () =>{
     );    
 }
 
-export default AlbumDetailsPage;
+export default PlaylistDetailPage;

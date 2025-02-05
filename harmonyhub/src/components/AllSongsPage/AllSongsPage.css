@@ -1,0 +1,7 @@
+/* HomePage.css */
+#all-songs-page {
+    display: inline-block;
+    width: 100%;
+    flex-direction: column;
+    padding-top: 6vh;
+}
