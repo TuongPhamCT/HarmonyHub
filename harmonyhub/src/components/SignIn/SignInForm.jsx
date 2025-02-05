@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { setsAccessToken, sAccessToken } from '../config/store.ts'
+import { handleLogin } from '../../services/loginService.js';
 
 function SignInForm() {
     //control value of inputbox
@@ -47,8 +47,7 @@ function SignInForm() {
                 email: "",
                 password: ""
             });
-            setsAccessToken(data.accessToken);
-            localStorage.setItem("accessToken", data.accessToken);
+            handleLogin(data);
         } catch (error) {
             // Handle error
             console.error('Login failed:', error);

@@ -10,35 +10,37 @@ import icon_library from '../../assets/img/sidebar_library.png';
 import icon_most_played from '../../assets/img/sidebar_most_played.png';
 import icon_your_favorites from '../../assets/img/sidebar_your_favorites.png';
 import icon_your_playlist from '../../assets/img/sidebar_your_playlist.png';
-import icon_add_playlist from '../../assets/img/sidebar_add_playlist.png';
+// import icon_add_playlist from '../../assets/img/sidebar_add_playlist.png';
 import icon_settings from '../../assets/img/sidebar_settings.png';
 import icon_logout from '../../assets/img/sidebar_logout.png';
 import sidebar_icon from '../../assets/img/sidebar_menu_icon.png';
 import new_song from '../../assets/img/new_song.png';
 import add_song from '../../assets/img/add_song.png';
 import { useLocation, useNavigate } from 'react-router';
-import { sMainController } from '../../store';
+import { sMainController, sUser } from '../../store';
 
 const sidebar_items = [
-  { itemName: "Menu", class: "sidebar_header" },
-  { itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", id: '/' },
-  { itemName: "Discover", img: icon_discover, imgClass: "icon_content", id: '/discover' },
-  { itemName: "Albums", img: icon_albums, imgClass: "icon_content", id: '/albums' },
-  { itemName: "Artists", img: icon_artists, imgClass: "icon_content", id: '/artist' },
+  { itemName: "Menu", class: "sidebar_header", access: 0 },
+  { itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", id: '/', access: 0 },
+  { itemName: "Discover", img: icon_discover, imgClass: "icon_content", id: '/discover' , access: 0 },
+  { itemName: "Albums", img: icon_albums, imgClass: "icon_content", id: '/albums', access: 0 },
+  { itemName: "Artists", img: icon_artists, imgClass: "icon_content", id: '/artist', access: 0 },
   // {itemName: "Library", class: "sidebar_header"},
-  { itemName: "Library", img: icon_library, imgClass: "icon_content", id: '/library' },
-  { itemName: "Most Played", img: icon_most_played, imgClass: "icon_content", id: '/mostplayed' },
-  { itemName: "Playlist and favorite", class: "sidebar_header" },
-  { itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content" },
-  { itemName: "Your Playlist", img: icon_your_playlist, imgClass: "icon_content", id: '/yourplaylist' },
-  { itemName: "Add playlist", img: icon_add_playlist, id: "sidebar_add_playlist", imgClass: "icon_content" },
-  { itemName: "Admin", class: "sidebar_header" },
-  { itemName: "Approve", img: new_song, imgClass: "icon_content", id: '/approve' },
-  { itemName: "Add Song", img: add_song, imgClass: "icon_content", id: '/addsong' },
-  { itemName: "General", class: "sidebar_header" },
-  { itemName: "Settings", img: icon_settings, imgClass: "icon_content", id: '/settings' },
-  { itemName: "Logout", img: icon_logout, id: "sidebar_logout", imgClass: "icon_content" },
+  { itemName: "Library", img: icon_library, imgClass: "icon_content", id: '/library' , access: 2 },
+  { itemName: "Most Played", img: icon_most_played, imgClass: "icon_content", id: '/mostplayed', access: 0 },
+  { itemName: "Playlist and favorite", class: "sidebar_header", access: 2 },
+  { itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content", access: 2 },
+  { itemName: "Your Playlist", img: icon_your_playlist, imgClass: "icon_content", id: '/yourplaylist', access: 2 },
+  // { itemName: "Add playlist", img: icon_add_playlist, id: "sidebar_add_playlist", imgClass: "icon_content" },
+  { itemName: "Admin", class: "sidebar_header", access: 3 },
+  { itemName: "Approve", img: new_song, imgClass: "icon_content", id: '/approve', access: 3 },
+  { itemName: "Add Song", img: add_song, imgClass: "icon_content", id: '/addsong', access: 2 },
+  { itemName: "General", class: "sidebar_header", access: 2 },
+  { itemName: "Settings", img: icon_settings, imgClass: "icon_content", id: '/settings', access: 2 },
+  { itemName: "Logout", img: icon_logout, id: "sidebar_logout", imgClass: "icon_content", access: 2 },
 ]
+
+const ssPrivilege = sUser.slice((n) => n.privilege);
 
 const Sidebar = () => {
   const menuRef = useRef(null); // Reference to the <ul> element
@@ -91,7 +93,7 @@ const Sidebar = () => {
         nav('/library');
         break;
       case '/mostplayed':
-        nav('/mostplayed/day');
+        nav('/mostplayed');
         break;
       case "sidebar_add_playlist":
         return;
@@ -120,7 +122,7 @@ const Sidebar = () => {
       </div>
       <ul ref={menuRef} onClick={handleClick}>
         {
-          sidebar_items.map(
+          sidebar_items.filter((sItem) => ssPrivilege.value.includes(sItem.access)).map(
             (item, index) => (
               <li key={index} id={item.id ? item.id : undefined}
                 className={(item.class ? item.class + (item.isActive ? ' active' : '') : undefined)}>

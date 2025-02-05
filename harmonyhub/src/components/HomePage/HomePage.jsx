@@ -7,12 +7,15 @@ import { MusicBox, AlbumBox, ArtistBox, PlaylistBox } from '../SmallComponents/I
 import ItemCollection from '../SmallComponents/ItemCollection';
 import MusicBar from '../SmallComponents/MusicBar';
 import MusicCollection from '../SmallComponents/MusicCollection';
+import { useNavigate } from 'react-router';
 
 const demoList = [
     "song1", "song2", "song3", "song4", "song5"
 ]
 
 const HomePage = () => {
+    const nav = useNavigate();
+
     const musicBoxCollection = demoList.map(
         (item, index) => (
             <MusicBox key={"mb-col" + index} title={item} subtitle="random subtitle"></MusicBox>
@@ -59,12 +62,42 @@ const HomePage = () => {
                 </div>
             </div>
             <div>
-                <ItemCollection itemList={musicBoxCollection} title="Weekly Top" titleHighlight="Songs"></ItemCollection>
-                <ItemCollection itemList={musicBoxCollection} title="New Release" titleHighlight="Songs"></ItemCollection>
-                <MusicCollection musicList={musicCollection} title="Trending" titleHighlight="Songs" headerGap="10vh"></MusicCollection>
-                <ItemCollection itemList={artistCollection} title="Popular" titleHighlight="Artists"></ItemCollection>
-                <ItemCollection itemList={albumCollection} title="Top" titleHighlight="Albums"></ItemCollection>
-                <ItemCollection itemList={playlistCollection} title="Mood" titleHighlight="Playlists"></ItemCollection>
+                <ItemCollection
+                    itemList={musicBoxCollection}
+                    title="Weekly Top"
+                    titleHighlight="Songs"
+                    onViewAll={() => {nav('/mostplayed/week')}}
+                ></ItemCollection>
+                <ItemCollection
+                    itemList={musicBoxCollection}
+                    title="New Release"
+                    titleHighlight="Songs"
+                ></ItemCollection>
+                <MusicCollection
+                    musicList={musicCollection}
+                    title="Trending"
+                    titleHighlight="Songs"
+                    headerGap="10vh"
+                    onViewAll={() => {nav('/mostplayed/day')}}
+                ></MusicCollection>
+                <ItemCollection
+                    itemList={artistCollection}
+                    title="Popular"
+                    titleHighlight="Artists"
+                    onViewAll={() => {nav('/artist')}}
+                ></ItemCollection>
+                <ItemCollection
+                    itemList={albumCollection}
+                    title="Top"
+                    titleHighlight="Albums"
+                    onViewAll={() => {}}
+                ></ItemCollection>
+                <ItemCollection
+                    itemList={playlistCollection}
+                    title="Mood"
+                    titleHighlight="Playlists"
+                    onViewAll={() => {}}
+                ></ItemCollection>
             </div>
             <Footer />
         </div>

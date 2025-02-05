@@ -2,13 +2,14 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import '../../components/Global.css'
 import '../MostPlayedPage/MostPlayedPage.css'
 import Footer from '../MainPage/Footer';
-import ItemBox, { AlbumBox, MvBox } from '../SmallComponents/ItemBox';
-import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
+// import ItemBox, { AlbumBox, MvBox } from '../SmallComponents/ItemBox';
+// import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { ToggleButton } from '../SmallComponents/ToggleButton';
-import { TextButton } from '../SmallComponents/TextButton';
-import { sComponents } from '../SmallComponents/componentStore';
+// import { TextButton } from '../SmallComponents/TextButton';
+// import { sComponents } from '../SmallComponents/componentStore';
 import MusicBar from '../SmallComponents/MusicBar';
 import MusicCollection from '../SmallComponents/MusicCollection';
+import { useState } from 'react';
 // import { useEffect } from 'react';
 
 const demoList = [
@@ -16,33 +17,35 @@ const demoList = [
 ]
 
 const mostPlayedTabs = [
-    { tabName: "Day", path: "/mostplayed/day" },
-    { tabName: "Week", path: "/mostplayed/week" },
-    { tabName: "Month", path: "/mostplayed/month" }
+    { tabName: "Day", path: "day" },
+    { tabName: "Week", path: "week" },
+    { tabName: "Month", path: "month" }
 ]
 
 export default function MostPlayedPage() {
-    const nav = useNavigate();
+    const [tab, setTab] = useState("day");
+    // const nav = useNavigate();
     const location = useLocation();
 
     // useEffect(() => {
 
     // },[location]);
 
-    const handleTabClick = (path) => {
-        switch (path) {
-            case '/mostplayed/day':
-                nav('/mostplayed/day');
-                break;
-            case '/mostplayed/week':
-                nav('/mostplayed/week');
-                break;
-            case '/mostplayed/month':
-                nav('/mostplayed/month');
-                break;
-            default:
-                return;
-        }
+    const handleTabClick = (tabName) => {
+        setTab(tabName);
+        // switch (path) {
+        //     case '/mostplayed/day':
+        //         nav('/mostplayed/day');
+        //         break;
+        //     case '/mostplayed/week':
+        //         nav('/mostplayed/week');
+        //         break;
+        //     case '/mostplayed/month':
+        //         nav('/mostplayed/month');
+        //         break;
+        //     default:
+        //         return;
+        // }
     }
 
     const tabs = mostPlayedTabs.map(
@@ -60,6 +63,30 @@ export default function MostPlayedPage() {
         )
     )
 
+    const tabComponents = {
+        "day": 
+            <MusicCollection
+                musicList={musicCollection} 
+                title="Today Trending"
+                titleHighlight="Songs"
+                headerGap="10vh"
+            ></MusicCollection>,
+        "week": 
+            <MusicCollection
+                musicList={musicCollection} 
+                title="This Week Trending"
+                titleHighlight="Songs"
+                headerGap="10vh"
+            ></MusicCollection>,
+        "month":
+            <MusicCollection
+                musicList={musicCollection} 
+                title="This Month Trending"
+                titleHighlight="Songs"
+                headerGap="10vh"
+            ></MusicCollection>,
+    }
+
     return (
         <div id="mostplayed-page">
             <p id="mostplayed-title">Most Played Songs</p>
@@ -69,29 +96,9 @@ export default function MostPlayedPage() {
                 </div>
             </div>
             <hr />
-            <Routes>
-                <Route
-                    path='/day'
-                    element={
-                        <MusicCollection musicList={musicCollection} 
-                            title="Today Trending" titleHighlight="Songs" headerGap="10vh"></MusicCollection>
-                    }
-                />
-                <Route
-                    path='/week'
-                    element={
-                        <MusicCollection musicList={musicCollection} 
-                            title="This Week Trending" titleHighlight="Songs" headerGap="10vh"></MusicCollection>
-                    }
-                />
-                <Route
-                    path='/month'
-                    element={
-                        <MusicCollection musicList={musicCollection} 
-                            title="This Month Trending" titleHighlight="Songs" headerGap="10vh"></MusicCollection>
-                    }
-                />
-            </Routes>
+            {
+                tabComponents[tab] || null
+            }
             <Footer />
         </div>
     );

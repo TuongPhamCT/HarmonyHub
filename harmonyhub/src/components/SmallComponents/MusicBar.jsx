@@ -41,7 +41,7 @@ export default function MusicBar(props) {
             {
                 name: "Add to Playlist",
                 onClick: () => {
-                    console.log("Do something");
+                    setShowAddToPlaylist(!showAddToPlaylist)
                 }
             },
         ];
