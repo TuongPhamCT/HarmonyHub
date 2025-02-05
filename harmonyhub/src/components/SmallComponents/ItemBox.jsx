@@ -35,7 +35,7 @@ export default function ItemBox(props) {
                 className={props.roundImage ? "round" : "square"}>
                 <img src={props.image || item_placeholder}
                     alt="" onError={handleError} id="itembox-image"></img>
-                {props.imageTitle ? <p id="itembox-image-title">props.imageTitle</p> : null}
+                {props.imageTitle ? <p id="itembox-image-title">{props.imageTitle}</p> : null}
             </div>
             <div id="itembox-content-container">
                 <div id="itembox-title-container">
@@ -104,7 +104,7 @@ export const MusicBox = (props) => {
         <div>
             <ItemBox
                 imageWidth={sComponents.value.musicBoxWidth}
-                imageHeight={sComponents.value.mvBoxHeight}
+                imageHeight={sComponents.value.musicBoxHeight}
                 title={props.title}
                 subtitle={props.subtitle}
                 onClick={props.onClick}
@@ -194,7 +194,7 @@ export const GenreBox = (props) => {
     return (
         <ItemBox
             imageWidth={sComponents.value.genreBoxWidth}
-            imageHeight={sComponents.value.mvBoxHeight}
+            imageHeight={sComponents.value.genreBoxHeight}
             imageTitle={props.title}
             onClick={props.onClick}
         />

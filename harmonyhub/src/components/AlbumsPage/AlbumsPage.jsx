@@ -4,7 +4,8 @@ import '../AlbumsPage/AlbumsPage.css';
 import Footer from '../MainPage/Footer';
 import { AlbumBox } from '../SmallComponents/ItemBox';
 import ItemCollection from '../SmallComponents/ItemCollection';
-import { sAlbums } from './albumStore';
+import { navigateToNewReleaseAlbums, navigateToTopAlbums } from '../../services/navigateService';
+import { useEffect, useState } from 'react';
 
 const demoList = [
     "song1", "song2", "song3", "song4", "song5"
@@ -13,38 +14,61 @@ const demoList = [
 const AlbumsPage = () => {
     const nav = useNavigate();
 
-    const collection = demoList.map(
-        (item, index) => (
-            <AlbumBox
-                key={"album" + index}
-                title={item}
-                subtitle="random subtitle"
-            />
-        )
-    )
+    const [newReleaseAlbums, setNewReleaseAlbums] = useState([]);
+    const [topAlbums, setTopAlbums] = useState([]);
+
+    useEffect(() => {
+
+        setNewReleaseAlbums(
+            demoList.map(
+                (item, index) => (
+                    <AlbumBox
+                        key={"album" + index}
+                        title={item}
+                        subtitle="random subtitle"
+                        onClick={() => {handleOnClickAlbum(item)}}
+                    />
+                )
+            )
+        );
+
+        setTopAlbums(
+            demoList.map(
+                (item, index) => (
+                    <AlbumBox
+                        key={"album" + index}
+                        title={item}
+                        subtitle="random subtitle"
+                        onClick={() => {handleOnClickAlbum(item)}}
+                    />
+                )
+            )
+        );
+
+    }, []);
+
+    const handleOnClickAlbum = (albumId) => {
+        //nav('/album/' + albumId)
+    }
 
     const handleNewReleaseViewAll = () => {
-        sAlbums.set((v) => v.value.title = "New Release");
-        sAlbums.set((v) => v.value.titleHighlight = "Albums");
-        nav('/albums/new-release-albums');
+        navigateToNewReleaseAlbums(nav);
     }
 
     const handleTopAlbumsViewAll = () => {
-        sAlbums.set((v) => v.value.title = "Top");
-        sAlbums.set((v) => v.value.titleHighlight = "Albums");
-        nav('/albums/top-albums');
+        navigateToTopAlbums(nav);
     }
 
     return (
         <div id="albums-page">
             <ItemCollection
-                itemList={collection}
+                itemList={newReleaseAlbums}
                 title="New Release"
                 titleHighlight="Albums"
                 onViewAll={handleNewReleaseViewAll}
             ></ItemCollection>
             <ItemCollection
-                itemList={collection}
+                itemList={topAlbums}
                 title="Top"
                 titleHighlight="Albums"
                 onViewAll={handleTopAlbumsViewAll}

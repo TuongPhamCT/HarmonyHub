@@ -21,7 +21,11 @@ export default function MusicCollection(props) {
             <div id="music-collection-container">
                 {props.musicList}
             </div>
-            <p id="music-collection-view-all-button" className="txt_button">✚ View All</p>
+            {
+                !props.disableViewAll && (
+                    <p id="music-collection-view-all-button" className="txt_button" onClick={props.onViewAll}>✚ View All</p>
+                )
+            }
         </div>
     )
 }

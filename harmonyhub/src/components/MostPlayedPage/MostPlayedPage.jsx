@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 import '../../components/Global.css'
 import '../MostPlayedPage/MostPlayedPage.css'
 import Footer from '../MainPage/Footer';
@@ -52,7 +52,7 @@ export default function MostPlayedPage() {
         (item) => (
             <ToggleButton key={"mostplayed-tab-" + item.tabName} text={item.tabName}
                 activeColor="#EE10B0" color="white" width="24vh" height="100%"
-                active={item.path === location.pathname} onClick={() => handleTabClick(item.path)}/>
+                active={item.path === tab} onClick={() => handleTabClick(item.path)}/>
         )
     );
 
@@ -70,6 +70,7 @@ export default function MostPlayedPage() {
                 title="Today Trending"
                 titleHighlight="Songs"
                 headerGap="10vh"
+                disableViewAll={true}
             ></MusicCollection>,
         "week": 
             <MusicCollection
@@ -77,6 +78,7 @@ export default function MostPlayedPage() {
                 title="This Week Trending"
                 titleHighlight="Songs"
                 headerGap="10vh"
+                disableViewAll={true}
             ></MusicCollection>,
         "month":
             <MusicCollection
@@ -84,6 +86,7 @@ export default function MostPlayedPage() {
                 title="This Month Trending"
                 titleHighlight="Songs"
                 headerGap="10vh"
+                disableViewAll={true}
             ></MusicCollection>,
     }
 

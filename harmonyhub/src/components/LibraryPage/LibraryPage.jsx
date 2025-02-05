@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../components/Global.css';
 import '../LibraryPage/LibraryPage.css';
 import Footer from '../MainPage/Footer';
@@ -7,6 +7,8 @@ import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { TextButton } from '../SmallComponents/TextButton';
 import { ToggleButton } from '../SmallComponents/ToggleButton';
 import { sComponents } from '../SmallComponents/componentStore';
+import { useNavigate } from 'react-router';
+import { handleOnClickAlbum, handleOnClickSong } from '../../services/itemOnClickService';
 // import { useEffect } from 'react';
 
 const demoList = [
@@ -16,11 +18,15 @@ const demoList = [
 const libraryTabs = [
     "Song",
     "Album",
-    "MV"
+    // "MV"
 ]
 
 export default function LibraryPage() {
+    const nav = useNavigate();
     const [tab, setTab] = useState("Song");
+
+    const [songs, setSongs] = useState([]);
+    const [albums, setAlbums] = useState([]);
 
     const handleTabClick = (tabName) => {
         setTab(tabName);
@@ -34,43 +40,62 @@ export default function LibraryPage() {
         )
     );
 
-    const collection = demoList.map(
-        (item, index) => (
-            <MusicBox key={"ms-col" + item} imageWidth="24vh" imageHeight="24vh" title={item} subtitle="random subtitle" view={index + "M views"}></MusicBox>
-        )
-    );
+    useEffect(() => {
+        // call api to get data
 
-    const videoCollection = demoList.map(
-        (item, index) => (
-            <MvBox key={"mv-col" + item} title={"video" + item} subtitle="random subtitle" view={index + "M views"}></MvBox>       
-        )
-    )
+        setSongs(
+            demoList.map(
+                (item, index) => (
+                    <MusicBox
+                        key={"ms-col" + item}
+                        title={item}
+                        subtitle="random subtitle"
+                        onClick={() => handleOnClickSong(item)}
+                    ></MusicBox>
+                )
+            )
+        );
 
-    const albumCollection = demoList.map(
-        (item) => (
-            <AlbumBox key={"al-col" + item} title={"album " + item} subtitle="random subtitle"></AlbumBox>           
-        )
-    )
+        setAlbums(
+            demoList.map(
+                (item) => (
+                    <AlbumBox
+                        key={"al-col" + item}
+                        title={"album " + item}
+                        subtitle="random subtitle"
+                        onClick={() => handleOnClickAlbum(nav, item)}
+                    ></AlbumBox>           
+                )
+            )
+        );
+
+    }, [nav]);
+
+    // const videoCollection = demoList.map(
+    //     (item, index) => (
+    //         <MvBox key={"mv-col" + item} title={"video" + item} subtitle="random subtitle" view={index + "M views"}></MvBox>       
+    //     )
+    // )
 
     const tabComponents = {
         "Song": 
             <ItemCollectionVertical
-                itemList={collection}
+                itemList={songs}
                 title={"Song"}
                 columnWidth={sComponents.value.musicBoxWidth}
             />,
         "Album": 
             <ItemCollectionVertical 
-                itemList={albumCollection}
+                itemList={albums}
                 title={"Album"}
                 columnWidth={sComponents.value.albumBoxWidth}
             />,
-        "MV":
-            <ItemCollectionVertical
-                itemList={videoCollection}
-                title={"MV"}
-                columnWidth={sComponents.value.mvBoxWidth}
-            />,
+        // "MV":
+        //     <ItemCollectionVertical
+        //         itemList={videoCollection}
+        //         title={"MV"}
+        //         columnWidth={sComponents.value.mvBoxWidth}
+        //     />,
     }
 
     return (
