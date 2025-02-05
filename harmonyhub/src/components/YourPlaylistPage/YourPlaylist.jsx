@@ -64,20 +64,20 @@ function YourPlaylist(props) {
         navigate(`/yourplaylist/${id}`);
     };
 
-    const handleEdit = (id) => {
+    const handleEdit = async (id) => {
         setSelectedId(id);
         setMoreOption(false);
         setEditOption(true);
 
         try {
-            axios.put(`/update-playlist/${id}`, {
+            await axios.patch(`/playlist/${id}`, {
                 title: updateData.title,
                 isPublic: updateData.isPublic
             });
             toast.success("Playlist updated successfully!");
             setEditOption(false);
             setSelectedId(null);
-            fetchData();
+            await fetchData();
         } catch (error) {
             console.error('Error updating playlist:', error);
             toast.error("Error updating playlist!");
@@ -125,14 +125,14 @@ function YourPlaylist(props) {
                                 <label htmlFor="title">Title</label>
                                 <input
                                     className='w-full rounded-md p-[0.5rem] bg-gray-900 text-white'
-                                    type="text" id="title" name="title" defaultValue={playlist.title}
+                                    type="text" id="title" name="title"
                                     value={updateData.title}
                                     onChange={handleChange}
                                 />
                             </li>
                             <li>
                                 <label htmlFor="isPublic">Public</label>
-                                <input className='ml-[0.5rem]' type="checkbox" id="isPublic" name="isPublic" defaultChecked={playlist.isPublic}
+                                <input className='ml-[0.5rem]' type="checkbox" id="isPublic" name="isPublic"
                                     value={updateData.isPublic}
                                     onChange={handleChange}
                                 />
