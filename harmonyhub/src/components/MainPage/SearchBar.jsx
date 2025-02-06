@@ -192,8 +192,8 @@ const SearchBar = () => {
         )}
       </sMainController.Wrap>
       <sAccessToken.Wrap>
-        {() => (
-          sAccessToken.length > 0 ?
+        {(value) => (
+          value.length > 0 ?
             <SearchBarLoggedMode />
             :
             <SearchBarGuestMode toggleSignUpFunction={showSignUpModal} toggleSignInFunction={showSignInModal} />)}
