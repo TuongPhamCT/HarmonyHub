@@ -120,7 +120,7 @@ module.exports.verify = async function (req, res) {
 
 module.exports.login = async (req, res) => {
   const { email, password } = req.body;
-  user = await User.findOne({ where: { email } });
+  const user = await User.findOne({ where: { email } });
 
   if (!user) {
     return res.status(401).send({ message: "User Not found." });
@@ -153,5 +153,6 @@ module.exports.login = async (req, res) => {
 
   res.status(200).send({
     accessToken: token,
+    role: user.role,
   });
 };

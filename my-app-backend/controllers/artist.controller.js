@@ -4,8 +4,14 @@ const { Op } = require("sequelize");
 
 module.exports.getArtistById = async (req, res) => {
   const artistId = req.params.id;
-  const artistInfo = await artistService.getArtistInfoById(artistId);
-  res.json(artistInfo);
+  try {
+    const artistInfo = await artistService.getArtistInfoById(artistId);
+    res.json(artistInfo);
+  } catch (error) {
+    res
+      .status(error.status || 500)
+      .json({ message: "Error fetching artist", error: error.message });
+  }
 };
 
 module.exports.getAllArtists = async (req, res) => {

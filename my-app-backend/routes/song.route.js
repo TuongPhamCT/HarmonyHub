@@ -55,6 +55,8 @@ router.post(
 router.get("/song/:id", [verifyToken], controller.getSongById);
 router.get("/song/:id/play", [verifyToken], controller.playSongById);
 router.get("/most-play-songs", controller.getMostPlaySongs);
+router.get("/songs", controller.getAllSongs);
+router.get("/my-songs", [verifyToken], controller.getMySongs);
 router.delete("/song/:id", [verifyToken], controller.deleteSongById);
 router.patch(
   "/song/:id",

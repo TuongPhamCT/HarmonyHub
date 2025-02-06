@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../configs/sequelize");
 
-// Define the User model
 const Song = sequelize.define(
   "song",
   {

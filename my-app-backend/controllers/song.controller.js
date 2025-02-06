@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const Genre = require("../models/genre.model");
 const Song = require("../models/song.model");
+const { Op } = require("sequelize");
 const { getAudioDurationInSeconds } = require("get-audio-duration");
 
 const statSync = fs.statSync;
@@ -165,5 +166,112 @@ module.exports.updateSongById = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error updating song", error: error.message });
+  }
+};
+
+module.exports.getAllSongs = async (req, res) => {
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = "name",
+      order = "asc",
+      search = "",
+      genreId,
+    } = req.query;
+
+    // Create a regex for case-insensitive search
+    const searchRegex = `%${search}%`;
+
+    // Base where condition
+    const whereCondition = {
+      name: {
+        [Op.iLike]: searchRegex,
+      },
+    };
+
+    // Add genre filtering if genreId is provided
+    const includeCondition = genreId
+      ? [
+          {
+            model: Genre,
+            where: { id: genreId },
+            through: { attributes: [] }, // Exclude junction table attributes
+          },
+        ]
+      : [];
+
+    // Find songs with search, sorting, pagination, and optional genre filtering
+    const songs = await Song.findAll({
+      where: whereCondition,
+      include: includeCondition,
+      order: [[sortBy, order.toUpperCase()]],
+      offset: (page - 1) * limit,
+      limit: Number(limit),
+    });
+
+    // Get total count for pagination with genre filtering
+    const totalSongs = await Song.count({
+      where: whereCondition,
+      include: includeCondition,
+    });
+
+    res.status(200).send({
+      songs,
+      totalPages: Math.ceil(totalSongs / limit),
+      currentPage: Number(page),
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Some error occurred while retrieving songs.",
+    });
+  }
+};
+
+module.exports.getMySongs = async (req, res) => {
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = "name",
+      order = "asc",
+      search = "",
+    } = req.query;
+
+    const userId = req.userId;
+
+    // Create a regex for case-insensitive search
+    const searchRegex = `%${search}%`;
+
+    // Base where condition
+    const whereCondition = {
+      name: {
+        [Op.iLike]: searchRegex,
+      },
+      post_user_id: userId,
+    };
+
+    // Find songs with search, sorting, pagination, and optional genre filtering
+    const songs = await Song.findAll({
+      where: whereCondition,
+      order: [[sortBy, order.toUpperCase()]],
+      offset: (page - 1) * limit,
+      limit: Number(limit),
+    });
+
+    // Get total count for pagination with genre filtering
+    const totalSongs = await Song.count({
+      where: whereCondition,
+    });
+
+    res.status(200).send({
+      songs,
+      totalPages: Math.ceil(totalSongs / limit),
+      currentPage: Number(page),
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Some error occurred while retrieving songs.",
+    });
   }
 };
