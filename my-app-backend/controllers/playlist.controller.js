@@ -96,3 +96,13 @@ module.exports.updatePlaylistById = async (req, res) => {
     res.status(error.status || 500).json({ message: error.message });
   }
 };
+
+module.exports.getSongsInPlaylist = async (req, res) => {
+  const playlistId = req.params.id;
+  try {
+    const songs = await playlistService.getSongsInPlaylist(playlistId);
+    res.json(songs);
+  } catch (error) {
+    res.status(error.status || 500).json({ message: error.message });
+  }
+};
