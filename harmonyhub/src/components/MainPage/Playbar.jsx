@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './Playbar.css';
 import { convertIntToTime } from './services/playbarServices';
 
@@ -20,11 +20,19 @@ import speaker_on from '../../assets/img/playbar/playbar-speaker-on.png';
 import play from '../../assets/img/playbar/playbar-play.png';
 import pause from '../../assets/img/playbar/playbar-pause.png';
 import { PlaybarLyric } from './partials/playbarLyric';
+import { sPlaybar, sUser } from '../../store';
+import { AddToPlaylist } from '../SmallComponents/partials/AddToPlaylist';
+import { CreatePlaylist } from '../SmallComponents/partials/CreatePlaylist';
+import { toggleMainContentScroll } from './services/contentAreaServices';
+import { ItemDropDownMenu } from '../SmallComponents/partials/ItemDropDown';
+
+const ssPrivilege = sUser.slice((n) => n.privilege);
 
 export default function Playbar() {
   const audioRef = useRef(null); // Tham chiếu đến thẻ audio
   const [progress, setProgress] = useState(0); // Giá trị tiến độ phát nhạc
   const [duration, setDuration] = useState(0); // Thời lượng tổng của bài hát
+  const [audioSource, setAudioSource] = useState("");
   const [volume, setVolume] = useState(1); // Giá trị âm lượng (1 là max)
   const [speakerOn, setSpeakerOn] = useState(true);
   const [cacheVolume, setCacheVolume] = useState(1);
@@ -35,19 +43,33 @@ export default function Playbar() {
 
   const [showLyric, setShowLyric] = useState(false);
 
-  // // Cập nhật tiến độ khi nhạc đang phát
-  // const handleTimeUpdate = () => {
-  //   if (audioRef.current) {
-  //     setProgress(audioRef.current.currentTime);
-  //   }
-  // };
+  const [musicTitle, setMusicTitle] = useState("Music Title");
+  const [artist, setArtist] = useState("Artist");
 
-  // // Cập nhật thời lượng bài hát khi nhạc được load
-  // const handleLoadedMetadata = () => {
-  //   if (audioRef.current) {
-  //     setDuration(audioRef.current.duration);
-  //   }
-  // };
+  // Cập nhật tiến độ khi nhạc đang phát
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setProgress(audioRef.current.currentTime);
+    }
+  };
+
+  // Cập nhật thời lượng bài hát khi nhạc được load
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  // Hàm load audio mới
+  const handleLoadAudio = useCallback((song) => {
+    console.log("load song" + song);
+    sPlaybar.set((v) => v.value.playingSong = song);
+  }, []);
+
+  useEffect(() => {
+    sPlaybar.set((v) => v.value.loadAudioFunction = handleLoadAudio);
+
+  }, [handleLoadAudio]);
 
   const handleSeek = (e) => {
     const seekTime = e.target.value;
@@ -90,6 +112,10 @@ export default function Playbar() {
     }
   }
 
+  const handleFavorToggle = (value) => {
+    setFavorToggle(value);
+  }
+
   const handleSpeakerToggle = () => {
     if (speakerOn) {
       setCacheVolume(volume);
@@ -115,35 +141,73 @@ export default function Playbar() {
     "all" : repeat_all,
   }
 
+  // ==================================================================
+  // MORE BUTTON
+
+  const [showMenu, setShowMenu] = useState(false);
+  const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
+  const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
+  const buttonRef = useRef(null);
+
+  const handleOpenMore = () => {
+      toggleMainContentScroll(showMenu);
+      setShowMenu(!showMenu);
+  }
+
+  const handleCloseMore = () => {
+      toggleMainContentScroll(true);
+      setShowMenu(false);
+  }
+
+  const createMenuItems = () => {
+    return [
+        {
+            name: "Add to Playlist",
+            onClick: () => {
+                setShowAddToPlaylist(!showAddToPlaylist)
+            }
+        },
+    ];
+  }
+
+  // ==================================================================
+
   return (
     <div id="playbar-container">
       {/* Audio player */}
-      {/* <audio
+      <audio
         ref={audioRef}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
-        src="your-audio-file.mp3"
-        controls
-      ></audio> */}
+        src={audioSource}
+        // controls
+      ></audio>
       <div id="playbar-left-container">
           <div id="playbar-music-wrapper">
               <img src={item_placeholder} alt="" onError={handleImageError} id="playbar-image"></img>
               <div id="playbar-title-wrapper">
-                  <p id="playbar-title">{"Music Title"}</p>
-                  <p id="playbar-subtitle">{"Artists"}</p>
+                  <p id="playbar-title">{musicTitle}</p>
+                  <p id="playbar-subtitle">{artist}</p>
               </div>
           </div>
-          <img
-            src={favorToggle ? love_on : love_off }
-            className="playbar-button playbar-button-small-size"
-            alt=""
-            onClick={() => setFavorToggle(!favorToggle)}
-          ></img>
-          <img
-            src={ more }
-            className="playbar-button playbar-button-small-size"
-            alt=""
-          ></img>
+          {
+            ssPrivilege.value.includes(2) === true ?
+              <img
+                src={favorToggle ? love_on : love_off }
+                className="playbar-button playbar-button-small-size"
+                alt=""
+                onClick={() => handleFavorToggle(!favorToggle)}
+              ></img> : null
+          }
+          {
+            ssPrivilege.value.includes(2) === true ? 
+              <img
+                src={ more }
+                className="playbar-button playbar-button-small-size"
+                alt=""
+                onClick={handleOpenMore}
+              ></img> : null
+          }
       </div>
       <div id="playbar-middle-container">
         <div id="playbar-buttons-container">
@@ -219,6 +283,35 @@ export default function Playbar() {
         showLyric && (
             <PlaybarLyric lyric={getLyric()}/>
         )
+      }
+
+      {
+          showMenu && (
+              <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={createMenuItems()}/>
+          )
+      }
+      {
+          showAddToPlaylist && (
+              <AddToPlaylist
+                  onCreatePlaylist={() => {
+                      setShowCreatePlaylist(!showCreatePlaylist);
+                      setShowAddToPlaylist(!showAddToPlaylist);
+                      toggleMainContentScroll(false);
+                  }}
+                  onClose={() => {
+                      setShowAddToPlaylist(!showAddToPlaylist);
+                      toggleMainContentScroll(true);
+                  }}
+              />
+          )
+      }
+      {
+          showCreatePlaylist && (
+              <CreatePlaylist onClose={() => {
+                  setShowCreatePlaylist(!showCreatePlaylist);
+                  toggleMainContentScroll(true);
+              }} />
+          )
       }
     </div>
   )

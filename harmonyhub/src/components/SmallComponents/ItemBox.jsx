@@ -8,6 +8,9 @@ import { ItemDropDownMenu } from './partials/ItemDropDown';
 import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 import { CreatePlaylist } from './partials/CreatePlaylist';
 import { AddToPlaylist } from './partials/AddToPlaylist';
+import { sUser } from '../../store';
+
+const ssPrivilege = sUser.slice((n) => n.privilege);
 
 export default function ItemBox(props) {
     const [showMenu, setShowMenu] = useState(false);
@@ -49,7 +52,7 @@ export default function ItemBox(props) {
                     }
                 </div>
                 {
-                    props.showMore ?
+                    ssPrivilege.value.includes(2) === true && props.showMore ?
                         <img
                             id="itembox-more-button"
                             onClick={handleOpenMore}
@@ -58,7 +61,7 @@ export default function ItemBox(props) {
                             className="highlight-button"
                             alt=""
                         ></img>
-                        :
+                    :
                         null
                 }
             </div>

@@ -7,7 +7,8 @@ export const sUser = signify ({
 
 export const sPlaybar = signify ({
     playingSong: null,
-    isSpeakerOn: true
+    isSpeakerOn: true,
+    loadAudioFunction: null 
 });
 
 export const sMainController = signify ({

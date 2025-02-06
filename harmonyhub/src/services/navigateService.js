@@ -14,10 +14,22 @@ export const navigateToNewReleaseAlbums = (nav) => {
     nav('/albums/new-release-albums');
 }
 
+export const navigateToAllAlbums = (nav, title, titleHighlight, path) => {
+    sAlbums.set((v) => v.value.title = title);
+    sAlbums.set((v) => v.value.titleHighlight = titleHighlight);
+    nav('/albums/' + path);
+}
+
 export const navigateToNewReleaseSongs = (nav) => {
     sSongs.set((v) => v.value.title = "New Release");
     sSongs.set((v) => v.value.titleHighlight = "Songs");
     nav('/songs/new-release-songs');
+}
+
+export const navigateToAllSongs = (nav, title, titleHighlight, path) => {
+    sSongs.set((v) => v.value.title = title);
+    sSongs.set((v) => v.value.titleHighlight = titleHighlight);
+    nav('/songs/' + path);
 }
 
 export const navigateToAllPlaylists = (nav, title, titleHighlight, path) => {

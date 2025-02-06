@@ -7,9 +7,10 @@ import search_icon from "../../assets/img/header_search_icon.png";
 import sidebar_icon from "../../assets/img/sidebar_menu_icon.png";
 import header_profile from "../../assets/img/header_profile.png";
 import back_icon from "../../assets/img/header_back.png";
-import { sMainController, sUser } from "../../store";
+import { sMainController } from "../../store";
 import SignIn from "../SignIn/SignIn";
 import { useLocation, useNavigate } from "react-router";
+import { sAccessToken } from "../config/store.ts";
 
 const ssShowSignIn = sMainController.slice(n => n.showSignIn);
 const ssShowSignUp = sMainController.slice((n) => n.showSignUp);
@@ -190,13 +191,13 @@ const SearchBar = () => {
           </div>
         )}
       </sMainController.Wrap>
-      <sUser.Wrap>
+      <sAccessToken.Wrap>
         {() => (
-          sUser.value.loggedUser ?
+          sAccessToken.length > 0 ?
             <SearchBarLoggedMode />
             :
             <SearchBarGuestMode toggleSignUpFunction={showSignUpModal} toggleSignInFunction={showSignInModal} />)}
-      </sUser.Wrap>
+      </sAccessToken.Wrap>
     </div>
   );
 };

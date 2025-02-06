@@ -65,7 +65,7 @@ function MainPage() {
         <div className="playbar-wrapper">
             <ssPlayingSong.Wrap>
                 {(playingSong) => (
-                    <div className="playbar" style={{ display: (playingSong == null ? 'flex' : 'none') }}>
+                    <div className="playbar" style={{ display: (playingSong !== null ? 'flex' : 'none') }}>
                         <Playbar />
                     </div>
                 )}
