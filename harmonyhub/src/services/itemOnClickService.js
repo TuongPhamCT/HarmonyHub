@@ -1,4 +1,5 @@
 import { sSongs } from "../components/AllSongsPage/songStore";
+import { handleLoadSongToPlaybar } from "../components/MainPage/services/playbarServices";
 
 
 export const handleOnClickAlbum = (nav, albumId) => {
@@ -6,7 +7,7 @@ export const handleOnClickAlbum = (nav, albumId) => {
 };
 
 export const handleOnClickSong = (songId) => {
-    // do something
+    handleLoadSongToPlaybar(songId);
 };
 
 export const handleOnClickArtist = (nav, artistId) => {

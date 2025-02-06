@@ -8,6 +8,9 @@ import { ItemDropDownMenu } from './partials/ItemDropDown';
 import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 import { AddToPlaylist } from './partials/AddToPlaylist';
 import { CreatePlaylist } from './partials/CreatePlaylist';
+import { sUser } from '../../store';
+
+const ssPrivilege = sUser.slice((n) => n.privilege);
 
 export default function MusicBar(props) {
     const [favorToggle, setFavorToggle] = useState(props.favor || false);
@@ -62,17 +65,27 @@ export default function MusicBar(props) {
                     <p>{props.releaseDate || "MM dd, yyyy"}</p>
                 </div>
                 <div id="musicbar-album">
-                    <p>{props.album || "-"}</p>
+                    <p>{props.played || (props.album || "-")}</p>
                 </div>
                 <div id="musicbar-favorite">
-                    <img id="musicbar-button-favor" src={favorToggle ? button_love_on : button_love_off }
-                     className="highlight-button" alt="" onClick={toggleFavor}></img>
+                    {
+                        ssPrivilege.value.includes(2) === true ?
+                            <img id="musicbar-button-favor" src={favorToggle ? button_love_on : button_love_off }
+                            className="highlight-button" alt="" onClick={toggleFavor}></img>
+                        :
+                            null
+                    }
                 </div>
                 <div id="musicbar-time">
                     <p>{props.time || "-:-"}</p>
                 </div>
                 <div id="musicbar-more">
-                    <img id="musicbar-button-more" src={button_more} ref={buttonRef} className="highlight-button" alt="" onClick={handleOpenMore}></img>
+                    {
+                        ssPrivilege.value.includes(2) === true ?
+                            <img id="musicbar-button-more" src={button_more} ref={buttonRef} className="highlight-button" alt="" onClick={handleOpenMore}></img>
+                        :
+                            null
+                    }
                 </div>
             </div>
 

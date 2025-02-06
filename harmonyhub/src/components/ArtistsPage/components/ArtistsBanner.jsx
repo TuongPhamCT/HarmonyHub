@@ -3,14 +3,11 @@ import Artistbg from '../../../assets/img/artistbackround.png'
 
 function ArtistsBanner(props) {
 
-
-
-
     return (
         <div className='w-full min-h-[422px] relative bg-cover'
             style={{ backgroundImage: `url(${Artistbg})` }}>
             <div className='absolute bottom-10 left-8'>
-                <h4 className='text-7xl font-bold'>Eminem</h4>
+                <h4 className='text-7xl font-bold'>{props.name || "Artist's Name"}</h4>
             </div>
         </div>
     );

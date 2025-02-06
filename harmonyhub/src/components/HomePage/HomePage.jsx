@@ -34,7 +34,7 @@ const HomePage = () => {
                         key={"mb-col" + index}
                         title={item}
                         subtitle="random subtitle"
-                        onClick={() => handleOnClickSong(nav, item)}
+                        onClick={() => handleOnClickSong(item)}
                     ></MusicBox>
                 )
             )
@@ -152,7 +152,7 @@ const HomePage = () => {
                         null
                 }
                 {
-                    weeklyTopSongs.length > 0 ?
+                    trendingSongs.length > 0 ?
                         <MusicCollection
                             musicList={trendingSongs}
                             title="Trending"
@@ -164,7 +164,7 @@ const HomePage = () => {
                         null
                 }
                 {
-                    weeklyTopSongs.length > 0 ?
+                    popularArtists.length > 0 ?
                         <ItemCollection
                             itemList={popularArtists}
                             title="Popular"
@@ -175,7 +175,7 @@ const HomePage = () => {
                         null
                 }
                 {
-                    weeklyTopSongs.length > 0 ?
+                    topAlbums.length > 0 ?
                         <ItemCollection
                             itemList={topAlbums}
                             title="Top"
@@ -188,7 +188,7 @@ const HomePage = () => {
                         null
                 }
                 {
-                    weeklyTopSongs.length > 0 ?
+                    moodPlaylists.length > 0 ?
                         <ItemCollection
                             itemList={moodPlaylists}
                             title="Mood"
