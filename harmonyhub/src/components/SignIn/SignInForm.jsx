@@ -47,7 +47,7 @@ function SignInForm({handleClose}) {
                 email: "",
                 password: ""
             });
-            handleLogin(data.accessToken, "userName", "user");
+            handleLogin(data.accessToken, "userName", data.role);
             handleClose();
         } catch (error) {
             // Handle error
