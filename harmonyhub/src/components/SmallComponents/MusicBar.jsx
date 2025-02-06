@@ -18,7 +18,7 @@ export default function MusicBar(props) {
     const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
     const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
     const buttonRef = useRef(null);
-    
+
     const handleError = (e) => {
         e.target.onerror = null; // Prevents infinite loop if placeholder fails
         e.target.src = item_placeholder; // Placeholder image URL

@@ -29,7 +29,7 @@ import AllSongsPage from '../AllSongsPage/AllSongsPage';
 import AllPlaylistsPage from '../AllPlaylistsPage/AllPlaylistsPage';
 import PlaylistDetailPage from '../PlaylistDetailPage/PlaylistDetailPage';
 import AllGenresPage from '../AllGenresPage/AllGenresPage';
-import { handleLogin } from '../../services/loginService.js';
+import { autoLogin } from '../../services/loginService.js';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
@@ -64,8 +64,7 @@ function MainPage() {
 
     // auto login
     useEffect(() => {
-        handleLogin({accessToken: "token"});
-        console.log("token");
+        autoLogin();
     }, []);
 
     return (

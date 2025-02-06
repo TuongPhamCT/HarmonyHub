@@ -5,10 +5,7 @@ import Footer from '../MainPage/Footer';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { sComponents } from '../SmallComponents/componentStore';
 import { handleOnClickArtist } from '../../services/itemOnClickService';
-
-const demoList = [
-    "1", "2", "3", "4", "5", "6", "7", "8"
-];
+import { createDemoArtists } from '../../services/demoDataService';
 
 function ArtistsPage(props) {
 
@@ -19,31 +16,28 @@ function ArtistsPage(props) {
 
     useEffect(() => {
         // Call api to get data
-        
+        const dataArtists = createDemoArtists();
+
         setPopularArtists(
-            demoList.map(
+            dataArtists.map(
                 (item) => (
                     <ArtistBox
-                        key={"al-col" + item}
-                        title={"Artist name" + item}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickArtist(navigate, item)}
-                    >
-                    </ArtistBox>
+                        key={item.id}
+                        title={item.name}
+                        onClick={() => handleOnClickArtist(navigate, item.id)}
+                    ></ArtistBox>
                 )
             )
         );
 
         setFavoriteArtists(
-            demoList.map(
+            dataArtists.map(
                 (item) => (
                     <ArtistBox
-                        key={"al-col" + item}
-                        title={"Artist name" + item}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickArtist(navigate, item)}
-                    >
-                    </ArtistBox>
+                        key={item.id}
+                        title={item.name}
+                        onClick={() => handleOnClickArtist(navigate, item.id)}
+                    ></ArtistBox>
                 )
             )
         );

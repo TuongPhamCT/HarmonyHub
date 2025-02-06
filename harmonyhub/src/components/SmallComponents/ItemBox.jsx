@@ -80,6 +80,7 @@ export const ArtistBox = (props) => {
         <ItemBox
             imageWidth={sComponents.value.artistBoxWidth}
             imageHeight={sComponents.value.artistBoxHeight}
+            image={props.image}
             title={props.title}
             titleAlign="center"
             roundImage={true}
@@ -108,6 +109,7 @@ export const MusicBox = (props) => {
             <ItemBox
                 imageWidth={sComponents.value.musicBoxWidth}
                 imageHeight={sComponents.value.musicBoxHeight}
+                image={props.image}
                 title={props.title}
                 subtitle={props.subtitle}
                 onClick={props.onClick}
@@ -146,6 +148,7 @@ export const AlbumBox = (props) => {
         <ItemBox
             imageWidth={sComponents.value.albumBoxWidth}
             imageHeight={sComponents.value.albumBoxHeight}
+            image={props.image}
             title={props.title}
             subtitle={props.subtitle}
             onClick={props.onClick}
@@ -171,6 +174,7 @@ export const PlaylistBox = (props) => {
         <ItemBox
             imageWidth={sComponents.value.playlistBoxWidth}
             imageHeight={sComponents.value.playlistBoxHeight}
+            image={props.image}
             title={props.title}
             onClick={props.onClick}
             showMore={true}
@@ -184,6 +188,7 @@ export const MvBox = (props) => {
         <ItemBox
             imageWidth={sComponents.value.mvBoxWidth}
             imageHeight={sComponents.value.mvBoxHeight}
+            image={props.image}
             title={props.title}
             subtitle={props.subtitle}
             view={props.view}
@@ -198,6 +203,7 @@ export const GenreBox = (props) => {
         <ItemBox
             imageWidth={sComponents.value.genreBoxWidth}
             imageHeight={sComponents.value.genreBoxHeight}
+            image={props.image}
             imageTitle={props.title}
             onClick={props.onClick}
         />

@@ -9,10 +9,7 @@ import { sPlaylists } from './playlistStore';
 import { useNavigate, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import { handleOnClickPlaylist } from '../../services/itemOnClickService';
-
-const demoList = [
-    "song1", "song2", "song3", "song4", "song5", "song6", "song7", "song8"
-]
+import { createDemoPlaylists } from '../../services/demoDataService';
 
 const AllPlaylistsPage = () => {
     const nav = useNavigate();
@@ -21,17 +18,19 @@ const AllPlaylistsPage = () => {
     const [playlists, setPlaylists] = useState([]);
 
     useEffect(() => {
+        // call API to get data
+        const dataPlaylists = createDemoPlaylists();
+
         setPlaylists(
-            demoList.map(
-                (item, index) => (
-                <PlaylistBox
-                    key={index}
-                    title={item}
-                    subtitle="random subtitle"
-                    onClick={() => handleOnClickPlaylist(nav, item)}
-                ></PlaylistBox>           
+            dataPlaylists.map(
+                (item) => (
+                    <PlaylistBox
+                        key={item.id} 
+                        title={item.title}
+                        onClick={() => handleOnClickPlaylist(nav, item.id)}
+                    />
                 )
-            )
+            )  
         );
 
     }, [nav]);

@@ -8,10 +8,8 @@ import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { useEffect, useState } from 'react';
 import { handleOnClickGenre } from '../../services/itemOnClickService';
 import { useNavigate } from 'react-router';
+import { createDemoGenres } from '../../services/demoDataService';
 
-const demoList = [
-    "song1", "song2", "song3", "song4", "song5", "song6", "song7", "song8"
-]
 
 const AllGenresPage = () => {
     const nav = useNavigate();
@@ -19,13 +17,16 @@ const AllGenresPage = () => {
 
 
     useEffect(() => {
+        // call api to get genres
+        const dataGenres = createDemoGenres();
+
         setGenres(
-            demoList.map(
-                (item, index) => (
+            dataGenres.map(
+                (item) => (
                     <GenreBox
-                        key={index}
-                        title={item}
-                        onClick={() => handleOnClickGenre(nav, item, item)}
+                        key={item.id}
+                        title={item.name}
+                        onClick={() => handleOnClickGenre(nav, item.id, item.name)}
                     ></GenreBox>           
                 )
             )

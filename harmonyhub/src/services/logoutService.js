@@ -7,9 +7,11 @@ export const handleLogout = () => {
   
   // Tên người dùng
   sUser.set((v) => v.value.userName = "Guest");
+  localStorage.setItem("userName", "");
 
   // phân quyền người dùng
 
   // guest
   sUser.set((v) => v.value.privilege = [0, 1]);
+  localStorage.setItem("userRole", "guest");
 }

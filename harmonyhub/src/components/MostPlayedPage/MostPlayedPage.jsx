@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router';
 import '../../components/Global.css'
 import '../MostPlayedPage/MostPlayedPage.css'
 import Footer from '../MainPage/Footer';
@@ -9,12 +8,11 @@ import { ToggleButton } from '../SmallComponents/ToggleButton';
 // import { sComponents } from '../SmallComponents/componentStore';
 import MusicBar from '../SmallComponents/MusicBar';
 import MusicCollection from '../SmallComponents/MusicCollection';
-import { useState } from 'react';
-// import { useEffect } from 'react';
-
-const demoList = [
-    "song1", "song2", "song3", "song4", "song5", "song6", "song7", "song8"
-]
+import { useEffect, useState } from 'react';
+import { createDemoSongs } from '../../services/demoDataService';
+import { formatDate } from '../../services/formatDateService';
+import { convertIntToTime } from '../MainPage/services/playbarServices';
+import { handleOnClickSong } from '../../services/itemOnClickService';
 
 const mostPlayedTabs = [
     { tabName: "Day", path: "day" },
@@ -24,29 +22,74 @@ const mostPlayedTabs = [
 
 export default function MostPlayedPage() {
     const [tab, setTab] = useState("day");
-    // const nav = useNavigate();
-    const location = useLocation();
 
-    // useEffect(() => {
-
-    // },[location]);
+    const [daySongs, setDaySongs] = useState([]);
+    const [weekSongs, setWeekSongs] = useState([]);
+    const [monthSongs, setMonthSongs] = useState([]);
 
     const handleTabClick = (tabName) => {
         setTab(tabName);
-        // switch (path) {
-        //     case '/mostplayed/day':
-        //         nav('/mostplayed/day');
-        //         break;
-        //     case '/mostplayed/week':
-        //         nav('/mostplayed/week');
-        //         break;
-        //     case '/mostplayed/month':
-        //         nav('/mostplayed/month');
-        //         break;
-        //     default:
-        //         return;
-        // }
     }
+
+    useEffect(() => {
+        // call API to get data
+        const dataSongs = createDemoSongs();
+    
+        setDaySongs(
+            dataSongs.map(
+                (item, index) => (
+                    <MusicBar
+                        key={item.id}
+                        headerWidth="10vh"
+                        title={item.name}
+                        subtitle={item.artist}
+                        header={"#" + (index + 1)}
+                        releaseDate={formatDate(item.releaseDate)}
+                        usePlayedCount={item.playCount}
+                        time={convertIntToTime(item.duration)}
+                        onClick={() => handleOnClickSong(item.id)}
+                    ></MusicBar>
+                )
+            )
+        );
+
+        setWeekSongs(
+            dataSongs.map(
+                (item, index) => (
+                    <MusicBar
+                        key={item.id}
+                        headerWidth="10vh"
+                        title={item.name}
+                        subtitle={item.artist}
+                        header={"#" + (index + 1)}
+                        releaseDate={formatDate(item.releaseDate)}
+                        usePlayedCount={item.playCount}
+                        time={convertIntToTime(item.duration)}
+                        onClick={() => handleOnClickSong(item.id)}
+                    ></MusicBar>
+                )
+            )
+        );
+
+        setMonthSongs(
+            dataSongs.map(
+                (item, index) => (
+                    <MusicBar
+                        key={item.id}
+                        headerWidth="10vh"
+                        title={item.name}
+                        subtitle={item.artist}
+                        header={"#" + (index + 1)}
+                        releaseDate={formatDate(item.releaseDate)}
+                        usePlayedCount={item.playCount}
+                        time={convertIntToTime(item.duration)}
+                        onClick={() => handleOnClickSong(item.id)}
+                    ></MusicBar>
+                )
+            )
+        );
+
+    }, []);
 
     const tabs = mostPlayedTabs.map(
         (item) => (
@@ -56,17 +99,10 @@ export default function MostPlayedPage() {
         )
     );
 
-    const musicCollection = demoList.map(
-        (item, index) => (
-            <MusicBar key={"mb" + index} headerWidth="10vh" title={item} subtitle="random subtitle" header={"#" + (index + 1)}
-                releaseDate={"Nov " + (index + 1) + ", 2024"} album="Demo Album" time="2:00"></MusicBar>           
-        )
-    )
-
     const tabComponents = {
         "day": 
             <MusicCollection
-                musicList={musicCollection} 
+                musicList={daySongs} 
                 title="Today Trending"
                 titleHighlight="Songs"
                 headerGap="10vh"
@@ -74,7 +110,7 @@ export default function MostPlayedPage() {
             ></MusicCollection>,
         "week": 
             <MusicCollection
-                musicList={musicCollection} 
+                musicList={weekSongs} 
                 title="This Week Trending"
                 titleHighlight="Songs"
                 headerGap="10vh"
@@ -82,7 +118,7 @@ export default function MostPlayedPage() {
             ></MusicCollection>,
         "month":
             <MusicCollection
-                musicList={musicCollection} 
+                musicList={monthSongs} 
                 title="This Month Trending"
                 titleHighlight="Songs"
                 headerGap="10vh"

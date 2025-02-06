@@ -9,11 +9,8 @@ import { ToggleButton } from '../SmallComponents/ToggleButton';
 import { sComponents } from '../SmallComponents/componentStore';
 import { useNavigate } from 'react-router';
 import { handleOnClickAlbum, handleOnClickSong } from '../../services/itemOnClickService';
+import { createDemoAlbums, createDemoSongs } from '../../services/demoDataService';
 // import { useEffect } from 'react';
-
-const demoList = [
-    "song1", "song2", "song3", "song4", "song5", "song6", "song7", "song8"
-]
 
 const libraryTabs = [
     "Song",
@@ -42,29 +39,31 @@ export default function LibraryPage() {
 
     useEffect(() => {
         // call api to get data
+        const dataSongs = createDemoSongs();
+        const dataAlbums = createDemoAlbums();
 
         setSongs(
-            demoList.map(
-                (item, index) => (
+            dataSongs.map(
+                (item) => (
                     <MusicBox
-                        key={"ms-col" + item}
-                        title={item}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickSong(item)}
+                        key={item.id}
+                        title={item.name}
+                        subtitle={item.artist}
+                        onClick={() => handleOnClickSong(item.id)}
                     ></MusicBox>
                 )
             )
         );
 
         setAlbums(
-            demoList.map(
+            dataAlbums.map(
                 (item) => (
                     <AlbumBox
-                        key={"al-col" + item}
-                        title={"album " + item}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickAlbum(nav, item)}
-                    ></AlbumBox>           
+                        key={item.id}
+                        title={item.title}
+                        subtitle={item.description}
+                        onClick={() => handleOnClickAlbum(nav, item.id)}
+                    ></AlbumBox>
                 )
             )
         );
