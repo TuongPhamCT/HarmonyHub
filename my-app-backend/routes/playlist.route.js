@@ -3,7 +3,7 @@ const router = express();
 const controller = require("../controllers/playlist.controller");
 const { verifyToken } = require("../middleware/authjwt.middleware");
 
-router.get("/playlists", [verifyToken], controller.getAllPlaylists);
+router.get("/my-playlists", [verifyToken], controller.getAllPlaylistsOfUser);
 router.get("/playlist/:id", [verifyToken], controller.getPlaylistById);
 router.get("/playlist/:id/songs", [verifyToken], controller.getSongsInPlaylist);
 router.post("/playlist", [verifyToken], controller.createPlaylist);

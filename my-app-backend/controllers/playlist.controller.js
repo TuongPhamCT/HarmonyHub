@@ -4,7 +4,7 @@ const Song = require("../models/song.model");
 const { Op } = require("sequelize");
 const playlistService = require("../services/playlist.service");
 
-module.exports.getAllPlaylists = async (req, res) => {
+module.exports.getAllPlaylistsOfUser = async (req, res) => {
   try {
     const playlists = await playlistService.getPlaylistsByUserId(req.userEmail);
     res.json(playlists);
