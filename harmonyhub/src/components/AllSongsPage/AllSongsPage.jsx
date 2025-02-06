@@ -8,26 +8,24 @@ import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { sSongs } from './songStore';
 import { useEffect, useState } from 'react';
 import { handleOnClickSong } from '../../services/itemOnClickService';
-
-const demoList = [
-    "song1", "song2", "song3", "song4", "song5", "song6", "song7", "song8"
-]
+import { createDemoSongs } from '../../services/demoDataService';
 
 const AllSongsPage = () => {
     const [songs, setSongs] = useState([]);
 
     useEffect(() => {
         // call api to get data
+        const dataSongs = createDemoSongs();
 
         setSongs(
-            demoList.map(
-                (item, index) => (
+            dataSongs.map(
+                (item) => (
                     <MusicBox
-                        key={index}
-                        title={item}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBox>           
+                        key={item.id}
+                        title={item.name}
+                        subtitle={item.artist}
+                        onClick={() => handleOnClickSong(item.id)}
+                    ></MusicBox>
                 )
             )
         );

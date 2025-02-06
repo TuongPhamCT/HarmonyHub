@@ -8,10 +8,9 @@ import album from '../../assets/img/placeholder_disc.png';
 import playBTN from '../../assets/img/play_music.png';
 import { useParams } from 'react-router';
 import { handleOnClickSong } from '../../services/itemOnClickService';
-
-const demoList = [
-    "song1", "song2", "song3", "song4", "song5","song6","song7","song8"
-]
+import { createDemoAlbums, createDemoSongs } from '../../services/demoDataService';
+import { formatDate } from '../../services/formatDateService';
+import { convertIntToTime } from '../MainPage/services/playbarServices';
 
 const AlbumDetailsPage = () =>{
     const { id } = useParams();
@@ -23,25 +22,29 @@ const AlbumDetailsPage = () =>{
 
     useEffect(() => {
         // call api to get songs by playlist id
+        const dataSongs = createDemoSongs();
 
-        setTitle("Title");
-        setDescription("Description");
-        setTotalTime("1h36m");
+        const album = createDemoAlbums().at(0); 
+        const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
+
+        setTitle(album.title);
+        setDescription(album.description);
+        setTotalTime(formatDate(totalTime));
 
         setSongs(
-            demoList.map(
+            dataSongs.map(
                 (item, index) => (
                     <MusicBar
-                        key={"mb" + index}
+                        key={item.id}
                         headerWidth="10vh"
-                        title={item}
-                        subtitle="random subtitle"
+                        title={item.name}
+                        subtitle={item.artist}
                         header={"#" + (index + 1)}
-                        releaseDate={"Nov " + (index + 1) + ", 2024"}
-                        album="Demo Album"
-                        time="2:00"
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBar>           
+                        releaseDate={formatDate(item.releaseDate)}
+                        usePlayedCount={item.playCount}
+                        time={convertIntToTime(item.duration)}
+                        onClick={() => handleOnClickSong(item.id)}
+                    ></MusicBar>       
                 )
             )
         );

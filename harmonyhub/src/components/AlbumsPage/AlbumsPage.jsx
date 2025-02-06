@@ -6,10 +6,8 @@ import { AlbumBox } from '../SmallComponents/ItemBox';
 import ItemCollection from '../SmallComponents/ItemCollection';
 import { navigateToNewReleaseAlbums, navigateToTopAlbums } from '../../services/navigateService';
 import { useEffect, useState } from 'react';
-
-const demoList = [
-    "song1", "song2", "song3", "song4", "song5"
-]
+import { createDemoAlbums } from '../../services/demoDataService';
+import { handleOnClickAlbum } from '../../services/itemOnClickService';
 
 const AlbumsPage = () => {
     const nav = useNavigate();
@@ -18,38 +16,35 @@ const AlbumsPage = () => {
     const [topAlbums, setTopAlbums] = useState([]);
 
     useEffect(() => {
+        const dataAlbums = createDemoAlbums();
 
         setNewReleaseAlbums(
-            demoList.map(
-                (item, index) => (
+            dataAlbums.map(
+                (item) => (
                     <AlbumBox
-                        key={"album" + index}
-                        title={item}
-                        subtitle="random subtitle"
-                        onClick={() => {handleOnClickAlbum(item)}}
-                    />
+                        key={item.id}
+                        title={item.title}
+                        subtitle={item.description}
+                        onClick={() => handleOnClickAlbum(nav, item.id)}
+                    ></AlbumBox>
                 )
             )
         );
 
         setTopAlbums(
-            demoList.map(
-                (item, index) => (
+            dataAlbums.map(
+                (item) => (
                     <AlbumBox
-                        key={"album" + index}
-                        title={item}
-                        subtitle="random subtitle"
-                        onClick={() => {handleOnClickAlbum(item)}}
-                    />
+                        key={item.id}
+                        title={item.title}
+                        subtitle={item.description}
+                        onClick={() => handleOnClickAlbum(nav, item.id)}
+                    ></AlbumBox>
                 )
             )
         );
 
-    }, []);
-
-    const handleOnClickAlbum = (albumId) => {
-        //nav('/album/' + albumId)
-    }
+    }, [nav]);
 
     const handleNewReleaseViewAll = () => {
         navigateToNewReleaseAlbums(nav);

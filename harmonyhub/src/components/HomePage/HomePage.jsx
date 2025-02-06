@@ -10,10 +10,9 @@ import MusicCollection from '../SmallComponents/MusicCollection';
 import { useNavigate } from 'react-router';
 import { navigateToAllPlaylists, navigateToNewReleaseSongs, navigateToTopAlbums } from '../../services/navigateService';
 import { handleOnClickAlbum, handleOnClickArtist, handleOnClickPlaylist, handleOnClickSong } from '../../services/itemOnClickService';
-
-const demoList = [
-    "song1", "song2", "song3", "song4", "song5"
-]
+import { createDemoAlbums, createDemoArtists, createDemoPlaylists, createDemoSongs } from '../../services/demoDataService';
+import { formatDate } from '../../services/formatDateService';
+import { convertIntToTime } from '../MainPage/services/playbarServices';
 
 const HomePage = () => {
     const nav = useNavigate();
@@ -26,84 +25,87 @@ const HomePage = () => {
 
     useEffect(() => {
         // call API to get data
+        const dataSongs = createDemoSongs();
+        const dataAlbums = createDemoAlbums();
+        const dataPlaylists = createDemoPlaylists();
+        const dataArtists = createDemoArtists();
 
         setWeeklyTopSongs(
-            demoList.map(
-                (item, index) => (
+            dataSongs.map(
+                (item) => (
                     <MusicBox
-                        key={"mb-col" + index}
-                        title={item}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickSong(item)}
+                        key={item.id}
+                        title={item.name}
+                        subtitle={item.artist}
+                        onClick={() => handleOnClickSong(item.id)}
                     ></MusicBox>
                 )
             )
         );
 
         setNewReleaseSongs(
-            demoList.map(
-                (item, index) => (
+            dataSongs.map(
+                (item) => (
                     <MusicBox
-                        key={"mb-col" + index}
-                        title={item}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickSong(nav, item)}
+                        key={item.id}
+                        title={item.name}
+                        subtitle={item.artist}
+                        onClick={() => handleOnClickSong(item.id)}
                     ></MusicBox>
                 )
             )
         );
 
         setTopAlbums(
-            demoList.map(
-                (item, index) => (
+            dataAlbums.map(
+                (item) => (
                     <AlbumBox
-                        key={"al-col" + index}
-                        title={"album " + index}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickAlbum(nav, item)}
+                        key={item.id}
+                        title={item.title}
+                        subtitle={item.description}
+                        onClick={() => handleOnClickAlbum(nav, item.id)}
                     ></AlbumBox>
                 )
             )
         );
 
         setPopularArtists(
-            demoList.map(
-                (item, index) => (
+            dataArtists.map(
+                (item) => (
                     <ArtistBox
-                        key={"al-col" + index}
-                        title={"artist " + index}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickArtist(nav, item)}
+                        key={item.id}
+                        title={item.name}
+                        onClick={() => handleOnClickArtist(nav, item.id)}
                     ></ArtistBox>
                 )
             )
         );
 
         setTrendingSongs(
-            demoList.map(
+            dataSongs.map(
                 (item, index) => (
                     <MusicBar
-                        key={"mb" + index}
+                        key={item.id}
                         headerWidth="10vh"
-                        title={item}
-                        subtitle="random subtitle"
+                        title={item.name}
+                        subtitle={item.artist}
                         header={"#" + (index + 1)}
-                        releaseDate={"Nov " + (index + 1) + ", 2024"}
-                        album="Demo Album"
-                        time="2:00"
-                        onClick={() => handleOnClickSong(nav, item)}
+                        releaseDate={formatDate(item.releaseDate)}
+                        // album="Demo Album"
+                        time={convertIntToTime(item.duration)}
+                        onClick={() => handleOnClickSong(item.id)}
                     ></MusicBar>
                 )
             )
         );
 
         setMoodPlaylists(
-            demoList.map(
-                (item, index) => (
+            dataPlaylists.map(
+                (item) => (
                     <PlaylistBox
-                        key={"al-col" + index} 
-                        title={"playlist " + index}
-                        onClick={() => handleOnClickPlaylist(nav, item)}
+                        key={item.id} 
+                        title={item.title}
+                        onClick={() => handleOnClickPlaylist(nav, item.id)}
                     />
                 )
             )        

@@ -8,11 +8,8 @@ import { ToggleButton } from '../SmallComponents/ToggleButton';
 import { sComponents } from '../SmallComponents/componentStore';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { handleOnClickAlbum, handleOnClickArtist, handleOnClickPlaylist, handleOnClickSong } from '../../services/itemOnClickService';
+import { createDemoAlbums, createDemoArtists, createDemoPlaylists, createDemoSongs } from '../../services/demoDataService';
 // import { useEffect } from 'react';
-
-const demoList = [
-    "song1", "song2", "song3", "song4", "song5", "song6", "song7", "song8"
-]
 
 const searchTabs = [
     "Song",
@@ -47,53 +44,57 @@ export default function SearchResultsPage() {
 
     useEffect(() => {
         // use api to get data
+        const dataSongs = createDemoSongs();
+        const dataAlbums = createDemoAlbums();
+        const dataPlaylists = createDemoPlaylists();
+        const dataArtists = createDemoArtists();
 
         setSongs(
-            demoList.map(
-                (item, index) => (
+            dataSongs.map(
+                (item) => (
                     <MusicBox
-                        key={"search-song-" + index}
-                        title={item}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickSong(item)}
+                        key={item.id}
+                        title={item.name}
+                        subtitle={item.artist}
+                        onClick={() => handleOnClickSong(item.id)}
                     ></MusicBox>
                 )
             )
         );
 
         setPlaylists(
-            demoList.map(
+            dataPlaylists.map(
                 (item) => (
                     <PlaylistBox
-                        key={"pl-col" + item}
-                        title={"playlist" + item}
-                        onClick={() => handleOnClickPlaylist(nav, item)}
-                    ></PlaylistBox>       
+                        key={item.id} 
+                        title={item.title}
+                        onClick={() => handleOnClickPlaylist(nav, item.id)}
+                    />
                 )
             )        
         );
 
         setAlbums(
-            demoList.map(
+            dataAlbums.map(
                 (item) => (
                     <AlbumBox
-                        key={"al-col" + item}
-                        title={"album " + item}
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickAlbum(nav, item)}
-                    ></AlbumBox>           
+                        key={item.id}
+                        title={item.title}
+                        subtitle={item.description}
+                        onClick={() => handleOnClickAlbum(nav, item.id)}
+                    ></AlbumBox>
                 )
             )
         );
 
         setArtists(
-            demoList.map(
+            dataArtists.map(
                 (item) => (
                     <ArtistBox
-                        key={"artist-" + item}
-                        title={"artist " + item}
-                        onClick={() => handleOnClickArtist(nav, item)}
-                    ></ArtistBox>           
+                        key={item.id}
+                        title={item.name}
+                        onClick={() => handleOnClickArtist(nav, item.id)}
+                    ></ArtistBox>
                 )
             )
         );

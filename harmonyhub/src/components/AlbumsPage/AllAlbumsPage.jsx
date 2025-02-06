@@ -8,10 +8,7 @@ import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { sAlbums } from './albumStore';
 import { handleOnClickAlbum } from '../../services/itemOnClickService';
 import { useNavigate, useParams } from 'react-router';
-
-const demoList = [
-    "song1", "song2", "song3", "song4", "song5", "song6", "song7", "song8"
-]
+import { createDemoAlbums } from '../../services/demoDataService';
 
 const AllAlbumsPage = () => {
     const nav = useNavigate();
@@ -21,19 +18,21 @@ const AllAlbumsPage = () => {
 
     useEffect(() => {
         // call api to get data
+        const dataAlbums = createDemoAlbums();
 
         setAlbums(
-            demoList.map(
-                (item, index) => (
+            dataAlbums.map(
+                (item) => (
                     <AlbumBox
-                        key={index}
-                        title={item} 
-                        subtitle="random subtitle"
-                        onClick={() => handleOnClickAlbum(nav, item)}
-                    ></AlbumBox>           
+                        key={item.id}
+                        title={item.title}
+                        subtitle={item.description}
+                        onClick={() => handleOnClickAlbum(nav, item.id)}
+                    ></AlbumBox>
                 )
             )
         );
+
     }, [nav]);
 
     return (
