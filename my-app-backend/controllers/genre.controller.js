@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 module.exports.create = async (req, res) => {
   try {
     const { name, description } = req.body;
+    let image = req.files.image ? req.files.image[0] : null;
 
     // Validate request
     if (!name) {
@@ -20,6 +21,7 @@ module.exports.create = async (req, res) => {
     const genre = await Genre.create({
       name,
       description,
+      image: image ? `/public/genre_images/${image.filename}` : null,
     });
 
     res.status(201).send(genre);
