@@ -7,7 +7,9 @@ module.exports.getArtistInfoById = async (artistId) => {
   try {
     let artist = await User.findByPk(artistId);
     if (!artist) {
-      throw new Error("Artist not found");
+      let error = new Error("Artist not found");
+      error.status = 404;
+      throw error;
     }
 
     let popularSongs = await this.getTopSongsByUserId(artistId);
@@ -31,7 +33,7 @@ module.exports.getArtistInfoById = async (artistId) => {
 module.exports.getTopSongsByUserId = async (userId, limit = 5) => {
   try {
     const topSongs = await Song.findAll({
-      where: { artist_id: userId },
+      where: { post_user_id: userId },
       order: [["playCount", "DESC"]],
       limit: limit,
     });
