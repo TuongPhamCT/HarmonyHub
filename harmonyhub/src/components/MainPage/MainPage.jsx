@@ -9,7 +9,7 @@ import AlbumsPage from '../AlbumsPage/AlbumsPage';
 import AllAlbumsPage from '../AlbumsPage/AllAlbumsPage';
 import { Routes, Route, useLocation } from "react-router-dom";
 import DiscoverPage from '../DiscoverPage/DiscoverPage';
-import { sMainController, sPlaybar } from '../../store';
+import { sMainController, sPlaybar } from '../../store.js';
 import ArtistsPage from '../ArtistsPage/ArtistsPage';
 import YourPlaylist from '../YourPlaylistPage/YourPlaylist';
 import PlaylistDetail from '../YourPlaylistPage/PlaylistDetail';
@@ -29,6 +29,7 @@ import AllSongsPage from '../AllSongsPage/AllSongsPage';
 import AllPlaylistsPage from '../AllPlaylistsPage/AllPlaylistsPage';
 import PlaylistDetailPage from '../PlaylistDetailPage/PlaylistDetailPage';
 import AllGenresPage from '../AllGenresPage/AllGenresPage';
+import { handleLogin } from '../../services/loginService.js';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
@@ -60,6 +61,12 @@ function MainPage() {
         const component = document.getElementById("content-area");
         component.scrollTo({ top: 0 });
     }, [pathname]);
+
+    // auto login
+    useEffect(() => {
+        handleLogin({accessToken: "token"});
+        console.log("token");
+    }, []);
 
     return (
         <div className="playbar-wrapper">

@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { handleLogin } from '../../services/loginService.js';
 
-function SignInForm() {
+function SignInForm({handleClose}) {
     //control value of inputbox
     const [inputValue, setInputValue] = useState({
         email: "",
@@ -48,6 +48,7 @@ function SignInForm() {
                 password: ""
             });
             handleLogin(data);
+            handleClose();
         } catch (error) {
             // Handle error
             console.error('Login failed:', error);

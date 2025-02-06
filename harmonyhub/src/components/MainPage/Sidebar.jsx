@@ -18,6 +18,7 @@ import new_song from '../../assets/img/new_song.png';
 import add_song from '../../assets/img/add_song.png';
 import { useLocation, useNavigate } from 'react-router';
 import { sMainController, sUser } from '../../store';
+import { handleLogout } from '../../services/logoutService';
 
 const sidebar_items = [
   { itemName: "Menu", class: "sidebar_header", access: 0 },
@@ -29,7 +30,7 @@ const sidebar_items = [
   { itemName: "Library", img: icon_library, imgClass: "icon_content", id: '/library' , access: 2 },
   { itemName: "Most Played", img: icon_most_played, imgClass: "icon_content", id: '/mostplayed', access: 0 },
   { itemName: "Playlist and favorite", class: "sidebar_header", access: 2 },
-  { itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content", access: 2 },
+  { itemName: "Your favorites", img: icon_your_favorites, imgClass: "icon_content", id: '/favorites', access: 2 },
   { itemName: "Your Playlist", img: icon_your_playlist, imgClass: "icon_content", id: '/yourplaylist', access: 2 },
   // { itemName: "Add playlist", img: icon_add_playlist, id: "sidebar_add_playlist", imgClass: "icon_content" },
   { itemName: "Admin", class: "sidebar_header", access: 3 },
@@ -92,6 +93,9 @@ const Sidebar = () => {
       case '/library':
         nav('/library');
         break;
+      case '/favorites':
+        nav('/favorites');
+        break;
       case '/mostplayed':
         nav('/mostplayed');
         break;
@@ -101,6 +105,8 @@ const Sidebar = () => {
         nav('/albumdetails');
         break;
       case "sidebar_logout":
+        handleLogout();
+        nav('/');
         return;
       default:
         return;
@@ -122,14 +128,18 @@ const Sidebar = () => {
       </div>
       <ul ref={menuRef} onClick={handleClick}>
         {
-          sidebar_items.filter((sItem) => ssPrivilege.value.includes(sItem.access)).map(
-            (item, index) => (
-              <li key={index} id={item.id ? item.id : undefined}
-                className={(item.class ? item.class + (item.isActive ? ' active' : '') : undefined)}>
-                {item.img ? <img src={item.img} className={item.imgClass} alt="" loading="lazy" /> : undefined} {item.itemName}
-              </li>
-            )
-          )
+          <ssPrivilege.Wrap>
+            {
+              (value) => sidebar_items.filter((sItem) => value.includes(sItem.access)).map(
+                (item, index) => (
+                  <li key={index} id={item.id ? item.id : undefined}
+                    className={(item.class ? item.class + (item.isActive ? ' active' : '') : undefined)}>
+                    {item.img ? <img src={item.img} className={item.imgClass} alt="" loading="lazy" /> : undefined} {item.itemName}
+                  </li>
+                )
+              )
+            }
+          </ssPrivilege.Wrap>
         }
       </ul>
     </div>
