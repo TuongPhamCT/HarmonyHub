@@ -38,7 +38,7 @@ const SignIn = forwardRef(function SignIn({ handleClose, handleSignUp, isVisible
                             <h1 className="mt-2.5 text-white">HarmonyHub</h1>
                         </div>
                     </section>
-                    <SignInForm />
+                    <SignInForm handleClose={handleClose}/>
                     <SocialLogin />
                     <div className="flex justify-center items-center h-full max-w-[400px] w-[400px]">
                         <button className="text-white back bg-[#0E9EEF] p-1 px-5 rounded" onClick={() => handleSignUp()}>Sign Up</button>

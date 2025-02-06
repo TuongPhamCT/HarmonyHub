@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import '../../components/Global.css';
 import '../LibraryPage/LibraryPage.css';
 import Footer from '../MainPage/Footer';
-import ItemBox, { AlbumBox, MusicBox, MvBox } from '../SmallComponents/ItemBox';
+import { AlbumBox, MusicBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { TextButton } from '../SmallComponents/TextButton';
 import { ToggleButton } from '../SmallComponents/ToggleButton';
@@ -98,6 +98,23 @@ export default function LibraryPage() {
         //     />,
     }
 
+    const handleAddNew = () => {
+        switch (tab) {
+            case "Song":
+                {
+                    nav('/addsong');
+                    break;
+                }
+            case "Album":
+                {
+                    // create component
+                    break;
+                }
+            default:
+                break;
+        }
+    }
+
     return (
         <div id="library-page">
             <p id="library-title">Library</p>
@@ -106,7 +123,7 @@ export default function LibraryPage() {
                     {tabs}
                 </div>
                 <TextButton text="Add new" borderColor="#0E9EEF" backgroundColor="#0E9EEF"
-                    color="white" width="18vh" height="100%"/>
+                    color="white" width="18vh" height="100%" onClick={() => handleAddNew()}/>
             </div>
             <hr />
             {
