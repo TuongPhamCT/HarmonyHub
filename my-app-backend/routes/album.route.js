@@ -18,7 +18,7 @@ const upload = multer({
 
 router.get("/albums", controller.getAlbums);
 router.get("/album/:id", controller.getAlbumById);
-
+router.get("/random-albums", controller.getRandomAlbums);
 router.get("/my-albums", [verifyToken], controller.getAllAlbumsOfUser);
 router.post(
   "/album",

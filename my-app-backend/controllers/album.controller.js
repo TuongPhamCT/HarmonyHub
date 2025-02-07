@@ -1,5 +1,6 @@
 const Album = require("../models/album.model");
 const Song = require("../models/song.model");
+const sequelize = require("../configs/sequelize");
 const albumService = require("../services/album.service");
 const { Op } = require("sequelize");
 
@@ -157,6 +158,19 @@ module.exports.removeSongFromAlbum = async (req, res) => {
     song.album_id = null;
     await song.save();
     res.status(200).json(song);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports.getRandomAlbums = async (req, res) => {
+  const limit = req.query.limit || 5;
+  try {
+    const albums = await Album.findAll({
+      order: sequelize.random(),
+      limit: limit,
+    });
+    res.json(albums);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
