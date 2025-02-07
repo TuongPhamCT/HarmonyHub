@@ -19,18 +19,29 @@ const AllPlaylistsPage = () => {
 
     useEffect(() => {
         // call API to get data
-        const dataPlaylists = createDemoPlaylists();
+        const dataPlaylists = [
+            { id: 1, title: 'Playlist 1' },
+            { id: 2, title: 'Playlist 2' },
+            { id: 3, title: 'Playlist 3' },
+            { id: 4, title: 'Playlist 4' },
+            { id: 5, title: 'Playlist 5' },
+            { id: 6, title: 'Playlist 6' },
+            { id: 7, title: 'Playlist 7' },
+            { id: 8, title: 'Playlist 8' },
+            { id: 9, title: 'Playlist 9' },
+            { id: 10, title: 'Playlist 10' },
+        ]
 
         setPlaylists(
             dataPlaylists.map(
                 (item) => (
                     <PlaylistBox
-                        key={item.id} 
+                        key={item.id}
                         title={item.title}
                         onClick={() => handleOnClickPlaylist(nav, item.id)}
                     />
                 )
-            )  
+            )
         );
 
     }, [nav]);
@@ -43,7 +54,7 @@ const AllPlaylistsPage = () => {
                 titleHighlight={sPlaylists.value.titleHighlight}
                 columnWidth={sComponents.value.playlistBoxWidth}
             ></ItemCollectionVertical>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

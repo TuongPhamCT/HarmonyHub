@@ -4,6 +4,8 @@ import axios from '../config/axios.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { PlaylistService } from '../../services/apiCall/playlist.js';
+
 function YourPlaylist(props) {
     const navigate = useNavigate();
     const [playlistView, setPlaylistView] = useState([]);
@@ -19,12 +21,12 @@ function YourPlaylist(props) {
     // Fetch playlists on mount
     const fetchData = async () => {
         try {
-            const accessToken = localStorage.getItem('accessToken');
-            const BearerToken = `Bearer ${accessToken}`;
-            const { data } = await axios.get('/playlists', {
-                headers: { Authorization: BearerToken },
-            });
-            setPlaylistView(data);
+            const data = await PlaylistService.getMyPlaylists();
+            if (data.length === 0) {
+                console.log('No playlists found');
+            } else {
+                setPlaylistView(data);
+            }
         } catch (error) {
             console.error('Error fetching playlist:', error);
         }
