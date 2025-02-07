@@ -10,6 +10,8 @@ import { sComponents } from '../SmallComponents/componentStore';
 import { useNavigate } from 'react-router';
 import { handleOnClickAlbum, handleOnClickSong } from '../../services/itemOnClickService';
 import { createDemoAlbums, createDemoSongs } from '../../services/demoDataService';
+import { CreateAlbum } from './partials/CreateAlbum';
+import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 // import { useEffect } from 'react';
 
 const libraryTabs = [
@@ -21,6 +23,8 @@ const libraryTabs = [
 export default function LibraryPage() {
     const nav = useNavigate();
     const [tab, setTab] = useState("Song");
+
+    const [showCreateAlbum, setShowCreateAlbum] = useState(false);
 
     const [songs, setSongs] = useState([]);
     const [albums, setAlbums] = useState([]);
@@ -107,6 +111,8 @@ export default function LibraryPage() {
             case "Album":
                 {
                     // create component
+                    setShowCreateAlbum(true);
+                    toggleMainContentScroll(false);
                     break;
                 }
             default:
@@ -129,6 +135,15 @@ export default function LibraryPage() {
                 tabComponents[tab] || null
             }
             <Footer />
+
+            {
+                showCreateAlbum && (
+                    <CreateAlbum onClose={() => {
+                        setShowCreateAlbum(!showCreateAlbum);
+                        toggleMainContentScroll(true);
+                    }} />
+                )
+            }
         </div>
     );
 }

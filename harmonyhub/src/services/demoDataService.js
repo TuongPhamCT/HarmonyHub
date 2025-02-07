@@ -23,23 +23,23 @@ export const createDemoPlaylists = () => {
 
 export const createDemoGenres = () => {
   return [
-    {id: "1", name: "genre 1", description: ""},
-    {id: "2", name: "genre 2", description: ""},
-    {id: "3", name: "genre 3", description: ""},
-    {id: "4", name: "genre 4", description: ""},
-    {id: "5", name: "genre 5", description: ""},
-    {id: "6", name: "genre 6", description: ""},
+    {id: "1", name: "genre 1", description: "", image: null},
+    {id: "2", name: "genre 2", description: "", image: null},
+    {id: "3", name: "genre 3", description: "", image: null},
+    {id: "4", name: "genre 4", description: "", image: null},
+    {id: "5", name: "genre 5", description: "", image: null},
+    {id: "6", name: "genre 6", description: "", image: null},
   ];
 }
 
 export const createDemoAlbums = () => {
   return [
-    {id: "1", title: "album 1", description: "description", image: "", releaseDate: Date("2024-06-15")},
-    {id: "2", title: "album 2", description: "description", image: "", releaseDate: Date("2024-06-15")},
-    {id: "3", title: "album 3", description: "description", image: "", releaseDate: Date("2024-06-15")},
-    {id: "4", title: "album 4", description: "description", image: "", releaseDate: Date("2024-06-15")},
-    {id: "5", title: "album 5", description: "description", image: "", releaseDate: Date("2024-06-15")},
-    {id: "6", title: "album 6", description: "description", image: "", releaseDate: Date("2024-06-15")},
+    {id: "1", title: "album 1", description: "artist name", image: "", releaseDate: Date("2024-06-15")},
+    {id: "2", title: "album 2", description: "artist name", image: "", releaseDate: Date("2024-06-15")},
+    {id: "3", title: "album 3", description: "artist name", image: "", releaseDate: Date("2024-06-15")},
+    {id: "4", title: "album 4", description: "artist name", image: "", releaseDate: Date("2024-06-15")},
+    {id: "5", title: "album 5", description: "artist name", image: "", releaseDate: Date("2024-06-15")},
+    {id: "6", title: "album 6", description: "artist name", image: "", releaseDate: Date("2024-06-15")},
   ];
 }
 
