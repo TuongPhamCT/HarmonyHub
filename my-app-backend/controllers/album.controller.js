@@ -1,4 +1,5 @@
 const Album = require("../models/album.model");
+const Song = require("../models/song.model");
 const albumService = require("../services/album.service");
 const { Op } = require("sequelize");
 
@@ -100,6 +101,62 @@ module.exports.createAlbum = async (req, res) => {
       image: image ? `/public/genre_images/${image.filename}` : null,
     });
     res.status(201).json(album);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports.deleteAlbumById = async (req, res) => {
+  const albumId = req.params.id;
+  try {
+    await Album.destroy({
+      where: {
+        id: albumId,
+      },
+    });
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports.addSongToAlbum = async (req, res) => {
+  const albumId = req.params.id;
+  const { songId } = req.body;
+  try {
+    const song = await Song.findByPk(songId);
+    if (!song) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+    if (song.album_id) {
+      return res
+        .status(400)
+        .json({ message: "Song already belongs to an album" });
+    }
+    song.album_id = albumId;
+    await song.save();
+    res.status(200).json(song);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports.removeSongFromAlbum = async (req, res) => {
+  const albumId = req.params.id;
+  const { songId } = req.body;
+  try {
+    const song = await Song.findByPk(songId);
+    if (!song) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+    if (song.album_id !== albumId) {
+      return res
+        .status(400)
+        .json({ message: "Song does not belong to this album" });
+    }
+    song.album_id = null;
+    await song.save();
+    res.status(200).json(song);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -26,6 +26,11 @@ router.post(
   upload.fields([{ name: "image", maxCount: 1 }]),
   controller.createAlbum
 );
+
+router.delete("/album/:id", [verifyToken], controller.deleteAlbumById);
+
+router.post("/album/:id/song", [verifyToken], controller.addSongToAlbum);
+router.delete("/album/:id/song", [verifyToken], controller.removeSongFromAlbum);
 // router.get("/album/:id/songs", [verifyToken], controller.getSongsInPlaylist);
 // router.post("/album", [verifyToken], controller.createPlaylist);
 // router.delete("/album/:id", [verifyToken], controller.deletePlaylistById);
