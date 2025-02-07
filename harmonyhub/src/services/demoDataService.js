@@ -1,12 +1,12 @@
 
 export const createDemoSongs = () => {
   return [
-    {id: "1", name: "Song 1", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: Date("2024-06-15"), lyric: "bla bla", playCount: 1},
-    {id: "2", name: "Song 2", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: Date("2024-06-15"), lyric: "bla bla", playCount: 1},
-    {id: "3", name: "Song 3", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: Date("2024-06-15"), lyric: "bla bla", playCount: 1},
-    {id: "4", name: "Song 4", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: Date("2024-06-15"), lyric: "bla bla", playCount: 1},
-    {id: "5", name: "Song 5", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: Date("2024-06-15"), lyric: "bla bla", playCount: 1},
-    {id: "6", name: "Song 6", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: Date("2024-06-15"), lyric: "bla bla", playCount: 1},
+    {id: "1", name: "Song 1", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: "2024-06-15", lyric: "bla bla", playCount: 1},
+    {id: "2", name: "Song 2", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: "2024-06-15", lyric: "bla bla", playCount: 1},
+    {id: "3", name: "Song 3", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: "2024-06-15", lyric: "bla bla", playCount: 1},
+    {id: "4", name: "Song 4", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: "2024-06-15", lyric: "bla bla", playCount: 1},
+    {id: "5", name: "Song 5", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: "2024-06-15", lyric: "bla bla", playCount: 1},
+    {id: "6", name: "Song 6", artist: "artist", duration: 1000, image: "", fileURL: "", releaseDate: "2024-06-15", lyric: "bla bla", playCount: 1},
   ];
 }
 

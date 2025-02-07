@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import '../../components/Global.css';
 import '../LibraryPage/LibraryPage.css';
 import Footer from '../MainPage/Footer';
@@ -6,7 +6,7 @@ import { AlbumBox, MusicBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { TextButton } from '../SmallComponents/TextButton';
 import { ToggleButton } from '../SmallComponents/ToggleButton';
-import { sComponents } from '../SmallComponents/componentStore';
+import { sBoxAlts, sComponents } from '../SmallComponents/componentStore';
 import { useNavigate } from 'react-router';
 import { handleOnClickAlbum, handleOnClickSong } from '../../services/itemOnClickService';
 import { createDemoAlbums, createDemoSongs } from '../../services/demoDataService';
@@ -33,6 +33,24 @@ export default function LibraryPage() {
         setTab(tabName);
     }
 
+    const handleUpdateAlbum = useCallback((item, index) => {
+        const newAlbum = <AlbumBox
+            key={item.id}
+            title={item.title}
+            data={item}
+            subtitle={item.description}
+            boxAlt={sBoxAlts.value.albumBoxInLibrary}
+            onClick={() => handleOnClickAlbum(nav, item.id)}
+            onUpdate={(newItem) => handleUpdateAlbum(newItem, index)}
+        ></AlbumBox>;
+
+        setAlbums((prev) => {
+            const newArray = [...prev];
+            newArray[index] = newAlbum;
+            return newArray;
+        });
+    }, [nav]);
+
     const tabs = libraryTabs.map(
         (item) => (
             <ToggleButton key={"library-tab-" + item} text={item}
@@ -53,6 +71,7 @@ export default function LibraryPage() {
                         key={item.id}
                         title={item.name}
                         subtitle={item.artist}
+                        boxAlt={sBoxAlts.value.musicBoxInLibrary}
                         onClick={() => handleOnClickSong(item.id)}
                     ></MusicBox>
                 )
@@ -61,18 +80,21 @@ export default function LibraryPage() {
 
         setAlbums(
             dataAlbums.map(
-                (item) => (
+                (item, index) => (
                     <AlbumBox
                         key={item.id}
                         title={item.title}
+                        data={item}
                         subtitle={item.description}
+                        boxAlt={sBoxAlts.value.albumBoxInLibrary}
                         onClick={() => handleOnClickAlbum(nav, item.id)}
+                        onUpdate={(newItem) => handleUpdateAlbum(newItem, index)}
                     ></AlbumBox>
                 )
             )
         );
 
-    }, [nav]);
+    }, [nav, handleUpdateAlbum]);
 
     // const videoCollection = demoList.map(
     //     (item, index) => (

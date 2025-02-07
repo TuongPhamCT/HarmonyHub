@@ -17,4 +17,6 @@ export const sComponents = signify ({
 
 export const sBoxAlts = signify ({
     genreBoxEditable: "genreBoxEditable",
+    musicBoxInLibrary: "musicBoxInLibrary",
+    albumBoxInLibrary: "albumInLibrary",
 });

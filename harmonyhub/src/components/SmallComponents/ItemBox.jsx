@@ -14,6 +14,8 @@ import { CreatePlaylist } from './partials/CreatePlaylist';
 import { AddToPlaylist } from './partials/AddToPlaylist';
 import { sUser } from '../../store';
 import { EditGenre } from '../AllGenresPage/partials/EditGenre';
+import { AddToAlbum } from './partials/AddToAlbum';
+import { EditAlbum } from '../LibraryPage/partials/EditAlbum';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -104,16 +106,34 @@ export const ArtistBox = (props) => {
 export const MusicBox = (props) => {
     const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
     const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
+    const [showAddToAlbum, setShowAddToAlbum] = useState(false);
 
     const createMenuItems = () => {
-        return [
-            {
-                name: "Add to Playlist",
-                onClick: () => {
-                    setShowAddToPlaylist(!showAddToPlaylist)
-                }
-            },
-        ];
+        const addToPlaylist = {
+            name: "Add to Playlist",
+            onClick: () => {
+                setShowAddToPlaylist(!showAddToPlaylist)
+            }
+        };
+
+        const addToAlbum = {
+            name: "Add to Album",
+            onClick: () => {
+                setShowAddToAlbum(!showAddToAlbum)
+            } 
+        };
+
+        switch (props.boxAlt) {
+            case sBoxAlts.value.musicBoxInLibrary:
+                return [
+                    addToPlaylist,
+                    addToAlbum,
+                ];
+            default:
+                return [
+                    addToPlaylist,
+                ];
+        }
     }
     
     return (
@@ -144,6 +164,16 @@ export const MusicBox = (props) => {
                 )
             }
             {
+                showAddToAlbum && (
+                    <AddToAlbum
+                        onClose={() => {
+                            setShowAddToAlbum(!showAddToAlbum);
+                            toggleMainContentScroll(true);
+                        }}
+                    />
+                )
+            }
+            {
                 showCreatePlaylist && (
                     <CreatePlaylist onClose={() => {
                         setShowCreatePlaylist(!showCreatePlaylist);
@@ -156,17 +186,52 @@ export const MusicBox = (props) => {
 }
 
 export const AlbumBox = (props) => {
+    const [showEditAlbum, setShowEditAlbum] = useState(false);
+
+    const createMenuItems = () => {
+        return [
+            {
+                name: "Edit Album",
+                onClick: () => {
+                    setShowEditAlbum(true);
+                    toggleMainContentScroll(false);
+                }
+            },
+            {
+                name: "Delete Album",
+                onClick: () => {
+                    // do something
+                }
+            }
+        ];
+    }
+
     return (
-        <ItemBox
-            imageWidth={sComponents.value.albumBoxWidth}
-            imageHeight={sComponents.value.albumBoxHeight}
-            image={props.image}
-            imagePlaceholder={album_placeholder}
-            title={props.title}
-            subtitle={props.subtitle}
-            onClick={props.onClick}
-            showMore={false}
-        />
+        <div>
+            <ItemBox
+                imageWidth={sComponents.value.albumBoxWidth}
+                imageHeight={sComponents.value.albumBoxHeight}
+                image={props.image}
+                imagePlaceholder={album_placeholder}
+                title={props.title}
+                subtitle={props.subtitle}
+                onClick={props.onClick}
+                showMore={props.boxAlt && props.boxAlt === sBoxAlts.value.albumBoxInLibrary}
+                menuItems={createMenuItems()}
+            />
+        
+            {
+                showEditAlbum && (
+                    <EditAlbum onClose={() => {
+                        setShowEditAlbum(!showEditAlbum);
+                        toggleMainContentScroll(true);
+                    }}
+                    data={props.data}
+                    onChange={props.onUpdate || (() => {})}
+                    />
+                )
+            }
+        </div>
     );
 }
 
@@ -191,7 +256,7 @@ export const PlaylistBox = (props) => {
             imagePlaceholder={playlist_placeholder}
             title={props.title}
             onClick={props.onClick}
-            showMore={true}
+            showMore={ssPrivilege.value.includes(3) === false}
             menuItems={createMenuItems()}
         />
     );

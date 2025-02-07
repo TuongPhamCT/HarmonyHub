@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
 import { TextButton } from '../../SmallComponents/TextButton';
 
-export const CreateAlbum = ({data, onClose}) => {
+export const EditAlbum = ({data, onClose, onChange}) => {
   const thisRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
   const [desInputValue, setDesInputValue] = useState("");
@@ -12,8 +12,14 @@ export const CreateAlbum = ({data, onClose}) => {
   const [image, setImage] = useState("");
   const fileInputRef = useRef(null);
 
-  const handleEditAlbum = () => {
+  const handleEditAlbum = async () => {
     // Handle create new Genre
+
+    data.title = inputValue;
+    data.description = desInputValue;
+
+    onChange(data);
+    onClose();
   }
 
   useEffect(() => {
@@ -35,7 +41,7 @@ export const CreateAlbum = ({data, onClose}) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [onClose]);
+  }, [data, onClose]);
 
   const handleInputValueChange = (value) => {
     setAllowEdit(value.length > 0);
@@ -57,7 +63,7 @@ export const CreateAlbum = ({data, onClose}) => {
       <div className="create-album-container"
         ref={thisRef}
       >
-        <p id={"create-album-title"}>New Album</p>
+        <p id={"create-album-title"}>Edit Album</p>
 
         <div
           id="create-album-image"
@@ -91,7 +97,7 @@ export const CreateAlbum = ({data, onClose}) => {
           type="text"
           className="create-album-input"
           placeholder="Type a description..."
-          value={inputValue}
+          value={desInputValue}
           onChange={(event) => setDesInputValue(event.target.value)}
         ></input>
 
@@ -109,7 +115,7 @@ export const CreateAlbum = ({data, onClose}) => {
             backgroundColor={"transparent"}
             width={"40%"}
             height={"100%"}
-            text={"Add"}
+            text={"Edit"}
             disabled={!allowEdit}
             onClick={handleEditAlbum}
           />
