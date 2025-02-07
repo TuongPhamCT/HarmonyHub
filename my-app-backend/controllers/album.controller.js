@@ -86,3 +86,21 @@ module.exports.getAllAlbumsOfUser = async (req, res) => {
     });
   }
 };
+
+module.exports.createAlbum = async (req, res) => {
+  const { title, releaseDate, description } = req.body;
+  const artist_id = req.userId;
+  let image = req.files.image ? req.files.image[0] : null;
+  try {
+    const album = await Album.create({
+      title,
+      releaseDate,
+      description,
+      artist_id,
+      image: image ? `/public/genre_images/${image.filename}` : null,
+    });
+    res.status(201).json(album);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
