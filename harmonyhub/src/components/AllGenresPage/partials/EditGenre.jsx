@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
 import { TextButton } from '../../SmallComponents/TextButton';
 
-export const EditGenre = ({data, onClose}) => {
+export const EditGenre = ({data, onClose, onUpdate}) => {
   const thisRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
   const [allowEdit, setAllowEdit] = useState(true);
@@ -13,6 +13,10 @@ export const EditGenre = ({data, onClose}) => {
 
   const handleEditGenre = () => {
     // Handle create new Genre
+
+    data.name = inputValue;
+    data.image = image;
+    onUpdate(data);
   }
 
   useEffect(() => {
@@ -34,7 +38,7 @@ export const EditGenre = ({data, onClose}) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [onClose]);
+  }, [data, onClose]);
 
   const handleInputValueChange = (value) => {
     setAllowEdit(value.length > 0);

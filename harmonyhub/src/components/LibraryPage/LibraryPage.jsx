@@ -33,7 +33,11 @@ export default function LibraryPage() {
         setTab(tabName);
     }
 
-    const handleUpdateAlbum = useCallback((item, index) => {
+    const handleRemoveAlbum = useCallback((id) => {
+        setAlbums((prev) => prev.filter((sAlbum) => id !== sAlbum.props.data.id));
+    }, []);
+
+    const handleUpdateAlbum = useCallback((item, oldItem) => {
         const newAlbum = <AlbumBox
             key={item.id}
             title={item.title}
@@ -41,15 +45,23 @@ export default function LibraryPage() {
             subtitle={item.description}
             boxAlt={sBoxAlts.value.albumBoxInLibrary}
             onClick={() => handleOnClickAlbum(nav, item.id)}
-            onUpdate={(newItem) => handleUpdateAlbum(newItem, index)}
+            onUpdate={(newItem) => handleUpdateAlbum(newItem, item)}
+            onRemove={() => handleRemoveAlbum(item.id)}
         ></AlbumBox>;
 
         setAlbums((prev) => {
-            const newArray = [...prev];
-            newArray[index] = newAlbum;
-            return newArray;
+            const newArray = [...prev]; // Sao chép mảng
+            let targetIndex = 0;
+            newArray.forEach((i, index) => {
+                if (i.props.data.id === oldItem.id) {
+                    targetIndex = index;
+                }
+            });
+            newArray[targetIndex] = newAlbum;
+            return newArray; // Trả về mảng mới để cập nhật state
         });
-    }, [nav]);
+
+    }, [nav, handleRemoveAlbum]);
 
     const tabs = libraryTabs.map(
         (item) => (
@@ -80,7 +92,7 @@ export default function LibraryPage() {
 
         setAlbums(
             dataAlbums.map(
-                (item, index) => (
+                (item) => (
                     <AlbumBox
                         key={item.id}
                         title={item.title}
@@ -88,13 +100,14 @@ export default function LibraryPage() {
                         subtitle={item.description}
                         boxAlt={sBoxAlts.value.albumBoxInLibrary}
                         onClick={() => handleOnClickAlbum(nav, item.id)}
-                        onUpdate={(newItem) => handleUpdateAlbum(newItem, index)}
+                        onUpdate={(newItem) => handleUpdateAlbum(newItem, item)}
+                        onRemove={() => handleRemoveAlbum(item.id)}
                     ></AlbumBox>
                 )
             )
         );
 
-    }, [nav, handleUpdateAlbum]);
+    }, [nav, handleRemoveAlbum, handleUpdateAlbum]);
 
     // const videoCollection = demoList.map(
     //     (item, index) => (

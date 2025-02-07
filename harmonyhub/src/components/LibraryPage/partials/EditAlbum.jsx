@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
 import { TextButton } from '../../SmallComponents/TextButton';
 
-export const EditAlbum = ({data, onClose, onChange}) => {
+export const EditAlbum = ({data, onClose, onUpdate}) => {
   const thisRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
   const [desInputValue, setDesInputValue] = useState("");
@@ -17,14 +17,16 @@ export const EditAlbum = ({data, onClose, onChange}) => {
 
     data.title = inputValue;
     data.description = desInputValue;
+    data.image = image;
 
-    onChange(data);
+    onUpdate(data);
     onClose();
   }
 
   useEffect(() => {
     setInputValue(data.title);
     setDesInputValue(data.description);
+    setImage(data.image);
 
     const handleClickOutside = (event) => {
       if (

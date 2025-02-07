@@ -123,11 +123,27 @@ export const MusicBox = (props) => {
             } 
         };
 
+        const removeFromFavorite = {
+            name: "Remove from favorites",
+            onClick: () => {
+                // call api to remove from favorite
+
+                if (props.onRemove) {
+                    props.onRemove();
+                }
+            } 
+        };
+
         switch (props.boxAlt) {
             case sBoxAlts.value.musicBoxInLibrary:
                 return [
                     addToPlaylist,
                     addToAlbum,
+                ];
+            case sBoxAlts.value.musicBoxInFavorites:
+                return [
+                    addToPlaylist,
+                    removeFromFavorite,
                 ];
             default:
                 return [
@@ -200,7 +216,9 @@ export const AlbumBox = (props) => {
             {
                 name: "Delete Album",
                 onClick: () => {
-                    // do something
+                    if (props.onRemove) {
+                        props.onRemove();
+                    }
                 }
             }
         ];
@@ -227,7 +245,7 @@ export const AlbumBox = (props) => {
                         toggleMainContentScroll(true);
                     }}
                     data={props.data}
-                    onChange={props.onUpdate || (() => {})}
+                    onUpdate={props.onUpdate || (() => {})}
                     />
                 )
             }
@@ -292,7 +310,9 @@ export const GenreBox = (props) => {
             {
                 name: "Delete Genre",
                 onClick: () => {
-                    // do something
+                    if (props.onRemove) {
+                        props.onRemove();
+                    }
                 }
             }
         ];
@@ -313,10 +333,14 @@ export const GenreBox = (props) => {
 
             {
                 showEditGenre && (
-                    <EditGenre onClose={() => {
-                        setShowEditGenre(!showEditGenre);
-                        toggleMainContentScroll(true);
-                    }} data={props.data}/>
+                    <EditGenre
+                        onClose={() => {
+                            setShowEditGenre(!showEditGenre);
+                            toggleMainContentScroll(true);
+                        }}
+                        data={props.data}
+                        onUpdate={props.onUpdate || (() => {})}
+                    />
                 )
             }
         </div>

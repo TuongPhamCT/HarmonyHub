@@ -5,7 +5,7 @@ import Footer from '../MainPage/Footer';
 import { sBoxAlts, sComponents } from '../SmallComponents/componentStore';
 import { GenreBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { handleOnClickGenre } from '../../services/itemOnClickService';
 import { useNavigate } from 'react-router';
 import { createDemoGenres } from '../../services/demoDataService';
@@ -21,6 +21,37 @@ const AllGenresPage = () => {
     const [genres, setGenres] = useState([]);
     const [showCreateGenre, SetShowCreateGenre] = useState(false);
 
+    const handleRemoveGenre = useCallback((id) => {
+        setGenres((prev) => prev.filter((i) => id !== i.props.data.id));
+    }, []);
+
+    const handleUpdateGenre = useCallback((item, oldItem) => {
+        const newGenre = 
+            <GenreBox
+                key={item.id}
+                title={item.name}
+                data={item}
+                image={item.image}
+                boxAlt={sBoxAlts.value.genreBoxEditable}
+                onClick={() => handleOnClickGenre(nav, item.id, item.name)}
+                onUpdate={(newItem) => handleUpdateGenre(newItem, item)}
+                onRemove={() => handleRemoveGenre(item.id)}
+            ></GenreBox>   
+
+        setGenres((prev) => {
+            const newArray = [...prev]; // Sao chép mảng
+            let targetIndex = 0;
+            newArray.forEach((i, index) => {
+                if (i.props.data.id === oldItem.id) {
+                    targetIndex = index;
+                }
+            });
+            newArray[targetIndex] = newGenre;
+            return newArray; // Trả về mảng mới để cập nhật state
+        });
+
+    }, [nav, handleRemoveGenre]);
+
     useEffect(() => {
         // call api to get genres
         const dataGenres = createDemoGenres();
@@ -35,11 +66,13 @@ const AllGenresPage = () => {
                         image={item.image}
                         boxAlt={sBoxAlts.value.genreBoxEditable}
                         onClick={() => handleOnClickGenre(nav, item.id, item.name)}
+                        onUpdate={(newItem) => handleUpdateGenre(newItem, item)}
+                        onRemove={() => handleRemoveGenre(item.id)}
                     ></GenreBox>           
                 )
             )
         );
-    }, [nav]);
+    }, [nav, handleRemoveGenre, handleUpdateGenre]);
 
     return (
         <div id="all-genres-page">
