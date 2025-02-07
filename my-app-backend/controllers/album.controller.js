@@ -1,5 +1,6 @@
 const Album = require("../models/album.model");
 const albumService = require("../services/album.service");
+const { Op } = require("sequelize");
 
 module.exports.getAlbums = async (req, res) => {
   try {
@@ -36,5 +37,52 @@ module.exports.getAlbumById = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error fetching album", error: error.message });
+  }
+};
+
+module.exports.getAllAlbumsOfUser = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = "title",
+      order = "asc",
+      search = "",
+    } = req.query;
+
+    // Find albums with search, sorting, and pagination
+    const albums = await Album.findAll({
+      where: {
+        artist_id: userId,
+        title: {
+          [Op.iLike]: `%${search}%`,
+        },
+      },
+      order: [[sortBy, order.toUpperCase()]],
+      offset: (page - 1) * limit,
+      limit: Number(limit),
+    });
+
+    // Get total count for pagination
+    const totalAlbums = await Album.count({
+      where: {
+        artist_id: userId,
+        title: {
+          [Op.iLike]: `%${search}%`,
+        },
+      },
+    });
+
+    res.status(200).send({
+      albums,
+      totalPages: Math.ceil(totalAlbums / limit),
+      currentPage: Number(page),
+      totalItems: totalAlbums,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Error retrieving albums",
+    });
   }
 };
