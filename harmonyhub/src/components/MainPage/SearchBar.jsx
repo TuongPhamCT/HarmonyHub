@@ -7,13 +7,14 @@ import search_icon from "../../assets/img/header_search_icon.png";
 import sidebar_icon from "../../assets/img/sidebar_menu_icon.png";
 import header_profile from "../../assets/img/header_profile.png";
 import back_icon from "../../assets/img/header_back.png";
-import { sMainController } from "../../store";
+import { sMainController, sUser } from "../../store";
 import SignIn from "../SignIn/SignIn";
 import { useLocation, useNavigate } from "react-router";
 import { sAccessToken } from "../config/store.ts";
 
-const ssShowSignIn = sMainController.slice(n => n.showSignIn);
+const ssShowSignIn = sMainController.slice((n) => n.showSignIn);
 const ssShowSignUp = sMainController.slice((n) => n.showSignUp);
+const ssPrivilege = sUser.slice((n) => n.privilege);
 
 const SearchBarGuestMode = ({ toggleSignUpFunction, toggleSignInFunction }) => {
   const handleSignUpButton = () => {
@@ -43,9 +44,15 @@ const SearchBarLoggedMode = () => {
   return (
     <div className="searchbar_right">
       <img id="header-profile-button" src={header_profile} className="txt_button" alt="" />
-      <h2>Premium</h2>
-      <h2>About</h2>
-      <h2>Share</h2>
+      {
+        ssPrivilege.value.includes(2)
+          ? <>
+              <h2>Premium</h2>
+              <h2>About</h2>
+              <h2>Share</h2>
+            </>
+          :   <p>Admin</p>
+      }
     </div>
   );
 }
