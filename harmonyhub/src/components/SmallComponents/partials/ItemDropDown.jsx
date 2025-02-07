@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 export const ItemDropDownMenu = ({ buttonRef, onClose, menuItems }) => {
-  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [position, setPosition] = useState({ top: -1000, left: -1000 });
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -11,20 +11,21 @@ export const ItemDropDownMenu = ({ buttonRef, onClose, menuItems }) => {
       const rect = buttonRef.current.getBoundingClientRect();
       const menuElement = document.querySelector(".dropdown-menu").getBoundingClientRect();
 
-      console.log(menuElement.width);
+      let baseTop = rect.bottom + window.scrollY;
+      let baseLeft = rect.left + window.scrollX;
 
       // Nếu dropdown vượt quá màn hình, dịch sang trái
-      if (rect.left + window.scrollX + menuElement.width > window.innerWidth) {
-        setPosition({
-          top: rect.bottom + window.scrollY,
-          left: rect.left + window.scrollX + rect.width - menuElement.width, // Giới hạn trong màn hình
-        });
-      } else {
-        setPosition({
-          top: rect.bottom + window.scrollY,
-          left: rect.left + window.scrollX,
-        });
+      if (baseLeft + menuElement.width > window.innerWidth) {
+        baseLeft = baseLeft + rect.width - menuElement.width;
       }
+      // Nếu dropdown vượt quá màn hình, dịch lên trên
+      if (baseTop + menuElement.height > window.innerHeight) {
+        baseTop = rect.top + window.scrollY - menuElement.height;
+      }
+      setPosition({
+        top: baseTop,
+        left: baseLeft,
+      });
     }
   }, [buttonRef]);
 
@@ -46,7 +47,10 @@ export const ItemDropDownMenu = ({ buttonRef, onClose, menuItems }) => {
     };
   }, [onClose, buttonRef]);
 
-  const handleClick = (menuItemAction) => {
+  const handleClick = (event, menuItemAction) => {
+    if (event) {
+        event.stopPropagation();
+    }
     if (typeof menuItemAction === "function") {
       menuItemAction();
     }
@@ -67,7 +71,7 @@ export const ItemDropDownMenu = ({ buttonRef, onClose, menuItems }) => {
           menuItems && menuItems.map((item, index) => (
             <li
               key={index} 
-              onClick={() => handleClick(item.onClick)}
+              onClick={(event) => handleClick(event, item.onClick)}
             >
               {item.name}
             </li>

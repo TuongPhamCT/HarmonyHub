@@ -45,3 +45,42 @@
   display: flex;
   justify-content: space-between;
 }
+
+.create-playlist-toggle {
+  width: 90%;
+  color: white;
+  font-size: 2.4vh;
+  display: flex;
+  flex-direction: row;
+  gap: 1vh;
+  padding: 1.2vh 0vh;
+}
+
+.create-playlist-toggle .custom-checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #FFFFFF;
+  border-radius: 6px; /* Bo tròn góc */
+  background-color: transparent;
+  cursor: pointer;
+  appearance: none; /* Loại bỏ checkbox mặc định */
+  display: inline-block;
+  position: relative;
+}
+
+/* Khi checkbox được chọn */
+.create-playlist-toggle .custom-checkbox:checked {
+  background-color: #007bff; /* Màu nền */
+  border-color: #007bff;
+}
+
+/* Thêm dấu tích khi checked */
+.create-playlist-toggle .custom-checkbox:checked::before {
+  content: "✔";
+  font-size: 18px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

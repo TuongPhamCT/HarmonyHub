@@ -14,3 +14,7 @@ export const sComponents = signify ({
     genreBoxWidth: "34vh",
     genreBoxHeight: "24vh",
 });
+
+export const sBoxAlts = signify ({
+    genreBoxEditable: "genreBoxEditable",
+});

@@ -1,7 +1,11 @@
 // import React from 'react'
 import item_placeholder from '../../assets/img/placeholder_disc.png';
+import genre_placeholder from '../../assets/img/placeholder/placeholder_genre.png';
+import album_placeholder from '../../assets/img/placeholder/placeholder_album.png';
+import playlist_placeholder from '../../assets/img/placeholder/placeholder_playlist.png';
+import artist_placeholder from '../../assets/img/placeholder/placeholder_artist.png';
 import button_more from '../../assets/img/component_more_vertical.png';
-import { sComponents } from './componentStore';
+import { sBoxAlts, sComponents } from './componentStore';
 import './ItemBox.css';
 import { useState, useRef } from 'react';
 import { ItemDropDownMenu } from './partials/ItemDropDown';
@@ -9,6 +13,7 @@ import { toggleMainContentScroll } from '../MainPage/services/contentAreaService
 import { CreatePlaylist } from './partials/CreatePlaylist';
 import { AddToPlaylist } from './partials/AddToPlaylist';
 import { sUser } from '../../store';
+import { EditGenre } from '../AllGenresPage/partials/EditGenre';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -21,12 +26,18 @@ export default function ItemBox(props) {
         e.target.src = item_placeholder; // Placeholder image URL
     };
 
-    const handleOpenMore = () => {
+    const handleOpenMore = (event) => {
+        if (event) {
+            event.stopPropagation();
+        }
         toggleMainContentScroll(showMenu);
         setShowMenu(!showMenu);
     }
 
-    const handleCloseMore = () => {
+    const handleCloseMore = (event) => {
+        if (event) {
+            event.stopPropagation();
+        }
         toggleMainContentScroll(true);
         setShowMenu(false);
     }
@@ -36,7 +47,7 @@ export default function ItemBox(props) {
             <div id="itembox-image-container"
                 style={{ width: props.imageWidth, height: props.imageHeight }}
                 className={props.roundImage ? "round" : "square"}>
-                <img src={props.image || item_placeholder}
+                <img src={props.image || (props.imagePlaceholder || item_placeholder)}
                     alt="" onError={handleError} id="itembox-image"></img>
                 {props.imageTitle ? <p id="itembox-image-title">{props.imageTitle}</p> : null}
             </div>
@@ -52,10 +63,10 @@ export default function ItemBox(props) {
                     }
                 </div>
                 {
-                    ssPrivilege.value.includes(2) === true && props.showMore ?
+                    ssPrivilege.value.includes(1) === true && props.showMore ?
                         <img
                             id="itembox-more-button"
-                            onClick={handleOpenMore}
+                            onClick={(event) => handleOpenMore(event)}
                             src={button_more}
                             ref={buttonRef}
                             className="highlight-button"
@@ -68,7 +79,7 @@ export default function ItemBox(props) {
 
             {
                 showMenu && (
-                    <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={props.menuItems || null}/>
+                    <ItemDropDownMenu buttonRef={buttonRef} onClose={(event) => handleCloseMore(event)} menuItems={props.menuItems || null}/>
                 )
             }
         </div>
@@ -81,6 +92,7 @@ export const ArtistBox = (props) => {
             imageWidth={sComponents.value.artistBoxWidth}
             imageHeight={sComponents.value.artistBoxHeight}
             image={props.image}
+            imagePlaceholder={artist_placeholder}
             title={props.title}
             titleAlign="center"
             roundImage={true}
@@ -149,6 +161,7 @@ export const AlbumBox = (props) => {
             imageWidth={sComponents.value.albumBoxWidth}
             imageHeight={sComponents.value.albumBoxHeight}
             image={props.image}
+            imagePlaceholder={album_placeholder}
             title={props.title}
             subtitle={props.subtitle}
             onClick={props.onClick}
@@ -162,7 +175,7 @@ export const PlaylistBox = (props) => {
     const createMenuItems = () => {
         return [
             {
-                name: "Save playlist",
+                name: "Clone playlist",
                 onClick: () => {
                     console.log("Do something");
                 }
@@ -175,6 +188,7 @@ export const PlaylistBox = (props) => {
             imageWidth={sComponents.value.playlistBoxWidth}
             imageHeight={sComponents.value.playlistBoxHeight}
             image={props.image}
+            imagePlaceholder={playlist_placeholder}
             title={props.title}
             onClick={props.onClick}
             showMore={true}
@@ -199,13 +213,47 @@ export const MvBox = (props) => {
 }
 
 export const GenreBox = (props) => {
+    const [showEditGenre, setShowEditGenre] = useState(false);
+
+    const createMenuItems = () => {
+        return [
+            {
+                name: "Edit Genre",
+                onClick: () => {
+                    setShowEditGenre(true);
+                    toggleMainContentScroll(false);
+                }
+            },
+            {
+                name: "Delete Genre",
+                onClick: () => {
+                    // do something
+                }
+            }
+        ];
+    }
+    
     return (
-        <ItemBox
-            imageWidth={sComponents.value.genreBoxWidth}
-            imageHeight={sComponents.value.genreBoxHeight}
-            image={props.image}
-            imageTitle={props.title}
-            onClick={props.onClick}
-        />
+        <div> 
+            <ItemBox
+                imageWidth={sComponents.value.genreBoxWidth}
+                imageHeight={sComponents.value.genreBoxHeight}
+                image={props.image}
+                imagePlaceholder={genre_placeholder}
+                imageTitle={props.title}
+                onClick={props.onClick}
+                showMore={ ssPrivilege.value.includes(3) && props.boxAlt === sBoxAlts.value.genreBoxEditable }
+                menuItems={createMenuItems()}
+            />
+
+            {
+                showEditGenre && (
+                    <EditGenre onClose={() => {
+                        setShowEditGenre(!showEditGenre);
+                        toggleMainContentScroll(true);
+                    }} data={props.data}/>
+                )
+            }
+        </div>
     );
 }

@@ -14,16 +14,19 @@ export const handleLogin = (accessToken, userName, role) => {
   localStorage.setItem("userRole", role); 
   switch (role) {
     case "admin":
-      sUser.set((v) => v.value.privilege = [0, 3]);
+      sUser.set((v) => v.value.privilege = [0, 1, 3]);
       break;
     case "user":
       sUser.set((v) => v.value.privilege = [0, 1, 2]);
       break;
+    case "artist":
+      sUser.set((v) => v.value.privilege = [0, 1, 2]);
+      break;
     case "guest":
-      sUser.set((v) => v.value.privilege = [0, 1]);
+      sUser.set((v) => v.value.privilege = [0]);
       break;
     default:
-      sUser.set((v) => v.value.privilege = [0, 1, 2]);
+      sUser.set((v) => v.value.privilege = [0]);
       break;
   }
 

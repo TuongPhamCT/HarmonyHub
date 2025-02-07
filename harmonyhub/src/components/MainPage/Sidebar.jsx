@@ -5,6 +5,7 @@ import logo from '../../assets/img/logo.png';
 import icon_home from '../../assets/img/sidebar_home.png';
 import icon_discover from '../../assets/img/sidebar_discover.png';
 import icon_albums from '../../assets/img/sidebar_albums.png';
+import icon_genres from '../../assets/img/sidebar_genres.png';
 import icon_artists from '../../assets/img/sidebar_artists.png';
 import icon_library from '../../assets/img/sidebar_library.png';
 import icon_most_played from '../../assets/img/sidebar_most_played.png';
@@ -24,6 +25,7 @@ const sidebar_items = [
   { itemName: "Menu", class: "sidebar_header", access: 0 },
   { itemName: "Home", img: icon_home, class: "sidebar_home", imgClass: "icon_home", id: '/', access: 0 },
   { itemName: "Discover", img: icon_discover, imgClass: "icon_content", id: '/discover' , access: 0 },
+  { itemName: "Genres", img: icon_genres, imgClass: "icon_content", id: '/genres' , access: 3 },
   { itemName: "Albums", img: icon_albums, imgClass: "icon_content", id: '/albums', access: 0 },
   { itemName: "Artists", img: icon_artists, imgClass: "icon_content", id: '/artist', access: 0 },
   // {itemName: "Library", class: "sidebar_header"},
@@ -38,7 +40,7 @@ const sidebar_items = [
   { itemName: "Add Song", img: add_song, imgClass: "icon_content", id: '/addsong', access: 2 },
   { itemName: "General", class: "sidebar_header", access: 2 },
   { itemName: "Settings", img: icon_settings, imgClass: "icon_content", id: '/settings', access: 2 },
-  { itemName: "Logout", img: icon_logout, id: "sidebar_logout", imgClass: "icon_content", access: 2 },
+  { itemName: "Logout", img: icon_logout, id: "sidebar_logout", imgClass: "icon_content", access: 1 },
 ]
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
@@ -77,6 +79,9 @@ const Sidebar = () => {
         break;
       case '/albums':
         nav('/albums');
+        break;
+      case '/genres':
+        nav('/genres');
         break;
       case '/artist':
         nav('/artist');

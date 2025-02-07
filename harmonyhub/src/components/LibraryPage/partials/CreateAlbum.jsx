@@ -1,17 +1,19 @@
-import './CreatePlaylist.css';
+import './CreateAlbum.css';
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { TextButton } from '../TextButton';
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
+import { TextButton } from '../../SmallComponents/TextButton';
 
-export const CreatePlaylist = ({onClose}) => {
+export const CreateAlbum = ({onClose}) => {
   const thisRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
+  const [desInputValue, setDesInputValue] = useState("");
   const [allowAdd, setAllowAdd] = useState(false);
-  const [isPublic, setIsPublic] = useState(true);
+  const [image, setImage] = useState("");
+  const fileInputRef = useRef(null);
 
-  const handleAddPlaylist = () => {
-    // Handle create new playlist
+  const handleAddAlbum = () => {
+    // Handle create new Genre
   }
 
   useEffect(() => {
@@ -37,32 +39,60 @@ export const CreatePlaylist = ({onClose}) => {
     setInputValue(value);
   }
 
+    // Xử lý khi chọn ảnh
+    const handleImageChange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const imageUrl = URL.createObjectURL(file);
+        setImage(imageUrl);
+      }
+    };
+
   return createPortal(
     <div>
       <TransparentBackground/>
-      <div className="create-playlist-container"
+      <div className="create-album-container"
         ref={thisRef}
       >
-        <p id={"create-playlist-title"}>New playlist</p>
+        <p id={"create-album-title"}>New Album</p>
+
+        <div
+          id="create-album-image"
+          onClick={() => fileInputRef.current.click()}
+          style={{
+            backgroundImage: image ? `url(${image})` : "none",
+          }}
+        >
+          {!image && <span>Upload Image</span>}
+          {/* Input file ẩn */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleImageChange}
+          />
+        </div>
+
         <input
+          name="albumName"
           type="text"
-          id="create-playlist-input"
+          className="create-album-input"
           placeholder="Type a name..."
           value={inputValue}
           onChange={(event) => handleInputValueChange(event.target.value)}
         ></input>
 
-        <div className="create-playlist-toggle">
-          <input
-            type="checkbox"
-            className="custom-checkbox"
-            checked={isPublic}
-            onChange={() => setIsPublic(!isPublic)}
-          />
-          <p>Public</p>
-        </div>
+        <input
+          name="albumDescription"
+          type="text"
+          className="create-album-input"
+          placeholder="Type a description..."
+          value={desInputValue}
+          onChange={(event) => setDesInputValue(event.target.value)}
+        ></input>
 
-        <div id={"create-playlist-buttons"}>
+        <div id={"create-album-buttons"}>
           <TextButton
             color={"#FFFFFF"}
             backgroundColor={"transparent"}
@@ -78,7 +108,7 @@ export const CreatePlaylist = ({onClose}) => {
             height={"100%"}
             text={"Add"}
             disabled={!allowAdd}
-            onClick={handleAddPlaylist}
+            onClick={handleAddAlbum}
           />
         </div>
       </div>

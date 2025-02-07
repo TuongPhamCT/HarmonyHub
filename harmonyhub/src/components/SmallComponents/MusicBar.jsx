@@ -25,16 +25,19 @@ export default function MusicBar(props) {
     };
 
     // Toggle favorite
-    const toggleFavor = () => {
+    const toggleFavor = (event) => {
+        event.stopPropagation();
         setFavorToggle(!favorToggle);
     }
 
-    const handleOpenMore = () => {
+    const handleOpenMore = (event) => {
+        event.stopPropagation();
         toggleMainContentScroll(showMenu);
         setShowMenu(!showMenu);
     }
 
-    const handleCloseMore = () => {
+    const handleCloseMore = (event) => {
+        event.stopPropagation();
         toggleMainContentScroll(true);
         setShowMenu(false);
     }
@@ -71,7 +74,7 @@ export default function MusicBar(props) {
                     {
                         ssPrivilege.value.includes(2) === true ?
                             <img id="musicbar-button-favor" src={favorToggle ? button_love_on : button_love_off }
-                            className="highlight-button" alt="" onClick={toggleFavor}></img>
+                            className="highlight-button" alt="" onClick={(event) => toggleFavor(event)}></img>
                         :
                             null
                     }
@@ -82,7 +85,14 @@ export default function MusicBar(props) {
                 <div id="musicbar-more">
                     {
                         ssPrivilege.value.includes(2) === true ?
-                            <img id="musicbar-button-more" src={button_more} ref={buttonRef} className="highlight-button" alt="" onClick={handleOpenMore}></img>
+                            <img
+                                id="musicbar-button-more"
+                                src={button_more}
+                                ref={buttonRef}
+                                className="highlight-button"
+                                alt=""
+                                onClick={(event) => handleOpenMore(event)}
+                            ></img>
                         :
                             null
                     }
@@ -91,7 +101,7 @@ export default function MusicBar(props) {
 
             {
                 showMenu && (
-                    <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={createMenuItems()}/>
+                    <ItemDropDownMenu buttonRef={buttonRef} onClose={(event) => handleCloseMore(event)} menuItems={createMenuItems()}/>
                 )
             }
             {

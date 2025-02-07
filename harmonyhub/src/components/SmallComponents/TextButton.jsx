@@ -7,7 +7,9 @@ export const TextButton = (props) => {
         backgroundColor: props.backgroundColor,
         width: props.width,
         height: props.height,
-        fontSize: props.fontSize
+        fontSize: props.fontSize,
+        cursor: props.disabled && props.disabled === true ? "default" : "pointer",
+        filter: props.disabled && props.disabled === true ? "brightness(0.3)" : "none",
     };
 
     return (
