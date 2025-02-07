@@ -30,6 +30,7 @@ import AllPlaylistsPage from '../AllPlaylistsPage/AllPlaylistsPage';
 import PlaylistDetailPage from '../PlaylistDetailPage/PlaylistDetailPage';
 import AllGenresPage from '../AllGenresPage/AllGenresPage';
 import { autoLogin } from '../../services/loginService.js';
+import YourFavoritesPage from '../AllSongsPage/YourFavoritesPage.jsx';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
@@ -114,6 +115,7 @@ function MainPage() {
                             <Route path='/playlists/:view' element={<AllPlaylistsPage />} />
                             <Route path='/playlist/:playlistId' element={<PlaylistDetailPage />} />
                             <Route path='/genres' element={<AllGenresPage />} />
+                            <Route path='/favorites' element={<YourFavoritesPage/>} />
                         </Routes>
                         {/* <sMainController.DevTool name="sMainController"/> */}
                     </div>
