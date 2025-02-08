@@ -2,12 +2,11 @@ var express = require("express");
 var router = express();
 var controller = require("../controllers/auth.controller");
 const multer = require("multer");
-const { verify } = require("jsonwebtoken");
-
+const { verifyToken } = require("../middleware/authjwt.middleware");
 const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "public/genre_images/");
+      cb(null, "public/user_images/");
     },
     filename: function (req, file, cb) {
       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
