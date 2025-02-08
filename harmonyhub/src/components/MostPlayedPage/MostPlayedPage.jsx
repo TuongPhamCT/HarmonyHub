@@ -47,7 +47,7 @@ export default function MostPlayedPage() {
                         releaseDate={formatDate(item.releaseDate)}
                         played={item.playCount}
                         time={convertIntToTime(item.duration)}
-                        onClick={() => handleOnClickSong(item.id)}
+                        onClick={() => handleOnClickSong(item)}
                     ></MusicBar>
                 )
             )
@@ -65,7 +65,7 @@ export default function MostPlayedPage() {
                         releaseDate={formatDate(item.releaseDate)}
                         played={item.playCount}
                         time={convertIntToTime(item.duration)}
-                        onClick={() => handleOnClickSong(item.id)}
+                        onClick={() => handleOnClickSong(item)}
                     ></MusicBar>
                 )
             )
@@ -83,7 +83,7 @@ export default function MostPlayedPage() {
                         releaseDate={formatDate(item.releaseDate)}
                         played={item.playCount}
                         time={convertIntToTime(item.duration)}
-                        onClick={() => handleOnClickSong(item.id)}
+                        onClick={() => handleOnClickSong(item)}
                     ></MusicBar>
                 )
             )

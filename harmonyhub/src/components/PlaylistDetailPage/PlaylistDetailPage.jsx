@@ -43,7 +43,7 @@ const PlaylistDetailPage = () =>{
                         releaseDate={formatDate(item.releaseDate)}
                         played={item.playCount}
                         time={convertIntToTime(item.duration)}
-                        onClick={() => handleOnClickSong(item.id)}
+                        onClick={() => handleOnClickSong(item)}
                     ></MusicBar>       
                 )
             )

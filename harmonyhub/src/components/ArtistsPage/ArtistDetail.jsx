@@ -74,7 +74,7 @@ function ArtitstsPage(props) {
                         key={item.id}
                         title={item.name}
                         subtitle={item.artist}
-                        onClick={() => handleOnClickSong(item.id)}
+                        onClick={() => handleOnClickSong(item)}
                     ></MusicBox>
                 )
             )

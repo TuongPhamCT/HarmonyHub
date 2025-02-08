@@ -29,3 +29,11 @@ export default function MusicCollection(props) {
         </div>
     )
 }
+
+export function MusicCollectionMini(props) {
+    return (
+        <div id="music-collection-container">
+        {props.musicList}
+    </div>
+    )
+}

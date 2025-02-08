@@ -19,12 +19,15 @@ import speaker_off from '../../assets/img/playbar/playbar-speaker-off.png';
 import speaker_on from '../../assets/img/playbar/playbar-speaker-on.png';
 import play from '../../assets/img/playbar/playbar-play.png';
 import pause from '../../assets/img/playbar/playbar-pause.png';
+import playlist from '../../assets/img/playbar/playbar-playlist.png'
+import playlist_active from '../../assets/img/playbar/playbar-playlist-active.png'
 import { PlaybarLyric } from './partials/playbarLyric';
 import { sPlaybar, sUser } from '../../store';
 import { AddToPlaylist } from '../SmallComponents/partials/AddToPlaylist';
 import { CreatePlaylist } from '../SmallComponents/partials/CreatePlaylist';
 import { toggleMainContentScroll } from './services/contentAreaServices';
 import { ItemDropDownMenu } from '../SmallComponents/partials/ItemDropDown';
+import { PlaybarPlaylist } from './partials/playbarPlaylist';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -42,6 +45,7 @@ export default function Playbar() {
   const [repeatToggle, setRepeatToggle] = useState("none");
 
   const [showLyric, setShowLyric] = useState(false);
+  const [showPlaylist, setShowPlaylist] = useState(false);
 
   const [musicTitle, setMusicTitle] = useState("Music Title");
   const [artist, setArtist] = useState("Artist");
@@ -127,7 +131,13 @@ export default function Playbar() {
     }
   }
 
+  const handleTogglePlaylist = () => {
+    setShowLyric(false);
+    setShowPlaylist(!showPlaylist);
+  }
+
   const handleToggleLyric = () => {
+    setShowPlaylist(false);
     setShowLyric(!showLyric);
   }
 
@@ -256,6 +266,12 @@ export default function Playbar() {
       </div>
       <div id="playbar-right-container">
         <img
+          src={ showPlaylist ? playlist_active : playlist }
+          className="playbar-button playbar-button-big-size"
+          alt=""
+          onClick={handleTogglePlaylist}
+        ></img>
+        <img
           src={ showLyric ? micro_active : micro }
           className="playbar-button playbar-button-big-size"
           alt=""
@@ -279,6 +295,12 @@ export default function Playbar() {
         />
       </div>
 
+
+      {
+        showPlaylist && (
+            <PlaybarPlaylist/>
+        )
+      }
       {
         showLyric && (
             <PlaybarLyric lyric={getLyric()}/>

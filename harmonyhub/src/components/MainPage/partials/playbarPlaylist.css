@@ -1,0 +1,17 @@
+.playbar-playlist-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 22;
+  width: 30%;
+  height: calc(100% - 16vh);
+  background: #181818;
+  color: white;
+  border-radius: 0.5vh;
+  box-shadow: 0.2vh 0.2vh 0.6vh rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 2vh 4vh;
+  font-size: 8vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

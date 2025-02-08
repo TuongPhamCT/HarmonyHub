@@ -37,7 +37,7 @@ const HomePage = () => {
                         key={item.id}
                         title={item.name}
                         subtitle={item.artist}
-                        onClick={() => handleOnClickSong(item.id)}
+                        onClick={() => handleOnClickSong(item)}
                     ></MusicBox>
                 )
             )
@@ -50,7 +50,7 @@ const HomePage = () => {
                         key={item.id}
                         title={item.name}
                         subtitle={item.artist}
-                        onClick={() => handleOnClickSong(item.id)}
+                        onClick={() => handleOnClickSong(item)}
                     ></MusicBox>
                 )
             )
@@ -93,7 +93,7 @@ const HomePage = () => {
                         releaseDate={formatDate(item.releaseDate)}
                         // album="Demo Album"
                         time={convertIntToTime(item.duration)}
-                        onClick={() => handleOnClickSong(item.id)}
+                        onClick={() => handleOnClickSong(item)}
                     ></MusicBar>
                 )
             )

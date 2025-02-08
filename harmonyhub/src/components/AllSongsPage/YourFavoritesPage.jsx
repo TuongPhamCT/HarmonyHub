@@ -30,7 +30,7 @@ const YourFavoritesPage = () => {
                         subtitle={item.artist}
                         data={item}
                         boxAlt={sBoxAlts.value.musicBoxInFavorites}
-                        onClick={() => handleOnClickSong(item.id)}
+                        onClick={() => handleOnClickSong(item)}
                         onRemove={async () => {
                             setSongs((prev) => prev.filter((sSong) => item.id !== sSong.props.data.id));
                             await handleRemoveSongFromFavorite(item);
