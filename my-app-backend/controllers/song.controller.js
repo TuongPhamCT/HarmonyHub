@@ -195,12 +195,12 @@ module.exports.getAllSongs = async (req, res) => {
     // Add genre filtering if genreId is provided
     const includeCondition = genreId
       ? [
-          {
-            model: Genre,
-            where: { id: genreId },
-            through: { attributes: [] }, // Exclude junction table attributes
-          },
-        ]
+        {
+          model: Genre,
+          where: { id: genreId },
+          through: { attributes: [] }, // Exclude junction table attributes
+        },
+      ]
       : [];
 
     // Find songs with search, sorting, pagination, and optional genre filtering
@@ -314,12 +314,12 @@ module.exports.getPendingApprovalSongs = async (req, res) => {
     // Add genre filtering if genreId is provided
     const includeCondition = genreId
       ? [
-          {
-            model: Genre,
-            where: { id: genreId },
-            through: { attributes: [] },
-          },
-        ]
+        {
+          model: Genre,
+          where: { id: genreId },
+          through: { attributes: [] },
+        },
+      ]
       : [];
 
     const songs = await Song.findAll({

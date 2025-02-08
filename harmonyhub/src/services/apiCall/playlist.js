@@ -84,6 +84,11 @@ export class PlaylistService {
         sortBy,
         order,
     }) => {
+        if (!page) page = 1
+        if (!limit) limit = 10
+        if (!sortBy) sortBy = 'name'
+        if (!order) order = 'asc'
+
         try {
             const { data } = await axios.get(`/playlist/${id}/songs`, {
                 params: {

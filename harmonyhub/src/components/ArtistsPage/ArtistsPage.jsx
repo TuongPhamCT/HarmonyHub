@@ -17,9 +17,11 @@ function ArtistsPage() {
 
     useEffect(() => {
         // Call api to get data
-        const controller = new AbortController(); 
-        const fetchData =  async () => {
-            const dataArtists = await ArtistService.getArtists().artists || [];
+        const controller = new AbortController();
+        const fetchData = async () => {
+            const dataArtists = await ArtistService.getArtists({
+                limit: 50
+            }).artists || [];
             const popular = dataArtists.length > 20 ? shuffleArray(dataArtists).slice(0, 20) : dataArtists;
             const favorites = dataArtists.length > 20 ? shuffleArray(dataArtists).slice(0, 20) : dataArtists;
 
@@ -34,7 +36,7 @@ function ArtistsPage() {
                     )
                 )
             );
-    
+
             setFavoriteArtists(
                 favorites.map(
                     (item) => (
@@ -80,7 +82,7 @@ function ArtistsPage() {
                     columnWidth={sComponents.value.artistBoxWidth}
                 ></ItemCollectionVertical>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     );
 }
