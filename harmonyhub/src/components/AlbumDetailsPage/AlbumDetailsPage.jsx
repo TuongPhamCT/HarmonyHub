@@ -25,7 +25,7 @@ const AlbumDetailsPage = () =>{
         const controller = new AbortController(); 
         const fetchData =  async () => {
             const thisAlbum = await AlbumService.getAlbumById(id);
-            const dataSongs = [];
+            const dataSongs = thisAlbum.songs;
 
             const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
     

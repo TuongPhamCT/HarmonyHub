@@ -8,7 +8,7 @@ import { ArtistBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { sComponents } from '../SmallComponents/componentStore';
 
-function ArtistsPage(props) {
+function ArtistsPage() {
 
     const navigate = useNavigate();
 

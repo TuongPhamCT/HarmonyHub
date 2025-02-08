@@ -68,7 +68,7 @@ const AllGenresPage = () => {
             const dataGenres = await GenreService.getGenres({
                 sortBy: "name",
                 order: "asc",
-            });
+            }).genres;
 
             setGenres(
                 dataGenres.map(

@@ -8,14 +8,13 @@ import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { sSongs } from './songStore';
 import { useEffect, useState } from 'react';
 import { handleOnClickSong } from '../../services/itemOnClickService';
-import { createDemoSongs } from '../../services/demoDataService';
 
 const AllSongsPage = () => {
     const [songs, setSongs] = useState([]);
 
     useEffect(() => {
         // call api to get data
-        const dataSongs = createDemoSongs();
+        const dataSongs = sSongs.value.songs;
 
         setSongs(
             dataSongs.map(
