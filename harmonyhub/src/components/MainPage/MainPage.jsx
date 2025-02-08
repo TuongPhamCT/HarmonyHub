@@ -116,7 +116,7 @@ function MainPage() {
                             <Route path='/artist' element={<ArtistsPage />} />
                             <Route path='/artist/:id' element={<ArtistDetailPage />} />
                             <Route path='/yourplaylist' element={<YourPlaylist />} />
-                            <Route path='/yourplaylist/:playlistId' element={<PlaylistDetail />} />
+                            <Route path='/yourplaylist/:id' element={<PlaylistDetail />} />
                             <Route path='/approve' element={<ApprovePage />} />
                             <Route path='/addsong' element={<AddSongPage />} />
                             <Route path='/library' element={<LibraryPage />} />

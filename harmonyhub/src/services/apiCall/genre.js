@@ -7,6 +7,12 @@ export class GenreService {
         order,
         search
     }) => {
+        if (!page) page = 1
+        if (!limit) limit = 10
+        if (!sortBy) sortBy = 'name'
+        if (!order) order = 'asc'
+        if (!search) search = ''
+
         try {
             const { data } = await axios.get('/genres', {
                 params: {

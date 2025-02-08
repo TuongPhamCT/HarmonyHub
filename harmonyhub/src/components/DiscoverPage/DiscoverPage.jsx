@@ -24,14 +24,14 @@ const DiscoverPage = () => {
     const [topAlbums, setTopAlbums] = useState();
 
     useEffect(() => {
-        const controller = new AbortController(); 
-        const fetchData =  async () => {
+        const controller = new AbortController();
+        const fetchData = async () => {
             // call api to get data
             const fullDataSongs = await SongService.getSongs({
                 sortBy: "createdAt",
                 order: "desc",
                 limit: 50,
-            }) || [];
+            }).songs || [];
             setNewReleaseSongsData(
                 fullDataSongs
             );
@@ -43,7 +43,8 @@ const DiscoverPage = () => {
             setTopAlbumsData(fullDataAlbums);
             const dataAlbums = fullDataAlbums.length > 6 ? fullDataAlbums.slice(0, 6) : fullDataAlbums;
             const dataPlaylists = [];
-            let dataArtists = await ArtistService.getArtists().artists || [];
+            let dataArtists = await ArtistService.getArtists({
+            }).artists || [];
             dataArtists = dataArtists.length > 6 ? shuffleArray(dataArtists).slice(0, 6) : dataArtists;
             let dataGenres = GenreService.getGenres({
                 sortBy: "name",
@@ -58,7 +59,7 @@ const DiscoverPage = () => {
                             key={item.id}
                             title={item.name}
                             onClick={() => handleOnClickGenre(nav, item.id, item.name)}
-                        ></GenreBox>           
+                        ></GenreBox>
                     )
                 )
             );
@@ -67,12 +68,12 @@ const DiscoverPage = () => {
                 dataPlaylists.map(
                     (item) => (
                         <PlaylistBox
-                            key={item.id} 
+                            key={item.id}
                             title={item.title}
                             onClick={() => handleOnClickPlaylist(nav, item.id)}
                         />
                     )
-                )   
+                )
             );
 
             setPopularArtists(
@@ -128,42 +129,42 @@ const DiscoverPage = () => {
     // )
 
     return (
-        
+
         <div className="discover-page">
-            <br/>
-            <br/>
+            <br />
+            <br />
             <ItemCollection
                 itemList={genres}
                 title="Music"
                 titleHighlight="Genres"
-                onViewAll={() => {nav('/genres')}}
+                onViewAll={() => { nav('/genres') }}
             ></ItemCollection>
             <ItemCollection
                 itemList={moodPlaylists}
                 title="Mood"
                 titleHighlight="Playlist"
-                onViewAll={() => {navigateToAllPlaylists(nav, "Mood", "Playlists", "mood-playlists")}}
+                onViewAll={() => { navigateToAllPlaylists(nav, "Mood", "Playlists", "mood-playlists") }}
             ></ItemCollection>
             <ItemCollection
                 itemList={popularArtists}
-                title="Popular" 
+                title="Popular"
                 titleHighlight="Artists"
-                onViewAll={() => {nav('/artist')}}
+                onViewAll={() => { nav('/artist') }}
             ></ItemCollection>
             {/* <MvCollection itemList={videoCollection} title="Trending" titleHighlight="Video"></MvCollection> */}
             <ItemCollection
                 itemList={newReleaseSongs}
                 title="New Release"
                 titleHighlight="Songs"
-                onViewAll={() => {navigateToNewReleaseSongs(nav, newReleaseSongData)}}
+                onViewAll={() => { navigateToNewReleaseSongs(nav, newReleaseSongData) }}
             ></ItemCollection>
             <ItemCollection
                 itemList={topAlbums}
                 title="Top"
                 titleHighlight="Albums"
-                onViewAll={() => {navigateToTopAlbums(nav, topAlbumsData)}}
+                onViewAll={() => { navigateToTopAlbums(nav, topAlbumsData) }}
             ></ItemCollection>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

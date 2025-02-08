@@ -5,6 +5,10 @@ export class AlbumService {
         page,
         limit,
     }) => {
+
+        if (!page) page = 1
+        if (!limit) limit = 10
+
         try {
             const { data } = await axios.get('/albums', {
                 params: {
@@ -69,6 +73,12 @@ export class AlbumService {
         order,
         search
     }) => {
+        if (!page) page = 1
+        if (!limit) limit = 10
+        if (!sortBy) sortBy = 'title'
+        if (!order) order = 'asc'
+        if (!search) search = ''
+
         try {
             const { data } = await axios.get('/my-albums', {
                 params: {

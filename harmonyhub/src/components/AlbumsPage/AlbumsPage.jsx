@@ -19,9 +19,11 @@ const AlbumsPage = () => {
     const [albumsData, setAlbumsData] = useState([]);
 
     useEffect(() => {
-        const controller = new AbortController(); 
-        const fetchData =  async () => {
-            const dataAlbums = await AlbumService.getAlbums().albums || [];
+        const controller = new AbortController();
+        const fetchData = async () => {
+            const dataAlbums = await AlbumService.getAlbums({
+                limit: 50
+            }).albums || [];
             setAlbumsData(dataAlbums);
 
             setNewReleaseAlbums(
@@ -36,7 +38,7 @@ const AlbumsPage = () => {
                     )
                 )
             );
-    
+
             setTopAlbums(
                 loadPreviewTopAlbums(dataAlbums).map(
                     (item) => (

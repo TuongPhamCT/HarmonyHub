@@ -8,6 +8,12 @@ export class ArtistService {
         order,
         search
     }) => {
+        if (!page) page = 1
+        if (!limit) limit = 10
+        if (!sortBy) sortBy = 'email'
+        if (!order) order = 'asc'
+        if (!search) search = ''
+
         try {
             const { data } = await axios.get('/artists', {
                 params: {
