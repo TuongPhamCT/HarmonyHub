@@ -41,7 +41,7 @@ const ssCanScrollContent = sMainController.slice((n) => n.canScroll);
 
 function MainPage() {
     const { pathname } = useLocation();
-    const {toggleFavorites} = useFavorite();
+    const { toggleFavorites } = useFavorite();
 
     const handleGoUp = () => {
         const component = document.getElementById("content-area");
@@ -66,14 +66,20 @@ function MainPage() {
         // handle Content Scroll
         const component = document.getElementById("content-area");
         component.addEventListener('wheel', handleContentScroll, { passive: false });
-        
+
         // login
         autoLogin();
         // setup Favorites song of user
         if (sAccessToken.value) {
-            const fetchData =  async () => {
+            const fetchData = async () => {
                 // load favorite song by API
-                const songData = await SongService.getFavoriteSongs().songs || [];
+                const songData = await SongService.getFavoriteSongs({
+                    page: 1,
+                    limit: 100,
+                    sortBy: "name",
+                    order: "asc",
+                    search: "",
+                }).songs || [];
 
                 songData.forEach((song) => {
                     toggleFavorites(song.id);
@@ -131,7 +137,7 @@ function MainPage() {
                             <Route path='/playlists/:view' element={<AllPlaylistsPage />} />
                             <Route path='/playlist/:playlistId' element={<PlaylistDetailPage />} />
                             <Route path='/genres' element={<AllGenresPage />} />
-                            <Route path='/favorites' element={<YourFavoritesPage/>} />
+                            <Route path='/favorites' element={<YourFavoritesPage />} />
                         </Routes>
                         {/* <sMainController.DevTool name="sMainController"/> */}
                     </div>
