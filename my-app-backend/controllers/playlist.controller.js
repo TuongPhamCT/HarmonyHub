@@ -1,6 +1,8 @@
 const { Model } = require("sequelize");
 const Playlist = require("../models/playlist.model");
 const Song = require("../models/song.model");
+const User = require("../models/user.model");
+const sequelize = require("../configs/sequelize");
 const { Op } = require("sequelize");
 const playlistService = require("../services/playlist.service");
 
@@ -155,6 +157,51 @@ module.exports.getSongsInPlaylist = async (req, res) => {
   } catch (error) {
     res.status(500).send({
       message: error.message || "Some error occurred while retrieving songs.",
+    });
+  }
+};
+
+module.exports.getAllPlaylists = async (req, res) => {
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = "title",
+      order = "asc",
+      search = "",
+    } = req.query;
+
+    // Find playlists with search, sorting, and pagination
+    const playlists = await Playlist.findAll({
+      where: {
+        title: {
+          [Op.iLike]: `%${search}%`,
+        },
+      },
+      order: [[sortBy, order.toUpperCase()]],
+      offset: (page - 1) * limit,
+      limit: Number(limit),
+    });
+
+    // Get total count for pagination
+    const totalPlaylists = await Playlist.count({
+      where: {
+        title: {
+          [Op.iLike]: `%${search}%`,
+        },
+      },
+    });
+
+    res.status(200).send({
+      playlists,
+      totalPages: Math.ceil(totalPlaylists / limit),
+      currentPage: Number(page),
+      totalItems: totalPlaylists,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message:
+        error.message || "Some error occurred while retrieving playlists.",
     });
   }
 };

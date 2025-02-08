@@ -100,6 +100,7 @@ module.exports.updateGenreById = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, description } = req.body;
+    let image = req.files.image ? req.files.image[0] : null;
 
     // Validate request
     if (!name && !description) {
@@ -120,6 +121,7 @@ module.exports.updateGenreById = async (req, res) => {
     const updateData = {};
     if (name) updateData.name = name;
     if (description) updateData.description = description;
+    if (image) updateData.image = `/public/genre_images/${image.filename}`;
 
     // Update genre in the database
     const [updated] = await Genre.update(updateData, { where: { id } });

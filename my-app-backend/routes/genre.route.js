@@ -25,7 +25,12 @@ router.post(
 );
 router.get("/genres", controller.getGenres);
 router.get("/genre/:id", controller.getGenreById);
-router.patch("/genre/:id", [verifyToken, isAdmin], controller.updateGenreById);
+router.patch(
+  "/genre/:id",
+  [verifyToken, isAdmin],
+  upload.fields([{ name: "image", maxCount: 1 }]),
+  controller.updateGenreById
+);
 router.delete("/genre/:id", [verifyToken, isAdmin], controller.deleteGenreById);
 
 module.exports = router;
