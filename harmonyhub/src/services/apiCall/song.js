@@ -134,7 +134,37 @@ export class SongService {
     }
   }
 
+  static getPendingApprovalSongs = async ({
+    page,
+    limit,
+    sortBy = "name",
+    order = "asc",
+  }) => {
+    try {
+      if (!page) page = 1;
+      if (!limit) limit = 100;
+      if (!sortBy) sortBy = "name";
+      if (!order) order = "asc";
+      const { data } = await axios.get('/pending-approval-songs', {
+        page,
+        limit,
+        sortBy,
+        order
+      });
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+  static approveSong = async (id) => {
+    try {
+      const { data } = await axios.patch(`/song/${id}/approve`);
+      return data;
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 
