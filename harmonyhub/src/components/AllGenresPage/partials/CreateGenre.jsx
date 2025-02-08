@@ -3,16 +3,23 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
 import { TextButton } from '../../SmallComponents/TextButton';
+import { GenreService } from '../../../services/apiCall/genre';
 
 export const CreateGenre = ({onClose}) => {
   const thisRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
   const [allowAdd, setAllowAdd] = useState(false);
   const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  const handleAddGenre = () => {
+  const handleAddGenre = async () => {
     // Handle create new Genre
+    await GenreService.createGenre({
+      name: inputValue,
+      description: "",
+      image: imageFile,
+    })
   }
 
   useEffect(() => {
@@ -43,6 +50,7 @@ export const CreateGenre = ({onClose}) => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setImageFile(file);
       const imageUrl = URL.createObjectURL(file);
       setImage(imageUrl);
     }

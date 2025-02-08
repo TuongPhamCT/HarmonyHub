@@ -124,6 +124,7 @@ export default function MusicBar(props) {
                             setShowAddToPlaylist(!showAddToPlaylist);
                             toggleMainContentScroll(true);
                         }}
+                        data={props.data}
                     />
                 )
             }

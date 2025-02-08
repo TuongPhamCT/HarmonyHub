@@ -383,6 +383,7 @@ export default function Playbar() {
                     setShowAddToPlaylist(!showAddToPlaylist);
                     toggleMainContentScroll(true);
                 }}
+                data={sPlaybar.value.playingSong}
             />
         )
       }
