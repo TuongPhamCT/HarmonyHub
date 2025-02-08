@@ -110,3 +110,18 @@ Genre.belongsToMany(Song, {
   foreignKey: "genre_id",
   otherKey: "song_id",
 });
+
+// User favorites Songs (N:N)
+User.belongsToMany(Song, {
+  through: "favourite_song",
+  foreignKey: "user_id",
+  otherKey: "song_id",
+  as: "favoriteSongs",
+});
+
+Song.belongsToMany(User, {
+  through: "favourite_song",
+  foreignKey: "song_id",
+  otherKey: "user_id",
+  as: "favoritedBy",
+});
