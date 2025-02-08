@@ -1,8 +1,22 @@
 import axios from '../../config/axios.js'
-export default class GenreService {
-    static getGenres = async () => {
+export class GenreService {
+    static getGenres = async ({
+        page,
+        limit,
+        sortBy,
+        order,
+        search
+    }) => {
         try {
-            const { data } = await axios.get('/genres')
+            const { data } = await axios.get('/genres', {
+                params: {
+                    page,
+                    limit,
+                    sortBy,
+                    order,
+                    search
+                }
+            })
             return data
         } catch (error) {
             console.log(error)
@@ -20,7 +34,7 @@ export default class GenreService {
                 description,
                 image,
             })
-            return data.message
+            return data
         } catch (error) {
             console.log(error)
         }
