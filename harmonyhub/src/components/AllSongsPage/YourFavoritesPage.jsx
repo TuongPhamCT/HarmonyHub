@@ -1,26 +1,22 @@
 //import { useParams } from 'react-router';
+import { useEffect, useState } from 'react';
 import '../../components/Global.css';
-import './AllSongsPage.css';
+import { SongService } from '../../services/apiCall/song';
+import { handleOnClickSong } from '../../services/itemOnClickService';
 import Footer from '../MainPage/Footer';
 import { sBoxAlts, sComponents } from '../SmallComponents/componentStore';
 import { MusicBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
-import { useEffect, useState } from 'react';
-import { handleOnClickSong } from '../../services/itemOnClickService';
-import { createDemoSongs } from '../../services/demoDataService';
+import './AllSongsPage.css';
 
 const YourFavoritesPage = () => {
     const [songs, setSongs] = useState([]);
-
-    const handleRemoveSongFromFavorite = async (data) => {
-        // call api
-    }
 
     useEffect(() => {
         // call api to get data
         const controller = new AbortController(); 
         const fetchData =  async () => {
-            const dataSongs = createDemoSongs();
+            const dataSongs = await SongService.getFavoriteSongs().songs || [];
 
             setSongs(
                 dataSongs.map(
@@ -34,7 +30,6 @@ const YourFavoritesPage = () => {
                             onClick={() => handleOnClickSong(item)}
                             onRemove={async () => {
                                 setSongs((prev) => prev.filter((sSong) => item.id !== sSong.props.data.id));
-                                await handleRemoveSongFromFavorite(item);
                             }}
                         ></MusicBox>
                     )

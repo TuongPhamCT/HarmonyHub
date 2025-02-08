@@ -37,6 +37,22 @@ export class AlbumService {
         }
     }
 
+    static updateAlbum = async (id, {
+        title,
+        releaseDate,
+        description,
+        image
+    }) => {
+        try {
+            const { data } = await axios.patch(`/album/${id}`, {
+
+            })
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     static getAlbumById = async (id) => {
         try {
             const { data } = await axios.get(`/album/${id}`)

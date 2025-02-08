@@ -89,6 +89,14 @@ export default function Playbar() {
 
   }, [randomToggle]);
 
+  // hàm dọn dẹp playbar khi rỗng
+  const handleClearPlaybar = useCallback(() => {
+    setArtist("-");
+    setMusicTitle("-");
+    setAudioSource("");
+    setLyric("");
+  }, []);
+
   const handleReplay = () => {
     // replay
     audioRef.current.currentTime = 0; // Đưa thời gian bài hát về đầu
@@ -112,6 +120,7 @@ export default function Playbar() {
   // Initialize
   useEffect(() => {
     sPlaybar.set((v) => v.value.loadAudioFunction = handleLoadAudio);
+    sPlaybar.set((v) => v.value.clearPlaybarFunction = handleClearPlaybar);
 
     const audioElement = audioRef.current;
     audioElement.addEventListener('ended', handleSongEnd);
@@ -119,7 +128,7 @@ export default function Playbar() {
       audioElement.removeEventListener('ended', handleSongEnd);
     };
 
-  }, [handleLoadAudio, handleSongEnd]);
+  }, [handleLoadAudio, handleSongEnd, handleClearPlaybar]);
 
   const handleSeek = (e) => {
     const seekTime = e.target.value;

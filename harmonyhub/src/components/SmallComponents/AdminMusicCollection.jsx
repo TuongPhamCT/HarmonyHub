@@ -10,11 +10,11 @@ export default function AdminMusicCollection(props) {
                 <div style={{width: props.headerGap, marginRight: "2.5vh"}}></div>
                 {/* Labels */}
                 <div id="music-collection-labels">
-                    <div style={{width: "30%"}}></div>
-                    <p style={{width: "10%"}}>Release Date</p>
-                    <p style={{width: "37%"}}>Album</p>  
-                    <p style={{width: "11%"}}>Time</p>
-                    <p style={{width: "10%"}}>Actions</p>
+                    <div style={{width: "35%"}}></div>
+                    <p style={{width: "15%"}}>Release Date</p>
+                    <p style={{width: "15%"}}>Played</p>  
+                    <p style={{width: "15%"}}>Time</p>
+                    <p style={{width: "20%"}}>Actions</p>
                 </div>
             </div>
             <div id="music-collection-container">

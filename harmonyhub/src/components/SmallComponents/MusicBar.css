@@ -57,6 +57,12 @@
     flex-direction: row;
 }
 
+#musicbar-music-wrapper-admin {
+    width: 35%;
+    display: flex;
+    flex-direction: row;
+}
+
 
 #musicbar-image {
     height: 100%;
@@ -93,6 +99,14 @@
     justify-content: center;
 }
 
+#musicbar-release-date-admin {
+    display: flex;
+    width: 15%;
+    font-size: 2vh;
+    align-items: center;
+    justify-content: center;
+}
+
 #musicbar-release-date p {
     margin: 0vh 0.5vh;
 }
@@ -102,6 +116,14 @@
 #musicbar-album {
     display: flex;
     width: 33%;
+    font-size: 2.2vh;
+    align-items: center;
+    justify-content: center;
+}
+
+#musicbar-album-admin {
+    display: flex;
+    width: 15%;
     font-size: 2.2vh;
     align-items: center;
     justify-content: center;
@@ -131,6 +153,14 @@
 /* Time */
 
 #musicbar-time {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;   
+    font-size: 2.2vh;
+}
+
+#musicbar-time-admin {
     display: flex;
     flex: 1;
     align-items: center;
@@ -170,17 +200,18 @@
 /* admin button */
 #musicbar-actions {
     display: flex;
-    gap: 10px;
-    width: 13%;
+    gap: 2vh;
+    width: 20%;
     justify-content: center;
     align-items: center;
 }
 
 #musicbar-accept, #musicbar-deny {
-    padding: 5px 10px;
+    width: 40%;
+    height: 50%;
     border: none;
-    border-radius: 5px;
-    font-size: 14px;
+    border-radius: 0.5vh;
+    font-size: 1vw;
     cursor: pointer;
 }
 
