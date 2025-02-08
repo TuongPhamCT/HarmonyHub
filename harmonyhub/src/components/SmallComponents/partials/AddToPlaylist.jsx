@@ -1,19 +1,33 @@
-import './AddToPlaylist.css';
-import button_close from '../../../assets/img/component_close_icon.png';
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { TextButton } from '../TextButton';
+import button_close from '../../../assets/img/component_close_icon.png';
+import { PlaylistService } from '../../../services/apiCall/playlist';
 import { toggleMainContentScroll } from '../../MainPage/services/contentAreaServices';
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
+import { TextButton } from '../TextButton';
+import './AddToPlaylist.css';
 
-export const AddToPlaylist = ({onCreatePlaylist, onClose}) => {
+export const AddToPlaylist = ({data, onCreatePlaylist, onClose}) => {
   const [playlists, setPlaylists] = useState([]);
   const thisRef = useRef(null);
 
   useEffect(() => {
     toggleMainContentScroll(false);
     
-    getUserPlaylists();
+    const controller = new AbortController(); 
+    const fetchData =  async () => {
+      const playlists = await PlaylistService.getMyPlaylists().playlists || [];
+      const containers = await PlaylistService.getPlaylistsContainSong(data.id).playlists || [];
+      const containerIds = containers.map((item) => item.id);
+
+      setPlaylists(
+        playlists.map((item) => ({
+          id: item.id,
+          name: item.name,
+          isCheck: containerIds.includes(item.id),
+        }))
+      );
+    }
 
     const handleClickOutside = (event) => {
       if (
@@ -28,22 +42,22 @@ export const AddToPlaylist = ({onCreatePlaylist, onClose}) => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+
+    fetchData();
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      controller.abort(); // Cleanup function: hủy request khi component unmount
     };
-  }, [onClose]);
+  }, [data, onClose]);
 
-  const getUserPlaylists = () => {
-    // get User Playlist here
-    setPlaylists([
-      {id: "1", name: "playlist 1", isCheck: false},
-      {id: "2", name: "playlist 2", isCheck: false},
-      {id: "3", name: "playlist 3", isCheck: false},
-    ]);
-  }
-
-  const handlePlaylistCheckboxChange = (playlistId, value) => {
+  const handlePlaylistCheckboxChange = async (playlistId, value) => {
     // call api to add / remove song in playlist
+    if (value) {
+      await PlaylistService.addSongToPlaylist(playlistId, data.id);
+    } else {
+      await PlaylistService.removeSongFromPlaylist(playlistId, data.id);
+    }
   }
 
   return createPortal(
