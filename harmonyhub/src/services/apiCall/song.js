@@ -81,7 +81,7 @@ export class SongService {
     genreId
   }) => {
     try {
-      const { data } = await axios.get('/songs', {
+      const { data } = await axios.get('/songs/', {
         params: {
           page,
           limit,

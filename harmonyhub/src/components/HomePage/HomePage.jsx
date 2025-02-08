@@ -29,8 +29,8 @@ const HomePage = () => {
 
     useEffect(() => {
         // call API to get data
-        const controller = new AbortController(); 
-        const fetchData =  async () => {
+        const controller = new AbortController();
+        const fetchData = async () => {
             const today = getToday();
 
             const fullDataSongs = await SongService.getSongs({
@@ -42,16 +42,18 @@ const HomePage = () => {
                 fullDataSongs
             );
             const dataSongs = fullDataSongs.length > 6 ? fullDataSongs.slice(0, 6) : fullDataSongs;
-            const dataAlbums = await AlbumService.getRandomAlbums({limit: 6}).albums || [];
+            const dataAlbums = await AlbumService.getRandomAlbums({ limit: 6 }).albums || [];
             const dataPlaylists = [];
-            const dataArtists = await ArtistService.getArtists({limit: 6}).artists || [];
+            const dataArtists = await ArtistService.getArtists({ limit: 6 }).artists || [];
             const weeklySongs = await SongService.getMostPlayedSongs({
                 numberOfSongs: 6,
                 startTime: getPreviousDate(7, today),
-                endTime: today, 
-            }).songs || []; 
+                endTime: today,
+            }).songs || [];
             const trendingSongsData = await SongService.getMostPlayedSongs({
                 numberOfSongs: 6,
+                startTime: getPreviousDate(7, today),
+                endTime: today,
             }).songs || [];
 
             setWeeklyTopSongs(
@@ -66,7 +68,7 @@ const HomePage = () => {
                     )
                 )
             );
-    
+
             setNewReleaseSongs(
                 dataSongs.map(
                     (item) => (
@@ -79,7 +81,7 @@ const HomePage = () => {
                     )
                 )
             );
-    
+
             setTopAlbums(
                 dataAlbums.map(
                     (item) => (
@@ -92,7 +94,7 @@ const HomePage = () => {
                     )
                 )
             );
-    
+
             setPopularArtists(
                 dataArtists.map(
                     (item) => (
@@ -104,7 +106,7 @@ const HomePage = () => {
                     )
                 )
             );
-    
+
             setTrendingSongs(
                 trendingSongsData.map(
                     (item, index) => (
@@ -124,20 +126,20 @@ const HomePage = () => {
                     )
                 )
             );
-    
+
             setMoodPlaylists(
                 dataPlaylists.map(
                     (item) => (
                         <PlaylistBox
-                            key={item.id} 
+                            key={item.id}
                             title={item.title}
                             onClick={() => handleOnClickPlaylist(nav, item.id)}
                         />
                     )
-                )        
+                )
             );
         }
- 
+
         fetchData();
         return () => {
             controller.abort(); // Cleanup function: hủy request khi component unmount
@@ -145,7 +147,7 @@ const HomePage = () => {
 
     }, [nav]);
 
-    return ( 
+    return (
         <div className="homepage">
             <div id="hero_section">
                 <img src={hero_img} id="hero_img" alt=""></img>
@@ -156,7 +158,7 @@ const HomePage = () => {
                         <button
                             id="btn_discover"
                             className="txt_button"
-                            onClick={() => {nav('/discover')}}
+                            onClick={() => { nav('/discover') }}
                         >Discover now</button>
                         <button id="btn_create_playlist" className="txt_button">Create Playlist</button>
                     </div>
@@ -169,9 +171,9 @@ const HomePage = () => {
                             itemList={weeklyTopSongs}
                             title="Weekly Top"
                             titleHighlight="Songs"
-                            onViewAll={() => {nav('/mostplayed')}}
+                            onViewAll={() => { nav('/mostplayed') }}
                         ></ItemCollection>
-                    : 
+                        :
                         null
                 }
                 {
@@ -180,9 +182,9 @@ const HomePage = () => {
                             itemList={newReleaseSongs}
                             title="New Release"
                             titleHighlight="Songs"
-                            onViewAll={() => {navigateToNewReleaseSongs(nav, newReleaseSongsData)}}
+                            onViewAll={() => { navigateToNewReleaseSongs(nav, newReleaseSongsData) }}
                         ></ItemCollection>
-                    : 
+                        :
                         null
                 }
                 {
@@ -192,9 +194,9 @@ const HomePage = () => {
                             title="Trending"
                             titleHighlight="Songs"
                             headerGap="10vh"
-                            onViewAll={() => {nav('/mostplayed')}}
+                            onViewAll={() => { nav('/mostplayed') }}
                         ></MusicCollection>
-                    : 
+                        :
                         null
                 }
                 {
@@ -203,9 +205,9 @@ const HomePage = () => {
                             itemList={popularArtists}
                             title="Popular"
                             titleHighlight="Artists"
-                            onViewAll={() => {nav('/artist')}}
+                            onViewAll={() => { nav('/artist') }}
                         ></ItemCollection>
-                    : 
+                        :
                         null
                 }
                 {
@@ -218,7 +220,7 @@ const HomePage = () => {
                                 navigateToTopAlbums(nav);
                             }}
                         ></ItemCollection>
-                    : 
+                        :
                         null
                 }
                 {
@@ -227,9 +229,9 @@ const HomePage = () => {
                             itemList={moodPlaylists}
                             title="Mood"
                             titleHighlight="Playlists"
-                            onViewAll={() => {navigateToAllPlaylists(nav, "Mood", "Playlists", "mood-playlists")}}
+                            onViewAll={() => { navigateToAllPlaylists(nav, "Mood", "Playlists", "mood-playlists") }}
                         ></ItemCollection>
-                    : 
+                        :
                         null
                 }
             </div>
