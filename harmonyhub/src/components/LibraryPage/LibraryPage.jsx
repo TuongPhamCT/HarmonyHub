@@ -34,6 +34,11 @@ export default function LibraryPage() {
         setTab(tabName);
     }
 
+    const handleRemoveSong = async (data) => {
+        // call api
+        await SongService.deleteSong(data.id);
+    }
+
     const handleRemoveAlbum = useCallback((id) => {
         setAlbums((prev) => prev.filter((sAlbum) => id !== sAlbum.props.data.id));
     }, []);
@@ -94,6 +99,10 @@ export default function LibraryPage() {
                             subtitle={item.artist}
                             boxAlt={sBoxAlts.value.musicBoxInLibrary}
                             onClick={() => handleOnClickSong(item)}
+                            onRemove={() => {
+                                setSongs((prev) => prev.filter((sSong) => item.id !== sSong.props.data.id));
+                                handleRemoveSong(item);
+                            }}
                         ></MusicBox>
                     )
                 )

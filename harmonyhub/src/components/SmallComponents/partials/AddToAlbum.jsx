@@ -4,15 +4,28 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { toggleMainContentScroll } from '../../MainPage/services/contentAreaServices';
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
+import { AlbumService } from '../../../services/apiCall/album';
 
-export const AddToAlbum = ({onClose}) => {
+export const AddToAlbum = ({data, onClose}) => {
   const [albums, setAlbums] = useState([]);
+  const [songAlbumId, setSongAlbumId] = useState(null);
   const thisRef = useRef(null);
 
   useEffect(() => {
     toggleMainContentScroll(false);
     
-    getUserAlbums();
+    const controller = new AbortController(); 
+    const fetchData =  async () => {
+        const albums = await AlbumService.getMyAlbums().albums || [];
+        setSongAlbumId(data.album_id);
+        setAlbums(
+          albums.map((item) => ({
+            id: item.id,
+            name: item.name,
+            isCheck: item.id === data.album_id,
+          }))
+        );
+    }
 
     const handleClickOutside = (event) => {
       if (
@@ -27,22 +40,38 @@ export const AddToAlbum = ({onClose}) => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+
+    fetchData();
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      controller.abort(); // Cleanup function: hủy request khi component unmount
     };
-  }, [onClose]);
+  }, [data, onClose]);
 
-  const getUserAlbums = () => {
-    // get User Playlist here
-    setAlbums([
-      {id: "1", name: "album 1", isCheck: false},
-      {id: "2", name: "album 2", isCheck: false},
-      {id: "3", name: "album 3", isCheck: false},
-    ]);
-  }
+  const handleAlbumCheckboxChange = async (albumId, value) => {
+    // call api to add / remove song in album
+    if (value) {
 
-  const handleAlbumCheckboxChange = (albumId, value) => {
-    // call api to add / remove song in playlist
+      if (songAlbumId) {
+        await AlbumService.removeSongFromAlbum(songAlbumId, data.id);
+      }
+      setAlbums(
+        (prev) => prev.map((item) => ({...item, isCheck: item.id === albumId}))
+      );
+      await AlbumService.addSongToAlbum(albumId, data.id);
+      setSongAlbumId(albumId);
+
+    } else {
+      if (songAlbumId) {
+        await AlbumService.removeSongFromAlbum(songAlbumId, data.id);
+        setSongAlbumId(null);
+        setAlbums(
+          (prev) => prev.map((item) => ({...item, isCheck: false}))
+        );
+      }
+    }
+
   }
 
   return createPortal(

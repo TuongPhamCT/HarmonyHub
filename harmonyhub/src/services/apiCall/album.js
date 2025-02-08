@@ -89,16 +89,16 @@ export class AlbumService {
         }
     }
 
-    // static removeSongFromAlbum = async (albumId, songId) => {
-    //     try {
-    //         const { data } = await axios.delete(`/album/${albumId}/song`, {
-    //             songId
-    //         })
-    //         return data
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+    static removeSongFromAlbum = async (albumId, songId) => {
+        try {
+            const { data } = await axios.delete(`/album/${albumId}/song`, {
+                songId
+            })
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     static getRandomAlbums = async (limit) => {
         try {
