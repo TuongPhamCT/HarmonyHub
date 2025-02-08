@@ -176,6 +176,7 @@ export const MusicBox = (props) => {
                             setShowAddToPlaylist(!showAddToPlaylist);
                             toggleMainContentScroll(true);
                         }}
+                        data={props.data}
                     />
                 )
             }

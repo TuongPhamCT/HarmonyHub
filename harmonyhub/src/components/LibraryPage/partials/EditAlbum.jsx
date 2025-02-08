@@ -20,6 +20,8 @@ export const EditAlbum = ({data, onClose, onUpdate}) => {
     data.image = image;
 
     onUpdate(data);
+    
+
     onClose();
   }
 

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { TextButton } from '../TextButton';
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
+import { PlaylistService } from '../../../services/apiCall/playlist';
 
 export const CreatePlaylist = ({onClose}) => {
   const thisRef = useRef(null);
@@ -10,8 +11,13 @@ export const CreatePlaylist = ({onClose}) => {
   const [allowAdd, setAllowAdd] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
 
-  const handleAddPlaylist = () => {
+  const handleAddPlaylist = async () => {
     // Handle create new playlist
+    await PlaylistService.createPlaylist({
+      title: inputValue,
+      isPublic: isPublic,
+    });
+    onClose();
   }
 
   useEffect(() => {
