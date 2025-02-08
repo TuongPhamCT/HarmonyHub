@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { PlaylistService } from '../../services/apiCall/playlist.js';
+import CreatePlaylist from './components/CreatePlaylist.jsx';
 
 function YourPlaylist(props) {
     const navigate = useNavigate();
@@ -12,11 +13,16 @@ function YourPlaylist(props) {
     const [selectedId, setSelectedId] = useState(null);
     const [moreOption, setMoreOption] = useState(false);
     const [editOption, setEditOption] = useState(false);
-
     const [updateData, setUpdateData] = useState({
         title: '',
         isPublic: false
     });
+
+
+    const [isCreate, setIsCreate] = useState(false);
+    const handleCreateButton = () => {
+        setIsCreate(prev => !prev);
+    }
 
     // Fetch playlists on mount
     const fetchData = async () => {
@@ -31,7 +37,6 @@ function YourPlaylist(props) {
             console.error('Error fetching playlist:', error);
         }
     };
-
 
 
     useEffect(() => {
@@ -94,7 +99,6 @@ function YourPlaylist(props) {
             [name]: type === "checkbox" ? checked : value
         }));
     }
-
 
     const handleDelete = async (id) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this playlist?');
@@ -206,23 +210,40 @@ function YourPlaylist(props) {
         </div>
     ));
 
+    const handleCreate = async () => {
+        setIsCreate(false);
+        await fetchData();
+    };
+
+
+
     return (
-        <div className="h-full mt-[8vh] mx-9">
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
-            <h1 className="text-4xl font-bold indent-5 mb-5">Your Playlist</h1>
-            <div className="grid grid-cols-5 gap-[0.5rem]">{playlistViewElements}</div>
-        </div>
+        <>
+            {(editOption || isCreate) && <div className='bg-[rgba(0,0,0,0.4)] w-screen h-screen fixed z-10'></div>}
+            <div className="h-full mt-[10vh] mx-9">
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick={false}
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                />
+                {isCreate && <CreatePlaylist setIsCreate={handleCreate} />}
+                <div className='flex justify-between items-center'>
+                    <h1 className="text-4xl font-bold indent-5 mb-5 text-[rgb(238,16,176)]">Your Playlist</h1>
+                    <svg onClick={handleCreateButton}
+                        xmlns="http://www.w3.org/2000/svg" className='w-14 h-14 cursor-pointer' fill='#fff' viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                </div>
+                <div className="grid grid-cols-5 gap-[0.5rem]">{playlistViewElements}</div>
+            </div>
+        </>
     );
 }
 
