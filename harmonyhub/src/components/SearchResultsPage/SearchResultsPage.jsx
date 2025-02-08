@@ -52,13 +52,13 @@ export default function SearchResultsPage() {
             const dataSongs = SongService.getSongs({
                 sortBy: "createdAt",
                 order: "desc"
-            }).songs;
-            const dataAlbums = AlbumService.getAlbums().albums;
+            }).songs || [];
+            const dataAlbums = AlbumService.getAlbums().albums || [];
             const dataPlaylists = [];
             const dataArtists = ArtistService.getArtists({
                 sortBy: "name",
                 order: "asc"
-            }).artists;
+            }).artists || [];
     
             setSongs(
                 dataSongs.filter((data) => checkSearchResult(keyword, data.name)).map(
