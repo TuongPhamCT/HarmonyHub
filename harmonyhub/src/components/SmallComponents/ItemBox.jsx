@@ -18,6 +18,7 @@ import { CreatePlaylist } from './partials/CreatePlaylist';
 import { ItemDropDownMenu } from './partials/ItemDropDown';
 import { PlaylistService } from '../../services/apiCall/playlist';
 import { useFavorite } from '../Contexts/FavoriteContext';
+import { handleRemoveSong } from '../MainPage/services/playbarServices';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -139,6 +140,7 @@ export const MusicBox = (props) => {
         const deleteSong = {
             name: "Delete",
             onClick: () => {
+                handleRemoveSong(props.data);
                 if (props.onRemove) {
                     props.onRemove();
                 }
