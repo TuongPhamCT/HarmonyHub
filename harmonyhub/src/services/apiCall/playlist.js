@@ -19,7 +19,7 @@ export class PlaylistService {
                 title,
                 isPublic
             })
-            return data.message;
+            return data;
         } catch (error) {
             console.log(error)
         }
@@ -42,7 +42,7 @@ export class PlaylistService {
     static deletePlaylist = async (id) => {
         try {
             const { data } = await axios.delete(`/playlist/${id}`)
-            return data.message
+            return data
         } catch (error) {
             console.log(error)
         }
