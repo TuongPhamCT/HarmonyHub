@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../components/Global.css';
+import './Approve.css';
 import { SongService } from '../../services/apiCall/song';
 import { convertIntToTime } from '../../services/convertIntToTimeService';
 import { formatDate } from '../../services/formatDateService';
@@ -57,7 +58,17 @@ const ApprovePage = () => {
             <br/>
             <br/>
             <div>
-                <AdminMusicCollection musicList={pendingSongs} title="New" titleHighlight="Songs" headerGap="10vh"></AdminMusicCollection>
+                {
+                    pendingSongs.length > 0 ?
+                        <AdminMusicCollection
+                            musicList={pendingSongs}
+                            title="New"
+                            titleHighlight="Songs"
+                            headerGap="10vh">
+                        </AdminMusicCollection>   
+                    :
+                    <p id="approve-nothing-here-label">No songs pending approval.<br/> Enjoy your day!</p>
+                }
             </div>
         </div>
     );
