@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import '../../components/Global.css';
+import { AlbumService } from '../../services/apiCall/album';
 import { SongService } from '../../services/apiCall/song';
-import { createDemoAlbums } from '../../services/demoDataService';
 import { handleOnClickAlbum, handleOnClickSong } from '../../services/itemOnClickService';
 import '../LibraryPage/LibraryPage.css';
 import Footer from '../MainPage/Footer';
@@ -79,8 +79,11 @@ export default function LibraryPage() {
             const dataSongs = await SongService.getMySongs({
                 sortBy: "createdAt",
                 order: "desc",
-            });
-            const dataAlbums = createDemoAlbums();
+            }).songs;
+            const dataAlbums = AlbumService.getMyAlbums({
+                sortBy: "releaseDate",
+                order: "desc",
+            }).albums;
     
             setSongs(
                 dataSongs.map(
