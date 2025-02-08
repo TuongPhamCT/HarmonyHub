@@ -11,8 +11,8 @@ export default function MusicCollection(props) {
                 {/* Labels */}
                 <div id="music-collection-labels">
                     <div style={{width: "30%"}}></div>
-                    <p style={{width: "10%"}}>Release Date</p>
-                    <p style={{width: "38%"}}> {props.usePlayedCount ? "Played" : "Album" }</p>
+                    <p style={{width: "15%"}}>Release Date</p>
+                    <p style={{width: "33%"}}> {props.usePlayedCount ? "Played" : "Album" }</p>
                     {/* Gap */}
                     <div style={{width: "8%"}}></div>
                     <p style={{width: "13%"}}>Time</p>

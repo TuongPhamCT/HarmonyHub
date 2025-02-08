@@ -37,6 +37,7 @@ export const ItemDropDownMenu = ({ buttonRef, onClose, menuItems }) => {
         buttonRef.current &&
         !buttonRef.current.contains(event.target)
       ) {
+        event.stopPropagation();
         onClose();
       }
     };

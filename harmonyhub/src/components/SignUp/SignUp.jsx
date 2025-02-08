@@ -43,7 +43,7 @@ const SignUp = forwardRef(function SignUp({ handleClose, isVisible }, ref) {
               />
             </div>
           </section>
-          <CreateAccountForm />
+          <CreateAccountForm handleClose={handleClose}/>
           <SocialLogin />
         </main>
       </dialog>

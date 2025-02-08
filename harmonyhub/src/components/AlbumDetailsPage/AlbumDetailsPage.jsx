@@ -29,7 +29,7 @@ const AlbumDetailsPage = () =>{
 
         setTitle(album.title);
         setDescription(album.description);
-        setTotalTime(formatDate(totalTime));
+        setTotalTime(convertIntToTime(totalTime, true));
 
         setSongs(
             dataSongs.map(
@@ -41,7 +41,7 @@ const AlbumDetailsPage = () =>{
                         subtitle={item.artist}
                         header={"#" + (index + 1)}
                         releaseDate={formatDate(item.releaseDate)}
-                        usePlayedCount={item.playCount}
+                        played={item.playCount}
                         time={convertIntToTime(item.duration)}
                         onClick={() => handleOnClickSong(item.id)}
                     ></MusicBar>       
@@ -74,6 +74,7 @@ const AlbumDetailsPage = () =>{
                     <MusicCollection
                         musicList={songs}
                         headerGap="10vh"
+                        usePlayedCount={true}
                         disableViewAll={true}
                     ></MusicCollection>
                 </div>

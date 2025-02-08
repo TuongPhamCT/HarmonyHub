@@ -25,19 +25,25 @@ export default function MusicBar(props) {
     };
 
     // Toggle favorite
-    const toggleFavor = (event) => {
-        event.stopPropagation();
+    const toggleFavor = async (event) => {
+        if (event) {
+            event.stopPropagation();
+        }
         setFavorToggle(!favorToggle);
     }
 
     const handleOpenMore = (event) => {
-        event.stopPropagation();
+        if (event) {
+            event.stopPropagation();
+        }
         toggleMainContentScroll(showMenu);
         setShowMenu(!showMenu);
     }
 
     const handleCloseMore = (event) => {
-        event.stopPropagation();
+        if (event) {
+            event.stopPropagation();
+        }
         toggleMainContentScroll(true);
         setShowMenu(false);
     }
@@ -54,7 +60,7 @@ export default function MusicBar(props) {
     }
 
     return (
-        <div id="musicbar-wrapper">
+        <div id="musicbar-wrapper" onClick={props.onClick || (() => {})}>
             <p id="musicbar-header" style={{width: props.headerWidth || "fit-content"}}>{props.header || "#"}</p>
             <div id="musicbar-container">
                 <div id="musicbar-music-wrapper">

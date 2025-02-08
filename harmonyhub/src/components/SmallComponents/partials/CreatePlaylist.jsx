@@ -22,6 +22,7 @@ export const CreatePlaylist = ({onClose}) => {
         thisRef.current &&
         !thisRef.current.contains(event.target)
       ) {
+        event.stopPropagation();
         onClose();
       }
     };
@@ -42,6 +43,7 @@ export const CreatePlaylist = ({onClose}) => {
       <TransparentBackground/>
       <div className="create-playlist-container"
         ref={thisRef}
+        onClick={(event) => event.stopPropagation()}
       >
         <p id={"create-playlist-title"}>New playlist</p>
         <input

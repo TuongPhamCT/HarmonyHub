@@ -24,6 +24,7 @@ export const CreateAlbum = ({onClose}) => {
         thisRef.current &&
         !thisRef.current.contains(event.target)
       ) {
+        event.stopPropagation();
         onClose();
       }
     };
@@ -53,6 +54,7 @@ export const CreateAlbum = ({onClose}) => {
       <TransparentBackground/>
       <div className="create-album-container"
         ref={thisRef}
+        onClick={(event) => event.stopPropagation()}
       >
         <p id={"create-album-title"}>New Album</p>
 

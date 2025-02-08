@@ -45,7 +45,7 @@ export default function MostPlayedPage() {
                         subtitle={item.artist}
                         header={"#" + (index + 1)}
                         releaseDate={formatDate(item.releaseDate)}
-                        usePlayedCount={item.playCount}
+                        played={item.playCount}
                         time={convertIntToTime(item.duration)}
                         onClick={() => handleOnClickSong(item.id)}
                     ></MusicBar>
@@ -63,7 +63,7 @@ export default function MostPlayedPage() {
                         subtitle={item.artist}
                         header={"#" + (index + 1)}
                         releaseDate={formatDate(item.releaseDate)}
-                        usePlayedCount={item.playCount}
+                        played={item.playCount}
                         time={convertIntToTime(item.duration)}
                         onClick={() => handleOnClickSong(item.id)}
                     ></MusicBar>
@@ -81,7 +81,7 @@ export default function MostPlayedPage() {
                         subtitle={item.artist}
                         header={"#" + (index + 1)}
                         releaseDate={formatDate(item.releaseDate)}
-                        usePlayedCount={item.playCount}
+                        played={item.playCount}
                         time={convertIntToTime(item.duration)}
                         onClick={() => handleOnClickSong(item.id)}
                     ></MusicBar>
@@ -106,6 +106,7 @@ export default function MostPlayedPage() {
                 title="Today Trending"
                 titleHighlight="Songs"
                 headerGap="10vh"
+                usePlayedCount={true}
                 disableViewAll={true}
             ></MusicCollection>,
         "week": 
@@ -114,6 +115,7 @@ export default function MostPlayedPage() {
                 title="This Week Trending"
                 titleHighlight="Songs"
                 headerGap="10vh"
+                usePlayedCount={true}
                 disableViewAll={true}
             ></MusicCollection>,
         "month":
@@ -122,6 +124,7 @@ export default function MostPlayedPage() {
                 title="This Month Trending"
                 titleHighlight="Songs"
                 headerGap="10vh"
+                usePlayedCount={true}
                 disableViewAll={true}
             ></MusicCollection>,
     }
