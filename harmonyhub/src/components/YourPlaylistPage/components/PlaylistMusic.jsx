@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { PlaylistService } from '../../../services/apiCall/playlist'
 import axios from '../../../config/axios.js'
-import song_image from '../../../assets/img/popular_song_image2.png'
 
 const PlaylistMusic = () => {
     const { id } = useParams()
