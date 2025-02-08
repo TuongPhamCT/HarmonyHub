@@ -10,6 +10,41 @@ export class PlaylistService {
         }
     }
 
+    static getPlaylists = async ({
+        page,
+        limit,
+        sortBy,
+        order,
+        search,
+    }) => {
+        if (!page) page = 1;
+        if (!limit) limit = 100;
+        if (!sortBy) sortBy = "name";
+        if (!order) order = "asc";
+        if (!search) search = ""; 
+        try {
+            const { data } = await axios.get(`/playlists`, {
+                page,
+                limit,
+                sortBy,
+                order,
+                search,
+            });
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    static getPlaylistsContainSong = async (id) => {
+        try {
+            const { data } = await axios.get(`/song/${id}/playlists`);
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     static getMyPlaylists = async () => {
         try {
             const { data } = await axios.get('/my-playlists')

@@ -175,3 +175,51 @@ module.exports.getRandomAlbums = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports.updateAlbumById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+    const { title, releaseDate, description } = req.body;
+    let image = req.files?.image ? req.files.image[0] : null;
+
+    // Check if album exists and belongs to user
+    const album = await Album.findOne({
+      where: {
+        id,
+        artist_id: userId,
+      },
+    });
+
+    if (!album) {
+      return res
+        .status(404)
+        .json({ message: "Album not found or unauthorized" });
+    }
+
+    // Build update object with only provided fields
+    const updateData = {};
+    if (title) updateData.title = title;
+    if (releaseDate) updateData.releaseDate = releaseDate;
+    if (description) updateData.description = description;
+    if (image) updateData.image = `/public/album_images/${image.filename}`;
+
+    // Update album
+    const [updated] = await Album.update(updateData, {
+      where: { id },
+      returning: true,
+    });
+
+    if (!updated) {
+      return res.status(404).json({ message: "Album not found" });
+    }
+
+    const updatedAlbum = await Album.findByPk(id);
+    res.status(200).json(updatedAlbum);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error updating album",
+      error: error.message,
+    });
+  }
+};

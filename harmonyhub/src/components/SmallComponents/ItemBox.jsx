@@ -1,21 +1,24 @@
 // import React from 'react'
-import item_placeholder from '../../assets/img/placeholder_disc.png';
-import genre_placeholder from '../../assets/img/placeholder/placeholder_genre.png';
-import album_placeholder from '../../assets/img/placeholder/placeholder_album.png';
-import playlist_placeholder from '../../assets/img/placeholder/placeholder_playlist.png';
-import artist_placeholder from '../../assets/img/placeholder/placeholder_artist.png';
+import { useRef, useState } from 'react';
 import button_more from '../../assets/img/component_more_vertical.png';
-import { sBoxAlts, sComponents } from './componentStore';
-import './ItemBox.css';
-import { useState, useRef } from 'react';
-import { ItemDropDownMenu } from './partials/ItemDropDown';
-import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
-import { CreatePlaylist } from './partials/CreatePlaylist';
-import { AddToPlaylist } from './partials/AddToPlaylist';
+import album_placeholder from '../../assets/img/placeholder/placeholder_album.png';
+import artist_placeholder from '../../assets/img/placeholder/placeholder_artist.png';
+import genre_placeholder from '../../assets/img/placeholder/placeholder_genre.png';
+import playlist_placeholder from '../../assets/img/placeholder/placeholder_playlist.png';
+import item_placeholder from '../../assets/img/placeholder_disc.png';
 import { sUser } from '../../store';
 import { EditGenre } from '../AllGenresPage/partials/EditGenre';
-import { AddToAlbum } from './partials/AddToAlbum';
 import { EditAlbum } from '../LibraryPage/partials/EditAlbum';
+import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
+import { sBoxAlts, sComponents } from './componentStore';
+import './ItemBox.css';
+import { AddToAlbum } from './partials/AddToAlbum';
+import { AddToPlaylist } from './partials/AddToPlaylist';
+import { CreatePlaylist } from './partials/CreatePlaylist';
+import { ItemDropDownMenu } from './partials/ItemDropDown';
+import { PlaylistService } from '../../services/apiCall/playlist';
+import { useFavorite } from '../Contexts/FavoriteContext';
+import { handleRemoveSong } from '../MainPage/services/playbarServices';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -107,6 +110,7 @@ export const MusicBox = (props) => {
     const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
     const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
     const [showAddToAlbum, setShowAddToAlbum] = useState(false);
+    const { toggleFavorites } = useFavorite();
 
     const createMenuItems = () => {
         const addToPlaylist = {
@@ -126,8 +130,17 @@ export const MusicBox = (props) => {
         const removeFromFavorite = {
             name: "Remove from favorites",
             onClick: () => {
-                // call api to remove from favorite
+                toggleFavorites(props.data.id);
+                if (props.onRemove) {
+                    props.onRemove();
+                }
+            } 
+        };
 
+        const deleteSong = {
+            name: "Delete",
+            onClick: () => {
+                handleRemoveSong(props.data);
                 if (props.onRemove) {
                     props.onRemove();
                 }
@@ -139,6 +152,7 @@ export const MusicBox = (props) => {
                 return [
                     addToPlaylist,
                     addToAlbum,
+                    deleteSong,
                 ];
             case sBoxAlts.value.musicBoxInFavorites:
                 return [
@@ -176,6 +190,7 @@ export const MusicBox = (props) => {
                             setShowAddToPlaylist(!showAddToPlaylist);
                             toggleMainContentScroll(true);
                         }}
+                        data={props.data}
                     />
                 )
             }
@@ -186,6 +201,7 @@ export const MusicBox = (props) => {
                             setShowAddToAlbum(!showAddToAlbum);
                             toggleMainContentScroll(true);
                         }}
+                        data={props.data}
                     />
                 )
             }
@@ -259,8 +275,18 @@ export const PlaylistBox = (props) => {
         return [
             {
                 name: "Clone playlist",
-                onClick: () => {
-                    console.log("Do something");
+                onClick: async () => {
+                    const playlistSongs = await PlaylistService.getPlaylistSongs(props.data.id) || [];
+                    const newPlaylist = await PlaylistService.createPlaylist({
+                        title: props.data.title,
+                        isPublic: props.data.isPublic
+                    });
+
+                    if (newPlaylist) {
+                        await playlistSongs.forEach(async element => {
+                            await PlaylistService.addSongToPlaylist(newPlaylist.id, element.id);
+                        });
+                    }
                 }
             },
         ];

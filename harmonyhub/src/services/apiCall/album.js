@@ -41,6 +41,22 @@ export class AlbumService {
         }
     }
 
+    static updateAlbum = async (id, {
+        title,
+        releaseDate,
+        description,
+        image
+    }) => {
+        try {
+            const { data } = await axios.patch(`/album/${id}`, {
+
+            })
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     static getAlbumById = async (id) => {
         try {
             const { data } = await axios.get(`/album/${id}`)
@@ -99,16 +115,16 @@ export class AlbumService {
         }
     }
 
-    // static removeSongFromAlbum = async (albumId, songId) => {
-    //     try {
-    //         const { data } = await axios.delete(`/album/${albumId}/song`, {
-    //             songId
-    //         })
-    //         return data
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+    static removeSongFromAlbum = async (albumId, songId) => {
+        try {
+            const { data } = await axios.delete(`/album/${albumId}/song`, {
+                songId
+            })
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     static getRandomAlbums = async (limit) => {
         try {

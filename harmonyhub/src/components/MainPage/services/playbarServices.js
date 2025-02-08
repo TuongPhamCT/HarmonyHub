@@ -23,6 +23,20 @@ export const handlePrevPlaySong = (song) => {
   sPlaybar.value.loadAudioFunction(song);
 }
 
+export const handleClearPlaybar = () => {
+  sPlaybar.set((v) => {
+    v.value.playingSong = null;
+    v.value.playlist = [];
+    v.value.played = [];
+    v.value.playingIndex = 0;
+    v.value.repeat = 0;
+    v.value.playlistId = null;
+    v.value.albumId = null;
+    return v;
+  });
+  sPlaybar.value.clearPlaybarFunction();
+}
+
 export const handleLoadSongToPlaybar = (song) => {
   sPlaybar.set((v) => v.value.playingSong = song);
 
@@ -121,4 +135,34 @@ export const handlePreviousButton = () => {
 
 export const handleToggleShuffle = () => {
   sPlaybar.set((v) => v.value.played = []);
+}
+
+export const handleRemoveSong = (song) => {
+  let currentPlaylist = sPlaybar.value.playlist;
+  let currentIndex = sPlaybar.value.playingIndex;
+  const deleteIndex = currentPlaylist.findIndex((v) => v.id === song.id);
+  // has song in playlist
+  if (deleteIndex >= 0) {
+    sPlaybar.set((v) => v.value.played = []);
+
+    currentPlaylist = currentPlaylist.filter((_, index) => index !== deleteIndex);
+    if (deleteIndex < currentIndex) {
+      currentIndex = currentIndex - 1;
+    }
+
+    if (currentIndex >= currentPlaylist.length) {
+      currentIndex = currentPlaylist.length - 1;
+    }
+
+    if (currentIndex < 0) {
+      handleClearPlaybar();
+    } else {
+      sPlaybar.set((v) => {
+        v.value.playlist = currentPlaylist;
+        v.value.playingIndex = currentIndex;
+        return v;
+      });
+      handleLoadSongToPlaybar(currentPlaylist.at(currentIndex));
+    }
+  }
 }

@@ -10,6 +10,7 @@ export const sPlaybar = signify ({
     isSpeakerOn: true,
     loadAudioFunction: null,
     updatePlaylistFunction: null,
+    clearPlaybarFunction: null,
     playlist: [],
     played: [],
     playingIndex: 0,

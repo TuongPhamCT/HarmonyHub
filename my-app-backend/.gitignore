@@ -29,3 +29,8 @@ yarn-error.log*
 #songs and images
 /public/songs
 /public/song_images
+/public/album_images
+/public/artist_images
+/public/playlist_images
+/public/genre_images
+/public/user_images

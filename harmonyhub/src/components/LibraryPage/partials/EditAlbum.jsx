@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
 import { TextButton } from '../../SmallComponents/TextButton';
+import { AlbumService } from '../../../services/apiCall/album';
 
 export const EditAlbum = ({data, onClose, onUpdate}) => {
   const thisRef = useRef(null);
@@ -10,6 +11,7 @@ export const EditAlbum = ({data, onClose, onUpdate}) => {
   const [desInputValue, setDesInputValue] = useState("");
   const [allowEdit, setAllowEdit] = useState(true);
   const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleEditAlbum = async () => {
@@ -21,6 +23,13 @@ export const EditAlbum = ({data, onClose, onUpdate}) => {
 
     onUpdate(data);
     onClose();
+
+    AlbumService.updateAlbum(data.id, {
+      title: data.title,
+      description: data.description,
+      releaseDate: data.releaseDate,
+      image: imageFile,
+    });
   }
 
   useEffect(() => {
@@ -55,6 +64,7 @@ export const EditAlbum = ({data, onClose, onUpdate}) => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setImageFile(file);
       const imageUrl = URL.createObjectURL(file);
       setImage(imageUrl);
     }
