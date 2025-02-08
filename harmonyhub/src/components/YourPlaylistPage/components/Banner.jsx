@@ -4,7 +4,7 @@ import playlistImg from '../../../assets/img/playlist_img.png'
 
 const Banner = () => {
     return (
-        <div className='px-5 flex flex-col bg-[#1472DE] h-[400px]'>
+        <div className='px-5 flex flex-col bg-[#1472DE] h-[400px] rounded-lg'>
             <div className='flex items-end justify-between'>
                 <div className='flex gap-10 w-3/4'>
                     <img src={playlistImg} alt='playlist_img' />

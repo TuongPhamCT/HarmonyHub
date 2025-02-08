@@ -6,7 +6,7 @@ import PlaylistMusic from './components/PlaylistMusic';
 function PlaylistDetail(props) {
 
     return (
-        <div className='mt-[8vh] mx-[2vh]'>
+        <div className='mt-[8vh] w-[95%] mx-auto'>
             <Banner />
             <PlaylistMusic />
         </div>
