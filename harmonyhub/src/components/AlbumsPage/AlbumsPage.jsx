@@ -21,7 +21,7 @@ const AlbumsPage = () => {
     useEffect(() => {
         const controller = new AbortController(); 
         const fetchData =  async () => {
-            const dataAlbums = await AlbumService.getAlbums().albums;
+            const dataAlbums = await AlbumService.getAlbums().albums || [];
             setAlbumsData(dataAlbums);
 
             setNewReleaseAlbums(

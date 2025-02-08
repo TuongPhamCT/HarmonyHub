@@ -41,19 +41,19 @@ export default function MostPlayedPage() {
                 numberOfSongs: 50,
                 startTime: getPreviousDate(1, today),
                 endTime: today, 
-            }).songs;
+            }).songs || [];
 
             const weekData = await SongService.getMostPlayedSongs({
                 numberOfSongs: 50,
                 startTime: getPreviousDate(7, today),
                 endTime: today, 
-            }).songs;
+            }).songs || [];
 
             const monthData = await SongService.getMostPlayedSongs({
                 numberOfSongs: 50,
                 startTime: getPreviousDate(30, today),
                 endTime: today, 
-            }).songs;
+            }).songs || [];
 
             setDaySongs(
                 dayData.map(
