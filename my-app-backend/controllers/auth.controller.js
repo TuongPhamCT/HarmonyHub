@@ -156,3 +156,39 @@ module.exports.login = async (req, res) => {
     role: user.role,
   });
 };
+
+module.exports.addUserImage = async (req, res) => {
+  try {
+    const userId = req.userId;
+    let image = req.files.image ? req.files.image[0] : null;
+
+    // Validate request
+    if (!image) {
+      return res.status(400).send({ message: "Image is required" });
+    }
+
+    // Update user's image
+    const updatedUser = await User.update(
+      {
+        image: `/public/user_images/${image.filename}`,
+      },
+      {
+        where: { id: userId },
+        returning: true,
+      }
+    );
+
+    if (!updatedUser[0]) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    res.status(200).send({
+      message: "User image updated successfully",
+      user: updatedUser[1][0],
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Error updating user image",
+    });
+  }
+};
