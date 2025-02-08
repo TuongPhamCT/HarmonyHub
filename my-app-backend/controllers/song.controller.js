@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const Genre = require("../models/genre.model");
 const Song = require("../models/song.model");
+const User = require("../models/user.model");
 const { Op } = require("sequelize");
 const { getAudioDurationInSeconds } = require("get-audio-duration");
 
@@ -357,5 +358,101 @@ module.exports.approveSongById = async (req, res) => {
     res.status(200).json({ message: "Song approved successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error approving song", error });
+  }
+};
+
+module.exports.addSongToFavourite = async (req, res) => {
+  try {
+    const songId = req.params.id;
+    const userId = req.userId;
+
+    // Check if song exists
+    const song = await Song.findByPk(songId);
+    if (!song) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+
+    // Add song to user's favorites
+    const user = await User.findByPk(userId);
+    await user.addFavoriteSong(song);
+    res.status(200).json({ message: "Song added to favourites successfully" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error adding song to favourites",
+      error: error.message,
+    });
+  }
+};
+
+module.exports.removeSongFromFavourite = async (req, res) => {
+  try {
+    const songId = req.params.id;
+    const userId = req.userId;
+
+    // Check if song exists
+    const song = await Song.findByPk(songId);
+    if (!song) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+
+    // Remove song from user's favorites
+    const user = await User.findByPk(userId);
+    await user.removeFavoriteSong(song);
+
+    res
+      .status(200)
+      .json({ message: "Song removed from favourites successfully" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error removing song from favourites",
+      error: error.message,
+    });
+  }
+};
+
+module.exports.getFavouriteSongs = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = "name",
+      order = "asc",
+      search = "",
+    } = req.query;
+
+    const user = await User.findByPk(userId);
+    const searchRegex = `%${search}%`;
+
+    const favorites = await user.getFavoriteSongs({
+      where: {
+        name: {
+          [Op.iLike]: searchRegex,
+        },
+      },
+      order: [[sortBy, order.toUpperCase()]],
+      offset: (page - 1) * limit,
+      limit: Number(limit),
+    });
+
+    const totalFavorites = await user.countFavoriteSongs({
+      where: {
+        name: {
+          [Op.iLike]: searchRegex,
+        },
+      },
+    });
+
+    res.status(200).send({
+      songs: favorites,
+      totalPages: Math.ceil(totalFavorites / limit),
+      currentPage: Number(page),
+      totalItems: totalFavorites,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching favourite songs",
+      error: error.message,
+    });
   }
 };
