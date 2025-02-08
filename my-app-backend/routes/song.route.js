@@ -2,7 +2,7 @@ var express = require("express");
 var router = express();
 var controller = require("../controllers/song.controller");
 const multer = require("multer");
-const { verifyToken } = require("../middleware/authjwt.middleware");
+const { verifyToken, isAdmin } = require("../middleware/authjwt.middleware");
 
 // Configure multer storage with custom filename
 var songFileStorage = multer.diskStorage({
@@ -56,6 +56,12 @@ router.get("/song/:id", [verifyToken], controller.getSongById);
 router.get("/song/:id/play", [verifyToken], controller.playSongById);
 router.get("/most-play-songs", controller.getMostPlaySongs);
 router.get("/songs", controller.getAllSongs);
+router.get("/pending-approval-songs", controller.getPendingApprovalSongs);
+router.patch(
+  "/song/:id/approve",
+  [verifyToken, isAdmin],
+  controller.approveSongById
+);
 router.get("/my-songs", [verifyToken], controller.getMySongs);
 router.delete("/song/:id", [verifyToken], controller.deleteSongById);
 router.patch(

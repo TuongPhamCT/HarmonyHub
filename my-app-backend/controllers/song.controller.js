@@ -195,12 +195,12 @@ module.exports.getAllSongs = async (req, res) => {
     // Add genre filtering if genreId is provided
     const includeCondition = genreId
       ? [
-        {
-          model: Genre,
-          where: { id: genreId },
-          through: { attributes: [] }, // Exclude junction table attributes
-        },
-      ]
+          {
+            model: Genre,
+            where: { id: genreId },
+            through: { attributes: [] }, // Exclude junction table attributes
+          },
+        ]
       : [];
 
     // Find songs with search, sorting, pagination, and optional genre filtering
@@ -287,5 +287,75 @@ module.exports.getPlaylistContainSong = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error fetching playlists", error: error.message });
+  }
+};
+
+module.exports.getPendingApprovalSongs = async (req, res) => {
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = "name",
+      order = "asc",
+      search = "",
+      genreId,
+    } = req.query;
+
+    const searchRegex = `%${search}%`;
+
+    // Base where condition including pending status
+    const whereCondition = {
+      name: {
+        [Op.iLike]: searchRegex,
+      },
+      isAccepted: false,
+    };
+
+    // Add genre filtering if genreId is provided
+    const includeCondition = genreId
+      ? [
+          {
+            model: Genre,
+            where: { id: genreId },
+            through: { attributes: [] },
+          },
+        ]
+      : [];
+
+    const songs = await Song.findAll({
+      where: whereCondition,
+      include: includeCondition,
+      order: [[sortBy, order.toUpperCase()]],
+      offset: (page - 1) * limit,
+      limit: Number(limit),
+    });
+
+    const totalSongs = await Song.count({
+      where: whereCondition,
+      include: includeCondition,
+    });
+
+    res.status(200).send({
+      songs,
+      totalPages: Math.ceil(totalSongs / limit),
+      currentPage: Number(page),
+      totalItems: totalSongs,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Error retrieving pending songs.",
+    });
+  }
+};
+
+module.exports.approveSongById = async (req, res) => {
+  let songId = req.params.id;
+  try {
+    let song = await songService.getSongById(songId);
+    song.isAccepted = true;
+    await song.save();
+    res.status(200).json({ message: "Song approved successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error approving song", error });
   }
 };

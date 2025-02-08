@@ -28,6 +28,10 @@ const Song = sequelize.define(
     lyric: {
       type: DataTypes.STRING,
     },
+    isAccepted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     playCount: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
