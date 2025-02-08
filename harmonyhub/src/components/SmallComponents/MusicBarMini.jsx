@@ -9,11 +9,13 @@ import { toggleMainContentScroll } from '../MainPage/services/contentAreaService
 import { AddToPlaylist } from './partials/AddToPlaylist';
 import { CreatePlaylist } from './partials/CreatePlaylist';
 import { sUser } from '../../store';
+import { useFavorite } from '../Contexts/FavoriteContext';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
 export default function MusicBarMini(props) {
-    const [favorToggle, setFavorToggle] = useState(props.favor || false);
+    const { favorites, toggleFavorites } = useFavorite();
+    const favorToggle = favorites[props.data.id] || false;
     const [showMenu, setShowMenu] = useState(false);
     const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
     const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
@@ -29,7 +31,7 @@ export default function MusicBarMini(props) {
         if (event) {
             event.stopPropagation();
         }
-        setFavorToggle(!favorToggle);
+        toggleFavorites(props.data.id);
     }
 
     const handleOpenMore = (event) => {
@@ -61,7 +63,7 @@ export default function MusicBarMini(props) {
 
     return (
         <div id="musicbar-wrapper" onClick={props.onClick || (() => {})}>
-            <div id="musicbar-container">
+            <div id="musicbar-container" style={{background: props.active ? "#750a4e" : "transparent"}}>
                 <div id="musicbar-music-wrapper-mini">
                     <img src={props.image || item_placeholder} alt="" onError={handleError} id="musicbar-image"></img>
                     <div id="musicbar-title-wrapper">

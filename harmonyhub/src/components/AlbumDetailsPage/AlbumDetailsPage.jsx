@@ -10,12 +10,12 @@ import { useParams } from 'react-router';
 import { handleOnClickSong } from '../../services/itemOnClickService';
 import { createDemoAlbums, createDemoSongs } from '../../services/demoDataService';
 import { formatDate } from '../../services/formatDateService';
-import { convertIntToTime } from '../MainPage/services/playbarServices';
+import { convertIntToTime, handlePlayAllAlbum } from '../MainPage/services/playbarServices';
 
 const AlbumDetailsPage = () =>{
     const { id } = useParams();
     const [songs, setSongs] = useState([]);
-
+    const [songsData, setSongsData] = useState([]);
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
     const [totalTime, setTotalTime] = useState();
@@ -30,6 +30,7 @@ const AlbumDetailsPage = () =>{
         setTitle(album.title);
         setDescription(album.description);
         setTotalTime(convertIntToTime(totalTime, true));
+        setSongsData(dataSongs);
 
         setSongs(
             dataSongs.map(
@@ -40,6 +41,7 @@ const AlbumDetailsPage = () =>{
                         title={item.name}
                         subtitle={item.artist}
                         header={"#" + (index + 1)}
+                        data={item}
                         releaseDate={formatDate(item.releaseDate)}
                         played={item.playCount}
                         time={convertIntToTime(item.duration)}
@@ -64,7 +66,7 @@ const AlbumDetailsPage = () =>{
                             </div>
                             <h3>{songs.length} Songs <span className="pinkpro">.</span> {totalTime}</h3>
                         </div>
-                        <div className="album-action">
+                        <div className="album-action" onClick={() => handlePlayAllAlbum(id, songsData)}>
                             <h2 >Play All</h2>
                             <img src={playBTN} alt=""></img>
                         </div>

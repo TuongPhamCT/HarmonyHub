@@ -1,33 +1,43 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MusicCollectionMini } from '../../SmallComponents/MusicCollection';
 import './playbarPlaylist.css';
 import { createPortal } from "react-dom";
 import MusicBarMini from '../../SmallComponents/MusicBarMini';
-import { createDemoSongs } from '../../../services/demoDataService';
 import { handleOnClickSong } from '../../../services/itemOnClickService';
+import { sPlaybar } from '../../../store';
+
+const ssPlayingIndex = sPlaybar.slice((v) => v.playingIndex);
+const ssPlaylist = sPlaybar.slice((v) => v.playlist);
 
 export const PlaybarPlaylist = () => {
   const [songs, setSongs] = useState([]);
 
-  useState(() => {
-    // call api to get songs by playlist id
-    const dataSongs = createDemoSongs();
-
+  const handlePlaylistChange = useCallback(() => {
+    const dataSongs = ssPlaylist.value;
     setSongs(
-        dataSongs.map(
-            (item) => (
-                <MusicBarMini
-                    key={item.id}
-                    title={item.name}
-                    subtitle={item.artist}
-                    data={item}
-                    onClick={() => handleOnClickSong(item)}
-                ></MusicBarMini>       
-            )
-        )
+      dataSongs.map(
+          (item, index) => (
+              <MusicBarMini
+                  key={item.id}
+                  title={item.name}
+                  subtitle={item.artist}
+                  data={item}
+                  active={index === ssPlayingIndex.value }
+                  onClick={() => handleOnClickSong(item)}
+              ></MusicBarMini>       
+          )
+      )
     );
-
   }, []);
+
+  useEffect(() => {
+    handlePlaylistChange();
+    sPlaybar.set((v) => v.value.updatePlaylistFunction = handlePlaylistChange);
+
+    return () => {
+      sPlaybar.set((v) => v.value.updatePlaylistFunction = null);
+    };
+  }, [handlePlaylistChange]);
 
   return createPortal(
     <div className="playbar-playlist-container">

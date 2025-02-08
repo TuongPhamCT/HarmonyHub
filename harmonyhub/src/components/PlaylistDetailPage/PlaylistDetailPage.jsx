@@ -10,12 +10,12 @@ import { useParams } from 'react-router';
 import { handleOnClickSong } from '../../services/itemOnClickService';
 import { createDemoAlbums, createDemoSongs } from '../../services/demoDataService';
 import { formatDate } from '../../services/formatDateService';
-import { convertIntToTime } from '../MainPage/services/playbarServices';
+import { convertIntToTime, handlePlayAllPlaylist } from '../MainPage/services/playbarServices';
 
 const PlaylistDetailPage = () =>{
     const { id } = useParams();
     const [songs, setSongs] = useState([]);
-
+    const [songsData, setSongsData] = useState([]);
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
     const [totalTime, setTotalTime] = useState();
@@ -30,12 +30,14 @@ const PlaylistDetailPage = () =>{
         setTitle(album.title);
         setDescription(album.description);
         setTotalTime(convertIntToTime(totalTime, true));
+        setSongsData(dataSongs);
 
         setSongs(
             dataSongs.map(
                 (item, index) => (
                     <MusicBar
                         key={item.id}
+                        data={item}
                         headerWidth="10vh"
                         title={item.name}
                         subtitle={item.artist}
@@ -64,7 +66,7 @@ const PlaylistDetailPage = () =>{
                             </div>
                             <h3>{songs.length} Songs <span className="pinkpro">.</span> {totalTime}</h3>
                         </div>
-                        <div className="playlist-action">
+                        <div className="playlist-action" onClick={() => handlePlayAllPlaylist(id, songsData)}>
                             <h2 >Play All</h2>
                             <img src={playBTN} alt=''></img>
                         </div>

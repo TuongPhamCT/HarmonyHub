@@ -9,11 +9,13 @@ import { toggleMainContentScroll } from '../MainPage/services/contentAreaService
 import { AddToPlaylist } from './partials/AddToPlaylist';
 import { CreatePlaylist } from './partials/CreatePlaylist';
 import { sUser } from '../../store';
+import { useFavorite } from '../Contexts/FavoriteContext';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
 export default function MusicBar(props) {
-    const [favorToggle, setFavorToggle] = useState(props.favor || false);
+    const { favorites, toggleFavorites } = useFavorite();
+    const favorToggle = favorites[(props.data.id || 0)] || false;
     const [showMenu, setShowMenu] = useState(false);
     const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
     const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
@@ -29,7 +31,7 @@ export default function MusicBar(props) {
         if (event) {
             event.stopPropagation();
         }
-        setFavorToggle(!favorToggle);
+        toggleFavorites(props.data.id);
     }
 
     const handleOpenMore = (event) => {

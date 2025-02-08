@@ -40,6 +40,7 @@ export default function MostPlayedPage() {
                 (item, index) => (
                     <MusicBar
                         key={item.id}
+                        data={item}
                         headerWidth="10vh"
                         title={item.name}
                         subtitle={item.artist}
@@ -58,6 +59,7 @@ export default function MostPlayedPage() {
                 (item, index) => (
                     <MusicBar
                         key={item.id}
+                        data={item}
                         headerWidth="10vh"
                         title={item.name}
                         subtitle={item.artist}
@@ -76,6 +78,7 @@ export default function MostPlayedPage() {
                 (item, index) => (
                     <MusicBar
                         key={item.id}
+                        data={item}
                         headerWidth="10vh"
                         title={item.name}
                         subtitle={item.artist}

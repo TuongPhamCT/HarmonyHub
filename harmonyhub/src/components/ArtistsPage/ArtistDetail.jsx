@@ -45,6 +45,7 @@ function ArtitstsPage(props) {
                         title={item.name}
                         subtitle={item.artist}
                         header={"#" + (index + 1)}
+                        data={item}
                         releaseDate={formatDate(item.releaseDate)}
                         usePlayedCount={item.playCount}
                         time={convertIntToTime(item.duration)}
