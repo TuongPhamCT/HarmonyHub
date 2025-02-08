@@ -64,4 +64,5 @@ router.patch(
   upload.fields([{ name: "image", maxCount: 1 }]),
   controller.updateSongById
 );
+router.get("/song/:id/playlists", controller.getPlaylistContainSong);
 module.exports = router;

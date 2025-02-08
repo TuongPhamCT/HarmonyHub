@@ -17,6 +17,7 @@ module.exports.createSong = async (req, res) => {
   let songImage = req.files.image ? req.files.image[0] : null;
   let userId = req.userId;
   let lyric = req.body.lyric;
+  let artist = req.body.artist;
   let durationInSeconds = await getAudioDurationInSeconds(songFile.path);
   let duration = Math.floor(durationInSeconds); // Cast float to int
 
@@ -39,6 +40,7 @@ module.exports.createSong = async (req, res) => {
     // Create a new song
     const song = await Song.create({
       name: songName,
+      artist: artist,
       fileURL: `/public/songs/${songFile.filename}`,
       image: `/public/images/${songImage.filename}`,
       duration: duration,
@@ -193,12 +195,12 @@ module.exports.getAllSongs = async (req, res) => {
     // Add genre filtering if genreId is provided
     const includeCondition = genreId
       ? [
-          {
-            model: Genre,
-            where: { id: genreId },
-            through: { attributes: [] }, // Exclude junction table attributes
-          },
-        ]
+        {
+          model: Genre,
+          where: { id: genreId },
+          through: { attributes: [] }, // Exclude junction table attributes
+        },
+      ]
       : [];
 
     // Find songs with search, sorting, pagination, and optional genre filtering
@@ -273,5 +275,17 @@ module.exports.getMySongs = async (req, res) => {
     res.status(500).send({
       message: error.message || "Some error occurred while retrieving songs.",
     });
+  }
+};
+
+module.exports.getPlaylistContainSong = async (req, res) => {
+  let songId = req.params.id;
+  try {
+    let playlists = await songService.getPlaylistContainSong(songId);
+    res.json(playlists);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching playlists", error: error.message });
   }
 };
