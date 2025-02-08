@@ -19,7 +19,7 @@ export class PlaylistService {
                 title,
                 isPublic
             })
-            return data.message;
+            return data;
         } catch (error) {
             console.log(error)
         }
@@ -42,7 +42,48 @@ export class PlaylistService {
     static deletePlaylist = async (id) => {
         try {
             const { data } = await axios.delete(`/playlist/${id}`)
-            return data.message
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    static addSongToPlaylist = async (playlistId, songId) => {
+        try {
+            const { data } = await axios.post(`/playlist/${playlistId}/song/${songId}`)
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    static removeSongFromPlaylist = async (playlistId, songId) => {
+        try {
+            const { data } = await axios.delete(`/playlist/${playlistId}/song`, {
+                songId
+            })
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    static getPlaylistSongs = async (id, {
+        page,
+        limit,
+        sortBy,
+        order,
+    }) => {
+        try {
+            const { data } = await axios.get(`/playlist/${id}/songs`, {
+                params: {
+                    page,
+                    limit,
+                    sortBy,
+                    order,
+                }
+            })
+            return data
         } catch (error) {
             console.log(error)
         }
