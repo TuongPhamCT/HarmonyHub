@@ -17,6 +17,7 @@ module.exports.createSong = async (req, res) => {
   let songImage = req.files.image ? req.files.image[0] : null;
   let userId = req.userId;
   let lyric = req.body.lyric;
+  let artist = req.body.artist;
   let durationInSeconds = await getAudioDurationInSeconds(songFile.path);
   let duration = Math.floor(durationInSeconds); // Cast float to int
 
@@ -39,6 +40,7 @@ module.exports.createSong = async (req, res) => {
     // Create a new song
     const song = await Song.create({
       name: songName,
+      artist: artist,
       fileURL: `/public/songs/${songFile.filename}`,
       image: `/public/images/${songImage.filename}`,
       duration: duration,
