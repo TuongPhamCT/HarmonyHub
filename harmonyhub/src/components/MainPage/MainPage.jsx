@@ -24,7 +24,6 @@ import SearchResultsPage from '../SearchResultsPage/SearchResultsPage';
 import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
 import MostPlayedPage from '../MostPlayedPage/MostPlayedPage';
 import Playbar from './Playbar';
-import ArtistDetail from '../ArtistsPage/ArtistDetail';
 import AllSongsPage from '../AllSongsPage/AllSongsPage';
 import AllPlaylistsPage from '../AllPlaylistsPage/AllPlaylistsPage';
 import PlaylistDetailPage from '../PlaylistDetailPage/PlaylistDetailPage';
@@ -34,6 +33,7 @@ import YourFavoritesPage from '../AllSongsPage/YourFavoritesPage.jsx';
 import { sAccessToken } from '../config/store.ts';
 import { useFavorite } from '../Contexts/FavoriteContext.jsx';
 import { createDemoSongs } from '../../services/demoDataService.js';
+import ArtistDetailPage from '../ArtistsPage/ArtistDetail';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
@@ -110,7 +110,7 @@ function MainPage() {
                             <Route path='/albums' element={<AlbumsPage />} />
                             <Route path='/albums/:view' element={<AllAlbumsPage />} />
                             <Route path='/artist' element={<ArtistsPage />} />
-                            <Route path='/artist/:id' element={<ArtistDetail />} />
+                            <Route path='/artist/:id' element={<ArtistDetailPage />} />
                             <Route path='/yourplaylist' element={<YourPlaylist />} />
                             <Route path='/yourplaylist/:playlistId' element={<PlaylistDetail />} />
                             <Route path='/approve' element={<ApprovePage />} />

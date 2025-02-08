@@ -5,30 +5,31 @@ import { convertIntToTime, handleNextButton, handlePreviousButton, handleToggleS
 import item_placeholder from '../../assets/img/placeholder_disc.png';
 import love_off from '../../assets/img/playbar/playbar-love-off.png';
 import love_on from '../../assets/img/playbar/playbar-love-on.png';
-import micro from '../../assets/img/playbar/playbar-microphone.png';
 import micro_active from '../../assets/img/playbar/playbar-microphone-active.png';
+import micro from '../../assets/img/playbar/playbar-microphone.png';
 import more from '../../assets/img/playbar/playbar-more.png';
 import next from '../../assets/img/playbar/playbar-next.png';
+import pause from '../../assets/img/playbar/playbar-pause.png';
+import play from '../../assets/img/playbar/playbar-play.png';
+import playlist_active from '../../assets/img/playbar/playbar-playlist-active.png';
+import playlist from '../../assets/img/playbar/playbar-playlist.png';
 import previous from '../../assets/img/playbar/playbar-previous.png';
 import random_play_off from '../../assets/img/playbar/playbar-random-play-off.png';
 import random_play_on from '../../assets/img/playbar/playbar-random-play-on.png';
+import repeat_all from '../../assets/img/playbar/playbar-repeat-all.png';
 import repeat_none from '../../assets/img/playbar/playbar-repeat-none.png';
 import repeat_once from '../../assets/img/playbar/playbar-repeat-once.png';
-import repeat_all from '../../assets/img/playbar/playbar-repeat-all.png';
 import speaker_off from '../../assets/img/playbar/playbar-speaker-off.png';
 import speaker_on from '../../assets/img/playbar/playbar-speaker-on.png';
-import play from '../../assets/img/playbar/playbar-play.png';
-import pause from '../../assets/img/playbar/playbar-pause.png';
-import playlist from '../../assets/img/playbar/playbar-playlist.png'
-import playlist_active from '../../assets/img/playbar/playbar-playlist-active.png'
-import { PlaybarLyric } from './partials/playbarLyric';
+import { SongService } from '../../services/apiCall/song';
 import { sPlaybar, sUser } from '../../store';
+import { useFavorite } from '../Contexts/FavoriteContext';
 import { AddToPlaylist } from '../SmallComponents/partials/AddToPlaylist';
 import { CreatePlaylist } from '../SmallComponents/partials/CreatePlaylist';
-import { toggleMainContentScroll } from './services/contentAreaServices';
 import { ItemDropDownMenu } from '../SmallComponents/partials/ItemDropDown';
+import { PlaybarLyric } from './partials/playbarLyric';
 import { PlaybarPlaylist } from './partials/playbarPlaylist';
-import { useFavorite } from '../Contexts/FavoriteContext';
+import { toggleMainContentScroll } from './services/contentAreaServices';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -68,8 +69,8 @@ export default function Playbar() {
   };
 
   // Hàm load audio mới
-  const handleLoadAudio = useCallback((song) => {
-    // console.log(song);
+  const handleLoadAudio = useCallback(async (song) => {
+    
     sPlaybar.set((v) => v.value.playingSong = song);
 
     setArtist(song.artist);
@@ -84,17 +85,57 @@ export default function Playbar() {
       }
     }
 
+    await SongService.playSong(song.id);
+
   }, [randomToggle]);
 
+  const handleReplay = () => {
+    // replay
+    audioRef.current.currentTime = 0; // Đưa thời gian bài hát về đầu
+    audioRef.current.play(); // Phát lại bài hát
+    setPlayToggle(true);
+  }
+
+  const handleSongEnd = useCallback(() => {
+    if (repeatToggle) {
+      if (sPlaybar.value.repeat > 0) {
+        sPlaybar.set((v) => v.value.repeat = v.value.repeat - 1);
+        handleReplay();
+        SongService.playSong(sPlaybar.value.playingSong.id);
+      } else {
+        sPlaybar.set((v) => v.value.repeat = 1);
+        handleNextButton(randomToggle);
+      }
+    }
+  }, [randomToggle, repeatToggle]);
+
+  // Initialize
   useEffect(() => {
     sPlaybar.set((v) => v.value.loadAudioFunction = handleLoadAudio);
-  }, [handleLoadAudio]);
+
+    const audioElement = audioRef.current;
+    audioElement.addEventListener('ended', handleSongEnd);
+    return () => {
+      audioElement.removeEventListener('ended', handleSongEnd);
+    };
+
+  }, [handleLoadAudio, handleSongEnd]);
 
   const handleSeek = (e) => {
     const seekTime = e.target.value;
     audioRef.current.currentTime = seekTime;
     setProgress(seekTime);
   };
+
+  const handlePlayPause = () => {
+    if (playToggle) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setPlayToggle(!playToggle);
+  };
+
 
   const handleImageError = (e) => {
       e.target.onerror = null; // Prevents infinite loop if placeholder fails
@@ -255,7 +296,7 @@ export default function Playbar() {
             id="playbar-play-button"
             className="playbar-button"
             alt=""
-            onClick={() => setPlayToggle(!playToggle)}
+            onClick={() => handlePlayPause()}
           ></img>
           <img
             src={ next }

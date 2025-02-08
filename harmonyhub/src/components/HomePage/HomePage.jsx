@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import './HomePage.css'; // Import the CSS file for styling
-import '../../components/Global.css'
+import { useNavigate } from 'react-router';
 import hero_img from '../../assets/img/homepage_hero_section.png';
+import '../../components/Global.css';
+import { AlbumService } from '../../services/apiCall/album';
+import { ArtistService } from '../../services/apiCall/artist';
+import { SongService } from '../../services/apiCall/song';
+import { formatDate, getPreviousDate, getToday } from '../../services/formatDateService';
+import { handleOnClickAlbum, handleOnClickArtist, handleOnClickPlaylist, handleOnClickSong } from '../../services/itemOnClickService';
+import { navigateToAllPlaylists, navigateToNewReleaseSongs, navigateToTopAlbums } from '../../services/navigateService';
 import Footer from '../MainPage/Footer';
-import { MusicBox, AlbumBox, ArtistBox, PlaylistBox } from '../SmallComponents/ItemBox';
+import { convertIntToTime } from '../MainPage/services/playbarServices';
+import { AlbumBox, ArtistBox, MusicBox, PlaylistBox } from '../SmallComponents/ItemBox';
 import ItemCollection from '../SmallComponents/ItemCollection';
 import MusicBar from '../SmallComponents/MusicBar';
 import MusicCollection from '../SmallComponents/MusicCollection';
-import { useNavigate } from 'react-router';
-import { navigateToAllPlaylists, navigateToNewReleaseSongs, navigateToTopAlbums } from '../../services/navigateService';
-import { handleOnClickAlbum, handleOnClickArtist, handleOnClickPlaylist, handleOnClickSong } from '../../services/itemOnClickService';
-import { createDemoAlbums, createDemoArtists, createDemoPlaylists, createDemoSongs } from '../../services/demoDataService';
-import { formatDate } from '../../services/formatDateService';
-import { convertIntToTime } from '../MainPage/services/playbarServices';
+import './HomePage.css'; // Import the CSS file for styling
 
 const HomePage = () => {
     const nav = useNavigate();
@@ -23,95 +25,123 @@ const HomePage = () => {
     const [topAlbums, setTopAlbums] = useState([]);
     const [moodPlaylists, setMoodPlaylists] = useState([]);
 
+    const [newReleaseSongsData, setNewReleaseSongsData] = useState([]);
+
     useEffect(() => {
         // call API to get data
-        const dataSongs = createDemoSongs();
-        const dataAlbums = createDemoAlbums();
-        const dataPlaylists = createDemoPlaylists();
-        const dataArtists = createDemoArtists();
+        const controller = new AbortController(); 
+        const fetchData =  async () => {
+            const today = getToday();
 
-        setWeeklyTopSongs(
-            dataSongs.map(
-                (item) => (
-                    <MusicBox
-                        key={item.id}
-                        title={item.name}
-                        subtitle={item.artist}
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBox>
-                )
-            )
-        );
+            const fullDataSongs = await SongService.getSongs({
+                sortBy: "createdAt",
+                order: "desc",
+                limit: 50,
+            }).songs;
+            setNewReleaseSongsData(
+                fullDataSongs
+            );
+            const dataSongs = fullDataSongs.length > 6 ? fullDataSongs.slice(0, 6) : fullDataSongs;
+            const dataAlbums = await AlbumService.getRandomAlbums({limit: 6}).albums;
+            const dataPlaylists = [];
+            const dataArtists = await ArtistService.getArtists({limit: 6}).artists;
+            const weeklySongs = await SongService.getMostPlayedSongs({
+                numberOfSongs: 6,
+                startTime: getPreviousDate(7, today),
+                endTime: today, 
+            }).songs; 
+            const trendingSongsData = await SongService.getMostPlayedSongs({
+                numberOfSongs: 6,
+            }).songs;
 
-        setNewReleaseSongs(
-            dataSongs.map(
-                (item) => (
-                    <MusicBox
-                        key={item.id}
-                        title={item.name}
-                        subtitle={item.artist}
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBox>
+            setWeeklyTopSongs(
+                weeklySongs.map(
+                    (item) => (
+                        <MusicBox
+                            key={item.id}
+                            title={item.name}
+                            subtitle={item.artist}
+                            onClick={() => handleOnClickSong(item)}
+                        ></MusicBox>
+                    )
                 )
-            )
-        );
-
-        setTopAlbums(
-            dataAlbums.map(
-                (item) => (
-                    <AlbumBox
-                        key={item.id}
-                        title={item.title}
-                        subtitle={item.description}
-                        onClick={() => handleOnClickAlbum(nav, item.id)}
-                    ></AlbumBox>
+            );
+    
+            setNewReleaseSongs(
+                dataSongs.map(
+                    (item) => (
+                        <MusicBox
+                            key={item.id}
+                            title={item.name}
+                            subtitle={item.artist}
+                            onClick={() => handleOnClickSong(item)}
+                        ></MusicBox>
+                    )
                 )
-            )
-        );
-
-        setPopularArtists(
-            dataArtists.map(
-                (item) => (
-                    <ArtistBox
-                        key={item.id}
-                        title={item.name}
-                        onClick={() => handleOnClickArtist(nav, item.id)}
-                    ></ArtistBox>
+            );
+    
+            setTopAlbums(
+                dataAlbums.map(
+                    (item) => (
+                        <AlbumBox
+                            key={item.id}
+                            title={item.title}
+                            subtitle={item.description}
+                            onClick={() => handleOnClickAlbum(nav, item.id)}
+                        ></AlbumBox>
+                    )
                 )
-            )
-        );
-
-        setTrendingSongs(
-            dataSongs.map(
-                (item, index) => (
-                    <MusicBar
-                        key={item.id}
-                        headerWidth="10vh"
-                        title={item.name}
-                        subtitle={item.artist}
-                        header={"#" + (index + 1)}
-                        releaseDate={formatDate(item.releaseDate)}
-                        data={item}
-                        // album="Demo Album"
-                        played={item.playCount}
-                        time={convertIntToTime(item.duration)}
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBar>
+            );
+    
+            setPopularArtists(
+                dataArtists.map(
+                    (item) => (
+                        <ArtistBox
+                            key={item.id}
+                            title={item.name}
+                            onClick={() => handleOnClickArtist(nav, item.id)}
+                        ></ArtistBox>
+                    )
                 )
-            )
-        );
-
-        setMoodPlaylists(
-            dataPlaylists.map(
-                (item) => (
-                    <PlaylistBox
-                        key={item.id} 
-                        title={item.title}
-                        onClick={() => handleOnClickPlaylist(nav, item.id)}
-                    />
+            );
+    
+            setTrendingSongs(
+                trendingSongsData.map(
+                    (item, index) => (
+                        <MusicBar
+                            key={item.id}
+                            headerWidth="10vh"
+                            title={item.name}
+                            subtitle={item.artist}
+                            header={"#" + (index + 1)}
+                            releaseDate={formatDate(item.releaseDate)}
+                            data={item}
+                            // album="Demo Album"
+                            played={item.playCount}
+                            time={convertIntToTime(item.duration)}
+                            onClick={() => handleOnClickSong(item)}
+                        ></MusicBar>
+                    )
                 )
-            )        
-        );
+            );
+    
+            setMoodPlaylists(
+                dataPlaylists.map(
+                    (item) => (
+                        <PlaylistBox
+                            key={item.id} 
+                            title={item.title}
+                            onClick={() => handleOnClickPlaylist(nav, item.id)}
+                        />
+                    )
+                )        
+            );
+        }
+ 
+        fetchData();
+        return () => {
+            controller.abort(); // Cleanup function: hủy request khi component unmount
+        };
 
     }, [nav]);
 
@@ -150,7 +180,7 @@ const HomePage = () => {
                             itemList={newReleaseSongs}
                             title="New Release"
                             titleHighlight="Songs"
-                            onViewAll={() => {navigateToNewReleaseSongs(nav)}}
+                            onViewAll={() => {navigateToNewReleaseSongs(nav, newReleaseSongsData)}}
                         ></ItemCollection>
                     : 
                         null

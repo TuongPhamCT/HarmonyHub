@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { ArtistBox } from '../SmallComponents/ItemBox';
 import { useNavigate } from 'react-router';
+import { ArtistService } from '../../services/apiCall/artist';
+import { shuffleArray } from '../../services/arrayService';
+import { handleOnClickArtist } from '../../services/itemOnClickService';
 import Footer from '../MainPage/Footer';
+import { ArtistBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { sComponents } from '../SmallComponents/componentStore';
-import { handleOnClickArtist } from '../../services/itemOnClickService';
-import { createDemoArtists } from '../../services/demoDataService';
 
-function ArtistsPage(props) {
+function ArtistsPage() {
 
     const navigate = useNavigate();
 
@@ -16,32 +17,41 @@ function ArtistsPage(props) {
 
     useEffect(() => {
         // Call api to get data
-        const dataArtists = createDemoArtists();
+        const controller = new AbortController(); 
+        const fetchData =  async () => {
+            const dataArtists = await ArtistService.getArtists().artists;
+            const popular = dataArtists.length > 20 ? shuffleArray(dataArtists).slice(0, 20) : dataArtists;
+            const favorites = dataArtists.length > 20 ? shuffleArray(dataArtists).slice(0, 20) : dataArtists;
 
-        setPopularArtists(
-            dataArtists.map(
-                (item) => (
-                    <ArtistBox
-                        key={item.id}
-                        title={item.name}
-                        onClick={() => handleOnClickArtist(navigate, item.id)}
-                    ></ArtistBox>
+            setPopularArtists(
+                popular.map(
+                    (item) => (
+                        <ArtistBox
+                            key={item.id}
+                            title={item.name}
+                            onClick={() => handleOnClickArtist(navigate, item.id)}
+                        ></ArtistBox>
+                    )
                 )
-            )
-        );
-
-        setFavoriteArtists(
-            dataArtists.map(
-                (item) => (
-                    <ArtistBox
-                        key={item.id}
-                        title={item.name}
-                        onClick={() => handleOnClickArtist(navigate, item.id)}
-                    ></ArtistBox>
+            );
+    
+            setFavoriteArtists(
+                favorites.map(
+                    (item) => (
+                        <ArtistBox
+                            key={item.id}
+                            title={item.name}
+                            onClick={() => handleOnClickArtist(navigate, item.id)}
+                        ></ArtistBox>
+                    )
                 )
-            )
-        );
+            );
+        }
 
+        fetchData();
+        return () => {
+            controller.abort(); // Cleanup function: hủy request khi component unmount
+        };
     }, [navigate]);
 
     return (

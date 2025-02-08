@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import '../../components/Global.css'
-import './AlbumDetailsPage.css'
-import Footer from '../MainPage/Footer';
-import MusicBar from '../SmallComponents/MusicBar';
-import MusicCollection from '../SmallComponents/MusicCollection';
+import { useParams } from 'react-router';
 import album from '../../assets/img/placeholder_disc.png';
 import playBTN from '../../assets/img/play_music.png';
-import { useParams } from 'react-router';
-import { handleOnClickSong } from '../../services/itemOnClickService';
-import { createDemoAlbums, createDemoSongs } from '../../services/demoDataService';
+import '../../components/Global.css';
+import { AlbumService } from '../../services/apiCall/album';
 import { formatDate } from '../../services/formatDateService';
+import { handleOnClickSong } from '../../services/itemOnClickService';
+import Footer from '../MainPage/Footer';
 import { convertIntToTime, handlePlayAllAlbum } from '../MainPage/services/playbarServices';
+import MusicBar from '../SmallComponents/MusicBar';
+import MusicCollection from '../SmallComponents/MusicCollection';
+import './AlbumDetailsPage.css';
 
 const AlbumDetailsPage = () =>{
     const { id } = useParams();
@@ -22,35 +22,43 @@ const AlbumDetailsPage = () =>{
 
     useEffect(() => {
         // call api to get songs by playlist id
-        const dataSongs = createDemoSongs();
+        const controller = new AbortController(); 
+        const fetchData =  async () => {
+            const thisAlbum = await AlbumService.getAlbumById(id);
+            const dataSongs = thisAlbum.songs;
 
-        const album = createDemoAlbums().at(0); 
-        const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
-
-        setTitle(album.title);
-        setDescription(album.description);
-        setTotalTime(convertIntToTime(totalTime, true));
-        setSongsData(dataSongs);
-
-        setSongs(
-            dataSongs.map(
-                (item, index) => (
-                    <MusicBar
-                        key={item.id}
-                        headerWidth="10vh"
-                        title={item.name}
-                        subtitle={item.artist}
-                        header={"#" + (index + 1)}
-                        data={item}
-                        releaseDate={formatDate(item.releaseDate)}
-                        played={item.playCount}
-                        time={convertIntToTime(item.duration)}
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBar>       
+            const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
+    
+            setTitle(thisAlbum.title);
+            setDescription(thisAlbum.description);
+            setTotalTime(convertIntToTime(totalTime, true));
+            setSongsData(dataSongs);
+    
+            setSongs(
+                dataSongs.map(
+                    (item, index) => (
+                        <MusicBar
+                            key={item.id}
+                            headerWidth="10vh"
+                            title={item.name}
+                            subtitle={item.artist}
+                            header={"#" + (index + 1)}
+                            data={item}
+                            releaseDate={formatDate(item.releaseDate)}
+                            played={item.playCount}
+                            time={convertIntToTime(item.duration)}
+                            onClick={() => handleOnClickSong(item)}
+                        ></MusicBar>       
+                    )
                 )
-            )
-        );
-    }, []);
+            );
+        }
+
+        fetchData();
+        return () => {
+            controller.abort(); // Cleanup function: hủy request khi component unmount
+        };
+    }, [id]);
 
     return( 
         <div>
