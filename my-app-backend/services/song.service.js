@@ -80,11 +80,6 @@ module.exports.addPlayHistory = async (songId, userId, time) => {
 };
 
 module.exports.updateSongById = async (songId, songInfo) => {
-  if (songInfo.image) {
-    await Song.findByPk(songId).then((song) => {
-      this.deleteFile(song.image);
-    });
-  }
   return Song.update(songInfo, { where: { id: songId } });
 };
 
