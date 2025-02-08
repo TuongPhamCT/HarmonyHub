@@ -146,10 +146,12 @@ export class SongService {
       if (!sortBy) sortBy = "name";
       if (!order) order = "asc";
       const { data } = await axios.get('/pending-approval-songs', {
-        page,
-        limit,
-        sortBy,
-        order
+        params: {
+          page,
+          limit,
+          sortBy,
+          order
+        }
       });
       return data;
     } catch (error) {
@@ -165,6 +167,52 @@ export class SongService {
       console.log(error)
     }
   }
+
+  static addSongToFavorite = async (songId) => {
+    try {
+        const { data } = await axios.post(`/song/${songId}/favourite`);
+        return data;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+static removeSongFromFavorite = async (songId) => {
+    try {
+        const { data } = await axios.delete(`/song/${songId}/favourite`);
+        return data;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+static getFavoriteSongs = async ({
+  page = 1,
+  limit = 10,
+  sortBy = "name",
+  order = "asc",
+  search = "",
+}) => {
+    try {
+        if (!page) page = 1;
+        if (!limit) limit = 1;
+        if (!sortBy) sortBy = "name";
+        if (!order) order = "asc";
+        if (!search) search = "";
+        const { data } = await axios.get('/favourite-songs', {
+            params: {
+                page,
+                limit,
+                sortBy,
+                order,
+                search,
+            }
+        })
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+}
 }
 
 

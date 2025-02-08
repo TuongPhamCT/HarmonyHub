@@ -17,6 +17,7 @@ import { AddToPlaylist } from './partials/AddToPlaylist';
 import { CreatePlaylist } from './partials/CreatePlaylist';
 import { ItemDropDownMenu } from './partials/ItemDropDown';
 import { PlaylistService } from '../../services/apiCall/playlist';
+import { useFavorite } from '../Contexts/FavoriteContext';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -108,6 +109,7 @@ export const MusicBox = (props) => {
     const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
     const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
     const [showAddToAlbum, setShowAddToAlbum] = useState(false);
+    const { toggleFavorites } = useFavorite();
 
     const createMenuItems = () => {
         const addToPlaylist = {
@@ -127,6 +129,7 @@ export const MusicBox = (props) => {
         const removeFromFavorite = {
             name: "Remove from favorites",
             onClick: () => {
+                toggleFavorites(props.data.id);
                 if (props.onRemove) {
                     props.onRemove();
                 }

@@ -1,39 +1,39 @@
 import React, { useEffect } from 'react';
-import './MainPage.css'; // Import the CSS file for styling
-import '../Global.css';
-import Sidebar from './Sidebar';
-import HomePage from '../HomePage/HomePage';
-import SearchBar from './SearchBar';
+import { Route, Routes, useLocation } from "react-router-dom";
 import goUpButton from '../../assets/img/component_up.png';
+import { SongService } from '../../services/apiCall/song.js';
+import { autoLogin } from '../../services/loginService.js';
+import { sMainController, sPlaybar } from '../../store.js';
+import AddSongPage from '../AddSongPage/AddSong';
+import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
 import AlbumsPage from '../AlbumsPage/AlbumsPage';
 import AllAlbumsPage from '../AlbumsPage/AllAlbumsPage';
-import { Routes, Route, useLocation } from "react-router-dom";
-import DiscoverPage from '../DiscoverPage/DiscoverPage';
-import { sMainController, sPlaybar } from '../../store.js';
-import ArtistsPage from '../ArtistsPage/ArtistsPage';
-import YourPlaylist from '../YourPlaylistPage/YourPlaylist';
-import PlaylistDetail from '../YourPlaylistPage/PlaylistDetail';
+import AllGenresPage from '../AllGenresPage/AllGenresPage';
+import AllPlaylistsPage from '../AllPlaylistsPage/AllPlaylistsPage';
+import AllSongsPage from '../AllSongsPage/AllSongsPage';
+import YourFavoritesPage from '../AllSongsPage/YourFavoritesPage.jsx';
 import ApprovePage from '../Approve/Approve';
-import AddSongPage from '../AddSongPage/AddSong';
-import LibraryPage from '../LibraryPage/LibraryPage';
+import ArtistDetailPage from '../ArtistsPage/ArtistDetail';
+import ArtistsPage from '../ArtistsPage/ArtistsPage';
+import { sAccessToken } from '../config/store.ts';
 import AboutPage from '../contact/about';
 import PolicyPage from '../contact/policy';
 import SocialMediaPage from '../contact/social_media';
 import SupportPage from '../contact/support';
-import SearchResultsPage from '../SearchResultsPage/SearchResultsPage';
-import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
-import MostPlayedPage from '../MostPlayedPage/MostPlayedPage';
-import Playbar from './Playbar';
-import AllSongsPage from '../AllSongsPage/AllSongsPage';
-import AllPlaylistsPage from '../AllPlaylistsPage/AllPlaylistsPage';
-import PlaylistDetailPage from '../PlaylistDetailPage/PlaylistDetailPage';
-import AllGenresPage from '../AllGenresPage/AllGenresPage';
-import { autoLogin } from '../../services/loginService.js';
-import YourFavoritesPage from '../AllSongsPage/YourFavoritesPage.jsx';
-import { sAccessToken } from '../config/store.ts';
 import { useFavorite } from '../Contexts/FavoriteContext.jsx';
-import { createDemoSongs } from '../../services/demoDataService.js';
-import ArtistDetailPage from '../ArtistsPage/ArtistDetail';
+import DiscoverPage from '../DiscoverPage/DiscoverPage';
+import '../Global.css';
+import HomePage from '../HomePage/HomePage';
+import LibraryPage from '../LibraryPage/LibraryPage';
+import MostPlayedPage from '../MostPlayedPage/MostPlayedPage';
+import PlaylistDetailPage from '../PlaylistDetailPage/PlaylistDetailPage';
+import SearchResultsPage from '../SearchResultsPage/SearchResultsPage';
+import PlaylistDetail from '../YourPlaylistPage/PlaylistDetail';
+import YourPlaylist from '../YourPlaylistPage/YourPlaylist';
+import './MainPage.css'; // Import the CSS file for styling
+import Playbar from './Playbar';
+import SearchBar from './SearchBar';
+import Sidebar from './Sidebar';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
@@ -66,17 +66,21 @@ function MainPage() {
         // handle Content Scroll
         const component = document.getElementById("content-area");
         component.addEventListener('wheel', handleContentScroll, { passive: false });
+        
         // login
         autoLogin();
         // setup Favorites song of user
         if (sAccessToken.value) {
+            const fetchData =  async () => {
+                // load favorite song by API
+                const songData = await SongService.getFavoriteSongs().songs || [];
 
-            // load favorite song by API
-            const songData = createDemoSongs();
-          
-            songData.forEach((song) => {
-              toggleFavorites(song.id);
-            });
+                songData.forEach((song) => {
+                    toggleFavorites(song.id);
+                });
+            }
+
+            fetchData();
         }
     }, [toggleFavorites]);
 

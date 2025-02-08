@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useCallback } from "react";
+import { SongService } from "../../services/apiCall/song";
 
 // 1. Tạo Context
 const FavoriteContext = createContext();
@@ -12,7 +13,13 @@ export const FavoriteProvider = ({ children }) => {
             ...prev,
             [id]: !prev[id] // Đảo trạng thái favorite theo ID
         }));
-    }, []);
+
+        if (favorites[id]) {
+            SongService.addSongToFavorite(id);
+        } else {
+            SongService.removeSongFromFavorite(id);
+        }
+    }, [favorites]);
 
     return (
         <FavoriteContext.Provider value={{ favorites, toggleFavorites }}>
