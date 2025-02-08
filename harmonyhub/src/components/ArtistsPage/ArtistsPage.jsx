@@ -19,7 +19,7 @@ function ArtistsPage() {
         // Call api to get data
         const controller = new AbortController(); 
         const fetchData =  async () => {
-            const dataArtists = await ArtistService.getArtists().artists;
+            const dataArtists = await ArtistService.getArtists().artists || [];
             const popular = dataArtists.length > 20 ? shuffleArray(dataArtists).slice(0, 20) : dataArtists;
             const favorites = dataArtists.length > 20 ? shuffleArray(dataArtists).slice(0, 20) : dataArtists;
 
