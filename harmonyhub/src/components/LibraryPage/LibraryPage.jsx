@@ -84,7 +84,7 @@ export default function LibraryPage() {
                         title={item.name}
                         subtitle={item.artist}
                         boxAlt={sBoxAlts.value.musicBoxInLibrary}
-                        onClick={() => handleOnClickSong(item.id)}
+                        onClick={() => handleOnClickSong(item)}
                     ></MusicBox>
                 )
             )

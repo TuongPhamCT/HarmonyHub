@@ -23,6 +23,7 @@ export const CreateGenre = ({onClose}) => {
         thisRef.current &&
         !thisRef.current.contains(event.target)
       ) {
+        event.stopPropagation();
         onClose();
       }
     };
@@ -52,6 +53,7 @@ export const CreateGenre = ({onClose}) => {
       <TransparentBackground/>
       <div className="create-genre-container"
         ref={thisRef}
+        onClick={(event) => event.stopPropagation()}
       >
         <p id={"create-genre-title"}>New Genre</p>
         <div

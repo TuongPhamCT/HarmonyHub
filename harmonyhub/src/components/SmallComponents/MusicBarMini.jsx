@@ -13,9 +13,9 @@ import { useFavorite } from '../Contexts/FavoriteContext';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
-export default function MusicBar(props) {
+export default function MusicBarMini(props) {
     const { favorites, toggleFavorites } = useFavorite();
-    const favorToggle = favorites[(props.data.id || 0)] || false;
+    const favorToggle = favorites[props.data.id] || false;
     const [showMenu, setShowMenu] = useState(false);
     const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
     const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
@@ -63,22 +63,15 @@ export default function MusicBar(props) {
 
     return (
         <div id="musicbar-wrapper" onClick={props.onClick || (() => {})}>
-            <p id="musicbar-header" style={{width: props.headerWidth || "fit-content"}}>{props.header || "#"}</p>
-            <div id="musicbar-container">
-                <div id="musicbar-music-wrapper">
+            <div id="musicbar-container" style={{background: props.active ? "#750a4e" : "transparent"}}>
+                <div id="musicbar-music-wrapper-mini">
                     <img src={props.image || item_placeholder} alt="" onError={handleError} id="musicbar-image"></img>
                     <div id="musicbar-title-wrapper">
                         <p id="musicbar-title">{props.title || "Music Title"}</p>
                         <p id="musicbar-subtitle">{props.subtitle || "Artists"}</p>
                     </div>
                 </div>
-                <div id="musicbar-release-date">
-                    <p>{props.releaseDate || "MM dd, yyyy"}</p>
-                </div>
-                <div id="musicbar-album">
-                    <p>{props.played || (props.album || "-")}</p>
-                </div>
-                <div id="musicbar-favorite">
+                <div id="musicbar-favorite-mini">
                     {
                         ssPrivilege.value.includes(2) === true ?
                             <img id="musicbar-button-favor" src={favorToggle ? button_love_on : button_love_off }
@@ -87,10 +80,7 @@ export default function MusicBar(props) {
                             null
                     }
                 </div>
-                <div id="musicbar-time">
-                    <p>{props.time || "-:-"}</p>
-                </div>
-                <div id="musicbar-more">
+                <div id="musicbar-more-mini">
                     {
                         ssPrivilege.value.includes(2) === true ?
                             <img

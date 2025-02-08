@@ -35,6 +35,7 @@ export const EditAlbum = ({data, onClose, onUpdate}) => {
         thisRef.current &&
         !thisRef.current.contains(event.target)
       ) {
+        event.stopPropagation();
         onClose();
       }
     };
@@ -64,6 +65,7 @@ export const EditAlbum = ({data, onClose, onUpdate}) => {
       <TransparentBackground/>
       <div className="create-album-container"
         ref={thisRef}
+        onClick={(event) => event.stopPropagation()}
       >
         <p id={"create-album-title"}>Edit Album</p>
 

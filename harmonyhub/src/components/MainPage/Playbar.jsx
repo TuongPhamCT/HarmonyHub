@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import './Playbar.css';
-import { convertIntToTime } from './services/playbarServices';
+import { convertIntToTime, handleNextButton, handlePreviousButton, handleToggleShuffle } from './services/playbarServices';
 
 import item_placeholder from '../../assets/img/placeholder_disc.png';
 import love_off from '../../assets/img/playbar/playbar-love-off.png';
@@ -19,16 +19,22 @@ import speaker_off from '../../assets/img/playbar/playbar-speaker-off.png';
 import speaker_on from '../../assets/img/playbar/playbar-speaker-on.png';
 import play from '../../assets/img/playbar/playbar-play.png';
 import pause from '../../assets/img/playbar/playbar-pause.png';
+import playlist from '../../assets/img/playbar/playbar-playlist.png'
+import playlist_active from '../../assets/img/playbar/playbar-playlist-active.png'
 import { PlaybarLyric } from './partials/playbarLyric';
 import { sPlaybar, sUser } from '../../store';
 import { AddToPlaylist } from '../SmallComponents/partials/AddToPlaylist';
 import { CreatePlaylist } from '../SmallComponents/partials/CreatePlaylist';
 import { toggleMainContentScroll } from './services/contentAreaServices';
 import { ItemDropDownMenu } from '../SmallComponents/partials/ItemDropDown';
+import { PlaybarPlaylist } from './partials/playbarPlaylist';
+import { useFavorite } from '../Contexts/FavoriteContext';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
 export default function Playbar() {
+  const { favorites, toggleFavorites } = useFavorite();
+  const favorToggle = favorites[sPlaybar.value.playingSong ? sPlaybar.value.playingSong.id : -1] || false;
   const audioRef = useRef(null); // Tham chiếu đến thẻ audio
   const [progress, setProgress] = useState(0); // Giá trị tiến độ phát nhạc
   const [duration, setDuration] = useState(0); // Thời lượng tổng của bài hát
@@ -36,15 +42,16 @@ export default function Playbar() {
   const [volume, setVolume] = useState(1); // Giá trị âm lượng (1 là max)
   const [speakerOn, setSpeakerOn] = useState(true);
   const [cacheVolume, setCacheVolume] = useState(1);
-  const [favorToggle, setFavorToggle] = useState(false);
   const [randomToggle, setRandomToggle] = useState(false);
   const [playToggle, setPlayToggle] = useState(false);
   const [repeatToggle, setRepeatToggle] = useState("none");
 
   const [showLyric, setShowLyric] = useState(false);
+  const [showPlaylist, setShowPlaylist] = useState(false);
 
   const [musicTitle, setMusicTitle] = useState("Music Title");
   const [artist, setArtist] = useState("Artist");
+  const [lyric, setLyric] = useState("");
 
   // Cập nhật tiến độ khi nhạc đang phát
   const handleTimeUpdate = () => {
@@ -62,13 +69,25 @@ export default function Playbar() {
 
   // Hàm load audio mới
   const handleLoadAudio = useCallback((song) => {
-    console.log("load song" + song);
+    // console.log(song);
     sPlaybar.set((v) => v.value.playingSong = song);
-  }, []);
+
+    setArtist(song.artist);
+    setMusicTitle(song.name);
+    setAudioSource(song.fileURL);
+    setLyric(song.lyric);
+
+    // handle Shuffle
+    if (randomToggle) {
+      if (!sPlaybar.value.played.some(obj => obj === sPlaybar.value.playingIndex)) {
+        sPlaybar.set((v) => v.value.played = [...v.value.played, sPlaybar.value.playingIndex]);
+      }
+    }
+
+  }, [randomToggle]);
 
   useEffect(() => {
     sPlaybar.set((v) => v.value.loadAudioFunction = handleLoadAudio);
-
   }, [handleLoadAudio]);
 
   const handleSeek = (e) => {
@@ -109,11 +128,13 @@ export default function Playbar() {
       case "all":
         setRepeatToggle("none");
         break;
+      default:
+        break;
     }
   }
 
-  const handleFavorToggle = (value) => {
-    setFavorToggle(value);
+  const handleFavorToggle = () => {
+    toggleFavorites(sPlaybar.value.playingSong.id);
   }
 
   const handleSpeakerToggle = () => {
@@ -127,12 +148,14 @@ export default function Playbar() {
     }
   }
 
-  const handleToggleLyric = () => {
-    setShowLyric(!showLyric);
+  const handleTogglePlaylist = () => {
+    setShowLyric(false);
+    setShowPlaylist(!showPlaylist);
   }
 
-  const getLyric = () => {
-    return "bla bla\nbla bla bla\nbla bla bla\nbla bla\nbla\nbla\nbla";
+  const handleToggleLyric = () => {
+    setShowPlaylist(false);
+    setShowLyric(!showLyric);
   }
 
   const RepeatImage = {
@@ -150,8 +173,8 @@ export default function Playbar() {
   const buttonRef = useRef(null);
 
   const handleOpenMore = () => {
-      toggleMainContentScroll(showMenu);
-      setShowMenu(!showMenu);
+    toggleMainContentScroll(showMenu);
+    setShowMenu(!showMenu);
   }
 
   const handleCloseMore = () => {
@@ -196,12 +219,13 @@ export default function Playbar() {
                 src={favorToggle ? love_on : love_off }
                 className="playbar-button playbar-button-small-size"
                 alt=""
-                onClick={() => handleFavorToggle(!favorToggle)}
+                onClick={() => handleFavorToggle()}
               ></img> : null
           }
           {
             ssPrivilege.value.includes(2) === true ? 
               <img
+                ref={buttonRef}
                 src={ more }
                 className="playbar-button playbar-button-small-size"
                 alt=""
@@ -215,12 +239,16 @@ export default function Playbar() {
             src={ randomToggle ? random_play_on : random_play_off }
             className="playbar-button playbar-button-big-size"
             alt=""
-            onClick={() => setRandomToggle(!randomToggle)}
+            onClick={() => {
+              setRandomToggle(!randomToggle);
+              handleToggleShuffle();
+            }}
           ></img>
           <img
             src={ previous }
             className="playbar-button playbar-button-big-size"
             alt=""
+            onClick={() => handlePreviousButton()}
           ></img>
           <img
             src={ playToggle ? play : pause }
@@ -233,6 +261,7 @@ export default function Playbar() {
             src={ next }
             className="playbar-button playbar-button-big-size"
             alt=""
+            onClick={() => handleNextButton(randomToggle)}
           ></img>
           <img
             src={ RepeatImage[repeatToggle] }
@@ -255,6 +284,12 @@ export default function Playbar() {
         </div>
       </div>
       <div id="playbar-right-container">
+        <img
+          src={ showPlaylist ? playlist_active : playlist }
+          className="playbar-button playbar-button-big-size"
+          alt=""
+          onClick={handleTogglePlaylist}
+        ></img>
         <img
           src={ showLyric ? micro_active : micro }
           className="playbar-button playbar-button-big-size"
@@ -279,39 +314,44 @@ export default function Playbar() {
         />
       </div>
 
-      {
-        showLyric && (
-            <PlaybarLyric lyric={getLyric()}/>
-        )
-      }
 
       {
-          showMenu && (
-              <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={createMenuItems()}/>
-          )
+        showPlaylist && (
+            <PlaybarPlaylist/>
+        )
       }
       {
-          showAddToPlaylist && (
-              <AddToPlaylist
-                  onCreatePlaylist={() => {
-                      setShowCreatePlaylist(!showCreatePlaylist);
-                      setShowAddToPlaylist(!showAddToPlaylist);
-                      toggleMainContentScroll(false);
-                  }}
-                  onClose={() => {
-                      setShowAddToPlaylist(!showAddToPlaylist);
-                      toggleMainContentScroll(true);
-                  }}
-              />
-          )
+        showLyric && (
+            <PlaybarLyric lyric={lyric}/>
+        )
       }
       {
-          showCreatePlaylist && (
-              <CreatePlaylist onClose={() => {
-                  setShowCreatePlaylist(!showCreatePlaylist);
-                  toggleMainContentScroll(true);
-              }} />
-          )
+        showMenu && (
+            <ItemDropDownMenu buttonRef={buttonRef} onClose={handleCloseMore} menuItems={createMenuItems()}/>
+        )
+      }
+      {
+        showAddToPlaylist && (
+            <AddToPlaylist
+                onCreatePlaylist={() => {
+                    setShowCreatePlaylist(!showCreatePlaylist);
+                    setShowAddToPlaylist(!showAddToPlaylist);
+                    toggleMainContentScroll(false);
+                }}
+                onClose={() => {
+                    setShowAddToPlaylist(!showAddToPlaylist);
+                    toggleMainContentScroll(true);
+                }}
+            />
+        )
+      }
+      {
+        showCreatePlaylist && (
+            <CreatePlaylist onClose={() => {
+                setShowCreatePlaylist(!showCreatePlaylist);
+                toggleMainContentScroll(true);
+            }} />
+        )
       }
     </div>
   )

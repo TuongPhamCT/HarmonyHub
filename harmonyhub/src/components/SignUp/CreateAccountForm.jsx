@@ -3,7 +3,7 @@ import InputField from "./InputField";
 import axios from "axios";
 import Alert from "../Utils/Alert/Alert";
 
-function CreateAccountForm() {
+function CreateAccountForm( {handleClose} ) {
   const [alertMessage, setAlertMessage] = useState("");
   const usernameRef = useRef();
   const emailRef = useRef();
@@ -28,6 +28,7 @@ function CreateAccountForm() {
         // Set the alert message
         setAlertMessage(JSON.stringify(responseData.message));
         alertRef.current.showDialog();
+        handleClose();
       }
     } catch (error) {
       console.error("Error:", error);

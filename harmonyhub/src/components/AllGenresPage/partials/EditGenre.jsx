@@ -30,6 +30,7 @@ export const EditGenre = ({data, onClose, onUpdate}) => {
         thisRef.current &&
         !thisRef.current.contains(event.target)
       ) {
+        event.stopPropagation();
         onClose();
       }
     };
@@ -59,6 +60,7 @@ export const EditGenre = ({data, onClose, onUpdate}) => {
       <TransparentBackground/>
       <div className="create-genre-container"
         ref={thisRef}
+        onClick={(event) => event.stopPropagation()}
       >
         <p id={"create-genre-title"}>Edit Genre</p>
 

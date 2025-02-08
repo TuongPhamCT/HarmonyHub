@@ -31,6 +31,9 @@ import PlaylistDetailPage from '../PlaylistDetailPage/PlaylistDetailPage';
 import AllGenresPage from '../AllGenresPage/AllGenresPage';
 import { autoLogin } from '../../services/loginService.js';
 import YourFavoritesPage from '../AllSongsPage/YourFavoritesPage.jsx';
+import { sAccessToken } from '../config/store.ts';
+import { useFavorite } from '../Contexts/FavoriteContext.jsx';
+import { createDemoSongs } from '../../services/demoDataService.js';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
@@ -38,6 +41,7 @@ const ssCanScrollContent = sMainController.slice((n) => n.canScroll);
 
 function MainPage() {
     const { pathname } = useLocation();
+    const {toggleFavorites} = useFavorite();
 
     const handleGoUp = () => {
         const component = document.getElementById("content-area");
@@ -51,22 +55,30 @@ function MainPage() {
         }
     };
 
-    // Avoid Scrolling content
-    useEffect(() => {
-        const component = document.getElementById("content-area");
-        component.addEventListener('wheel', handleContentScroll, { passive: false });
-    }, []);
-
     // tự scroll lên top khi đổi path
     useEffect(() => {
         const component = document.getElementById("content-area");
         component.scrollTo({ top: 0 });
     }, [pathname]);
 
-    // auto login
+    // Initialize
     useEffect(() => {
+        // handle Content Scroll
+        const component = document.getElementById("content-area");
+        component.addEventListener('wheel', handleContentScroll, { passive: false });
+        // login
         autoLogin();
-    }, []);
+        // setup Favorites song of user
+        if (sAccessToken.value) {
+
+            // load favorite song by API
+            const songData = createDemoSongs();
+          
+            songData.forEach((song) => {
+              toggleFavorites(song.id);
+            });
+        }
+    }, [toggleFavorites]);
 
     return (
         <div className="playbar-wrapper">

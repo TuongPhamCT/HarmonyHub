@@ -1,3 +1,4 @@
+import { FavoriteProvider } from "./components/Contexts/FavoriteContext";
 import MainPage from "./components/MainPage/MainPage";
 
 function App() {
@@ -25,7 +26,9 @@ function App() {
       className={`App "bg-black w-screen h-screen"`}
     >
       {/* <SignUp ref={signUpRef} handleClose={hideSignUpModal} /> */}
-      <MainPage />
+      <FavoriteProvider>
+        <MainPage />
+      </FavoriteProvider>
       {/* <button onClick={showSignUpModal}>Show signup Form</button><br></br> */}
     </div>
   );
