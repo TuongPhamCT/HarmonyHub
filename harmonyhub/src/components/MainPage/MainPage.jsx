@@ -41,7 +41,7 @@ const ssCanScrollContent = sMainController.slice((n) => n.canScroll);
 
 function MainPage() {
     const { pathname } = useLocation();
-    const {toggleFavorites} = useFavorite();
+    const { toggleFavorites } = useFavorite();
 
     const handleGoUp = () => {
         const component = document.getElementById("content-area");
@@ -73,9 +73,9 @@ function MainPage() {
 
             // load favorite song by API
             const songData = createDemoSongs();
-          
+
             songData.forEach((song) => {
-              toggleFavorites(song.id);
+                toggleFavorites(song.id);
             });
         }
     }, [toggleFavorites]);
@@ -112,7 +112,7 @@ function MainPage() {
                             <Route path='/artist' element={<ArtistsPage />} />
                             <Route path='/artist/:id' element={<ArtistDetailPage />} />
                             <Route path='/yourplaylist' element={<YourPlaylist />} />
-                            <Route path='/yourplaylist/:playlistId' element={<PlaylistDetail />} />
+                            <Route path='/yourplaylist/:id' element={<PlaylistDetail />} />
                             <Route path='/approve' element={<ApprovePage />} />
                             <Route path='/addsong' element={<AddSongPage />} />
                             <Route path='/library' element={<LibraryPage />} />
@@ -127,7 +127,7 @@ function MainPage() {
                             <Route path='/playlists/:view' element={<AllPlaylistsPage />} />
                             <Route path='/playlist/:playlistId' element={<PlaylistDetailPage />} />
                             <Route path='/genres' element={<AllGenresPage />} />
-                            <Route path='/favorites' element={<YourFavoritesPage/>} />
+                            <Route path='/favorites' element={<YourFavoritesPage />} />
                         </Routes>
                         {/* <sMainController.DevTool name="sMainController"/> */}
                     </div>
