@@ -1,18 +1,18 @@
-import '../../components/Global.css'
-import '../MostPlayedPage/MostPlayedPage.css'
+import '../../components/Global.css';
 import Footer from '../MainPage/Footer';
+import '../MostPlayedPage/MostPlayedPage.css';
 // import ItemBox, { AlbumBox, MvBox } from '../SmallComponents/ItemBox';
 // import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { ToggleButton } from '../SmallComponents/ToggleButton';
 // import { TextButton } from '../SmallComponents/TextButton';
 // import { sComponents } from '../SmallComponents/componentStore';
+import { useEffect, useState } from 'react';
+import { SongService } from '../../services/apiCall/song';
+import { formatDate, getPreviousDate, getToday } from '../../services/formatDateService';
+import { handleOnClickSong } from '../../services/itemOnClickService';
+import { convertIntToTime } from '../MainPage/services/playbarServices';
 import MusicBar from '../SmallComponents/MusicBar';
 import MusicCollection from '../SmallComponents/MusicCollection';
-import { useEffect, useState } from 'react';
-import { createDemoSongs } from '../../services/demoDataService';
-import { formatDate } from '../../services/formatDateService';
-import { convertIntToTime } from '../MainPage/services/playbarServices';
-import { handleOnClickSong } from '../../services/itemOnClickService';
 
 const mostPlayedTabs = [
     { tabName: "Day", path: "day" },
@@ -33,65 +33,90 @@ export default function MostPlayedPage() {
 
     useEffect(() => {
         // call API to get data
-        const dataSongs = createDemoSongs();
+        const controller = new AbortController(); 
+        const fetchData =  async () => {
+            const today = getToday();
+
+            const dayData = await SongService.getMostPlayedSongs({
+                numberOfSongs: 50,
+                startTime: getPreviousDate(1, today),
+                endTime: today, 
+            });
+
+            const weekData = await SongService.getMostPlayedSongs({
+                numberOfSongs: 50,
+                startTime: getPreviousDate(7, today),
+                endTime: today, 
+            });
+
+            const monthData = await SongService.getMostPlayedSongs({
+                numberOfSongs: 50,
+                startTime: getPreviousDate(30, today),
+                endTime: today, 
+            });
+
+            setDaySongs(
+                dayData.map(
+                    (item, index) => (
+                        <MusicBar
+                            key={item.id}
+                            data={item}
+                            headerWidth="10vh"
+                            title={item.name}
+                            subtitle={item.artist}
+                            header={"#" + (index + 1)}
+                            releaseDate={formatDate(item.releaseDate)}
+                            played={item.playCount}
+                            time={convertIntToTime(item.duration)}
+                            onClick={() => handleOnClickSong(item)}
+                        ></MusicBar>
+                    )
+                )
+            );
     
-        setDaySongs(
-            dataSongs.map(
-                (item, index) => (
-                    <MusicBar
-                        key={item.id}
-                        data={item}
-                        headerWidth="10vh"
-                        title={item.name}
-                        subtitle={item.artist}
-                        header={"#" + (index + 1)}
-                        releaseDate={formatDate(item.releaseDate)}
-                        played={item.playCount}
-                        time={convertIntToTime(item.duration)}
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBar>
+            setWeekSongs(
+                weekData.map(
+                    (item, index) => (
+                        <MusicBar
+                            key={item.id}
+                            data={item}
+                            headerWidth="10vh"
+                            title={item.name}
+                            subtitle={item.artist}
+                            header={"#" + (index + 1)}
+                            releaseDate={formatDate(item.releaseDate)}
+                            played={item.playCount}
+                            time={convertIntToTime(item.duration)}
+                            onClick={() => handleOnClickSong(item)}
+                        ></MusicBar>
+                    )
                 )
-            )
-        );
-
-        setWeekSongs(
-            dataSongs.map(
-                (item, index) => (
-                    <MusicBar
-                        key={item.id}
-                        data={item}
-                        headerWidth="10vh"
-                        title={item.name}
-                        subtitle={item.artist}
-                        header={"#" + (index + 1)}
-                        releaseDate={formatDate(item.releaseDate)}
-                        played={item.playCount}
-                        time={convertIntToTime(item.duration)}
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBar>
+            );
+    
+            setMonthSongs(
+                monthData.map(
+                    (item, index) => (
+                        <MusicBar
+                            key={item.id}
+                            data={item}
+                            headerWidth="10vh"
+                            title={item.name}
+                            subtitle={item.artist}
+                            header={"#" + (index + 1)}
+                            releaseDate={formatDate(item.releaseDate)}
+                            played={item.playCount}
+                            time={convertIntToTime(item.duration)}
+                            onClick={() => handleOnClickSong(item)}
+                        ></MusicBar>
+                    )
                 )
-            )
-        );
+            );
+        }
 
-        setMonthSongs(
-            dataSongs.map(
-                (item, index) => (
-                    <MusicBar
-                        key={item.id}
-                        data={item}
-                        headerWidth="10vh"
-                        title={item.name}
-                        subtitle={item.artist}
-                        header={"#" + (index + 1)}
-                        releaseDate={formatDate(item.releaseDate)}
-                        played={item.playCount}
-                        time={convertIntToTime(item.duration)}
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBar>
-                )
-            )
-        );
-
+        fetchData();
+        return () => {
+            controller.abort(); // Cleanup function: hủy request khi component unmount
+        };
     }, []);
 
     const tabs = mostPlayedTabs.map(

@@ -6,8 +6,8 @@ export const handleOnClickAlbum = (nav, albumId) => {
     nav('/albumdetails/' + albumId);
 };
 
-export const handleOnClickSong = (songId) => {
-    handleLoadSongToPlaybar(songId);
+export const handleOnClickSong = (song) => {
+    handleLoadSongToPlaybar(song);
 };
 
 export const handleOnClickArtist = (nav, artistId) => {

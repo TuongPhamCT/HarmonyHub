@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import '../../components/Global.css';
-import './SearchResultsPage.css';
+import { AlbumService } from '../../services/apiCall/album';
+import { ArtistService } from '../../services/apiCall/artist';
+import { SongService } from '../../services/apiCall/song';
+import { handleOnClickAlbum, handleOnClickArtist, handleOnClickPlaylist, handleOnClickSong } from '../../services/itemOnClickService';
 import Footer from '../MainPage/Footer';
 import { AlbumBox, ArtistBox, MusicBox, PlaylistBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { ToggleButton } from '../SmallComponents/ToggleButton';
 import { sComponents } from '../SmallComponents/componentStore';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { handleOnClickAlbum, handleOnClickArtist, handleOnClickPlaylist, handleOnClickSong } from '../../services/itemOnClickService';
-import { createDemoAlbums, createDemoArtists, createDemoPlaylists, createDemoSongs } from '../../services/demoDataService';
+import './SearchResultsPage.css';
+import { checkSearchResult } from './services/checkSearchResultService';
 // import { useEffect } from 'react';
 
 const searchTabs = [
@@ -44,62 +47,80 @@ export default function SearchResultsPage() {
 
     useEffect(() => {
         // use api to get data
-        const dataSongs = createDemoSongs();
-        const dataAlbums = createDemoAlbums();
-        const dataPlaylists = createDemoPlaylists();
-        const dataArtists = createDemoArtists();
-
-        setSongs(
-            dataSongs.map(
-                (item) => (
-                    <MusicBox
-                        key={item.id}
-                        title={item.name}
-                        subtitle={item.artist}
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBox>
+        const controller = new AbortController(); 
+        const fetchData =  async () => {
+            const dataSongs = SongService.getSongs({
+                sortBy: "createdAt",
+                order: "desc"
+            });
+            const dataAlbums = AlbumService.getAlbums();
+            const dataPlaylists = [];
+            const dataArtists = ArtistService.getArtists({
+                sortBy: "name",
+                order: "asc"
+            });
+    
+            setSongs(
+                dataSongs.filter((data) => checkSearchResult(keyword, data.name)).map(
+                    (item) => (
+                        <MusicBox
+                            key={item.id}
+                            title={item.name}
+                            subtitle={item.artist}
+                            data={item}
+                            onClick={() => handleOnClickSong(item)}
+                        ></MusicBox>
+                    )
                 )
-            )
-        );
-
-        setPlaylists(
-            dataPlaylists.map(
-                (item) => (
-                    <PlaylistBox
-                        key={item.id} 
-                        title={item.title}
-                        onClick={() => handleOnClickPlaylist(nav, item.id)}
-                    />
+            );
+    
+            setPlaylists(
+                dataPlaylists.filter((data) => checkSearchResult(keyword, data.title)).map(
+                    (item) => (
+                        <PlaylistBox
+                            key={item.id} 
+                            title={item.title}
+                            data={item}
+                            onClick={() => handleOnClickPlaylist(nav, item.id)}
+                        />
+                    )
+                )        
+            );
+    
+            setAlbums(
+                dataAlbums.filter((data) => checkSearchResult(keyword, data.title)).map(
+                    (item) => (
+                        <AlbumBox
+                            key={item.id}
+                            title={item.title}
+                            data={item}
+                            subtitle={item.description}
+                            onClick={() => handleOnClickAlbum(nav, item.id)}
+                        ></AlbumBox>
+                    )
                 )
-            )        
-        );
-
-        setAlbums(
-            dataAlbums.map(
-                (item) => (
-                    <AlbumBox
-                        key={item.id}
-                        title={item.title}
-                        subtitle={item.description}
-                        onClick={() => handleOnClickAlbum(nav, item.id)}
-                    ></AlbumBox>
+            );
+    
+            setArtists(
+                dataArtists.filter((data) => checkSearchResult(keyword, data.name)).map(
+                    (item) => (
+                        <ArtistBox
+                            key={item.id}
+                            title={item.name}
+                            data={item}
+                            onClick={() => handleOnClickArtist(nav, item.id)}
+                        ></ArtistBox>
+                    )
                 )
-            )
-        );
+            );
+        }
 
-        setArtists(
-            dataArtists.map(
-                (item) => (
-                    <ArtistBox
-                        key={item.id}
-                        title={item.name}
-                        onClick={() => handleOnClickArtist(nav, item.id)}
-                    ></ArtistBox>
-                )
-            )
-        );
+        fetchData();
+        return () => {
+            controller.abort(); // Cleanup function: hủy request khi component unmount
+        };
 
-    }, [nav]);
+    }, [nav, keyword]);
 
     // const videoCollection = demoList.map(
     //     (item, index) => (

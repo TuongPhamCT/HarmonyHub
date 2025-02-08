@@ -1,17 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import '../../components/Global.css';
+import { SongService } from '../../services/apiCall/song';
+import { createDemoAlbums } from '../../services/demoDataService';
+import { handleOnClickAlbum, handleOnClickSong } from '../../services/itemOnClickService';
 import '../LibraryPage/LibraryPage.css';
 import Footer from '../MainPage/Footer';
+import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 import { AlbumBox, MusicBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import { TextButton } from '../SmallComponents/TextButton';
 import { ToggleButton } from '../SmallComponents/ToggleButton';
 import { sBoxAlts, sComponents } from '../SmallComponents/componentStore';
-import { useNavigate } from 'react-router';
-import { handleOnClickAlbum, handleOnClickSong } from '../../services/itemOnClickService';
-import { createDemoAlbums, createDemoSongs } from '../../services/demoDataService';
 import { CreateAlbum } from './partials/CreateAlbum';
-import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 // import { useEffect } from 'react';
 
 const libraryTabs = [
@@ -73,40 +74,50 @@ export default function LibraryPage() {
 
     useEffect(() => {
         // call api to get data
-        const dataSongs = createDemoSongs();
-        const dataAlbums = createDemoAlbums();
-
-        setSongs(
-            dataSongs.map(
-                (item) => (
-                    <MusicBox
-                        key={item.id}
-                        title={item.name}
-                        subtitle={item.artist}
-                        boxAlt={sBoxAlts.value.musicBoxInLibrary}
-                        onClick={() => handleOnClickSong(item)}
-                    ></MusicBox>
+        const controller = new AbortController(); 
+        const fetchData =  async () => {
+            const dataSongs = await SongService.getMySongs({
+                sortBy: "createdAt",
+                order: "desc",
+            });
+            const dataAlbums = createDemoAlbums();
+    
+            setSongs(
+                dataSongs.map(
+                    (item) => (
+                        <MusicBox
+                            key={item.id}
+                            title={item.name}
+                            subtitle={item.artist}
+                            boxAlt={sBoxAlts.value.musicBoxInLibrary}
+                            onClick={() => handleOnClickSong(item)}
+                        ></MusicBox>
+                    )
                 )
-            )
-        );
-
-        setAlbums(
-            dataAlbums.map(
-                (item) => (
-                    <AlbumBox
-                        key={item.id}
-                        title={item.title}
-                        data={item}
-                        subtitle={item.description}
-                        boxAlt={sBoxAlts.value.albumBoxInLibrary}
-                        onClick={() => handleOnClickAlbum(nav, item.id)}
-                        onUpdate={(newItem) => handleUpdateAlbum(newItem, item)}
-                        onRemove={() => handleRemoveAlbum(item.id)}
-                    ></AlbumBox>
+            );
+    
+            setAlbums(
+                dataAlbums.map(
+                    (item) => (
+                        <AlbumBox
+                            key={item.id}
+                            title={item.title}
+                            data={item}
+                            subtitle={item.description}
+                            boxAlt={sBoxAlts.value.albumBoxInLibrary}
+                            onClick={() => handleOnClickAlbum(nav, item.id)}
+                            onUpdate={(newItem) => handleUpdateAlbum(newItem, item)}
+                            onRemove={() => handleRemoveAlbum(item.id)}
+                        ></AlbumBox>
+                    )
                 )
-            )
-        );
+            );
+        }
 
+        fetchData();
+        return () => {
+            controller.abort(); // Cleanup function: hủy request khi component unmount
+        };
     }, [nav, handleRemoveAlbum, handleUpdateAlbum]);
 
     // const videoCollection = demoList.map(

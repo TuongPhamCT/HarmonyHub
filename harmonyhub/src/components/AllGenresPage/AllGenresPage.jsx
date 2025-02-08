@@ -1,18 +1,18 @@
 //import { useParams } from 'react-router';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import '../../components/Global.css';
-import './AllGenresPage.css';
+import { GenreService } from '../../services/apiCall/genre';
+import { handleOnClickGenre } from '../../services/itemOnClickService';
+import { sUser } from '../../store';
 import Footer from '../MainPage/Footer';
+import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 import { sBoxAlts, sComponents } from '../SmallComponents/componentStore';
 import { GenreBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
-import { useCallback, useEffect, useState } from 'react';
-import { handleOnClickGenre } from '../../services/itemOnClickService';
-import { useNavigate } from 'react-router';
-import { createDemoGenres } from '../../services/demoDataService';
 import { TextButton } from '../SmallComponents/TextButton';
-import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
+import './AllGenresPage.css';
 import { CreateGenre } from './partials/CreateGenre';
-import { sUser } from '../../store';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -21,11 +21,12 @@ const AllGenresPage = () => {
     const [genres, setGenres] = useState([]);
     const [showCreateGenre, SetShowCreateGenre] = useState(false);
 
-    const handleRemoveGenre = useCallback((id) => {
+    const handleRemoveGenre = useCallback(async (id) => {
         setGenres((prev) => prev.filter((i) => id !== i.props.data.id));
+        await GenreService.deleteGenre(id);
     }, []);
 
-    const handleUpdateGenre = useCallback((item, oldItem) => {
+    const handleUpdateGenre = useCallback(async (item, oldItem) => {
         const newGenre = 
             <GenreBox
                 key={item.id}
@@ -50,28 +51,46 @@ const AllGenresPage = () => {
             return newArray; // Trả về mảng mới để cập nhật state
         });
 
+        await GenreService.updateGenre(
+            item.id,
+            {
+                name: item.name,
+                image: item.image,
+            }
+        );
+
     }, [nav, handleRemoveGenre]);
 
     useEffect(() => {
         // call api to get genres
-        const dataGenres = createDemoGenres();
+        const controller = new AbortController(); 
+        const fetchData =  async () => {
+            const dataGenres = await GenreService.getGenres({
+                sortBy: "name",
+                order: "asc",
+            });
 
-        setGenres(
-            dataGenres.map(
-                (item) => (
-                    <GenreBox
-                        key={item.id}
-                        title={item.name}
-                        data={item}
-                        image={item.image}
-                        boxAlt={sBoxAlts.value.genreBoxEditable}
-                        onClick={() => handleOnClickGenre(nav, item.id, item.name)}
-                        onUpdate={(newItem) => handleUpdateGenre(newItem, item)}
-                        onRemove={() => handleRemoveGenre(item.id)}
-                    ></GenreBox>           
+            setGenres(
+                dataGenres.map(
+                    (item) => (
+                        <GenreBox
+                            key={item.id}
+                            title={item.name}
+                            data={item}
+                            image={item.image}
+                            boxAlt={sBoxAlts.value.genreBoxEditable}
+                            onClick={() => handleOnClickGenre(nav, item.id, item.name)}
+                            onUpdate={(newItem) => handleUpdateGenre(newItem, item)}
+                            onRemove={() => handleRemoveGenre(item.id)}
+                        ></GenreBox>           
+                    )
                 )
-            )
-        );
+            );
+        }
+        fetchData();
+        return () => {
+            controller.abort(); // Cleanup function: hủy request khi component unmount
+        };
     }, [nav, handleRemoveGenre, handleUpdateGenre]);
 
     return (

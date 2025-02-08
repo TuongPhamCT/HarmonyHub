@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
 import { TextButton } from '../../SmallComponents/TextButton';
+import { AlbumService } from '../../../services/apiCall/album';
+import { getToday } from '../../../services/formatDateService';
 
 export const CreateAlbum = ({onClose}) => {
   const thisRef = useRef(null);
@@ -10,10 +12,16 @@ export const CreateAlbum = ({onClose}) => {
   const [desInputValue, setDesInputValue] = useState("");
   const [allowAdd, setAllowAdd] = useState(false);
   const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  const handleAddAlbum = () => {
-    // Handle create new Genre
+  const handleAddAlbum = async () => {
+    await AlbumService.createAlbum({
+      title: inputValue,
+      description: desInputValue,
+      image: imageFile,
+      releaseDate: getToday(),
+    });
   }
 
   useEffect(() => {
@@ -45,6 +53,7 @@ export const CreateAlbum = ({onClose}) => {
       const file = event.target.files[0];
       if (file) {
         const imageUrl = URL.createObjectURL(file);
+        setImageFile(file);
         setImage(imageUrl);
       }
     };

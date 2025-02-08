@@ -14,31 +14,38 @@ const YourFavoritesPage = () => {
 
     const handleRemoveSongFromFavorite = async (data) => {
         // call api
-
     }
 
     useEffect(() => {
         // call api to get data
-        const dataSongs = createDemoSongs();
+        const controller = new AbortController(); 
+        const fetchData =  async () => {
+            const dataSongs = createDemoSongs();
 
-        setSongs(
-            dataSongs.map(
-                (item) => (
-                    <MusicBox
-                        key={item.id}
-                        title={item.name}
-                        subtitle={item.artist}
-                        data={item}
-                        boxAlt={sBoxAlts.value.musicBoxInFavorites}
-                        onClick={() => handleOnClickSong(item)}
-                        onRemove={async () => {
-                            setSongs((prev) => prev.filter((sSong) => item.id !== sSong.props.data.id));
-                            await handleRemoveSongFromFavorite(item);
-                        }}
-                    ></MusicBox>
+            setSongs(
+                dataSongs.map(
+                    (item) => (
+                        <MusicBox
+                            key={item.id}
+                            title={item.name}
+                            subtitle={item.artist}
+                            data={item}
+                            boxAlt={sBoxAlts.value.musicBoxInFavorites}
+                            onClick={() => handleOnClickSong(item)}
+                            onRemove={async () => {
+                                setSongs((prev) => prev.filter((sSong) => item.id !== sSong.props.data.id));
+                                await handleRemoveSongFromFavorite(item);
+                            }}
+                        ></MusicBox>
+                    )
                 )
-            )
-        );
+            );
+        }
+
+        fetchData();
+        return () => {
+            controller.abort(); // Cleanup function: hủy request khi component unmount
+        };
 
     }, []);
 
