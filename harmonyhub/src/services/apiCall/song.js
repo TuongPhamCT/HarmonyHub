@@ -64,14 +64,14 @@ export class SongService {
     }
   }
 
-  // static deleteSong = async (id) => {
-  //   try {
-  //     const { data } = await axios.delete(`/song/${id}`)
-  //     return data
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  static deleteSong = async (id) => {
+    try {
+      const { data } = await axios.delete(`/song/${id}`)
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   static getSongs = async ({
     page,
@@ -117,31 +117,22 @@ export class SongService {
     }
   }
 
-  // static updateSong = async (id, {
-  //   name,
-  //   genres,
-  //   file,
-  //   image,
-  //   lyric
-  // }) => {
-  //   try {
-  //     if (!name || !genres || !file || !image || !lyric || genres.length < 2) {
-  //       console.log('All fields are required')
-  //       return
-  //     }
-
-  //     const { data } = await axios.patch(`/song/${id}`, {
-  //       name,
-  //       genres,
-  //       file,
-  //       image,
-  //       lyric
-  //     })
-  //     return data
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  static updateSong = async (id, {
+    name,
+    artist,
+    image,
+  }) => {
+    try {
+      const { data } = await axios.patch(`/song/${id}`, {
+        name,
+        artist,
+        image,
+      })
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
 }
