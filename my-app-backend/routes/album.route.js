@@ -26,7 +26,6 @@ router.post(
   upload.fields([{ name: "image", maxCount: 1 }]),
   controller.createAlbum
 );
-
 router.delete("/album/:id", [verifyToken], controller.deleteAlbumById);
 
 router.post("/album/:id/song", [verifyToken], controller.addSongToAlbum);

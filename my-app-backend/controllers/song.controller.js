@@ -275,3 +275,15 @@ module.exports.getMySongs = async (req, res) => {
     });
   }
 };
+
+module.exports.getPlaylistContainSong = async (req, res) => {
+  let songId = req.params.id;
+  try {
+    let playlists = await songService.getPlaylistContainSong(songId);
+    res.json(playlists);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching playlists", error: error.message });
+  }
+};
