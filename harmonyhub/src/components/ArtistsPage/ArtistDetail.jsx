@@ -8,7 +8,6 @@ import ArtistsBanner from './components/ArtistsBanner';
 import { useNavigate, useParams } from 'react-router';
 import { ArtistService } from '../../services/apiCall/artist';
 import { shuffleArray } from '../../services/arrayService';
-import { createDemoAlbums, createDemoPlaylists, createDemoSongs } from '../../services/demoDataService';
 import { formatDate } from '../../services/formatDateService';
 import { handleOnClickAlbum, handleOnClickArtist, handleOnClickPlaylist, handleOnClickSong } from '../../services/itemOnClickService';
 import { navigateToAllAlbums, navigateToAllPlaylists, navigateToAllSongs } from '../../services/navigateService';
@@ -26,6 +25,9 @@ function ArtistDetailPage() {
     const { id } = useParams();
 
     const [artistName, setArtistName] = useState("");
+    const [storedDataSongs, setStoredDataSongs] = useState([]);
+    const [storedDataAlbums, setStoredDataAlbums] = useState([]);
+    const [storedDataPlaylists, setStoredDataPlaylists] = useState([]);
 
     const [popularSongs, setPopularSongs] = useState([]);
     const [artistAlbums, setArtistAlbums] = useState([]);
@@ -40,12 +42,17 @@ function ArtistDetailPage() {
             setArtistName(artist.name);
 
             // api call to get data
-            const dataSongs = createDemoSongs();
+            const dataSongs = artist.popularSongs;
+            setStoredDataSongs(dataSongs);
             let single = dataSongs.length > 6 ? shuffleArray(dataSongs).slice(0, 6) : dataSongs;
-            let popular = dataSongs.sort((a, b) => b.playCount - a.playCount);;
+            let popular = dataSongs.sort((a, b) => b.playCount - a.playCount);
             popular = popular.length > 10 ? popular.slice(0, 10) : popular;
-            const dataAlbums = createDemoAlbums();
-            const dataPlaylists = createDemoPlaylists();
+            let dataAlbums = artist.lastestAlbums;
+            setStoredDataAlbums(dataAlbums);
+            dataAlbums = dataAlbums.length > 6 ? dataAlbums.slice(0, 6) : dataAlbums;
+            let dataPlaylists = artist.lastestPlaylists.filter((v) => v.isPublic);
+            dataPlaylists = dataPlaylists.length > 6 ? dataPlaylists.slice(0, 6) : dataPlaylists;
+            setStoredDataPlaylists(dataPlaylists);
             let dataArtists = await ArtistService.getArtists();
             dataArtists = dataArtists.length > 6 ? shuffleArray(dataArtists).slice(0, 6) : dataArtists; 
 
@@ -150,7 +157,7 @@ function ArtistDetailPage() {
                 itemList={artistAlbums}
                 title={`${artistName}'s`}
                 titleHighlight="Albums"
-                onViewAll={() => {navigateToAllAlbums(nav, "Artist's", "Albums", "artist-albums")}}
+                onViewAll={() => {navigateToAllAlbums(nav, `${artistName}'s`, "Albums", "artist-albums", storedDataAlbums)}}
             ></ItemCollection>
 
             {/* <SingleSong /> */}
@@ -159,7 +166,7 @@ function ArtistDetailPage() {
                 itemList={singleSongs}
                 title="Single"
                 titleHighlight="Songs"
-                onViewAll={() => {navigateToAllSongs(nav, "Artist's", "Songs", "single-songs")}}
+                onViewAll={() => {navigateToAllSongs(nav, `${artistName}'s`, "Songs", "single-songs", storedDataSongs)}}
             ></ItemCollection>
 
             {/* <ArtistsPlaylist /> */}
@@ -168,7 +175,7 @@ function ArtistDetailPage() {
                 itemList={artistPlaylists}
                 title={`${artistName}'s`}
                 titleHighlight="Playlists"
-                onViewAll={() => {navigateToAllPlaylists(nav, "Artist's", "Playlists", "artist-playlists")}}
+                onViewAll={() => {navigateToAllPlaylists(nav, `${artistName}'s`, "Playlists", "artist-playlists", storedDataPlaylists)}}
             ></ItemCollection>
 
             {/* <AlsoListen /> */}

@@ -37,22 +37,22 @@ const HomePage = () => {
                 sortBy: "createdAt",
                 order: "desc",
                 limit: 50,
-            }).songs;
+            }).songs || [];
             setNewReleaseSongsData(
                 fullDataSongs
             );
             const dataSongs = fullDataSongs.length > 6 ? fullDataSongs.slice(0, 6) : fullDataSongs;
-            const dataAlbums = await AlbumService.getRandomAlbums({limit: 6}).albums;
+            const dataAlbums = await AlbumService.getRandomAlbums({limit: 6}).albums || [];
             const dataPlaylists = [];
-            const dataArtists = await ArtistService.getArtists({limit: 6}).artists;
+            const dataArtists = await ArtistService.getArtists({limit: 6}).artists || [];
             const weeklySongs = await SongService.getMostPlayedSongs({
                 numberOfSongs: 6,
                 startTime: getPreviousDate(7, today),
                 endTime: today, 
-            }).songs; 
+            }).songs || []; 
             const trendingSongsData = await SongService.getMostPlayedSongs({
                 numberOfSongs: 6,
-            }).songs;
+            }).songs || [];
 
             setWeeklyTopSongs(
                 weeklySongs.map(
