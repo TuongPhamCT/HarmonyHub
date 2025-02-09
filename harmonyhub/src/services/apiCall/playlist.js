@@ -48,7 +48,7 @@ export class PlaylistService {
     static getMyPlaylists = async () => {
         try {
             const { data } = await axios.get('/my-playlists')
-            return data.playlists;
+            return data;
         } catch (error) {
             console.log(error)
         }
