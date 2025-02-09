@@ -60,7 +60,7 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
-    gap: 1vh;
+    gap: 0.2vh;
 }
 
 #itembox-title-container {
@@ -94,7 +94,7 @@
 #itembox-more-button {
     height: 4vh;
     width: 4vh;
-    margin-right: 2vh;
+    margin-right: 0.2vh;
     padding: 0.2vh;
     border-radius: 50%;
     transition: background-color 1.2s ease;
