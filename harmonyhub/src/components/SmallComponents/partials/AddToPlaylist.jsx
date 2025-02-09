@@ -24,7 +24,7 @@ export const AddToPlaylist = ({data, onCreatePlaylist, onClose}) => {
         playlists.map((item) => ({
           id: item.id,
           name: item.name,
-          isCheck: containerIds.includes(item.id),
+          isChecked: containerIds.includes(item.id),
         }))
       );
     }

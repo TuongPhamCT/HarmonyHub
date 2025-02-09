@@ -49,6 +49,9 @@
 .image-box {
   width: 18vw;
   height: 18vw;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
 }
 
 .audio-box {

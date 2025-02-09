@@ -22,7 +22,7 @@ export const AddToAlbum = ({data, onClose}) => {
           albums.map((item) => ({
             id: item.id,
             name: item.name,
-            isCheck: item.id === data.album_id,
+            isChecked: item.id === data.album_id,
           }))
         );
     }
@@ -57,7 +57,7 @@ export const AddToAlbum = ({data, onClose}) => {
         await AlbumService.removeSongFromAlbum(songAlbumId, data.id);
       }
       setAlbums(
-        (prev) => prev.map((item) => ({...item, isCheck: item.id === albumId}))
+        (prev) => prev.map((item) => ({...item, isChecked: item.id === albumId}))
       );
       await AlbumService.addSongToAlbum(albumId, data.id);
       setSongAlbumId(albumId);
@@ -67,7 +67,7 @@ export const AddToAlbum = ({data, onClose}) => {
         await AlbumService.removeSongFromAlbum(songAlbumId, data.id);
         setSongAlbumId(null);
         setAlbums(
-          (prev) => prev.map((item) => ({...item, isCheck: false}))
+          (prev) => prev.map((item) => ({...item, isChecked: false}))
         );
       }
     }
