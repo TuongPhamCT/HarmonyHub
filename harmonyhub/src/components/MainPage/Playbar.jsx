@@ -22,7 +22,7 @@ import repeat_once from '../../assets/img/playbar/playbar-repeat-once.png';
 import speaker_off from '../../assets/img/playbar/playbar-speaker-off.png';
 import speaker_on from '../../assets/img/playbar/playbar-speaker-on.png';
 import { SongService } from '../../services/apiCall/song';
-import { sPlaybar, sUser } from '../../store';
+import { serverDomain, sPlaybar, sUser } from '../../store';
 import { useFavorite } from '../Contexts/FavoriteContext';
 import { AddToPlaylist } from '../SmallComponents/partials/AddToPlaylist';
 import { CreatePlaylist } from '../SmallComponents/partials/CreatePlaylist';
@@ -77,8 +77,10 @@ export default function Playbar() {
 
     setArtist(song.artist);
     setMusicTitle(song.name);
-    setAudioSource("http://localhost:5000" + song.fileURL);
+    setAudioSource(serverDomain + encodeURI(song.fileURL));
     setLyric(song.lyric);
+
+    console.log(serverDomain + encodeURI(song.fileURL));
 
     // handle Shuffle
     if (randomToggle) {
@@ -87,8 +89,8 @@ export default function Playbar() {
       }
     }
 
-    const response = await SongService.playSong(song.id);
-    console.log(response);
+    await SongService.playSong(song.id);
+    // console.log(response);
 
   }, [randomToggle]);
 
@@ -256,12 +258,10 @@ export default function Playbar() {
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         controls
-      >
-        <source
-          src={audioSource}
-          type="audio/mpeg"
-        />
-      </audio>
+        src={audioSource}
+        type="audio/mpeg"
+        hidden
+      />
       <div id="playbar-left-container">
           <div id="playbar-music-wrapper">
               <img src={item_placeholder} alt="" onError={handleImageError} id="playbar-image"></img>
@@ -308,7 +308,7 @@ export default function Playbar() {
             onClick={() => handlePreviousButton()}
           ></img>
           <img
-            src={ playToggle ? play : pause }
+            src={ playToggle ? pause : play }
             id="playbar-play-button"
             className="playbar-button"
             alt=""
