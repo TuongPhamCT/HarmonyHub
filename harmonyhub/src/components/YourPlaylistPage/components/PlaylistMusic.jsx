@@ -40,14 +40,13 @@ const PlaylistMusic = () => {
     function formatPublicUrl(relativePath) {
         const API_URL = 'http://localhost:5000';
         const cleanPath = relativePath.includes('images') ? relativePath.replace("/public/images", "/song_images") : relativePath.replace("/public/songs", "/songs");
-
         return `${API_URL}${cleanPath}`;
     };
 
     return (
         <div className='bg-[#2596be] w-full'>
             <table className='my-4 mx-auto p-4 border-spacing-y-10 text-center border-separate border-none w-4/5'>
-                <thead className='text-[#0f375a] text-2xl'>
+                <thead className='text-[#18191a] text-2xl'>
                     <tr>
                         <th className='text-center p-4'></th>
                         <th className='text-center p-4 w-60'>Image</th>

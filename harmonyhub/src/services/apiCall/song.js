@@ -13,15 +13,15 @@ export class SongService {
       const formData = new FormData();
       formData.append("name", name);
       formData.append("artist", artist);
-      formData.append("genres", genres);
+      formData.append("lyric", lyric);
       formData.append("file", file);
       formData.append("image", image);
-      formData.append("lyric", lyric);
-
+      // Ensure genres are correctly appended
+      genres.forEach((genre) => {
+        formData.append("genres", genre); // Directly append IDs
+      });
       const { data } = await axios.post('/song', formData, {
-        headers: {
-          "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
-        }
+        headers: { "Content-Type": "multipart/form-data" }
       })
       return data;
     } catch (error) {
@@ -127,7 +127,7 @@ export class SongService {
     try {
       const formData = new FormData();
       if (name) formData.append("name", name);
-      if (artist) formData.append("artist", artist);       
+      if (artist) formData.append("artist", artist);
       if (image) formData.append("image", image); // Gửi file ảnh
 
       const { data } = await axios.patch(`/song/${id}`, formData, {
@@ -177,49 +177,49 @@ export class SongService {
 
   static addSongToFavorite = async (songId) => {
     try {
-        const { data } = await axios.post(`/song/${songId}/favourite`);
-        return data;
+      const { data } = await axios.post(`/song/${songId}/favourite`);
+      return data;
     } catch (error) {
-        console.log(error)
+      console.log(error)
     }
-}
+  }
 
-static removeSongFromFavorite = async (songId) => {
+  static removeSongFromFavorite = async (songId) => {
     try {
-        const { data } = await axios.delete(`/song/${songId}/favourite`);
-        return data;
+      const { data } = await axios.delete(`/song/${songId}/favourite`);
+      return data;
     } catch (error) {
-        console.log(error)
+      console.log(error)
     }
-}
+  }
 
-static getFavoriteSongs = async ({
-  page,
-  limit,
-  sortBy,
-  order,
-  search,
-}) => {
+  static getFavoriteSongs = async ({
+    page,
+    limit,
+    sortBy,
+    order,
+    search,
+  }) => {
     try {
-        if (!page) page = 1;
-        if (!limit) limit = 100;
-        if (!sortBy) sortBy = "name";
-        if (!order) order = "asc";
-        if (!search) search = "";
-        const { data } = await axios.get('/favourite-songs', {
-            params: {
-                page,
-                limit,
-                sortBy,
-                order,
-                search,
-            }
-        })
-        return data.songs;
+      if (!page) page = 1;
+      if (!limit) limit = 100;
+      if (!sortBy) sortBy = "name";
+      if (!order) order = "asc";
+      if (!search) search = "";
+      const { data } = await axios.get('/favourite-songs', {
+        params: {
+          page,
+          limit,
+          sortBy,
+          order,
+          search,
+        }
+      })
+      return data.songs;
     } catch (error) {
-        console.log(error)
+      console.log(error)
     }
-}
+  }
 }
 
 
