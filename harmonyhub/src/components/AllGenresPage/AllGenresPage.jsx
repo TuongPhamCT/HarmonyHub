@@ -27,39 +27,39 @@ const AllGenresPage = () => {
     }, []);
 
     const handleUpdateGenre = useCallback(async (item, oldItem) => {
-        const newGenre = 
-            <GenreBox
-                key={item.id}
-                title={item.name}
-                data={item}
-                image={item.image}
-                boxAlt={sBoxAlts.value.genreBoxEditable}
-                onClick={() => handleOnClickGenre(nav, item.id, item.name)}
-                onUpdate={(newItem) => handleUpdateGenre(newItem, item)}
-                onRemove={() => handleRemoveGenre(item.id)}
-            ></GenreBox>   
+        // const newGenre = 
+        //     <GenreBox
+        //         key={item.id}
+        //         title={item.name}
+        //         data={item}
+        //         image={item.image}
+        //         boxAlt={sBoxAlts.value.genreBoxEditable}
+        //         onClick={() => handleOnClickGenre(nav, item.id, item.name)}
+        //         onUpdate={(newItem) => handleUpdateGenre(newItem, item)}
+        //         onRemove={() => handleRemoveGenre(item.id)}
+        //     ></GenreBox>   
 
-        setGenres((prev) => {
-            const newArray = [...prev]; // Sao chép mảng
-            let targetIndex = 0;
-            newArray.forEach((i, index) => {
-                if (i.props.data.id === oldItem.id) {
-                    targetIndex = index;
-                }
-            });
-            newArray[targetIndex] = newGenre;
-            return newArray; // Trả về mảng mới để cập nhật state
-        });
+        // setGenres((prev) => {
+        //     const newArray = [...prev]; // Sao chép mảng
+        //     let targetIndex = 0;
+        //     newArray.forEach((i, index) => {
+        //         if (i.props.data.id === oldItem.id) {
+        //             targetIndex = index;
+        //         }
+        //     });
+        //     newArray[targetIndex] = newGenre;
+        //     return newArray; // Trả về mảng mới để cập nhật state
+        // });
 
-        await GenreService.updateGenre(
-            item.id,
-            {
-                name: item.name,
-                image: item.image,
-            }
-        );
-
-    }, [nav, handleRemoveGenre]);
+        // await GenreService.updateGenre(
+        //     item.id,
+        //     {
+        //         name: item.name,
+        //         image: item.image,
+        //     }
+        // );
+        window.location.reload();
+    }, []);
 
     useEffect(() => {
         // call api to get genres

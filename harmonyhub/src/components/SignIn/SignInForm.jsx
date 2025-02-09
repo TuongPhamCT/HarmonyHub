@@ -1,14 +1,11 @@
-import React from 'react';
-import InputField from "./InputField";
-import { useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { handleLogin } from '../../services/loginService.js';
-import { useNavigate } from 'react-router';
+import InputField from "./InputField";
 
 function SignInForm({handleClose}) {
-    const nav = useNavigate();
 
     //control value of inputbox
     const [inputValue, setInputValue] = useState({
