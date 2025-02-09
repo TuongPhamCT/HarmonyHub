@@ -31,7 +31,7 @@ const DiscoverPage = () => {
                 sortBy: "createdAt",
                 order: "desc",
                 limit: 50,
-            }).songs || [];
+            }) || [];
             setNewReleaseSongsData(
                 fullDataSongs
             );
@@ -39,17 +39,17 @@ const DiscoverPage = () => {
 
             const fullDataAlbums = await AlbumService.getAlbums({
                 limit: 50
-            }).albums || [];
+            }) || [];
             setTopAlbumsData(fullDataAlbums);
             const dataAlbums = fullDataAlbums.length > 6 ? fullDataAlbums.slice(0, 6) : fullDataAlbums;
             const dataPlaylists = [];
             let dataArtists = await ArtistService.getArtists({
-            }).artists || [];
+            }) || [];
             dataArtists = dataArtists.length > 6 ? shuffleArray(dataArtists).slice(0, 6) : dataArtists;
-            let dataGenres = GenreService.getGenres({
+            let dataGenres = await GenreService.getGenres({
                 sortBy: "name",
                 order: "asc",
-            }).genres || [];
+            }) || [];
             dataGenres = dataGenres.length > 6 ? shuffleArray(dataGenres).slice(0, 6) : dataGenres;
 
             setGenres(

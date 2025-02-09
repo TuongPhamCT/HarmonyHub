@@ -20,7 +20,7 @@ const ApprovePage = () => {
             const songsData = await SongService.getPendingApprovalSongs({
                 sortBy: "createdAt",
                 order: "desc"
-            }).songs || [];
+            }) || [];
 
             setPendingSongs(
                 songsData.map(

@@ -22,8 +22,8 @@ export class GenreService {
                     order,
                     search
                 }
-            })
-            return data
+            });
+            return data.genres;
         } catch (error) {
             console.log(error)
         }
@@ -46,7 +46,7 @@ export class GenreService {
                     "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
                 }
             })
-            return data
+            return data;
         } catch (error) {
             console.log(error)
         }
@@ -55,18 +55,28 @@ export class GenreService {
     static getGenreById = async (id) => {
         try {
             const { data } = await axios.get(`/genre/${id}`)
-            return data
+            return data;
         } catch (error) {
             console.log(error)
         }
     }
 
     static updateGenre = async (id, {
+        name,
         description,
+        image,
     }) => {
         try {
-            const { data } = await axios.patch(`/genre/${id}`, {
-                description,
+            // Tạo FormData để gửi dữ liệu dạng multipart/form-data
+            const formData = new FormData();
+            if (name) formData.append("name", name);
+            if (description) formData.append("description", description);
+            if (image) formData.append("image", image); // Gửi file ảnh
+
+            const { data } = await axios.patch(`/genre/${id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
+                }
             })
             return data
         } catch (error) {

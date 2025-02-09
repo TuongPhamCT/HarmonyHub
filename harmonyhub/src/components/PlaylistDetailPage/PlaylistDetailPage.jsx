@@ -31,7 +31,7 @@ const PlaylistDetailPage = () =>{
                     sortBy: "createdAt",
                     order: "asc"
                 }
-            ).songs || [];
+            ) || [];
  
             const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
     

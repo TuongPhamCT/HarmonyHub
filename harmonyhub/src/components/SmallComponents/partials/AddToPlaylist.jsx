@@ -16,8 +16,8 @@ export const AddToPlaylist = ({data, onCreatePlaylist, onClose}) => {
     
     const controller = new AbortController(); 
     const fetchData =  async () => {
-      const playlists = await PlaylistService.getMyPlaylists().playlists || [];
-      const containers = await PlaylistService.getPlaylistsContainSong(data.id).playlists || [];
+      const playlists = await PlaylistService.getMyPlaylists() || [];
+      const containers = await PlaylistService.getPlaylistsContainSong(data.id) || [];
       const containerIds = containers.map((item) => item.id);
 
       setPlaylists(

@@ -14,12 +14,17 @@ export class SongService {
         return
       }
 
-      const { data } = await axios.post('/song', {
-        name,
-        genres,
-        file,
-        image,
-        lyric
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("genres", genres);
+      formData.append("file", file);
+      formData.append("image", image);
+      formData.append("lyric", lyric);
+
+      const { data } = await axios.post('/song', formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
+        }
       })
       return data
     } catch (error) {
@@ -49,7 +54,7 @@ export class SongService {
           numberOfSongs
         }
       })
-      return data
+      return data.songs;
     } catch (error) {
       console.log(error)
     }
@@ -90,7 +95,7 @@ export class SongService {
           genreId
         }
       })
-      return data
+      return data.songs;
     } catch (error) {
       console.log(error)
     }
@@ -111,7 +116,7 @@ export class SongService {
           order,
         }
       })
-      return data
+      return data.songs;
     } catch (error) {
       console.log(error)
     }
@@ -123,12 +128,17 @@ export class SongService {
     image,
   }) => {
     try {
-      const { data } = await axios.patch(`/song/${id}`, {
-        name,
-        artist,
-        image,
-      })
-      return data
+      const formData = new FormData();
+      if (name) formData.append("name", name);
+      if (artist) formData.append("artist", artist);       
+      if (image) formData.append("image", image); // Gửi file ảnh
+
+      const { data } = await axios.patch(`/song/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
+        }
+      });
+      return data;
     } catch (error) {
       console.log(error)
     }
@@ -208,7 +218,7 @@ static getFavoriteSongs = async ({
                 search,
             }
         })
-        return data
+        return data.songs;
     } catch (error) {
         console.log(error)
     }

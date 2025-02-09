@@ -23,7 +23,7 @@ const AlbumsPage = () => {
         const fetchData = async () => {
             const dataAlbums = await AlbumService.getAlbums({
                 limit: 50
-            }).albums || [];
+            }) || [];
             setAlbumsData(dataAlbums);
 
             setNewReleaseAlbums(

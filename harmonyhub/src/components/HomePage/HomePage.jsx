@@ -38,7 +38,7 @@ const HomePage = () => {
                 sortBy: "createdAt",
                 order: "desc",
                 limit: 50,
-            }).songs || [];
+            }) || [];
             setNewReleaseSongsData(
                 fullDataSongs
             );
@@ -50,12 +50,12 @@ const HomePage = () => {
                 numberOfSongs: 6,
                 startTime: getPreviousDate(7, today),
                 endTime: today,
-            }).songs || [];
+            }) || [];
             const trendingSongsData = await SongService.getMostPlayedSongs({
                 numberOfSongs: 6,
                 startTime: getPreviousDate(7, today),
                 endTime: today,
-            }).songs || [];
+            }) || [];
 
             setWeeklyTopSongs(
                 weeklySongs.map(

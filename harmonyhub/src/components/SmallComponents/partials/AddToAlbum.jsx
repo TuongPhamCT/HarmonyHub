@@ -16,7 +16,7 @@ export const AddToAlbum = ({data, onClose}) => {
     
     const controller = new AbortController(); 
     const fetchData =  async () => {
-        const albums = await AlbumService.getMyAlbums().albums || [];
+        const albums = await AlbumService.getMyAlbums() || [];
         setSongAlbumId(data.album_id);
         setAlbums(
           albums.map((item) => ({
