@@ -46,7 +46,7 @@ const DiscoverPage = () => {
             let dataArtists = await ArtistService.getArtists({
             }) || [];
             dataArtists = dataArtists.length > 6 ? shuffleArray(dataArtists).slice(0, 6) : dataArtists;
-            let dataGenres = GenreService.getGenres({
+            let dataGenres = await GenreService.getGenres({
                 sortBy: "name",
                 order: "asc",
             }) || [];

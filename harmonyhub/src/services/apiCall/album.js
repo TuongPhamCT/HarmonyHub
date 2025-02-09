@@ -29,11 +29,16 @@ export class AlbumService {
         image,
     }) => {
         try {
-            const { data } = await axios.post('/album', {
-                title,
-                releaseDate,
-                description,
-                image,
+            // Tạo FormData để gửi dữ liệu dạng multipart/form-data
+            const formData = new FormData();
+            if (title) formData.append("title", title);
+            if (releaseDate) formData.append("releaseDate", releaseDate);
+            if (description) formData.append("description", description);            
+            if (image) formData.append("image", image); // Gửi file ảnh
+            const { data } = await axios.post('/album', formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
+                }
             })
             return data
         } catch (error) {

@@ -16,7 +16,7 @@ const YourFavoritesPage = () => {
         // call api to get data
         const controller = new AbortController(); 
         const fetchData =  async () => {
-            const dataSongs = await SongService.getFavoriteSongs().songs || [];
+            const dataSongs = await SongService.getFavoriteSongs({}) || [];
 
             setSongs(
                 dataSongs.map(

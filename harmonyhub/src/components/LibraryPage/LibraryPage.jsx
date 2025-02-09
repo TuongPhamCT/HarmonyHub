@@ -85,7 +85,7 @@ export default function LibraryPage() {
                 sortBy: "createdAt",
                 order: "desc",
             }) || [];
-            const dataAlbums = AlbumService.getMyAlbums({
+            const dataAlbums = await AlbumService.getMyAlbums({
                 sortBy: "releaseDate",
                 order: "desc",
             }) || [];
