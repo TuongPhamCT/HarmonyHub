@@ -27,6 +27,14 @@ module.exports.getPlaylistById = async (req, res) => {
       return res.status(404).json({ message: "Playlist not found" });
     }
 
+    const songs = await playlist.getSongs({
+      attributes: ["image"],
+      limit: 1,
+    });
+
+    const playlistImage = songs[0]?.image || null;
+    playlist.dataValues.image = playlistImage;
+
     res.status(200).json(playlist);
   } catch (error) {
     res.status(500).json({
@@ -188,6 +196,15 @@ module.exports.getAllPlaylists = async (req, res) => {
       offset: (page - 1) * limit,
       limit: Number(limit),
     });
+
+    // Add playlist image from first song
+    for (let playlist of playlists) {
+      const songs = await playlist.getSongs({
+        attributes: ["image"],
+        limit: 1,
+      });
+      playlist.dataValues.image = songs[0]?.image || null;
+    }
 
     // Get total count for pagination
     const totalPlaylists = await Playlist.count({
