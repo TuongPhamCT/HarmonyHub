@@ -24,7 +24,7 @@ export const handleOnClickGenre = async (nav, genreId, genreTitle) => {
         sortBy: "createdAt",
         order: "desc",
         genreId: genreId,
-    }).songs || [];
+    }) || [];
     sSongs.set((v) => v.value.songs = songData);
     sSongs.set((v) => v.value.title = genreTitle);
     sSongs.set((v) => v.value.titleHighlight = "");

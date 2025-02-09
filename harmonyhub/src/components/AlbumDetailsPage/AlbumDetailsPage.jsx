@@ -44,6 +44,7 @@ const AlbumDetailsPage = () =>{
                             subtitle={item.artist}
                             header={"#" + (index + 1)}
                             data={item}
+                            image={item.image}
                             releaseDate={formatDate(item.releaseDate)}
                             played={item.playCount}
                             time={convertIntToTime(item.duration)}

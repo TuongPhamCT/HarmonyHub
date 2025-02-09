@@ -23,6 +23,7 @@ const AllSongsPage = () => {
                         key={item.id}
                         title={item.name}
                         subtitle={item.artist}
+                        image={item.image}
                         onClick={() => handleOnClickSong(item)}
                     ></MusicBox>
                 )

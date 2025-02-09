@@ -68,6 +68,7 @@ export default function SearchResultsPage() {
                             title={item.name}
                             subtitle={item.artist}
                             data={item}
+                            image={item.image}
                             onClick={() => handleOnClickSong(item)}
                         ></MusicBox>
                     )
@@ -81,6 +82,7 @@ export default function SearchResultsPage() {
                             key={item.id} 
                             title={item.title}
                             data={item}
+                            image={item.image}
                             onClick={() => handleOnClickPlaylist(nav, item.id)}
                         />
                     )
@@ -95,6 +97,7 @@ export default function SearchResultsPage() {
                             title={item.title}
                             data={item}
                             subtitle={item.description}
+                            image={item.image}
                             onClick={() => handleOnClickAlbum(nav, item.id)}
                         ></AlbumBox>
                     )
@@ -108,6 +111,7 @@ export default function SearchResultsPage() {
                             key={item.id}
                             title={item.name}
                             data={item}
+                            image={item.image}
                             onClick={() => handleOnClickArtist(nav, item.id)}
                         ></ArtistBox>
                     )

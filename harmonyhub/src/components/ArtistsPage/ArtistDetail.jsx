@@ -64,6 +64,7 @@ function ArtistDetailPage() {
                             headerWidth="10vh"
                             title={item.name}
                             subtitle={item.artist}
+                            image={item.image}
                             header={"#" + (index + 1)}
                             data={item}
                             releaseDate={formatDate(item.releaseDate)}
@@ -82,6 +83,7 @@ function ArtistDetailPage() {
                             key={item.id}
                             title={item.title}
                             subtitle={item.description}
+                            image={item.image}
                             onClick={() => handleOnClickAlbum(nav, item.id)}
                         ></AlbumBox>
                     )
@@ -95,6 +97,7 @@ function ArtistDetailPage() {
                             key={item.id}
                             title={item.name}
                             subtitle={item.artist}
+                            image={item.image}
                             onClick={() => handleOnClickSong(item)}
                         ></MusicBox>
                     )
@@ -107,6 +110,7 @@ function ArtistDetailPage() {
                         <PlaylistBox
                             key={item.id} 
                             title={item.title}
+                            image={item.image}
                             onClick={() => handleOnClickPlaylist(nav, item.id)}
                         />
                     )
@@ -119,6 +123,7 @@ function ArtistDetailPage() {
                         <ArtistBox
                             key={item.id}
                             title={item.name}
+                            image={item.image}
                             onClick={() => handleOnClickArtist(nav, item.id)}
                         ></ArtistBox>
                     )

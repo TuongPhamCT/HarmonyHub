@@ -27,7 +27,7 @@ export default function ItemBox(props) {
     const buttonRef = useRef(null);
 
     const handleError = (e) => {
-        console.log("http://localhost:5000" + props.image);
+        console.log("http://localhost:5000" + encodeURI(props.image));
         e.target.onerror = null; // Prevents infinite loop if placeholder fails
         e.target.src = props.imagePlaceholder || item_placeholder; // Placeholder image URL
     };
@@ -55,7 +55,7 @@ export default function ItemBox(props) {
             <div id="itembox-image-container"
                 style={{ width: props.imageWidth, height: props.imageHeight }}
                 className={props.roundImage ? "round" : "square"}>
-                <img src={props.image ? "http://localhost:5000" + props.image : (props.imagePlaceholder || item_placeholder)}
+                <img src={props.image ? "http://localhost:5000" + encodeURI(props.image) : (props.imagePlaceholder || item_placeholder)}
                     alt="" onError={handleError} id="itembox-image"></img>
                 {props.imageTitle ? <p id="itembox-image-title">{props.imageTitle}</p> : null}
             </div>

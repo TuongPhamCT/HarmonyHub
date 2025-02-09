@@ -70,7 +70,9 @@ export default function Playbar() {
 
   // Hàm load audio mới
   const handleLoadAudio = useCallback(async (song) => {
-    
+
+    console.log(song);
+
     sPlaybar.set((v) => v.value.playingSong = song);
 
     setArtist(song.artist);

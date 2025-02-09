@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
 import { TextButton } from '../../SmallComponents/TextButton';
 import { GenreService } from '../../../services/apiCall/genre';
+import { serverDomain } from '../../../store';
 
 export const EditGenre = ({data, onClose, onUpdate}) => {
   const thisRef = useRef(null);
@@ -17,7 +18,6 @@ export const EditGenre = ({data, onClose, onUpdate}) => {
     // Handle create new Genre
     data.name = inputValue;
     data.image = image;
-    onUpdate(data);
 
     await GenreService.updateGenre(
       data.id,
@@ -27,11 +27,13 @@ export const EditGenre = ({data, onClose, onUpdate}) => {
         description: "",
       }
     );
+
+    onUpdate(data);
   }
 
   useEffect(() => {
     setInputValue(data.name);
-    setImage(data.image);
+    setImage(serverDomain + data.image);
 
     const handleClickOutside = (event) => {
       if (
