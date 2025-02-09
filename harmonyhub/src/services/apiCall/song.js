@@ -187,15 +187,15 @@ static removeSongFromFavorite = async (songId) => {
 }
 
 static getFavoriteSongs = async ({
-  page = 1,
-  limit = 10,
-  sortBy = "name",
-  order = "asc",
-  search = "",
+  page,
+  limit,
+  sortBy,
+  order,
+  search,
 }) => {
     try {
         if (!page) page = 1;
-        if (!limit) limit = 1;
+        if (!limit) limit = 100;
         if (!sortBy) sortBy = "name";
         if (!order) order = "asc";
         if (!search) search = "";

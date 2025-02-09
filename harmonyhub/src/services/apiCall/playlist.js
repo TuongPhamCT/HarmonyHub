@@ -24,15 +24,17 @@ export class PlaylistService {
         if (!search) search = ""; 
         try {
             const { data } = await axios.get(`/playlists`, {
-                page,
-                limit,
-                sortBy,
-                order,
-                search,
+                query: {
+                    page,
+                    limit,
+                    sortBy,
+                    order,
+                    search,
+                }
             });
             return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 

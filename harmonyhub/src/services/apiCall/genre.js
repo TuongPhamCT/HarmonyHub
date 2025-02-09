@@ -35,10 +35,16 @@ export class GenreService {
         image
     }) => {
         try {
-            const { data } = await axios.post('/genre', {
-                name,
-                description,
-                image,
+            // Tạo FormData để gửi dữ liệu dạng multipart/form-data
+            const formData = new FormData();
+            if (name) formData.append("name", name);
+            if (description) formData.append("description", description);
+            if (image) formData.append("image", image); // Gửi file ảnh
+
+            const { data } = await axios.post('/genre', formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
+                }
             })
             return data
         } catch (error) {

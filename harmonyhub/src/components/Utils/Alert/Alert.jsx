@@ -9,7 +9,7 @@ const Alert = forwardRef(({ message }, ref) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useImperativeHandle(ref, () => ({
-    showDialog() {
+    async showDialog() {
       setIsVisible(true);
       setTimeout(() => {
         setIsVisible(false);

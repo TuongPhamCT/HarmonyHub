@@ -44,7 +44,7 @@ const HomePage = () => {
             );
             const dataSongs = fullDataSongs.length > 6 ? fullDataSongs.slice(0, 6) : fullDataSongs;
             const dataAlbums = await AlbumService.getRandomAlbums({limit: 6}).albums || [];
-            const dataPlaylists = await PlaylistService.getPlaylists().playlists || [];
+            const dataPlaylists = await PlaylistService.getPlaylists({}).playlists || [];
             const dataArtists = await ArtistService.getArtists({limit: 6}).artists || [];
             const weeklySongs = await SongService.getMostPlayedSongs({
                 numberOfSongs: 6,

@@ -2,7 +2,7 @@ import {signify} from "react-signify";
 
 export const sUser = signify ({
     userName: null,
-    privilege: [0, 1],
+    privilege: [0],
 });
 
 export const sPlaybar = signify ({
