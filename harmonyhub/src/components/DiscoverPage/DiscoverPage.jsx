@@ -11,6 +11,7 @@ import Footer from '../MainPage/Footer';
 import { AlbumBox, ArtistBox, GenreBox, MusicBox, PlaylistBox } from '../SmallComponents/ItemBox';
 import ItemCollection from '../SmallComponents/ItemCollection';
 import './DiscoverPage.css';
+import { PlaylistService } from '../../services/apiCall/playlist';
 
 const DiscoverPage = () => {
     const nav = useNavigate();
@@ -42,10 +43,14 @@ const DiscoverPage = () => {
             }) || [];
             setTopAlbumsData(fullDataAlbums);
             const dataAlbums = fullDataAlbums.length > 6 ? fullDataAlbums.slice(0, 6) : fullDataAlbums;
-            const dataPlaylists = [];
+
+            let dataPlaylists = await PlaylistService.getPlaylists({}) || [];
+            dataPlaylists = dataPlaylists.length > 6 ? shuffleArray(dataPlaylists).slice(0, 6) : dataPlaylists;
+
             let dataArtists = await ArtistService.getArtists({
             }) || [];
             dataArtists = dataArtists.length > 6 ? shuffleArray(dataArtists).slice(0, 6) : dataArtists;
+            
             let dataGenres = await GenreService.getGenres({
                 sortBy: "name",
                 order: "asc",

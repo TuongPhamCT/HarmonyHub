@@ -22,8 +22,6 @@ const ApprovePage = () => {
                 order: "desc"
             }) || [];
 
-            console.log(songsData);
-
             setPendingSongs(
                 songsData.map(
                     (item, index) => (
