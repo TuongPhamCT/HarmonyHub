@@ -122,7 +122,7 @@ export default function LibraryPage() {
                             image={item.image}
                             subtitle={item.description}
                             boxAlt={sBoxAlts.value.albumBoxInLibrary}
-                            onClick={() => handleOnClickAlbum(nav, item.id)}
+                            onClick={() => handleOnClickAlbum(nav, item.id, true)}
                             onUpdate={(newItem) => handleUpdateAlbum(newItem, item)}
                             onRemove={() => handleRemoveAlbum(item.id)}
                         ></AlbumBox>
