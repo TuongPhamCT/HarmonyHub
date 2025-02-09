@@ -488,3 +488,51 @@ module.exports.getFavouriteSongs = async (req, res) => {
     });
   }
 };
+
+module.exports.getSongsByUserId = async (req, res) => {
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = "name",
+      order = "asc",
+      search = "",
+    } = req.query;
+
+    const userId = req.params.userId;
+
+    // Create a regex for case-insensitive search
+    const searchRegex = `%${search}%`;
+
+    // Base where condition
+    const whereCondition = {
+      name: {
+        [Op.iLike]: searchRegex,
+      },
+      post_user_id: userId,
+    };
+
+    // Find songs with search, sorting, pagination, and optional genre filtering
+    const songs = await Song.findAll({
+      where: whereCondition,
+      order: [[sortBy, order.toUpperCase()]],
+      offset: (page - 1) * limit,
+      limit: Number(limit),
+    });
+
+    // Get total count for pagination with genre filtering
+    const totalSongs = await Song.count({
+      where: whereCondition,
+    });
+
+    res.status(200).send({
+      songs,
+      totalPages: Math.ceil(totalSongs / limit),
+      currentPage: Number(page),
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Some error occurred while retrieving songs.",
+    });
+  }
+};

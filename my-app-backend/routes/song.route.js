@@ -7,7 +7,7 @@ const { verifyToken, isAdmin } = require("../middleware/authjwt.middleware");
 // Configure multer storage with custom filename
 var songFileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/songs/"); // Path to save song files 
+    cb(null, "public/songs/"); // Path to save song files
   },
   filename: function (req, file, cb) {
     var uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -73,6 +73,7 @@ router.patch(
   controller.approveSongById
 );
 router.get("/my-songs", [verifyToken], controller.getMySongs);
+router.get("/user/:userId/songs", controller.getSongsByUserId);
 router.get("/favourite-songs", [verifyToken], controller.getFavouriteSongs);
 router.delete("/song/:id", [verifyToken], controller.deleteSongById);
 router.patch(
