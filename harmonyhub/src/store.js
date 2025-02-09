@@ -11,12 +11,15 @@ export const sPlaybar = signify ({
     loadAudioFunction: null,
     updatePlaylistFunction: null,
     clearPlaybarFunction: null,
+    stopPlaybarFunction: null,
+    replayPlaybarFunction: null,
     playlist: [],
     played: [],
     playingIndex: 0,
     repeat: 0,
     playlistId: null,
     albumId: null,
+    storedRandomSongs: [],
 });
 
 export const sMainController = signify ({

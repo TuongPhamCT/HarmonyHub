@@ -12,7 +12,7 @@ import { useFavorite } from '../Contexts/FavoriteContext';
 
 const YourFavoritesPage = () => {
     const [songs, setSongs] = useState([]);
-    const { favorites } = useFavorite();
+    const { favorites, toggleFavorites } = useFavorite();
 
     useEffect(() => {
         // call api to get data
@@ -45,7 +45,7 @@ const YourFavoritesPage = () => {
             controller.abort(); // Cleanup function: hủy request khi component unmount
         };
 
-    }, [favorites]);
+    }, [favorites, toggleFavorites]);
 
     return (
         <div id="all-songs-page">

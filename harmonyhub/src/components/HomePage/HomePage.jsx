@@ -148,6 +148,7 @@ const HomePage = () => {
                             key={item.id}
                             title={item.title}
                             data={item}
+                            image={item.image}
                             onClick={() => handleOnClickPlaylist(nav, item.id, item.title, false)}
                         />
                     )
