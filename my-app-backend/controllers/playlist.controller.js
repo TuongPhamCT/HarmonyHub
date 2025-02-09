@@ -58,7 +58,7 @@ module.exports.deletePlaylistById = async (req, res) => {
 
 module.exports.addSongToPlaylist = async (req, res) => {
   const playlistId = req.params.id;
-  const { songId } = req.body;
+  const songId = req.params.songId;
   const userId = req.userId;
   try {
     const result = await playlistService.addSongToPlaylist(
@@ -203,5 +203,26 @@ module.exports.getAllPlaylists = async (req, res) => {
       message:
         error.message || "Some error occurred while retrieving playlists.",
     });
+  }
+};
+
+module.exports.getPlaylistImageById = async (req, res) => {
+  try {
+    const playlist = await Playlist.findByPk(req.params.id);
+
+    if (!playlist) {
+      return res.status(404).json({ message: "Playlist not found" });
+    }
+
+    const songs = await playlist.getSongs({
+      attributes: ["image"],
+      limit: 1,
+    });
+
+    const playlistImage = songs[0]?.image || null;
+
+    res.json({ image: playlistImage });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

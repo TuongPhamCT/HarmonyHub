@@ -57,7 +57,7 @@ module.exports.createSong = async (req, res) => {
       name: songName,
       artist: artist,
       fileURL: `/public/songs/${songFile.filename}`,
-      image: `/public/images/${songImage.filename}`,
+      image: `/public/song_images/${songImage.filename}`,
       duration: duration,
       lyric: lyric,
       createdAt: new Date(),
