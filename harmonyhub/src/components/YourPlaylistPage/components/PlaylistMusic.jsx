@@ -43,17 +43,19 @@ const PlaylistMusic = () => {
         return `${API_URL}${cleanPath}`;
     };
 
+    console.log(songs)
+
     return (
-        <div className='bg-[#2596be] w-full'>
-            <table className='my-4 mx-auto p-4 border-spacing-y-10 text-center border-separate border-none w-4/5'>
+        <div className='bg-[linear-gradient(45deg,#144E92,#1D272D)] w-full'>
+            <table className='mx-auto p-4 border-spacing-y-10 text-center border-separate border-none w-4/5'>
                 <thead className='text-[#18191a] text-2xl'>
                     <tr>
-                        <th className='text-center p-4'></th>
-                        <th className='text-center p-4 w-60'>Image</th>
-                        <th className='text-center p-4 w-60'>Realease Date</th>
-                        <th className='text-center p-4'>Album</th>
-                        <th className='text-center p-4'>Duration</th>
-                        <th className='text-center p-4'>Action</th>
+                        <th className='text-center p-4 text-white'></th>
+                        <th className='text-center p-4 w-60 text-white'>Image</th>
+                        <th className='text-center p-4 w-60 text-white'>Realease Date</th>
+                        <th className='text-center p-4 text-white'>Album</th>
+                        <th className='text-center p-4 text-white'>Duration</th>
+                        <th className='text-center p-4 text-white'>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,7 +64,7 @@ const PlaylistMusic = () => {
                             className="bg-[#1E1E1E] hover:bg-gray-700 transition-all duration-300 ease-in-out"
                             onClick={() => handleRowClick(formatPublicUrl(song.fileURL))} // Clicking the row plays the song
                         >
-                            <td className="text-center px-4 bg-[#2596be] font-bold text-3xl">{index + 1}</td>
+                            <td className="text-center px-4 font-bold text-3xl">{index + 1}</td>
                             <td className="text-left flex justify-start items-center">
                                 <img className="w-16 h-16 mr-4 rounded" src={formatPublicUrl(song.image)} alt="" />
                                 <div className="flex flex-col">
