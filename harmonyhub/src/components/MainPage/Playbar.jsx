@@ -71,8 +71,7 @@ export default function Playbar() {
 
   // Hàm load audio mới
   const handleLoadAudio = useCallback(async (song) => {
-
-    console.log(song);
+    const firstOpen = !audioSource || audioSource.length === 0;
 
     sPlaybar.set((v) => v.value.playingSong = song);
 
@@ -82,8 +81,6 @@ export default function Playbar() {
     setLyric(song.lyric);
     setImage(serverDomain + encodeURI(song.image));
 
-    console.log(serverDomain + encodeURI(song.fileURL));
-
     // handle Shuffle
     if (randomToggle) {
       if (!sPlaybar.value.played.some(obj => obj === sPlaybar.value.playingIndex)) {
@@ -91,10 +88,15 @@ export default function Playbar() {
       }
     }
 
+    if (firstOpen) {
+      audioRef.current.play();
+      setPlayToggle(true);
+    }
+
     await SongService.playSong(song.id);
     // console.log(response);
 
-  }, [randomToggle]);
+  }, [randomToggle, audioSource]);
 
   // hàm dọn dẹp playbar khi rỗng
   const handleClearPlaybar = useCallback(() => {

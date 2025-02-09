@@ -8,7 +8,7 @@ import { ItemDropDownMenu } from './partials/ItemDropDown';
 import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 import { AddToPlaylist } from './partials/AddToPlaylist';
 import { CreatePlaylist } from './partials/CreatePlaylist';
-import { sUser } from '../../store';
+import { serverDomain, sUser } from '../../store';
 import { useFavorite } from '../Contexts/FavoriteContext';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
@@ -65,7 +65,7 @@ export default function MusicBarMini(props) {
         <div id="musicbar-wrapper" onClick={props.onClick || (() => {})}>
             <div id="musicbar-container" style={{background: props.active ? "#750a4e" : "transparent"}}>
                 <div id="musicbar-music-wrapper-mini">
-                    <img src={props.image || item_placeholder} alt="" onError={handleError} id="musicbar-image"></img>
+                    <img src={props.image ? (serverDomain + encodeURI(props.image)) : item_placeholder} alt="" onError={handleError} id="musicbar-image"></img>
                     <div id="musicbar-title-wrapper">
                         <p id="musicbar-title">{props.title || "Music Title"}</p>
                         <p id="musicbar-subtitle">{props.subtitle || "Artists"}</p>

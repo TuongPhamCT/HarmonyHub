@@ -6,7 +6,7 @@ import artist_placeholder from '../../assets/img/placeholder/placeholder_artist.
 import genre_placeholder from '../../assets/img/placeholder/placeholder_genre.png';
 import playlist_placeholder from '../../assets/img/placeholder/placeholder_playlist.png';
 import item_placeholder from '../../assets/img/placeholder_disc.png';
-import { sUser } from '../../store';
+import { serverDomain, sUser } from '../../store';
 import { EditGenre } from '../AllGenresPage/partials/EditGenre';
 import { EditAlbum } from '../LibraryPage/partials/EditAlbum';
 import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
@@ -56,7 +56,7 @@ export default function ItemBox(props) {
             <div id="itembox-image-container"
                 style={{ width: props.imageWidth, height: props.imageHeight }}
                 className={props.roundImage ? "round" : "square"}>
-                <img src={props.image ? "http://localhost:5000" + encodeURI(props.image) : (props.imagePlaceholder || item_placeholder)}
+                <img src={props.image ? serverDomain + encodeURI(props.image) : (props.imagePlaceholder || item_placeholder)}
                     alt="" onError={handleError} id="itembox-image"></img>
                 {props.imageTitle ? <p id="itembox-image-title">{props.imageTitle}</p> : null}
             </div>
