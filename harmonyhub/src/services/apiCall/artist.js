@@ -24,7 +24,7 @@ export class ArtistService {
                     search
                 }
             })
-            return data
+            return data.artists;
         } catch (error) {
             console.log(error)
         }
@@ -33,9 +33,9 @@ export class ArtistService {
     static getArtistById = async (id) => {
         try {
             const { data } = await axios.get(`/artist/${id}`)
-            return data
+            return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 

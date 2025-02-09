@@ -30,7 +30,7 @@ const AddSongPage = () => {
                 const dataGenres = await GenreService.getGenres({
                     sortBy: "name",
                     order: "asc",
-                }).genres || [];
+                }) || [];
     
                 setAllGenres(
                     dataGenres

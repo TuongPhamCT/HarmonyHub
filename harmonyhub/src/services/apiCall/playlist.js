@@ -24,15 +24,13 @@ export class PlaylistService {
         if (!search) search = ""; 
         try {
             const { data } = await axios.get(`/playlists`, {
-                query: {
-                    page,
-                    limit,
-                    sortBy,
-                    order,
-                    search,
-                }
+                page,
+                limit,
+                sortBy,
+                order,
+                search,
             });
-            return data;
+            return data.playlists;
         } catch (error) {
             console.log(error);
         }
@@ -41,7 +39,7 @@ export class PlaylistService {
     static getPlaylistsContainSong = async (id) => {
         try {
             const { data } = await axios.get(`/song/${id}/playlists`);
-            return data;
+            return data.playlists;
         } catch (error) {
             console.log(error)
         }
@@ -50,7 +48,7 @@ export class PlaylistService {
     static getMyPlaylists = async () => {
         try {
             const { data } = await axios.get('/my-playlists')
-            return data
+            return data.playlists;
         } catch (error) {
             console.log(error)
         }
@@ -135,7 +133,7 @@ export class PlaylistService {
                     order,
                 }
             })
-            return data
+            return data.playlists;
         } catch (error) {
             console.log(error)
         }

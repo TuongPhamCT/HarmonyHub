@@ -49,16 +49,16 @@ export default function SearchResultsPage() {
         // use api to get data
         const controller = new AbortController(); 
         const fetchData =  async () => {
-            const dataSongs = SongService.getSongs({
+            const dataSongs = await SongService.getSongs({
                 sortBy: "createdAt",
                 order: "desc"
-            }).songs || [];
-            const dataAlbums = AlbumService.getAlbums().albums || [];
+            }) || [];
+            const dataAlbums = await AlbumService.getAlbums() || [];
             const dataPlaylists = [];
-            const dataArtists = ArtistService.getArtists({
+            const dataArtists = await ArtistService.getArtists({
                 sortBy: "name",
                 order: "asc"
-            }).artists || [];
+            }) || [];
     
             setSongs(
                 dataSongs.filter((data) => checkSearchResult(keyword, data.name)).map(

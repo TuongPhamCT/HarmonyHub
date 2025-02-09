@@ -84,11 +84,11 @@ export default function LibraryPage() {
             const dataSongs = await SongService.getMySongs({
                 sortBy: "createdAt",
                 order: "desc",
-            }).songs || [];
+            }) || [];
             const dataAlbums = AlbumService.getMyAlbums({
                 sortBy: "releaseDate",
                 order: "desc",
-            }).albums || [];
+            }) || [];
     
             setSongs(
                 dataSongs.map(

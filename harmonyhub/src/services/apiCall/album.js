@@ -16,7 +16,7 @@ export class AlbumService {
                     limit,
                 }
             })
-            return data
+            return data.albums;
         } catch (error) {
             console.log(error)
         }
@@ -45,11 +45,19 @@ export class AlbumService {
         title,
         releaseDate,
         description,
-        image
+        image,
     }) => {
         try {
-            const { data } = await axios.patch(`/album/${id}`, {
-
+            // Tạo FormData để gửi dữ liệu dạng multipart/form-data
+            const formData = new FormData();
+            if (title) formData.append("title", title);
+            if (releaseDate) formData.append("releaseDate", releaseDate);
+            if (description) formData.append("description", description);            
+            if (image) formData.append("image", image); // Gửi file ảnh
+            const { data } = await axios.patch(`/album/${id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
+                }
             })
             return data;
         } catch (error) {
@@ -59,8 +67,8 @@ export class AlbumService {
 
     static getAlbumById = async (id) => {
         try {
-            const { data } = await axios.get(`/album/${id}`)
-            return data
+            const { data } = await axios.get(`/album/${id}`);
+            return data;
         } catch (error) {
             console.log(error)
         }
@@ -89,18 +97,18 @@ export class AlbumService {
                     search
                 }
             })
-            return data
+            return data.albums;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
     static deleteAlbum = async (id) => {
         try {
-            const { data } = await axios.delete(`/album/${id}`)
-            return data
+            const { data } = await axios.delete(`/album/${id}`);
+            return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
@@ -109,9 +117,9 @@ export class AlbumService {
             const { data } = await axios.post(`/album/${albumId}/song/`, {
                 songId
             })
-            return data
+            return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
@@ -119,10 +127,10 @@ export class AlbumService {
         try {
             const { data } = await axios.delete(`/album/${albumId}/song`, {
                 songId
-            })
-            return data
+            });
+            return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
@@ -133,9 +141,9 @@ export class AlbumService {
                     limit
                 }
             })
-            return data
+            return data.albums;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 }
