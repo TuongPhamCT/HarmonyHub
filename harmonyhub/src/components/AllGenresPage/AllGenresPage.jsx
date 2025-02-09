@@ -70,8 +70,6 @@ const AllGenresPage = () => {
                 order: "asc",
             }) || [];
 
-            console.log(dataGenres);
-
             setGenres(
                 dataGenres.map(
                     (item) => (
