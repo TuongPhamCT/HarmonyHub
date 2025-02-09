@@ -44,16 +44,21 @@ function ArtistDetailPage() {
             // api call to get data
             const dataSongs = artist.popularSongs;
             setStoredDataSongs(dataSongs);
+            
             let single = dataSongs.length > 6 ? shuffleArray(dataSongs).slice(0, 6) : dataSongs;
+            
             let popular = dataSongs.sort((a, b) => b.playCount - a.playCount);
             popular = popular.length > 10 ? popular.slice(0, 10) : popular;
+            
             let dataAlbums = artist.lastestAlbums;
             setStoredDataAlbums(dataAlbums);
             dataAlbums = dataAlbums.length > 6 ? dataAlbums.slice(0, 6) : dataAlbums;
+            
             let dataPlaylists = artist.lastestPlaylists.filter((v) => v.isPublic);
             dataPlaylists = dataPlaylists.length > 6 ? dataPlaylists.slice(0, 6) : dataPlaylists;
             setStoredDataPlaylists(dataPlaylists);
-            let dataArtists = await ArtistService.getArtists();
+
+            let dataArtists = await ArtistService.getArtists({});
             dataArtists = dataArtists.length > 6 ? shuffleArray(dataArtists).slice(0, 6) : dataArtists; 
 
             setPopularSongs(
@@ -68,7 +73,7 @@ function ArtistDetailPage() {
                             header={"#" + (index + 1)}
                             data={item}
                             releaseDate={formatDate(item.createdAt)}
-                            usePlayedCount={item.playCount}
+                            played={item.playCount}
                             time={convertIntToTime(item.duration)}
                             onClick={() => handleOnClickSong(nav, item.id)}
                         ></MusicBar>
@@ -145,7 +150,7 @@ function ArtistDetailPage() {
         <div className='h-full mt-[8vh] mx-9 flex flex-col gap-10 bg-black'>
             <ArtistsBanner name={artistName} />
             {/* <PopularMusic /> */}
-
+            <br></br>
             <MusicCollection
                 musicList={popularSongs}
                 title="Popular"
