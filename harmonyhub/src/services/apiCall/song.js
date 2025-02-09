@@ -160,7 +160,7 @@ export class SongService {
           order
         }
       });
-      return data;
+      return data.songs;
     } catch (error) {
       console.log(error);
     }
