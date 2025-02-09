@@ -100,30 +100,7 @@ module.exports.playSongById = async (req, res) => {
   song.playCount += 1;
   await song.save();
 
-  const CHUNK_SIZE = 10 ** 6 / 2;
-
-  const range = req.headers.range || "0";
-
-  const songPath = path.join(__dirname, "..", song.fileURL);
-
-  const audioSize = statSync(songPath).size;
-
-  const start = Number(range.replace(/\D/g, ""));
-  const end = Math.min(start + CHUNK_SIZE, audioSize - 1);
-  const contentLength = end - start + 1;
-
-  const headers = {
-    "Content-Range": `bytes ${start}-${end}/${audioSize}`,
-    "Accept-Ranges": "bytes",
-    "Content-Length": contentLength,
-    "Content-Type": "audio/mpeg",
-    "Transfer-Encoding": "chunked",
-  };
-
-  res.writeHead(206, headers);
-
-  const stream = createReadStream(songPath, { start, end });
-  stream.pipe(res);
+  return res.status(200).json({ message: "Song play history stored" });
 };
 
 module.exports.getMostPlaySongs = async (req, res) => {
