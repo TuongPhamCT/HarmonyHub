@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import album from '../../assets/img/placeholder_disc.png';
+import playlist_placeholder from '../../assets/img/placeholder/placeholder_playlist.png';
 import playBTN from '../../assets/img/play_music.png';
 import '../../components/Global.css';
 import { PlaylistService } from '../../services/apiCall/playlist';
@@ -85,7 +85,7 @@ const PlaylistDetailPage = () =>{
                 <div id="app_bar">
                     <div id="app_bar_content">
                         
-                        <img src={album} id="playlist_img" alt=''></img>
+                        <img src={playlist_placeholder} id="playlist_img" alt=''></img>
                         <div className="playlist-text">
                             <p className="playlist-title">{title} {/*<span className="pink">Mix</span>*/}</p>
                             <div className="playlist-desscription">
@@ -93,10 +93,14 @@ const PlaylistDetailPage = () =>{
                             </div>
                             <h3>{songs.length} Songs <span className="pinkpro">.</span> {totalTime}</h3>
                         </div>
-                        <div className="playlist-action" onClick={() => handlePlayAllPlaylist(id, songsData)}>
-                            <h2 >Play All</h2>
-                            <img src={playBTN} alt=''></img>
-                        </div>
+                        {
+                            songs.length > 0 ? 
+                                <div className="playlist-action" onClick={() => handlePlayAllPlaylist(id, songsData)}>
+                                    <h2 >Play All</h2>
+                                    <img src={playBTN} alt=''></img>
+                                </div>
+                            : null
+                        }
                     </div>
                 </div>
                 <div>

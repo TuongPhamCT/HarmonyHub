@@ -129,7 +129,7 @@ function MainPage() {
                             <Route path='/social_media' element={<SocialMediaPage />} />
                             <Route path='/support' element={<SupportPage />} />
                             <Route path='/search/results' element={<SearchResultsPage />} />
-                            <Route path='/albumdetails/:albumId' element={<AlbumDetailsPage />} />
+                            <Route path='/albumdetails/:id' element={<AlbumDetailsPage />} />
                             <Route path='/mostplayed' element={<MostPlayedPage />} />
                             <Route path='/songs/:view' element={<AllSongsPage />} />
                             <Route path='/playlists/:view' element={<AllPlaylistsPage />} />

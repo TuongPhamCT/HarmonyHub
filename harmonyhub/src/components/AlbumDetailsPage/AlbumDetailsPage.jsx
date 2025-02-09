@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import album from '../../assets/img/placeholder_disc.png';
+import album from '../../assets/img/placeholder/placeholder_album.png';
 import playBTN from '../../assets/img/play_music.png';
 import '../../components/Global.css';
 import { AlbumService } from '../../services/apiCall/album';
@@ -11,6 +11,9 @@ import { convertIntToTime, handlePlayAllAlbum } from '../MainPage/services/playb
 import MusicBar from '../SmallComponents/MusicBar';
 import MusicCollection from '../SmallComponents/MusicCollection';
 import './AlbumDetailsPage.css';
+import { serverDomain } from '../../store';
+import { sBoxAlts } from '../SmallComponents/componentStore';
+import { sAlbumDetail } from './albumDetailStore';
 
 const AlbumDetailsPage = () =>{
     const { id } = useParams();
@@ -18,7 +21,13 @@ const AlbumDetailsPage = () =>{
     const [songsData, setSongsData] = useState([]);
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
+    const [image, setImage] = useState("");
     const [totalTime, setTotalTime] = useState();
+
+    const handleRemoveSong = useCallback((id) => {
+        setSongs((prev) => prev.filter((i) => id !== i.props.data.id));
+        setSongsData((prev) => prev.filter((i) => id !== i.props.data.id));
+    }, []);
 
     useEffect(() => {
         // call api to get songs by playlist id
@@ -31,6 +40,7 @@ const AlbumDetailsPage = () =>{
     
             setTitle(thisAlbum.title);
             setDescription(thisAlbum.description);
+            setImage(serverDomain + encodeURI(thisAlbum.image));
             setTotalTime(convertIntToTime(totalTime, true));
             setSongsData(dataSongs);
     
@@ -49,6 +59,9 @@ const AlbumDetailsPage = () =>{
                             played={item.playCount}
                             time={convertIntToTime(item.duration)}
                             onClick={() => handleOnClickSong(item)}
+                            boxAlt={sAlbumDetail.value.owned ? sBoxAlts.value.musicBoxInUserAlbum : ""}
+                            albumId={id}
+                            onRemove={() => handleRemoveSong(item.id)}
                         ></MusicBar>       
                     )
                 )
@@ -59,7 +72,12 @@ const AlbumDetailsPage = () =>{
         return () => {
             controller.abort(); // Cleanup function: hủy request khi component unmount
         };
-    }, [id]);
+    }, [id, handleRemoveSong]);
+
+    const handleImageError = (e) => {
+        e.target.onerror = null; // Prevents infinite loop if placeholder fails
+        e.target.src = album; // Placeholder image URL
+    };
 
     return( 
         <div>
@@ -67,7 +85,7 @@ const AlbumDetailsPage = () =>{
                 <div id="app_bar">
                     <div id="app_bar_content">
                         
-                        <img src={album} id="album_img" alt=""></img>
+                        <img src={image} id="album_img" onError={handleImageError} alt=""></img>
                         <div className="album-text">
                             <p className="album-title">{title} {/*<span className="pink">Mix</span>*/}</p>
                             <div className="album-desscription">
@@ -75,20 +93,29 @@ const AlbumDetailsPage = () =>{
                             </div>
                             <h3>{songs.length} Songs <span className="pinkpro">.</span> {totalTime}</h3>
                         </div>
-                        <div className="album-action" onClick={() => handlePlayAllAlbum(id, songsData)}>
-                            <h2 >Play All</h2>
-                            <img src={playBTN} alt=""></img>
-                        </div>
+                        {
+                            songs.length > 0 ?
+                                <div className="album-action" onClick={() => handlePlayAllAlbum(id, songsData)}>
+                                    <h2 >Play All</h2>
+                                    <img src={playBTN} alt=""></img>
+                                </div>
+                            : null
+                        }
+
                     </div>
                 </div>
-                <div>
-                    <MusicCollection
-                        musicList={songs}
-                        headerGap="10vh"
-                        usePlayedCount={true}
-                        disableViewAll={true}
-                    ></MusicCollection>
-                </div>
+                {
+                    songs.length > 0 ?
+                        <div>
+                            <MusicCollection
+                                musicList={songs}
+                                headerGap="10vh"
+                                usePlayedCount={true}
+                                disableViewAll={true}
+                            ></MusicCollection>
+                        </div>
+                    : null
+                }
                 <Footer/>
             </div>
             

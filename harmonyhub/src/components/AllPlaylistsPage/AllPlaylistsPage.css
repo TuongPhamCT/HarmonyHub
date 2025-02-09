@@ -5,3 +5,27 @@
     flex-direction: column;
     padding-top: 6vh;
 }
+
+#all-playlists-page hr {
+    width: calc(100% - 6vh);
+    margin-left: 3vh;
+    margin-top: 3vh;
+}
+
+#all-playlists-title-wrapper {
+    position: relative;
+    width: calc(100% - 6vh);
+    height: 7vh;
+    margin-left: 3vh;
+    margin-bottom: 2vh;
+    margin-top: 5vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+#all-playlists-title {
+    margin-left: 3vh;
+    font-weight: bold;
+    font-size: 6.0vh;
+}

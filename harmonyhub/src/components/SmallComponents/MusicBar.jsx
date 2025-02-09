@@ -12,6 +12,7 @@ import { serverDomain, sUser } from '../../store';
 import { useFavorite } from '../Contexts/FavoriteContext';
 import { PlaylistService } from '../../services/apiCall/playlist';
 import { sBoxAlts } from './componentStore';
+import { AlbumService } from '../../services/apiCall/album';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -70,10 +71,24 @@ export default function MusicBar(props) {
             }
         }
 
+        const removeFromAlbum = {
+            name: "Remove from album",
+            onClick: async () => {
+                AlbumService.removeSongFromAlbum(props.albumId, props.data.id);
+                if (props.onRemove) {
+                    props.onRemove();
+                }
+            }
+        }
+
         switch (props.boxAlt) {
             case sBoxAlts.value.musicBoxInUserPlaylist:
                 return [
                     removeFromPlaylist,
+                ];
+            case sBoxAlts.value.musicBoxInUserAlbum:
+                return [
+                    removeFromAlbum,
                 ];
             default:
                 return [
