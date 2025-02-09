@@ -18,14 +18,20 @@ module.exports.getAllPlaylistsOfUser = async (req, res) => {
 };
 
 module.exports.getPlaylistById = async (req, res) => {
-  const playlistId = req.params.id;
   try {
-    const playlist = await playlistService.getPlaylistById(playlistId);
-    res.json(playlist);
+    const playlistId = req.params.id;
+
+    const playlist = await Playlist.findByPk(playlistId);
+
+    if (!playlist) {
+      return res.status(404).json({ message: "Playlist not found" });
+    }
+
+    res.status(200).json(playlist);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error fetching playlist", error: error.message });
+    res.status(500).json({
+      message: error.message || "Error retrieving playlist",
+    });
   }
 };
 
