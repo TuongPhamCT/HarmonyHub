@@ -13,7 +13,7 @@ export const AddToPlaylist = ({data, onCreatePlaylist, onClose}) => {
 
   useEffect(() => {
     toggleMainContentScroll(false);
-    
+
     const controller = new AbortController(); 
     const fetchData =  async () => {
       const playlists = await PlaylistService.getMyPlaylists() || [];
@@ -23,7 +23,7 @@ export const AddToPlaylist = ({data, onCreatePlaylist, onClose}) => {
       setPlaylists(
         playlists.map((item) => ({
           id: item.id,
-          name: item.name,
+          name: item.title,
           isChecked: containerIds.includes(item.id),
         }))
       );
@@ -51,8 +51,14 @@ export const AddToPlaylist = ({data, onCreatePlaylist, onClose}) => {
     };
   }, [data, onClose]);
 
-  const handlePlaylistCheckboxChange = async (playlistId, value) => {
+  const handlePlaylistCheckboxChange = async (playlistId, index, value) => {
     // call api to add / remove song in playlist
+    setPlaylists((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], isChecked: value };
+      return updated;
+    });
+
     if (value) {
       await PlaylistService.addSongToPlaylist(playlistId, data.id);
     } else {
@@ -88,7 +94,7 @@ export const AddToPlaylist = ({data, onCreatePlaylist, onClose}) => {
                     type="checkbox"
                     className="custom-checkbox"
                     checked={item.isChecked}
-                    onChange={() => handlePlaylistCheckboxChange(item.id, !item.isChecked)}
+                    onChange={() => handlePlaylistCheckboxChange(item.id, index, !item.isChecked)}
                   />
                   <p>{item.name}</p>
                 </div>

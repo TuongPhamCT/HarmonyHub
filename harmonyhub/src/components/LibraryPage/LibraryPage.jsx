@@ -97,6 +97,8 @@ export default function LibraryPage() {
                             key={item.id}
                             title={item.name}
                             subtitle={item.artist}
+                            data={item}
+                            image={item.image}
                             boxAlt={sBoxAlts.value.musicBoxInLibrary}
                             onClick={() => handleOnClickSong(item)}
                             onRemove={() => {
@@ -115,6 +117,7 @@ export default function LibraryPage() {
                             key={item.id}
                             title={item.title}
                             data={item}
+                            image={item.image}
                             subtitle={item.description}
                             boxAlt={sBoxAlts.value.albumBoxInLibrary}
                             onClick={() => handleOnClickAlbum(nav, item.id)}
