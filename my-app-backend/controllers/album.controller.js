@@ -99,7 +99,7 @@ module.exports.createAlbum = async (req, res) => {
       releaseDate,
       description,
       artist_id,
-      image: image ? `/public/genre_images/${image.filename}` : null,
+      image: image ? `/public/album_images/${image.filename}` : null,
     });
     res.status(201).json(album);
   } catch (error) {

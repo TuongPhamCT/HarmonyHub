@@ -13,6 +13,16 @@ module.exports.getPlaylistsByUserId = async (userEmail) => {
       },
     ],
   });
+
+  // Add playlist image from first song
+  for (let playlist of playlists) {
+    const songs = await playlist.getSongs({
+      attributes: ["image"],
+      limit: 1,
+    });
+    playlist.dataValues.image = songs[0]?.image || null;
+  }
+
   return playlists;
 };
 
