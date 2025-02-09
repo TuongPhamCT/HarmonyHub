@@ -42,7 +42,7 @@ export class GenreService {
             if (image) formData.append("image", image); // Gửi file ảnh
 
             const { data } = await axios.post('/genre', formData, {
-                header: {
+                headers: {
                     "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
                 }
             })
