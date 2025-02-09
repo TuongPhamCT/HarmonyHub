@@ -10,6 +10,7 @@ import AlbumsPage from '../AlbumsPage/AlbumsPage';
 import AllAlbumsPage from '../AlbumsPage/AllAlbumsPage';
 import AllGenresPage from '../AllGenresPage/AllGenresPage';
 import AllPlaylistsPage from '../AllPlaylistsPage/AllPlaylistsPage';
+import YourPlaylistsPage from '../AllPlaylistsPage/YourPlaylistsPage.jsx';
 import AllSongsPage from '../AllSongsPage/AllSongsPage';
 import YourFavoritesPage from '../AllSongsPage/YourFavoritesPage.jsx';
 import ApprovePage from '../Approve/Approve';
@@ -28,8 +29,6 @@ import LibraryPage from '../LibraryPage/LibraryPage';
 import MostPlayedPage from '../MostPlayedPage/MostPlayedPage';
 import PlaylistDetailPage from '../PlaylistDetailPage/PlaylistDetailPage';
 import SearchResultsPage from '../SearchResultsPage/SearchResultsPage';
-import PlaylistDetail from '../YourPlaylistPage/PlaylistDetail';
-import YourPlaylist from '../YourPlaylistPage/YourPlaylist';
 import './MainPage.css'; // Import the CSS file for styling
 import Playbar from './Playbar';
 import SearchBar from './SearchBar';
@@ -121,8 +120,7 @@ function MainPage() {
                             <Route path='/albums/:view' element={<AllAlbumsPage />} />
                             <Route path='/artist' element={<ArtistsPage />} />
                             <Route path='/artist/:id' element={<ArtistDetailPage />} />
-                            <Route path='/yourplaylist' element={<YourPlaylist />} />
-                            <Route path='/yourplaylist/:id' element={<PlaylistDetail />} />
+                            <Route path='/yourplaylist' element={<YourPlaylistsPage />} />
                             <Route path='/approve' element={<ApprovePage />} />
                             <Route path='/addsong' element={<AddSongPage />} />
                             <Route path='/library' element={<LibraryPage />} />
@@ -135,7 +133,7 @@ function MainPage() {
                             <Route path='/mostplayed' element={<MostPlayedPage />} />
                             <Route path='/songs/:view' element={<AllSongsPage />} />
                             <Route path='/playlists/:view' element={<AllPlaylistsPage />} />
-                            <Route path='/playlist/:playlistId' element={<PlaylistDetailPage />} />
+                            <Route path='/playlist/:id' element={<PlaylistDetailPage />} />
                             <Route path='/genres' element={<AllGenresPage />} />
                             <Route path='/favorites' element={<YourFavoritesPage />} />
                         </Routes>

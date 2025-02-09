@@ -74,6 +74,7 @@ export class PlaylistService {
         isPublic
     }) => {
         try {
+            console.log(title);
             const { data } = await axios.patch(`/playlist/${id}`, {
                 title,
                 isPublic

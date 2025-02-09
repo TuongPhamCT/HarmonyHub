@@ -27,7 +27,7 @@ const AllPlaylistsPage = () => {
                         key={item.id}
                         title={item.title}
                         image={item.image}
-                        onClick={() => handleOnClickPlaylist(nav, item.id)}
+                        onClick={() => handleOnClickPlaylist(nav, item.id, item.title, false)}
                     />
                 )
             )

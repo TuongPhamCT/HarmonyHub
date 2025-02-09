@@ -22,6 +22,7 @@ export const PlaybarPlaylist = () => {
                   title={item.name}
                   subtitle={item.artist}
                   data={item}
+                  image={item.image}
                   active={index === ssPlayingIndex.value }
                   onClick={() => handleOnClickSong(item)}
               ></MusicBarMini>       
