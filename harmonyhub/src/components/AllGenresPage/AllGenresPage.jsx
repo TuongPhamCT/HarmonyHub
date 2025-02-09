@@ -70,6 +70,8 @@ const AllGenresPage = () => {
                 order: "asc",
             }) || [];
 
+            console.log(dataGenres);
+
             setGenres(
                 dataGenres.map(
                     (item) => (
@@ -125,6 +127,7 @@ const AllGenresPage = () => {
                     <CreateGenre onClose={() => {
                         SetShowCreateGenre(!showCreateGenre);
                         toggleMainContentScroll(true);
+                        window.location.reload();
                     }} />
                 )
             }

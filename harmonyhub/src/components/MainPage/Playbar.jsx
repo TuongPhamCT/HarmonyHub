@@ -75,7 +75,7 @@ export default function Playbar() {
 
     setArtist(song.artist);
     setMusicTitle(song.name);
-    setAudioSource("http://localhost:5000/" + song.fileURL);
+    setAudioSource("http://localhost:5000" + song.fileURL);
     setLyric(song.lyric);
 
     // handle Shuffle
@@ -85,7 +85,8 @@ export default function Playbar() {
       }
     }
 
-    await SongService.playSong(song.id);
+    const response = await SongService.playSong(song.id);
+    console.log(response);
 
   }, [randomToggle]);
 

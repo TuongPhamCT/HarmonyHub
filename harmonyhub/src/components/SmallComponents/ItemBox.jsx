@@ -27,8 +27,9 @@ export default function ItemBox(props) {
     const buttonRef = useRef(null);
 
     const handleError = (e) => {
+        console.log("http://localhost:5000" + props.image);
         e.target.onerror = null; // Prevents infinite loop if placeholder fails
-        e.target.src = item_placeholder; // Placeholder image URL
+        e.target.src = props.imagePlaceholder || item_placeholder; // Placeholder image URL
     };
 
     const handleOpenMore = (event) => {
@@ -47,12 +48,14 @@ export default function ItemBox(props) {
         setShowMenu(false);
     }
 
+
+
     return (
         <div id="itembox-container" onClick={props.onClick}>
             <div id="itembox-image-container"
                 style={{ width: props.imageWidth, height: props.imageHeight }}
                 className={props.roundImage ? "round" : "square"}>
-                <img src={props.image || (props.imagePlaceholder || item_placeholder)}
+                <img src={props.image ? "http://localhost:5000" + props.image : (props.imagePlaceholder || item_placeholder)}
                     alt="" onError={handleError} id="itembox-image"></img>
                 {props.imageTitle ? <p id="itembox-image-title">{props.imageTitle}</p> : null}
             </div>
