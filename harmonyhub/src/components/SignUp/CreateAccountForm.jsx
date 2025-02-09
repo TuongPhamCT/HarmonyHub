@@ -27,8 +27,11 @@ function CreateAccountForm( {handleClose} ) {
         console.log(responseData);
         // Set the alert message
         setAlertMessage(JSON.stringify(responseData.message));
-        alertRef.current.showDialog();
-        handleClose();
+        await alertRef.current.showDialog();
+        usernameRef.current.value = "";
+        emailRef.current.value = "";
+        passwordRef.current.value = "";
+        passwordConfirmRef.current.value = "";
       }
     } catch (error) {
       console.error("Error:", error);
@@ -72,7 +75,7 @@ function CreateAccountForm( {handleClose} ) {
           label="Name"
           placeholder="Enter Your Name"
           isRequired={true}
-          pattern="^[a-zA-Z][a-zA-Z0-9_ ]{2,14}$"
+          pattern="^[a-zA-Z][a-zA-Z0-9_ ]{2,30}$"
           errorMessage="Name is required and must start with a letter, and be between 3 and 15 characters long."
         />
         <InputField
