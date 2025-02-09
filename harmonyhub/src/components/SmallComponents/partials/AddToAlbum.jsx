@@ -16,12 +16,14 @@ export const AddToAlbum = ({data, onClose}) => {
     
     const controller = new AbortController(); 
     const fetchData =  async () => {
-        const albums = await AlbumService.getMyAlbums() || [];
+        const albums = await AlbumService.getMyAlbums({}) || [];
+        
         setSongAlbumId(data.album_id);
+
         setAlbums(
           albums.map((item) => ({
             id: item.id,
-            name: item.name,
+            name: item.title,
             isChecked: item.id === data.album_id,
           }))
         );
