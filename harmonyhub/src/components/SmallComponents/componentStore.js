@@ -19,6 +19,7 @@ export const sBoxAlts = signify ({
     genreBoxEditable: "genreBoxEditable",
     musicBoxInLibrary: "musicBoxInLibrary",
     musicBoxInFavorites: "musicBoxInFavorites",
+    musicBoxInUserPlaylist: "musicBoxInUserPlaylist",
     albumBoxInLibrary: "albumInLibrary",
-    playlistBoxOfUser: "playlistBoxOfUser"
+    playlistBoxOfUser: "playlistBoxOfUser",
 });

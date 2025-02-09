@@ -134,7 +134,7 @@ export class PlaylistService {
                     order,
                 }
             })
-            return data;
+            return data.songs;
         } catch (error) {
             console.log(error)
         }

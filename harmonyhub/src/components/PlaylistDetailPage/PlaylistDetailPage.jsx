@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import album from '../../assets/img/placeholder_disc.png';
 import playBTN from '../../assets/img/play_music.png';
@@ -12,6 +12,7 @@ import MusicBar from '../SmallComponents/MusicBar';
 import MusicCollection from '../SmallComponents/MusicCollection';
 import './PlaylistDetailPage.css';
 import { sPlaylistDetail } from './playlistDetailStore';
+import { sBoxAlts } from '../SmallComponents/componentStore';
 
 const PlaylistDetailPage = () =>{
     const { id } = useParams();
@@ -20,6 +21,11 @@ const PlaylistDetailPage = () =>{
     const [title, setTitle] = useState("");
     // const [description, setDescription] = useState();
     const [totalTime, setTotalTime] = useState(0);
+
+    const handleRemoveSong = useCallback((id) => {
+        setSongs((prev) => prev.filter((i) => id !== i.props.data.id));
+        setSongsData((prev) => prev.filter((i) => id !== i.props.data.id));
+    }, []);
 
     useEffect(() => {
         const controller = new AbortController(); 
@@ -34,7 +40,7 @@ const PlaylistDetailPage = () =>{
                         order: "asc"
                     }
                 ) || [];
-     
+                console.log(dataSongs);
                 const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
         
                 setTitle(sPlaylistDetail.value.title);
@@ -53,10 +59,13 @@ const PlaylistDetailPage = () =>{
                                 subtitle={item.artist}
                                 header={"#" + (index + 1)}
                                 releaseDate={formatDate(item.releaseDate)}
+                                playlistId={id}
                                 played={item.playCount}
                                 image={item.image}
+                                boxAlt={sPlaylistDetail.value.owned ? sBoxAlts.value.musicBoxInUserPlaylist : ""}
                                 time={convertIntToTime(item.duration)}
                                 onClick={() => handleOnClickSong(item)}
+                                onRemove={() => handleRemoveSong(item.id)}
                             ></MusicBar>       
                         )
                     )
@@ -68,7 +77,7 @@ const PlaylistDetailPage = () =>{
         return () => {
             controller.abort(); // Cleanup function: hủy request khi component unmount
         };
-    }, [id]);
+    }, [id, handleRemoveSong]);
 
     return( 
         <div>
