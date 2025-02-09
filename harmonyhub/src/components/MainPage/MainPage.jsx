@@ -78,7 +78,9 @@ function MainPage() {
                     sortBy: "name",
                     order: "asc",
                     search: "",
-                }).songs || [];
+                }) || [];
+
+                console.log(songData);
 
                 songData.forEach((song) => {
                     toggleFavorites(song.id);
@@ -87,7 +89,7 @@ function MainPage() {
 
             fetchData();
         }
-    }, [toggleFavorites]);
+    }, []);
 
     return (
         <div className="playbar-wrapper">

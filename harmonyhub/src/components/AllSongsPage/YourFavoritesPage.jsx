@@ -8,9 +8,11 @@ import { sBoxAlts, sComponents } from '../SmallComponents/componentStore';
 import { MusicBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import './AllSongsPage.css';
+import { useFavorite } from '../Contexts/FavoriteContext';
 
 const YourFavoritesPage = () => {
     const [songs, setSongs] = useState([]);
+    const { favorites } = useFavorite();
 
     useEffect(() => {
         // call api to get data
@@ -26,6 +28,7 @@ const YourFavoritesPage = () => {
                             title={item.name}
                             subtitle={item.artist}
                             data={item}
+                            image={item.image}
                             boxAlt={sBoxAlts.value.musicBoxInFavorites}
                             onClick={() => handleOnClickSong(item)}
                             onRemove={async () => {
@@ -42,7 +45,7 @@ const YourFavoritesPage = () => {
             controller.abort(); // Cleanup function: hủy request khi component unmount
         };
 
-    }, []);
+    }, [favorites]);
 
     return (
         <div id="all-songs-page">
