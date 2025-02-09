@@ -13,13 +13,14 @@ import MusicCollection from '../SmallComponents/MusicCollection';
 import './PlaylistDetailPage.css';
 import { sPlaylistDetail } from './playlistDetailStore';
 import { sBoxAlts } from '../SmallComponents/componentStore';
+import { serverDomain } from '../../store';
 
 const PlaylistDetailPage = () =>{
     const { id } = useParams();
     const [songs, setSongs] = useState([]);
     const [songsData, setSongsData] = useState([]);
     const [title, setTitle] = useState("");
-    // const [description, setDescription] = useState();
+    const [image, setImage] = useState("");
     const [totalTime, setTotalTime] = useState(0);
 
     const handleRemoveSong = useCallback((id) => {
@@ -40,7 +41,8 @@ const PlaylistDetailPage = () =>{
                         order: "asc"
                     }
                 ) || [];
-                console.log(dataSongs);
+                
+                setImage(serverDomain + encodeURI(dataSongs[0].image));
                 const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
         
                 setTitle(sPlaylistDetail.value.title);
@@ -79,13 +81,19 @@ const PlaylistDetailPage = () =>{
         };
     }, [id, handleRemoveSong]);
 
+    const handleImageError = (e) => {
+        e.target.onerror = null; // Prevents infinite loop if placeholder fails
+        e.target.src = playlist_placeholder; // Placeholder image URL
+    };
+
+
     return( 
         <div>
             <div className='playlist-details-page'>
                 <div id="app_bar">
                     <div id="app_bar_content">
                         
-                        <img src={playlist_placeholder} id="playlist_img" alt=''></img>
+                        <img src={image} id="playlist_img" onError={handleImageError} alt=''></img>
                         <div className="playlist-text">
                             <p className="playlist-title">{title} {/*<span className="pink">Mix</span>*/}</p>
                             <div className="playlist-desscription">

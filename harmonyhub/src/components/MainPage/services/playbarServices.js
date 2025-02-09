@@ -120,6 +120,19 @@ export const handleNextButton = async (isShuffling) => {
       handleNextButton(isShuffling);
     }
   } else {
+
+    // has playlist
+    if (isPlayingUserPlaylist) {
+      // console.log(currentPlaylist);
+      if (currentIndex < currentPlaylist.length - 1) {
+        const nextSong = sPlaybar.value.playlist.at(currentIndex + 1);
+        handleLoadSongToPlaybar(nextSong);
+      } else {
+        handleLoadSongToPlaybar(currentPlaylist.at(0));
+      }
+      return;
+    }
+
     // console.log(currentPlaylist);
     if (currentIndex < currentPlaylist.length - 1) {
       const nextSong = sPlaybar.value.playlist.at(currentIndex + 1);
@@ -179,9 +192,6 @@ const handleNextRandomSong = async () => {
   let newSongs = sPlaybar.value.storedRandomSongs;
   const playedIds = currentPlaylist.map((i) => i.id);
   newSongs = newSongs.filter((i) => playedIds.includes(i.id) === false);
-  
-  console.log(playedIds);
-  console.log(newSongs);
 
   if (newSongs.length > 0) {
     newSongs = shuffleArray(newSongs);
