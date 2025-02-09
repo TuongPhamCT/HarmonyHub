@@ -46,8 +46,10 @@ const HomePage = () => {
             
             const dataAlbums = await AlbumService.getRandomAlbums({limit: 6}) || [];
 
-            const dataPlaylists = await PlaylistService.getPlaylists({}).playlists || [];
-            const dataArtists = await ArtistService.getArtists({limit: 6}).artists || [];
+            const dataPlaylists = await PlaylistService.getPlaylists({}) || [];
+
+            const dataArtists = await ArtistService.getArtists({limit: 6}) || [];
+            
             const weeklySongs = await SongService.getMostPlayedSongs({
                 numberOfSongs: 6,
                 startTime: getPreviousDate(7, today),
@@ -208,6 +210,7 @@ const HomePage = () => {
                             titleHighlight="Songs"
                             headerGap="10vh"
                             onViewAll={() => { nav('/mostplayed') }}
+                            usePlayedCount
                         ></MusicCollection>
                         :
                         null
