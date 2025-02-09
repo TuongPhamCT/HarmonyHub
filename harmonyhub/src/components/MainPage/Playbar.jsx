@@ -253,9 +253,13 @@ export default function Playbar() {
         ref={audioRef}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
-        src={audioSource}
-        // controls
-      ></audio>
+        controls
+      >
+        <source
+          src={audioSource}
+          type="audio/mpeg"
+        />
+      </audio>
       <div id="playbar-left-container">
           <div id="playbar-music-wrapper">
               <img src={item_placeholder} alt="" onError={handleImageError} id="playbar-image"></img>

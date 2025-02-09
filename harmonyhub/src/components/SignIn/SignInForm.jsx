@@ -5,8 +5,11 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { handleLogin } from '../../services/loginService.js';
+import { useNavigate } from 'react-router';
 
 function SignInForm({handleClose}) {
+    const nav = useNavigate();
+
     //control value of inputbox
     const [inputValue, setInputValue] = useState({
         email: "",
@@ -48,7 +51,7 @@ function SignInForm({handleClose}) {
                 password: ""
             });
             handleLogin(data.accessToken, "userName", data.role);
-            handleClose();
+            window.location.reload();
         } catch (error) {
             // Handle error
             console.error('Login failed:', error);
