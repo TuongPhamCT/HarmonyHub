@@ -3,19 +3,16 @@ import axios from '../../config/axios.js'
 export class SongService {
   static createSong = async ({
     name,
+    artist,
     genres,
     file,
     image,
     lyric
   }) => {
     try {
-      if (!name || !genres || !file || !image || !lyric || genres.length < 2) {
-        console.log('All fields are required')
-        return
-      }
-
       const formData = new FormData();
       formData.append("name", name);
+      formData.append("artist", artist);
       formData.append("genres", genres);
       formData.append("file", file);
       formData.append("image", image);
@@ -26,7 +23,7 @@ export class SongService {
           "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
         }
       })
-      return data
+      return data;
     } catch (error) {
       console.log(error)
     }
