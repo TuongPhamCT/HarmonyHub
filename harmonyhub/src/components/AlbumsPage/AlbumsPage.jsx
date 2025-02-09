@@ -33,6 +33,7 @@ const AlbumsPage = () => {
                             key={item.id}
                             title={item.title}
                             subtitle={item.description}
+                            image={item.image}
                             onClick={() => handleOnClickAlbum(nav, item.id)}
                         ></AlbumBox>
                     )
@@ -46,6 +47,7 @@ const AlbumsPage = () => {
                             key={item.id}
                             title={item.title}
                             subtitle={item.description}
+                            image={item.image}
                             onClick={() => handleOnClickAlbum(nav, item.id)}
                         ></AlbumBox>
                     )

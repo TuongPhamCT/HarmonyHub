@@ -64,6 +64,8 @@ const HomePage = () => {
                             key={item.id}
                             title={item.name}
                             subtitle={item.artist}
+                            image={item.image}
+                            data={item}
                             onClick={() => handleOnClickSong(item)}
                         ></MusicBox>
                     )
@@ -77,6 +79,8 @@ const HomePage = () => {
                             key={item.id}
                             title={item.name}
                             subtitle={item.artist}
+                            image={item.image}
+                            data={item}
                             onClick={() => handleOnClickSong(item)}
                         ></MusicBox>
                     )
@@ -89,6 +93,7 @@ const HomePage = () => {
                         <AlbumBox
                             key={item.id}
                             title={item.title}
+                            image={item.image}
                             subtitle={item.description}
                             onClick={() => handleOnClickAlbum(nav, item.id)}
                         ></AlbumBox>
@@ -116,6 +121,7 @@ const HomePage = () => {
                             headerWidth="10vh"
                             title={item.name}
                             subtitle={item.artist}
+                            image={item.image}
                             header={"#" + (index + 1)}
                             releaseDate={formatDate(item.releaseDate)}
                             data={item}

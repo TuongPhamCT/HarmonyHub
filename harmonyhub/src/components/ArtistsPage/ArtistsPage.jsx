@@ -31,6 +31,7 @@ function ArtistsPage() {
                         <ArtistBox
                             key={item.id}
                             title={item.name}
+                            image={item.image}
                             onClick={() => handleOnClickArtist(navigate, item.id)}
                         ></ArtistBox>
                     )
@@ -43,6 +44,7 @@ function ArtistsPage() {
                         <ArtistBox
                             key={item.id}
                             title={item.name}
+                            image={item.image}
                             onClick={() => handleOnClickArtist(navigate, item.id)}
                         ></ArtistBox>
                     )

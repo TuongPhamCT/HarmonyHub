@@ -25,6 +25,7 @@ const AllAlbumsPage = () => {
                         key={item.id}
                         title={item.title}
                         subtitle={item.description}
+                        image={item.image}
                         onClick={() => handleOnClickAlbum(nav, item.id)}
                     ></AlbumBox>
                 )

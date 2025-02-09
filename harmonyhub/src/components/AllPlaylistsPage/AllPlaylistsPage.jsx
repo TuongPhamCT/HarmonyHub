@@ -26,6 +26,7 @@ const AllPlaylistsPage = () => {
                     <PlaylistBox
                         key={item.id}
                         title={item.title}
+                        image={item.image}
                         onClick={() => handleOnClickPlaylist(nav, item.id)}
                     />
                 )
