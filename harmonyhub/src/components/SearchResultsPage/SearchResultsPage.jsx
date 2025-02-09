@@ -12,6 +12,7 @@ import { ToggleButton } from '../SmallComponents/ToggleButton';
 import { sComponents } from '../SmallComponents/componentStore';
 import './SearchResultsPage.css';
 import { checkSearchResult } from './services/checkSearchResultService';
+import { PlaylistService } from '../../services/apiCall/playlist';
 // import { useEffect } from 'react';
 
 const searchTabs = [
@@ -53,8 +54,8 @@ export default function SearchResultsPage() {
                 sortBy: "createdAt",
                 order: "desc"
             }) || [];
-            const dataAlbums = await AlbumService.getAlbums() || [];
-            const dataPlaylists = [];
+            const dataAlbums = await AlbumService.getAlbums({}) || [];
+            const dataPlaylists = await PlaylistService.getPlaylists({}) || [];
             const dataArtists = await ArtistService.getArtists({
                 sortBy: "name",
                 order: "asc"
@@ -83,7 +84,7 @@ export default function SearchResultsPage() {
                             title={item.title}
                             data={item}
                             image={item.image}
-                            onClick={() => handleOnClickPlaylist(nav, item.id)}
+                            onClick={() => handleOnClickPlaylist(nav, item.id, item.title, false)}
                         />
                     )
                 )        

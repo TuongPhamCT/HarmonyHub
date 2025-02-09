@@ -29,6 +29,7 @@ export default function LibraryPage() {
 
     const [songs, setSongs] = useState([]);
     const [albums, setAlbums] = useState([]);
+    const [forceUpdate, setForceUpdate] = useState(true);
 
     const handleTabClick = (tabName) => {
         setTab(tabName);
@@ -44,30 +45,30 @@ export default function LibraryPage() {
     }, []);
 
     const handleUpdateAlbum = useCallback((item, oldItem) => {
-        const newAlbum = <AlbumBox
-            key={item.id}
-            title={item.title}
-            data={item}
-            subtitle={item.description}
-            boxAlt={sBoxAlts.value.albumBoxInLibrary}
-            onClick={() => handleOnClickAlbum(nav, item.id)}
-            onUpdate={(newItem) => handleUpdateAlbum(newItem, item)}
-            onRemove={() => handleRemoveAlbum(item.id)}
-        ></AlbumBox>;
+        // const newAlbum = <AlbumBox
+        //     key={item.id}
+        //     title={item.title}
+        //     data={item}
+        //     subtitle={item.description}
+        //     boxAlt={sBoxAlts.value.albumBoxInLibrary}
+        //     onClick={() => handleOnClickAlbum(nav, item.id)}
+        //     onUpdate={(newItem) => handleUpdateAlbum(newItem, item)}
+        //     onRemove={() => handleRemoveAlbum(item.id)}
+        // ></AlbumBox>;
 
-        setAlbums((prev) => {
-            const newArray = [...prev]; // Sao chép mảng
-            let targetIndex = 0;
-            newArray.forEach((i, index) => {
-                if (i.props.data.id === oldItem.id) {
-                    targetIndex = index;
-                }
-            });
-            newArray[targetIndex] = newAlbum;
-            return newArray; // Trả về mảng mới để cập nhật state
-        });
-
-    }, [nav, handleRemoveAlbum]);
+        // setAlbums((prev) => {
+        //     const newArray = [...prev]; // Sao chép mảng
+        //     let targetIndex = 0;
+        //     newArray.forEach((i, index) => {
+        //         if (i.props.data.id === oldItem.id) {
+        //             targetIndex = index;
+        //         }
+        //     });
+        //     newArray[targetIndex] = newAlbum;
+        //     return newArray; // Trả về mảng mới để cập nhật state
+        // });
+        setForceUpdate(true);
+    }, []);
 
     const tabs = libraryTabs.map(
         (item) => (
@@ -78,6 +79,7 @@ export default function LibraryPage() {
     );
 
     useEffect(() => {
+ 
         // call api to get data
         const controller = new AbortController(); 
         const fetchData =  async () => {
@@ -133,7 +135,7 @@ export default function LibraryPage() {
         return () => {
             controller.abort(); // Cleanup function: hủy request khi component unmount
         };
-    }, [nav, handleRemoveAlbum, handleUpdateAlbum]);
+    }, [nav, handleUpdateAlbum, handleRemoveAlbum, forceUpdate]);
 
     // const videoCollection = demoList.map(
     //     (item, index) => (

@@ -74,7 +74,7 @@ const DiscoverPage = () => {
                             title={item.title}
                             image={item.image}
                             data={item}
-                            onClick={() => handleOnClickPlaylist(nav, item.id)}
+                            onClick={() => handleOnClickPlaylist(nav, item.id, item.title, false)}
                         />
                     )
                 )

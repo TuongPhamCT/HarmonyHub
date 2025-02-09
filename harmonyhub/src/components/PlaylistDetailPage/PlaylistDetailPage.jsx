@@ -11,54 +11,57 @@ import { convertIntToTime, handlePlayAllPlaylist } from '../MainPage/services/pl
 import MusicBar from '../SmallComponents/MusicBar';
 import MusicCollection from '../SmallComponents/MusicCollection';
 import './PlaylistDetailPage.css';
+import { sPlaylistDetail } from './playlistDetailStore';
 
 const PlaylistDetailPage = () =>{
     const { id } = useParams();
     const [songs, setSongs] = useState([]);
     const [songsData, setSongsData] = useState([]);
-    const [title, setTitle] = useState();
+    const [title, setTitle] = useState("");
     // const [description, setDescription] = useState();
-    const [totalTime, setTotalTime] = useState();
+    const [totalTime, setTotalTime] = useState(0);
 
     useEffect(() => {
-        // call api to get songs by playlist id
         const controller = new AbortController(); 
         const fetchData =  async () => {
-            const thisPlaylist = await PlaylistService.getPlaylistById(id);
-            const dataSongs = await PlaylistService.getPlaylistSongs(
-                id,
-                {
-                    sortBy: "createdAt",
-                    order: "asc"
-                }
-            ) || [];
- 
-            const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
-    
-            setTitle(thisPlaylist.title);
-            // setDescription();
-            setTotalTime(convertIntToTime(totalTime, true));
-            setSongsData(dataSongs);
-    
-            setSongs(
-                dataSongs.map(
-                    (item, index) => (
-                        <MusicBar
-                            key={item.id}
-                            data={item}
-                            headerWidth="10vh"
-                            title={item.name}
-                            subtitle={item.artist}
-                            header={"#" + (index + 1)}
-                            releaseDate={formatDate(item.releaseDate)}
-                            played={item.playCount}
-                            image={item.image}
-                            time={convertIntToTime(item.duration)}
-                            onClick={() => handleOnClickSong(item)}
-                        ></MusicBar>       
+
+            // call api to get songs by playlist id
+            if (id) {
+                const dataSongs = await PlaylistService.getPlaylistSongs(
+                    id,
+                    {
+                        sortBy: "createdAt",
+                        order: "asc"
+                    }
+                ) || [];
+     
+                const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
+        
+                setTitle(sPlaylistDetail.value.title);
+                // setDescription();
+                setTotalTime(convertIntToTime(totalTime, true));
+                setSongsData(dataSongs);
+        
+                setSongs(
+                    dataSongs.map(
+                        (item, index) => (
+                            <MusicBar
+                                key={item.id}
+                                data={item}
+                                headerWidth="10vh"
+                                title={item.name}
+                                subtitle={item.artist}
+                                header={"#" + (index + 1)}
+                                releaseDate={formatDate(item.releaseDate)}
+                                played={item.playCount}
+                                image={item.image}
+                                time={convertIntToTime(item.duration)}
+                                onClick={() => handleOnClickSong(item)}
+                            ></MusicBar>       
+                        )
                     )
-                )
-            );
+                );   
+            }
         }
 
         fetchData();
