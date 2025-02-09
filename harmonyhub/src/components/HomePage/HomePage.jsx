@@ -125,7 +125,7 @@ const HomePage = () => {
                             subtitle={item.artist}
                             image={item.image}
                             header={"#" + (index + 1)}
-                            releaseDate={formatDate(item.releaseDate)}
+                            releaseDate={formatDate(item.createdAt)}
                             data={item}
                             // album="Demo Album"
                             played={item.playCount}

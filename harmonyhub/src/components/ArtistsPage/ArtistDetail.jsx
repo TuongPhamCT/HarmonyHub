@@ -67,7 +67,7 @@ function ArtistDetailPage() {
                             image={item.image}
                             header={"#" + (index + 1)}
                             data={item}
-                            releaseDate={formatDate(item.releaseDate)}
+                            releaseDate={formatDate(item.createdAt)}
                             usePlayedCount={item.playCount}
                             time={convertIntToTime(item.duration)}
                             onClick={() => handleOnClickSong(nav, item.id)}
