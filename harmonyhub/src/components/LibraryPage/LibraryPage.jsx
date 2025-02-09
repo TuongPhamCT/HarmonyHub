@@ -67,8 +67,8 @@ export default function LibraryPage() {
         //     newArray[targetIndex] = newAlbum;
         //     return newArray; // Trả về mảng mới để cập nhật state
         // });
-        setForceUpdate(true);
-    }, []);
+        setForceUpdate(!forceUpdate);
+    }, [forceUpdate]);
 
     const tabs = libraryTabs.map(
         (item) => (
@@ -201,10 +201,15 @@ export default function LibraryPage() {
 
             {
                 showCreateAlbum && (
-                    <CreateAlbum onClose={() => {
-                        setShowCreateAlbum(!showCreateAlbum);
-                        toggleMainContentScroll(true);
-                    }} />
+                    <CreateAlbum
+                        onClose={() => {
+                            setShowCreateAlbum(!showCreateAlbum);
+                            toggleMainContentScroll(true);
+                        }}
+                        onCreate={() => {
+                            setForceUpdate(!forceUpdate);
+                        }}
+                    />
                 )
             }
         </div>

@@ -20,6 +20,7 @@ const AllGenresPage = () => {
     const nav = useNavigate();
     const [genres, setGenres] = useState([]);
     const [showCreateGenre, SetShowCreateGenre] = useState(false);
+    const [forceUpdate, setForceUpdate] = useState(false);
 
     const handleRemoveGenre = useCallback(async (id) => {
         setGenres((prev) => prev.filter((i) => id !== i.props.data.id));
@@ -58,8 +59,8 @@ const AllGenresPage = () => {
         //         image: item.image,
         //     }
         // );
-        window.location.reload();
-    }, []);
+        setForceUpdate(!forceUpdate);
+    }, [forceUpdate]);
 
     useEffect(() => {
         // call api to get genres
@@ -91,7 +92,7 @@ const AllGenresPage = () => {
         return () => {
             controller.abort(); // Cleanup function: hủy request khi component unmount
         };
-    }, [nav, handleRemoveGenre, handleUpdateGenre]);
+    }, [nav, forceUpdate, handleRemoveGenre, handleUpdateGenre]);
 
     return (
         <div id="all-genres-page">
@@ -125,7 +126,7 @@ const AllGenresPage = () => {
                     <CreateGenre onClose={() => {
                         SetShowCreateGenre(!showCreateGenre);
                         toggleMainContentScroll(true);
-                        window.location.reload();
+                        setForceUpdate(!forceUpdate);
                     }} />
                 )
             }

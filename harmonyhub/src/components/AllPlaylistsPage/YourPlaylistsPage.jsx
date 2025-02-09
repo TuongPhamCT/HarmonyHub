@@ -9,6 +9,9 @@ import { sBoxAlts, sComponents } from '../SmallComponents/componentStore';
 import { PlaylistBox } from '../SmallComponents/ItemBox';
 import ItemCollectionVertical from '../SmallComponents/ItemCollectionVertical';
 import './AllPlaylistsPage.css';
+import { TextButton } from '../SmallComponents/TextButton';
+import { CreatePlaylist } from '../SmallComponents/partials/CreatePlaylist';
+import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 
 const YourPlaylistsPage = () => {
     const nav = useNavigate();
@@ -17,14 +20,15 @@ const YourPlaylistsPage = () => {
     const [playlists, setPlaylists] = useState([]);
 
     const [forceUpdate, setForceUpdate] = useState(false);
+    const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
 
     const handleRemovePlaylist = useCallback((id) => {
         setPlaylists((prev) => prev.filter((i) => id !== i.props.data.id));
     }, []);
 
     const handleUpdatePlaylist = useCallback(() => {
-        setForceUpdate(true);
-    }, []);
+        setForceUpdate(!forceUpdate);
+    }, [forceUpdate]);
 
 
     // initialize
@@ -59,17 +63,43 @@ const YourPlaylistsPage = () => {
             controller.abort(); // Cleanup function: hủy request khi component unmount
         };
 
-    }, [nav, forceUpdate, handleUpdatePlaylist, handleRemovePlaylist]);
+    }, [nav, handleUpdatePlaylist, handleRemovePlaylist]);
 
     return (
-        <div id="all-songs-page">
+        <div id="all-playlists-page">
+            <div id="all-playlists-title-wrapper">
+                <p id="all-playlists-title">Your Playlist</p>
+                <TextButton
+                    text="Add new"
+                    borderColor="#0E9EEF"
+                    backgroundColor="#0E9EEF"
+                    color="white"
+                    width="18vh"
+                    height="100%"
+                    onClick={() => {
+                        setShowCreatePlaylist(true);
+                        toggleMainContentScroll(false);
+                    }}
+                />
+            </div>
+            <hr></hr>
             <ItemCollectionVertical
                 itemList={playlists}
-                title={"Your"}
-                titleHighlight={"Playlist"}
+                title={""}
+                titleHighlight={""}
                 columnWidth={sComponents.value.playlistBoxWidth}
             ></ItemCollectionVertical>
             <Footer />
+
+            {
+                showCreatePlaylist && (
+                    <CreatePlaylist onClose={() => {
+                        setShowCreatePlaylist(!showCreatePlaylist);
+                        toggleMainContentScroll(true);
+                        setForceUpdate(true);
+                    }} />
+                )
+            }
         </div>
     );
 }

@@ -6,7 +6,7 @@ import { TextButton } from '../../SmallComponents/TextButton';
 import { AlbumService } from '../../../services/apiCall/album';
 import { getToday } from '../../../services/formatDateService';
 
-export const CreateAlbum = ({onClose}) => {
+export const CreateAlbum = ({onCreate, onClose}) => {
   const thisRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
   const [desInputValue, setDesInputValue] = useState("");
@@ -16,12 +16,14 @@ export const CreateAlbum = ({onClose}) => {
   const fileInputRef = useRef(null);
 
   const handleAddAlbum = async () => {
+    onClose();
     await AlbumService.createAlbum({
       title: inputValue,
       description: desInputValue,
       image: imageFile,
       releaseDate: getToday(),
     });
+    onCreate();
   }
 
   useEffect(() => {

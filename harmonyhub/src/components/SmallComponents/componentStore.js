@@ -20,6 +20,7 @@ export const sBoxAlts = signify ({
     musicBoxInLibrary: "musicBoxInLibrary",
     musicBoxInFavorites: "musicBoxInFavorites",
     musicBoxInUserPlaylist: "musicBoxInUserPlaylist",
+    musicBoxInUserAlbum: "musicBoxInUserAlbum",
     albumBoxInLibrary: "albumInLibrary",
     playlistBoxOfUser: "playlistBoxOfUser",
 });
