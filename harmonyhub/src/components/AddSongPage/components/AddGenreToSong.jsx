@@ -44,7 +44,7 @@ export const AddGenreToSong = ({selectedGenres, allGenres, onClose}) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [allGenres, selectedGenres, handleClose]);
+  }, []);
 
   const handleGenresCheckboxChange = (index, value) => {
     setGenres((prevGenres) => {

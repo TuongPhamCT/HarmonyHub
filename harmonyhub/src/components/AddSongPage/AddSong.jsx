@@ -113,7 +113,8 @@ const AddSongPage = () => {
             file: audioFile,
             image: imageFile,
             lyric: lyrics,
-        })
+            artist: author,
+        });
     }
 
     return (
