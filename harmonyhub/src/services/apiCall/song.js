@@ -51,7 +51,7 @@ export class SongService {
           numberOfSongs
         }
       })
-      return data.songs;
+      return data;
     } catch (error) {
       console.log(error)
     }

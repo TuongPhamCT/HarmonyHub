@@ -142,11 +142,9 @@ export class AlbumService {
     static getRandomAlbums = async (limit) => {
         try {
             const { data } = await axios.get('/random-albums', {
-                params: {
-                    limit
-                }
+                limit
             })
-            return data.albums;
+            return data;
         } catch (error) {
             console.log(error);
         }
