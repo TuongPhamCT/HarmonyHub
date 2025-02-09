@@ -20,6 +20,8 @@ export const CreateGenre = ({onClose}) => {
       description: "",
       image: imageFile,
     })
+
+    onClose();
   }
 
   useEffect(() => {
