@@ -19,6 +19,7 @@ import { ItemDropDownMenu } from './partials/ItemDropDown';
 import { PlaylistService } from '../../services/apiCall/playlist';
 import { useFavorite } from '../Contexts/FavoriteContext';
 import { handleRemoveSong } from '../MainPage/services/playbarServices';
+import { EditPlaylist } from './partials/EditPlaylist';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -178,7 +179,7 @@ export const MusicBox = (props) => {
                 title={props.title}
                 subtitle={props.subtitle}
                 onClick={props.onClick}
-                showMore={true}
+                showMore={ssPrivilege.value.includes(3) === false}
                 menuItems={createMenuItems()}
             />
             {
@@ -274,38 +275,82 @@ export const AlbumBox = (props) => {
 
 export const PlaylistBox = (props) => {
 
-    const createMenuItems = () => {
-        return [
-            {
-                name: "Clone playlist",
-                onClick: async () => {
-                    const playlistSongs = await PlaylistService.getPlaylistSongs(props.data.id) || [];
-                    const newPlaylist = await PlaylistService.createPlaylist({
-                        title: props.data.title,
-                        isPublic: props.data.isPublic
-                    });
+    const [showEditPlaylist, setShowEditPlaylist] = useState(false);
 
-                    if (newPlaylist) {
-                        await playlistSongs.forEach(async element => {
-                            await PlaylistService.addSongToPlaylist(newPlaylist.id, element.id);
-                        });
-                    }
+    const createMenuItems = () => {
+
+        const clonePlaylist = {
+            name: "Clone playlist",
+            onClick: async () => {
+                const playlistSongs = await PlaylistService.getPlaylistSongs(props.data.id) || [];
+                const newPlaylist = await PlaylistService.createPlaylist({
+                    title: props.data.title,
+                    isPublic: props.data.isPublic
+                });
+
+                if (newPlaylist) {
+                    await playlistSongs.forEach(async element => {
+                        await PlaylistService.addSongToPlaylist(newPlaylist.id, element.id);
+                    });
                 }
-            },
-        ];
+            }
+        };
+
+        const editPlaylist = {
+            name: "Edit Playlist",
+            onClick: () => {
+                setShowEditPlaylist(true);
+                toggleMainContentScroll(false);
+            }
+        }
+
+        const deletePlaylist = {
+            name: "Delete Playlist",
+            onClick: async () => {
+                PlaylistService.deletePlaylist(props.data.id);
+                if (props.onRemove) {
+                    props.onRemove();
+                }
+            }
+        }
+
+        switch (props.boxAlt) {
+            case sBoxAlts.value.playlistBoxOfUser:
+                return [
+                    editPlaylist,
+                    deletePlaylist,
+                ];
+            default:
+                return [
+                    clonePlaylist,
+                ];
+        };
     }
 
     return (
-        <ItemBox
-            imageWidth={sComponents.value.playlistBoxWidth}
-            imageHeight={sComponents.value.playlistBoxHeight}
-            image={props.image}
-            imagePlaceholder={playlist_placeholder}
-            title={props.title}
-            onClick={props.onClick}
-            showMore={ssPrivilege.value.includes(3) === false}
-            menuItems={createMenuItems()}
-        />
+        <div>
+            <ItemBox
+                imageWidth={sComponents.value.playlistBoxWidth}
+                imageHeight={sComponents.value.playlistBoxHeight}
+                image={props.image}
+                imagePlaceholder={playlist_placeholder}
+                title={props.title}
+                onClick={props.onClick}
+                showMore={ssPrivilege.value.includes(3) === false}
+                menuItems={createMenuItems()}
+            />
+            {
+                showEditPlaylist && (
+                    <EditPlaylist onClose={() => {
+                        setShowEditPlaylist(!showEditPlaylist);
+                        toggleMainContentScroll(true);
+                    }}
+                    data={props.data}
+                    onUpdate={props.onUpdate || (() => {})}
+                    />
+                )
+            }
+        </div>
     );
 }
 

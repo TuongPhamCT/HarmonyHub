@@ -50,6 +50,7 @@ export default function Playbar() {
   const [showLyric, setShowLyric] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
 
+  const [image, setImage] = useState("");
   const [musicTitle, setMusicTitle] = useState("Music Title");
   const [artist, setArtist] = useState("Artist");
   const [lyric, setLyric] = useState("");
@@ -79,6 +80,7 @@ export default function Playbar() {
     setMusicTitle(song.name);
     setAudioSource(serverDomain + encodeURI(song.fileURL));
     setLyric(song.lyric);
+    setImage(serverDomain + encodeURI(song.image));
 
     console.log(serverDomain + encodeURI(song.fileURL));
 
@@ -264,7 +266,7 @@ export default function Playbar() {
       />
       <div id="playbar-left-container">
           <div id="playbar-music-wrapper">
-              <img src={item_placeholder} alt="" onError={handleImageError} id="playbar-image"></img>
+              <img src={image} alt="" onError={handleImageError} id="playbar-image"></img>
               <div id="playbar-title-wrapper">
                   <p id="playbar-title">{musicTitle}</p>
                   <p id="playbar-subtitle">{artist}</p>

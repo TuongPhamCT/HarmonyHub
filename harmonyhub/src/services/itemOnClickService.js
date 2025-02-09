@@ -1,5 +1,6 @@
 import { sSongs } from "../components/AllSongsPage/songStore";
 import { handleLoadSongToPlaybar } from "../components/MainPage/services/playbarServices";
+import { sPlaylistDetail } from "../components/PlaylistDetailPage/playlistDetailStore";
 import { SongService } from "./apiCall/song";
 
 
@@ -15,7 +16,11 @@ export const handleOnClickArtist = (nav, artistId) => {
     nav('/artist/' + artistId);
 };
 
-export const handleOnClickPlaylist = (nav, playlistId) => {
+export const handleOnClickPlaylist = (nav, playlistId, title, owned) => {
+    sPlaylistDetail.set((v) => {
+        v.value.title = title;
+        v.value.owned = owned;
+    });
     nav('/playlist/' + playlistId);
 };
 

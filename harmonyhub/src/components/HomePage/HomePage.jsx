@@ -143,7 +143,7 @@ const HomePage = () => {
                             key={item.id}
                             title={item.title}
                             data={item}
-                            onClick={() => handleOnClickPlaylist(nav, item.id)}
+                            onClick={() => handleOnClickPlaylist(nav, item.id, item.title, false)}
                         />
                     )
                 )
