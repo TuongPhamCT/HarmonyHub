@@ -1,5 +1,5 @@
 
-.add-to-playlistz-container {
+.song-genre-container {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@
   overflow-y: auto;
 }
 
-.add-to-playlist-container hr {
+.song-genre-container hr {
   border-width: 0.1vh;
   border-color: rgb(152, 152, 152);
   margin-top: 1vh;
@@ -29,7 +29,7 @@
   width: 90%;
 }
 
-#add-to-playlist-title {
+#song-genre-title {
   width: 90%;
   font-size: 3vh;
   font-weight: bold;
@@ -37,20 +37,20 @@
   padding-bottom: 2vh;
 }
 
-#add-to-playlist-close-button {
+#song-genre-close-button {
   height: 4vh;
   width: 4vh;
   padding: 0.2vh;
 }
 
-#add-to-playlist-header {
+#song-genre-header {
   width: 90%;
   height: 6vh;
   display: flex;
   justify-content: space-between;
 }
 
-.add-to-playlist-item {
+.song-genre-item {
   width: 90%;
   color: white;
   font-size: 2.4vh;
@@ -60,7 +60,7 @@
   padding: 0.4vh 0vh;
 }
 
-.add-to-playlist-item .custom-checkbox {
+.song-genre-item .custom-checkbox {
   width: 24px;
   height: 24px;
   border: 2px solid #FFFFFF;
@@ -73,13 +73,13 @@
 }
 
 /* Khi checkbox được chọn */
-.add-to-playlist-item .custom-checkbox:checked {
+.song-genre-item .custom-checkbox:checked {
   background-color: #007bff; /* Màu nền */
   border-color: #007bff;
 }
 
 /* Thêm dấu tích khi checked */
-.add-to-playlist-item .custom-checkbox:checked::before {
+.song-genre-item .custom-checkbox:checked::before {
   content: "✔";
   font-size: 18px;
   color: white;

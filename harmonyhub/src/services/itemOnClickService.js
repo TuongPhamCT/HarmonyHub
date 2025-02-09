@@ -1,5 +1,6 @@
 import { sSongs } from "../components/AllSongsPage/songStore";
 import { handleLoadSongToPlaybar } from "../components/MainPage/services/playbarServices";
+import { SongService } from "./apiCall/song";
 
 
 export const handleOnClickAlbum = (nav, albumId) => {
@@ -18,7 +19,13 @@ export const handleOnClickPlaylist = (nav, playlistId) => {
     nav('/playlist/' + playlistId);
 };
 
-export const handleOnClickGenre = (nav, genreId, genreTitle) => {
+export const handleOnClickGenre = async (nav, genreId, genreTitle) => {
+    const songData = await SongService.getSongs({
+        sortBy: "createdAt",
+        order: "desc",
+        genreId: genreId,
+    }).songs || [];
+    sSongs.set((v) => v.value.songs = songData);
     sSongs.set((v) => v.value.title = genreTitle);
     sSongs.set((v) => v.value.titleHighlight = "");
     nav('/songs/' + genreTitle);
