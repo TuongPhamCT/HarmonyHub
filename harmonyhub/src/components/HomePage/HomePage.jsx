@@ -95,6 +95,7 @@ const HomePage = () => {
                             title={item.title}
                             image={item.image}
                             subtitle={item.description}
+                            data={item}
                             onClick={() => handleOnClickAlbum(nav, item.id)}
                         ></AlbumBox>
                     )
@@ -107,6 +108,7 @@ const HomePage = () => {
                         <ArtistBox
                             key={item.id}
                             title={item.name}
+                            data={item}
                             onClick={() => handleOnClickArtist(nav, item.id)}
                         ></ArtistBox>
                     )
@@ -140,6 +142,7 @@ const HomePage = () => {
                         <PlaylistBox
                             key={item.id}
                             title={item.title}
+                            data={item}
                             onClick={() => handleOnClickPlaylist(nav, item.id)}
                         />
                     )

@@ -59,6 +59,7 @@ const DiscoverPage = () => {
                             key={item.id}
                             title={item.name}
                             image={item.image}
+                            data={item}
                             onClick={() => handleOnClickGenre(nav, item.id, item.name)}
                         ></GenreBox>
                     )
@@ -72,6 +73,7 @@ const DiscoverPage = () => {
                             key={item.id}
                             title={item.title}
                             image={item.image}
+                            data={item}
                             onClick={() => handleOnClickPlaylist(nav, item.id)}
                         />
                     )
@@ -85,6 +87,7 @@ const DiscoverPage = () => {
                             key={item.id}
                             title={item.name}
                             image={item.image}
+                            data={item}
                             onClick={() => handleOnClickArtist(nav, item.id)}
                         ></ArtistBox>
                     )
@@ -99,6 +102,7 @@ const DiscoverPage = () => {
                             title={item.title}
                             subtitle={item.description}
                             image={item.image}
+                            data={item}
                             onClick={() => handleOnClickAlbum(nav, item.id)}
                         ></AlbumBox>
                     )
@@ -113,6 +117,7 @@ const DiscoverPage = () => {
                             title={item.name}
                             image={item.image}
                             subtitle={item.artist}
+                            data={item}
                             onClick={() => handleOnClickSong(item)}
                         ></MusicBox>
                     )
