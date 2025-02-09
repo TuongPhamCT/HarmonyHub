@@ -23,7 +23,7 @@
     justify-content: left;
     flex-direction: row;
     overflow-x: auto;
-    gap: 2vh;
+    gap: 1.5vh;
     padding-bottom: 2vh;
 }
 
