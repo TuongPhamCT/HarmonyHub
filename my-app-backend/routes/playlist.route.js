@@ -9,7 +9,12 @@ router.get("/playlist/:id", [verifyToken], controller.getPlaylistById);
 router.get("/playlist/:id/songs", [verifyToken], controller.getSongsInPlaylist);
 router.post("/playlist", [verifyToken], controller.createPlaylist);
 router.delete("/playlist/:id", [verifyToken], controller.deletePlaylistById);
-router.post("/playlist/:id/song", [verifyToken], controller.addSongToPlaylist);
+router.post(
+  "/playlist/:id/song/:songId",
+  [verifyToken],
+  controller.addSongToPlaylist
+);
+router.get("/playlist/:id/image", controller.getPlaylistImageById);
 router.delete(
   "/playlist/:id/song",
   [verifyToken],

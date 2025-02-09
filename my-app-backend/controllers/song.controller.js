@@ -57,7 +57,7 @@ module.exports.createSong = async (req, res) => {
       name: songName,
       artist: artist,
       fileURL: `/public/songs/${songFile.filename}`,
-      image: `/public/images/${songImage.filename}`,
+      image: `/public/song_images/${songImage.filename}`,
       duration: duration,
       lyric: lyric,
       createdAt: new Date(),
@@ -294,14 +294,55 @@ module.exports.getMySongs = async (req, res) => {
 };
 
 module.exports.getPlaylistContainSong = async (req, res) => {
-  let songId = req.params.id;
   try {
-    let playlists = await songService.getPlaylistContainSong(songId);
-    res.json(playlists);
+    const songId = req.params.id;
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = "title",
+      order = "asc",
+      search = "",
+    } = req.query;
+
+    // Find the song
+    const song = await Song.findByPk(songId);
+
+    if (!song) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+
+    // Get playlists containing this song
+    const playlists = await song.getPlaylists({
+      where: {
+        title: {
+          [Op.iLike]: `%${search}%`,
+        },
+      },
+      order: [[sortBy, order.toUpperCase()]],
+      offset: (page - 1) * limit,
+      limit: Number(limit),
+    });
+
+    // Get total count
+    const totalPlaylists = await song.countPlaylists({
+      where: {
+        title: {
+          [Op.iLike]: `%${search}%`,
+        },
+      },
+    });
+
+    res.status(200).send({
+      playlists,
+      totalPages: Math.ceil(totalPlaylists / limit),
+      currentPage: Number(page),
+      totalItems: totalPlaylists,
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error fetching playlists", error: error.message });
+    res.status(500).json({
+      message:
+        error.message || "Error retrieving playlists containing this song",
+    });
   }
 };
 

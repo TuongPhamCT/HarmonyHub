@@ -107,14 +107,28 @@ const AddSongPage = () => {
             return;
         }
 
-        await SongService.createSong({
-            name: name,
-            genres: genres.map((v) => v.id),
-            file: audioFile,
-            image: imageFile,
-            lyric: lyrics,
-            artist: author,
-        });
+        try {
+            await SongService.createSong({
+                name: name,
+                genres: genres.map((v) => v.id),
+                file: audioFile,
+                image: imageFile,
+                lyric: lyrics,
+                artist: author,
+            });
+            alert("Song uploaded successfully.");
+            setLyrics('');
+            setName('');
+            setAuthor('');
+            setGenres([]);
+            setImage("");
+            setImageFile(null);
+            setAudioFile(null);
+        } catch (error) {
+            console.log(error);
+            alert("Failed to upload the song. Please try again.");
+            return;
+        }
     }
 
     return (

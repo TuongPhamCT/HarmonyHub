@@ -18,14 +18,20 @@ module.exports.getAllPlaylistsOfUser = async (req, res) => {
 };
 
 module.exports.getPlaylistById = async (req, res) => {
-  const playlistId = req.params.id;
   try {
-    const playlist = await playlistService.getPlaylistById(playlistId);
-    res.json(playlist);
+    const playlistId = req.params.id;
+
+    const playlist = await Playlist.findByPk(playlistId);
+
+    if (!playlist) {
+      return res.status(404).json({ message: "Playlist not found" });
+    }
+
+    res.status(200).json(playlist);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error fetching playlist", error: error.message });
+    res.status(500).json({
+      message: error.message || "Error retrieving playlist",
+    });
   }
 };
 
@@ -58,7 +64,7 @@ module.exports.deletePlaylistById = async (req, res) => {
 
 module.exports.addSongToPlaylist = async (req, res) => {
   const playlistId = req.params.id;
-  const { songId } = req.body;
+  const songId = req.params.songId;
   const userId = req.userId;
   try {
     const result = await playlistService.addSongToPlaylist(
@@ -203,5 +209,26 @@ module.exports.getAllPlaylists = async (req, res) => {
       message:
         error.message || "Some error occurred while retrieving playlists.",
     });
+  }
+};
+
+module.exports.getPlaylistImageById = async (req, res) => {
+  try {
+    const playlist = await Playlist.findByPk(req.params.id);
+
+    if (!playlist) {
+      return res.status(404).json({ message: "Playlist not found" });
+    }
+
+    const songs = await playlist.getSongs({
+      attributes: ["image"],
+      limit: 1,
+    });
+
+    const playlistImage = songs[0]?.image || null;
+
+    res.json({ image: playlistImage });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
