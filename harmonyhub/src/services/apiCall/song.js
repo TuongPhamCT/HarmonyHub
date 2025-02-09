@@ -59,7 +59,7 @@ export class SongService {
 
   static playSong = async (id) => {
     try {
-      const { data } = await axios.post(`/song/${id}/play`)
+      const { data } = await axios.get(`/song/${id}/play`)
       return data
     } catch (error) {
       console.log(error)
