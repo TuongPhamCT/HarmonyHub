@@ -1,4 +1,5 @@
-import { getRandomItemInArray } from "../../../services/arrayService";
+import { SongService } from "../../../services/apiCall/song";
+import { getRandomItemInArray, shuffleArray } from "../../../services/arrayService";
 import { sPlaybar } from "../../../store";
 
 export const convertIntToTime = (number, toHours) => {
@@ -99,8 +100,12 @@ export const handleNextButton = async (isShuffling) => {
   let currentIndex = sPlaybar.value.playingIndex;
 
   if (currentPlaylist.length === 1) {
-      handleLoadSongToPlaybar(currentPlaylist[0]);
-      return;
+    if (isPlayingUserPlaylist()) {
+      sPlaybar.value.replayPlaybarFunction();
+    } else {
+      handleNextRandomSong();
+    }
+    return;
   }
 
   if (isShuffling) {
@@ -115,12 +120,12 @@ export const handleNextButton = async (isShuffling) => {
       handleNextButton(isShuffling);
     }
   } else {
-    console.log(currentPlaylist);
+    // console.log(currentPlaylist);
     if (currentIndex < currentPlaylist.length - 1) {
       const nextSong = sPlaybar.value.playlist.at(currentIndex + 1);
       handleLoadSongToPlaybar(nextSong);
     } else {
-      // get random song to fill the queue
+      handleNextRandomSong();
     }
   }
 }
@@ -165,4 +170,31 @@ export const handleRemoveSong = (song) => {
       handleLoadSongToPlaybar(currentPlaylist.at(currentIndex));
     }
   }
+}
+
+const handleNextRandomSong = async () => {
+  const currentPlaylist = sPlaybar.value.playlist;
+
+  // get random song to fill the queue
+  let newSongs = sPlaybar.value.storedRandomSongs;
+  const playedIds = currentPlaylist.map((i) => i.id);
+  newSongs = newSongs.filter((i) => playedIds.includes(i.id) === false);
+  
+  console.log(playedIds);
+  console.log(newSongs);
+
+  if (newSongs.length > 0) {
+    newSongs = shuffleArray(newSongs);
+    handleLoadSongToPlaybar(newSongs.at(0));
+  } else {
+    sPlaybar.value.stopPlaybarFunction();
+  }
+}
+
+export const storeRandomSongs = async () => {
+  let newSongs = await SongService.getSongs({
+    sortBy: "playCount",
+    limit: "20",
+  }) || [];
+  sPlaybar.set((v) => v.value.storedRandomSongs = newSongs);
 }

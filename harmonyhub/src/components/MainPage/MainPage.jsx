@@ -66,11 +66,12 @@ function MainPage() {
         const component = document.getElementById("content-area");
         component.addEventListener('wheel', handleContentScroll, { passive: false });
 
-        // login
-        autoLogin();
-        // setup Favorites song of user
-        if (sAccessToken.value) {
-            const fetchData = async () => {
+        const fetchData = async () => {
+            // login
+            autoLogin();
+
+            // setup Favorites song of user
+            if (sAccessToken.value) {
                 // load favorite song by API
                 const songData = await SongService.getFavoriteSongs({
                     page: 1,
@@ -80,15 +81,12 @@ function MainPage() {
                     search: "",
                 }) || [];
 
-                console.log(songData);
-
                 songData.forEach((song) => {
                     toggleFavorites(song.id);
                 });
             }
-
-            fetchData();
         }
+        fetchData();
     }, []);
 
     return (

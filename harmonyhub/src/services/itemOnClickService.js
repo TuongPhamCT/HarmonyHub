@@ -1,6 +1,6 @@
 import { sAlbumDetail } from "../components/AlbumDetailsPage/albumDetailStore";
 import { sSongs } from "../components/AllSongsPage/songStore";
-import { handleLoadSongToPlaybar } from "../components/MainPage/services/playbarServices";
+import { handleLoadSongToPlaybar, storeRandomSongs } from "../components/MainPage/services/playbarServices";
 import { sPlaylistDetail } from "../components/PlaylistDetailPage/playlistDetailStore";
 import { SongService } from "./apiCall/song";
 
@@ -15,6 +15,7 @@ export const handleOnClickAlbum = (nav, albumId, owned) => {
 
 export const handleOnClickSong = (song) => {
     handleLoadSongToPlaybar(song);
+    storeRandomSongs();
 };
 
 export const handleOnClickArtist = (nav, artistId) => {

@@ -108,30 +108,59 @@ export default function Playbar() {
     setLyric("");
   }, []);
 
-  const handleReplay = () => {
+  const handleReplay = useCallback(() => {
     // replay
     audioRef.current.currentTime = 0; // Đưa thời gian bài hát về đầu
     audioRef.current.play(); // Phát lại bài hát
     setPlayToggle(true);
-  }
+  }, []);
 
+  const handleStop = useCallback(() => {
+    audioRef.current.pause();
+    setPlayToggle(false);
+  }, []);
+
+  // xử lý khi bài hát kết thúc
   const handleSongEnd = useCallback(() => {
-    if (repeatToggle) {
-      if (sPlaybar.value.repeat > 0) {
-        sPlaybar.set((v) => v.value.repeat = v.value.repeat - 1);
-        handleReplay();
-        SongService.playSong(sPlaybar.value.playingSong.id);
-      } else {
-        sPlaybar.set((v) => v.value.repeat = 1);
-        handleNextButton(randomToggle);
-      }
+    switch (repeatToggle) {
+      case "all":
+        {
+          handleReplay();
+          SongService.playSong(sPlaybar.value.playingSong.id);
+          break;
+        }
+
+      case "once":
+        {
+          if (sPlaybar.value.repeat > 0) {
+            sPlaybar.set((v) => v.value.repeat = v.value.repeat - 1);
+            handleReplay();
+            SongService.playSong(sPlaybar.value.playingSong.id);
+          } else {
+            sPlaybar.set((v) => v.value.repeat = 1);
+            handleNextButton(randomToggle);
+          }
+          break;
+        }
+
+      case "none":
+        {
+          handleNextButton(randomToggle);
+          break;
+        }
+
+      default:
+        handleStop();
+        break;
     }
-  }, [randomToggle, repeatToggle]);
+  }, [randomToggle, repeatToggle, handleStop, handleReplay]);
 
   // Initialize
   useEffect(() => {
     sPlaybar.set((v) => v.value.loadAudioFunction = handleLoadAudio);
     sPlaybar.set((v) => v.value.clearPlaybarFunction = handleClearPlaybar);
+    sPlaybar.set((v) => v.value.stopPlaybarFunction = handleStop);
+    sPlaybar.set((v) => v.value.replayPlaybarFunction = handleReplay);
 
     const audioElement = audioRef.current;
     audioElement.addEventListener('ended', handleSongEnd);
@@ -139,7 +168,7 @@ export default function Playbar() {
       audioElement.removeEventListener('ended', handleSongEnd);
     };
 
-  }, [handleLoadAudio, handleSongEnd, handleClearPlaybar]);
+  }, [handleLoadAudio, handleSongEnd, handleClearPlaybar, handleStop, handleReplay]);
 
   const handleSeek = (e) => {
     const seekTime = e.target.value;
@@ -182,6 +211,7 @@ export default function Playbar() {
     switch (repeatToggle) {
       case "none":
         setRepeatToggle("once");
+        sPlaybar.set((v) => v.value.repeat = 1);
         break;
       case "once":
         setRepeatToggle("all");
