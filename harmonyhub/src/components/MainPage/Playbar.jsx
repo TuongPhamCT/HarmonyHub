@@ -66,6 +66,9 @@ export default function Playbar() {
   const handleLoadedMetadata = () => {
     if (audioRef.current) {
       setDuration(audioRef.current.duration);
+      if (playToggle) {
+        audioRef.current.play();
+      }
     }
   };
 
@@ -89,7 +92,6 @@ export default function Playbar() {
     }
 
     if (firstOpen) {
-      audioRef.current.play();
       setPlayToggle(true);
     }
 
