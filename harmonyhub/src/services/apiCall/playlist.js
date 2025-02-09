@@ -21,7 +21,7 @@ export class PlaylistService {
         if (!limit) limit = 100;
         if (!sortBy) sortBy = "name";
         if (!order) order = "asc";
-        if (!search) search = ""; 
+        if (!search) search = "";
         try {
             const { data } = await axios.get(`/playlists`, {
                 page,
@@ -48,7 +48,7 @@ export class PlaylistService {
     static getMyPlaylists = async () => {
         try {
             const { data } = await axios.get('/my-playlists')
-            return data.playlists;
+            return data;
         } catch (error) {
             console.log(error)
         }

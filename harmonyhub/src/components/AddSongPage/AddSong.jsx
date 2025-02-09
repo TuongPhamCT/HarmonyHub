@@ -23,24 +23,24 @@ const AddSongPage = () => {
     // ======================================
     // initialize
 
-        useEffect(() => {
-            // call api to get genres
-            const controller = new AbortController(); 
-            const fetchData =  async () => {
-                const dataGenres = await GenreService.getGenres({
-                    sortBy: "name",
-                    order: "asc",
-                }) || [];
-    
-                setAllGenres(
-                    dataGenres
-                );
-            }
-            fetchData();
-            return () => {
-                controller.abort(); // Cleanup function: hủy request khi component unmount
-            };
-        }, []);
+    useEffect(() => {
+        // call api to get genres
+        const controller = new AbortController();
+        const fetchData = async () => {
+            const dataGenres = await GenreService.getGenres({
+                sortBy: "name",
+                order: "asc",
+            }) || [];
+
+            setAllGenres(
+                dataGenres
+            );
+        }
+        fetchData();
+        return () => {
+            controller.abort(); // Cleanup function: hủy request khi component unmount
+        };
+    }, []);
 
     // =======================================
     // genres dialog
@@ -133,7 +133,7 @@ const AddSongPage = () => {
                         style={{
                             backgroundImage: image ? `url(${image})` : "none",
                         }}
-                        onClick={() => fileInputRef.current.click()} 
+                        onClick={() => fileInputRef.current.click()}
                     >
                         {/* <input type="file" accept="image/*" id="image-input" hidden /> */}
                         <input
@@ -149,7 +149,7 @@ const AddSongPage = () => {
                     </div>
                     <div
                         className="audio-box"
-                        // onClick={() => audioInputRef.current.click()}
+                    // onClick={() => audioInputRef.current.click()}
                     >
                         <input
                             type="file"
@@ -162,7 +162,7 @@ const AddSongPage = () => {
                         <label
                             htmlFor="audio-input"
                             className='audio-box'
-                            style={audioFile ? {backgroundColor: "rgba(147, 32, 55, 0.4)", width: "100%", height: "100%"} : {}}
+                            style={audioFile ? { backgroundColor: "rgba(147, 32, 55, 0.4)", width: "100%", height: "100%" } : {}}
                         >
                             {audioFile ? audioFile.name : "Upload Audio"}
                         </label>
@@ -185,7 +185,7 @@ const AddSongPage = () => {
                         type="text"
                         placeholder="Genres"
                         readOnly
-                        style={{cursor:"pointer"}}
+                        style={{ cursor: "pointer" }}
                         value={getGenresText()}
                         onClick={() => {
                             setShowGenreDialog(true);
@@ -203,7 +203,7 @@ const AddSongPage = () => {
                 <button className="upload-button" onClick={handleUpload}>Upload</button>
             </div>
             <Footer />
-            
+
             {
                 showGenreDialog && (
                     <AddGenreToSong
