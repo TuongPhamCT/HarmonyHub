@@ -55,7 +55,7 @@ const AlbumDetailsPage = () =>{
                             header={"#" + (index + 1)}
                             data={item}
                             image={item.image}
-                            releaseDate={formatDate(item.releaseDate)}
+                            releaseDate={formatDate(item.createdAt)}
                             played={item.playCount}
                             time={convertIntToTime(item.duration)}
                             onClick={() => handleOnClickSong(item)}

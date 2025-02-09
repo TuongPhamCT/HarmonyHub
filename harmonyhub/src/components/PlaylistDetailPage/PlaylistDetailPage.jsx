@@ -58,7 +58,7 @@ const PlaylistDetailPage = () =>{
                                 title={item.name}
                                 subtitle={item.artist}
                                 header={"#" + (index + 1)}
-                                releaseDate={formatDate(item.releaseDate)}
+                                releaseDate={formatDate(item.createdAt)}
                                 playlistId={id}
                                 played={item.playCount}
                                 image={item.image}

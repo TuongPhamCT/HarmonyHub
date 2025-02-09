@@ -65,7 +65,7 @@ export default function MostPlayedPage() {
                             title={item.name}
                             subtitle={item.artist}
                             header={"#" + (index + 1)}
-                            releaseDate={formatDate(item.releaseDate)}
+                            releaseDate={formatDate(item.createdAt)}
                             played={item.playCount}
                             image={item.image}
                             time={convertIntToTime(item.duration)}
@@ -85,7 +85,7 @@ export default function MostPlayedPage() {
                             title={item.name}
                             subtitle={item.artist}
                             header={"#" + (index + 1)}
-                            releaseDate={formatDate(item.releaseDate)}
+                            releaseDate={formatDate(item.createdAt)}
                             played={item.playCount}
                             image={item.image}
                             time={convertIntToTime(item.duration)}
@@ -105,7 +105,7 @@ export default function MostPlayedPage() {
                             title={item.name}
                             subtitle={item.artist}
                             header={"#" + (index + 1)}
-                            releaseDate={formatDate(item.releaseDate)}
+                            releaseDate={formatDate(item.createdAt)}
                             played={item.playCount}
                             image={item.image}
                             time={convertIntToTime(item.duration)}

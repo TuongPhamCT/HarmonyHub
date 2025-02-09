@@ -31,7 +31,7 @@ const ApprovePage = () => {
                             title={item.name}
                             subtitle={item.artist}
                             header={"#" + (index + 1)}
-                            releaseDate={formatDate(item.releaseDate)}
+                            releaseDate={formatDate(item.createdAt)}
                             image={item.image}
                             data={item}
                             // album="Demo Album"
