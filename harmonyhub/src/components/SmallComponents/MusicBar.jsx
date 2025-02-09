@@ -10,6 +10,8 @@ import { AddToPlaylist } from './partials/AddToPlaylist';
 import { CreatePlaylist } from './partials/CreatePlaylist';
 import { sUser } from '../../store';
 import { useFavorite } from '../Contexts/FavoriteContext';
+import { PlaylistService } from '../../services/apiCall/playlist';
+import { sBoxAlts } from './componentStore';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -51,14 +53,33 @@ export default function MusicBar(props) {
     }
 
     const createMenuItems = () => {
-        return [
-            {
-                name: "Add to Playlist",
-                onClick: () => {
-                    setShowAddToPlaylist(!showAddToPlaylist)
+        const addToPlaylist = {
+            name: "Add to Playlist",
+            onClick: () => {
+                setShowAddToPlaylist(!showAddToPlaylist)
+            }
+        };
+
+        const removeFromPlaylist = {
+            name: "Remove from playlist",
+            onClick: async () => {
+                PlaylistService.removeSongFromPlaylist(props.playlistId, props.data.id);
+                if (props.onRemove) {
+                    props.onRemove();
                 }
-            },
-        ];
+            }
+        }
+
+        switch (props.boxAlt) {
+            case sBoxAlts.value.musicBoxInUserPlaylist:
+                return [
+                    removeFromPlaylist,
+                ];
+            default:
+                return [
+                    addToPlaylist,
+                ];
+        };
     }
 
     return (
