@@ -1,10 +1,15 @@
+import { sAlbumDetail } from "../components/AlbumDetailsPage/albumDetailStore";
 import { sSongs } from "../components/AllSongsPage/songStore";
 import { handleLoadSongToPlaybar } from "../components/MainPage/services/playbarServices";
 import { sPlaylistDetail } from "../components/PlaylistDetailPage/playlistDetailStore";
 import { SongService } from "./apiCall/song";
 
 
-export const handleOnClickAlbum = (nav, albumId) => {
+export const handleOnClickAlbum = (nav, albumId, owned) => {
+    sAlbumDetail.set((v) => {
+        v.value.owned = owned || false;
+        return v;
+    });
     nav('/albumdetails/' + albumId);
 };
 
@@ -20,6 +25,7 @@ export const handleOnClickPlaylist = (nav, playlistId, title, owned) => {
     sPlaylistDetail.set((v) => {
         v.value.title = title;
         v.value.owned = owned;
+        return v;
     });
     nav('/playlist/' + playlistId);
 };

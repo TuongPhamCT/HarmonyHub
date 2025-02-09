@@ -17,7 +17,6 @@ export const navigateToNewReleaseAlbums = (nav, albums) => {
         v.value.title = "New Release";
         v.value.titleHighlight = "Albums";
         v.value.albums = albums || [];
-        return v;
     });
     nav('/albums/new-release-albums');
 }
@@ -27,18 +26,16 @@ export const navigateToAllAlbums = (nav, title, titleHighlight, path, albums) =>
         v.value.title = title;
         v.value.titleHighlight = titleHighlight;
         v.value.albums = albums || [];
-        return v;
     });
     
     nav('/albums/' + path);
 }
 
 export const navigateToNewReleaseSongs = (nav, songs) => {
-    sAlbums.set((v) => {
+    sSongs.set((v) => {
         v.value.title = "New Release";
         v.value.titleHighlight = "Songs";
         v.value.songs = songs || [];
-        return v;
     });
     nav('/songs/new-release-songs');
 }
@@ -48,7 +45,6 @@ export const navigateToAllSongs = (nav, title, titleHighlight, path, songs) => {
         v.value.title = title;
         v.value.titleHighlight = titleHighlight;
         v.value.songs = songs || [];
-        return v;
     });
     nav('/songs/' + path);
 }
@@ -58,7 +54,6 @@ export const navigateToAllPlaylists = (nav, title, titleHighlight, path, playlis
         v.value.title = title;
         v.value.titleHighlight = titleHighlight;
         v.value.playlists = playlists || [];
-        return v;
     });
     nav('/playlists/' + path);
 }
