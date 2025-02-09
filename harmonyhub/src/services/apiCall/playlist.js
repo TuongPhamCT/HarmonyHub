@@ -1,15 +1,6 @@
 import axios from "../../config/axios.js"
 
 export class PlaylistService {
-    static getPlaylistById = async (id) => {
-        try {
-            const { data } = await axios.get(`/playlist/${id}`)
-            return data;
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     static getPlaylists = async ({
         page,
         limit,
@@ -46,6 +37,15 @@ export class PlaylistService {
     }
 
     static getMyPlaylists = async () => {
+        try {
+            const { data } = await axios.get('/my-playlists')
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    static getPlaylistById = async (id) => {
         try {
             const { data } = await axios.get('/my-playlists')
             return data;
@@ -133,7 +133,7 @@ export class PlaylistService {
                     order,
                 }
             })
-            return data.playlists;
+            return data;
         } catch (error) {
             console.log(error)
         }
