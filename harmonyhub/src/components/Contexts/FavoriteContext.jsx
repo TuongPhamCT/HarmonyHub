@@ -8,17 +8,20 @@ const FavoriteContext = createContext();
 export const FavoriteProvider = ({ children }) => {
     const [favorites, setFavorites] = useState({}); // Trạng thái chung theo ID
 
-    const toggleFavorites = useCallback((id) => {
+    const toggleFavorites = useCallback(async (id) => {
+        console.log(favorites);
+        if (favorites[id] === undefined) {
+            SongService.addSongToFavorite(id);
+        } else if (favorites[id]){
+            SongService.removeSongFromFavorite(id);
+        } else {
+            SongService.addSongToFavorite(id);
+        }
+
         setFavorites(prev => ({
             ...prev,
-            [id]: !prev[id] // Đảo trạng thái favorite theo ID
+            [id]: (prev[id] ? !prev[id] : true) // Đảo trạng thái favorite theo ID
         }));
-
-        if (favorites[id]) {
-            SongService.addSongToFavorite(id);
-        } else {
-            SongService.removeSongFromFavorite(id);
-        }
     }, [favorites]);
 
     return (
