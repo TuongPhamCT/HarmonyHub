@@ -8,7 +8,7 @@ import { ItemDropDownMenu } from './partials/ItemDropDown';
 import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 import { AddToPlaylist } from './partials/AddToPlaylist';
 import { CreatePlaylist } from './partials/CreatePlaylist';
-import { sUser } from '../../store';
+import { serverDomain, sUser } from '../../store';
 import { useFavorite } from '../Contexts/FavoriteContext';
 import { PlaylistService } from '../../services/apiCall/playlist';
 import { sBoxAlts } from './componentStore';
@@ -87,7 +87,7 @@ export default function MusicBar(props) {
             <p id="musicbar-header" style={{width: props.headerWidth || "fit-content"}}>{props.header || "#"}</p>
             <div id="musicbar-container">
                 <div id="musicbar-music-wrapper">
-                    <img src={props.image || item_placeholder} alt="" onError={handleError} id="musicbar-image"></img>
+                    <img src={props.image ? (serverDomain + encodeURI(props.image)) : item_placeholder} alt="" onError={handleError} id="musicbar-image"></img>
                     <div id="musicbar-title-wrapper">
                         <p id="musicbar-title">{props.title || "Music Title"}</p>
                         <p id="musicbar-subtitle">{props.subtitle || "Artists"}</p>
