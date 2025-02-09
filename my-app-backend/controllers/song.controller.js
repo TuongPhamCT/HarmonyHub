@@ -13,7 +13,21 @@ const createReadStream = fs.createReadStream;
 module.exports.createSong = async (req, res) => {
   console.log(req.body);
   let songName = req.body.name;
-  let genres = req.body.genres.map(Number);
+  // Validate and convert genres
+  let genres = [];
+  if (req.body.genres) {
+    if (Array.isArray(req.body.genres)) {
+      genres = req.body.genres.map((id) => {
+        const numId = Number(id);
+        if (isNaN(numId)) {
+          throw new Error("Invalid genre ID format");
+        }
+        return numId;
+      });
+    } else {
+      genres = [Number(req.body.genres)];
+    }
+  }
   let songFile = req.files.file ? req.files.file[0] : null;
   let songImage = req.files.image ? req.files.image[0] : null;
   let userId = req.userId;
@@ -196,12 +210,12 @@ module.exports.getAllSongs = async (req, res) => {
     // Add genre filtering if genreId is provided
     const includeCondition = genreId
       ? [
-        {
-          model: Genre,
-          where: { id: genreId },
-          through: { attributes: [] }, // Exclude junction table attributes
-        },
-      ]
+          {
+            model: Genre,
+            where: { id: genreId },
+            through: { attributes: [] }, // Exclude junction table attributes
+          },
+        ]
       : [];
 
     // Find songs with search, sorting, pagination, and optional genre filtering
@@ -315,12 +329,12 @@ module.exports.getPendingApprovalSongs = async (req, res) => {
     // Add genre filtering if genreId is provided
     const includeCondition = genreId
       ? [
-        {
-          model: Genre,
-          where: { id: genreId },
-          through: { attributes: [] },
-        },
-      ]
+          {
+            model: Genre,
+            where: { id: genreId },
+            through: { attributes: [] },
+          },
+        ]
       : [];
 
     const songs = await Song.findAll({
