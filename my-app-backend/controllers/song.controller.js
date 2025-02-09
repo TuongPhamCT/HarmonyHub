@@ -387,6 +387,12 @@ module.exports.approveSongById = async (req, res) => {
     let song = await songService.getSongById(songId);
     song.isAccepted = true;
     await song.save();
+
+    //make user become artist
+    const userId = song.post_user_id;
+    const user = await User.findByPk(userId);
+    user.role = "artist";
+    await user.save();
     res.status(200).json({ message: "Song approved successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error approving song", error });
