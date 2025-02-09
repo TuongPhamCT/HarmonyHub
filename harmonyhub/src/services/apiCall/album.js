@@ -88,9 +88,9 @@ export class AlbumService {
     }) => {
         if (!page) page = 1
         if (!limit) limit = 10
-        if (!sortBy) sortBy = 'title'
-        if (!order) order = 'asc'
-        if (!search) search = ''
+        if (!sortBy) sortBy = "title"
+        if (!order) order = "asc"
+        if (!search) search = ""
 
         try {
             const { data } = await axios.get('/my-albums', {
@@ -119,7 +119,7 @@ export class AlbumService {
 
     static addSongToAlbum = async (albumId, songId) => {
         try {
-            const { data } = await axios.post(`/album/${albumId}/song/`, {
+            const { data } = await axios.post(`/album/${albumId}/song`, {
                 songId
             })
             return data;
