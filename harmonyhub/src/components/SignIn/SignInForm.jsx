@@ -51,6 +51,7 @@ function SignInForm({handleClose}) {
             handleLogin(data.accessToken, "userName", data.role);
             showAlert("Login successfully!");
             handleClose();
+            window.location.reload();
         } catch (error) {
             // Handle error
             console.error('Login failed:', error);
