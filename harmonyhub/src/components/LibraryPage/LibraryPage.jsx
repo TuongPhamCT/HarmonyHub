@@ -36,12 +36,12 @@ export default function LibraryPage() {
     }
 
     const handleRemoveSong = async (data) => {
-        // call api
         await SongService.deleteSong(data.id);
     }
 
-    const handleRemoveAlbum = useCallback((id) => {
+    const handleRemoveAlbum = useCallback(async (id) => {
         setAlbums((prev) => prev.filter((sAlbum) => id !== sAlbum.props.data.id));
+        await AlbumService.deleteAlbum(id);
     }, []);
 
     const handleUpdateAlbum = useCallback((item, oldItem) => {
