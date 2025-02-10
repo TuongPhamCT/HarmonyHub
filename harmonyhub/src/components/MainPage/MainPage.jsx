@@ -62,10 +62,12 @@ function MainPage() {
         if (isError) {
             toast.error(message, {
                 autoClose: 2000,
+                theme: "colored"
             });
         } else {
             toast.success(message, {
                 autoClose: 2000,
+                theme: "colored"
             });
         }
     }, []);

@@ -7,5 +7,7 @@ export const showAlert = (message) => {
 }
 
 export const showErrorMessage = () => {
-  showAlert("Something went wrong. Please try again later.", true);
+  if (sMainController.value.callAlertFunction) {
+    sMainController.value.callAlertFunction("Something went wrong. Please try again later.", true);
+  }
 }
