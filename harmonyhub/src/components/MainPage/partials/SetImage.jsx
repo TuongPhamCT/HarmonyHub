@@ -1,42 +1,34 @@
-import './CreateAlbum.css';
+import './CreateGenre.css';
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
 import { TextButton } from '../../SmallComponents/TextButton';
-import { AlbumService } from '../../../services/apiCall/album';
+import { GenreService } from '../../../services/apiCall/genre';
 import { serverDomain } from '../../../store';
+import { UserService } from '../../../services/apiCall/user';
 
-export const EditAlbum = ({data, onClose, onUpdate}) => {
+export const SetImage = ({data, onClose, onUpdate}) => {
   const thisRef = useRef(null);
-  const [inputValue, setInputValue] = useState("");
-  const [desInputValue, setDesInputValue] = useState("");
   const [allowEdit, setAllowEdit] = useState(true);
   const [image, setImage] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  const handleEditAlbum = async () => {
-    // Handle create new Genre
+  const handleSetImage = async () => {
+    // Handle set image
 
-    data.title = inputValue;
-    data.description = desInputValue;
-    data.image = image;
+    await UserService.setUserImage(
+      {
+        image: imageFile,
+      }
+    );
 
     onUpdate(data);
-    onClose();
-
-    AlbumService.updateAlbum(data.id, {
-      title: data.title,
-      description: data.description,
-      releaseDate: data.releaseDate,
-      image: imageFile,
-    });
   }
 
   useEffect(() => {
-    setInputValue(data.title);
-    setDesInputValue(data.description);
-    setImage(serverDomain + encodeURI(data.image));
+    setInputValue(data.name);
+    setImage(serverDomain + data.image);
 
     const handleClickOutside = (event) => {
       if (
@@ -74,14 +66,14 @@ export const EditAlbum = ({data, onClose, onUpdate}) => {
   return createPortal(
     <div>
       <TransparentBackground/>
-      <div className="create-album-container"
+      <div className="set-image-container"
         ref={thisRef}
         onClick={(event) => event.stopPropagation()}
       >
-        <p id={"create-album-title"}>Edit Album</p>
+        <p id={"set-image-title"}>Edit Genre</p>
 
         <div
-          id="create-album-image"
+          id="set-image-image"
           onClick={() => fileInputRef.current.click()}
           style={{
             backgroundImage: image ? `url(${image})` : "none",
@@ -98,25 +90,7 @@ export const EditAlbum = ({data, onClose, onUpdate}) => {
           />
         </div>
 
-        <input
-          name='albumName'
-          type="text"
-          className="create-album-input"
-          placeholder="Type a name..."
-          value={inputValue}
-          onChange={(event) => handleInputValueChange(event.target.value)}
-        ></input>
-
-        <input
-          name="albumDescription"
-          type="text"
-          className="create-album-input"
-          placeholder="Type a description..."
-          value={desInputValue}
-          onChange={(event) => setDesInputValue(event.target.value)}
-        ></input>
-
-        <div id={"create-album-buttons"}>
+        <div id={"set-image-buttons"}>
           <TextButton
             color={"#FFFFFF"}
             backgroundColor={"transparent"}
@@ -130,9 +104,9 @@ export const EditAlbum = ({data, onClose, onUpdate}) => {
             backgroundColor={"transparent"}
             width={"40%"}
             height={"100%"}
-            text={"Edit"}
+            text={"Update"}
             disabled={!allowEdit}
-            onClick={handleEditAlbum}
+            onClick={handleSetImage}
           />
         </div>
       </div>
