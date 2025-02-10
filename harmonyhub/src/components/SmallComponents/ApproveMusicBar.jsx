@@ -23,7 +23,7 @@ export default function ApproveMusicBar(props) {
     const handleDeny = async (event) => {
         event.stopPropagation();
         handleRemoveSong(props.data);
-        SongService.deleteSong(props.data.id);
+        //SongService.deleteSong(props.data.id);
         if (props.onRemove) {
             props.onRemove();
         }
