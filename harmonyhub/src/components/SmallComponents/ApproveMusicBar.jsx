@@ -1,6 +1,7 @@
 // import React, { useState } from 'react';
 import item_placeholder from '../../assets/img/placeholder_disc.png';
 import { SongService } from '../../services/apiCall/song';
+import { serverDomain } from '../../store';
 import { handleRemoveSong } from '../MainPage/services/playbarServices';
 import './MusicBar.css';
 
@@ -33,7 +34,7 @@ export default function ApproveMusicBar(props) {
             <p id="musicbar-header" style={{width: props.headerWidth || "fit-content"}}>{props.header || "#"}</p>
             <div id="musicbar-container" onClick={props.onClick}>
                 <div id="musicbar-music-wrapper-admin">
-                    <img src={props.image || item_placeholder} alt="" onError={handleError} id="musicbar-image"></img>
+                    <img src={props.image ? (serverDomain + encodeURI(props.image)) : item_placeholder} alt="" onError={handleError} id="musicbar-image"></img>
                     <div id="musicbar-title-wrapper">
                         <p id="musicbar-title">{props.title || "Music Title"}</p>
                         <p id="musicbar-subtitle">{props.subtitle || "Artists"}</p>
