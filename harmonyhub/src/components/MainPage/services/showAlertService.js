@@ -7,5 +7,5 @@ export const showAlert = (message) => {
 }
 
 export const showErrorMessage = () => {
-  showAlert("Something went wrong. Please try again later.", false);
+  showAlert("Something went wrong. Please try again later.", true);
 }
