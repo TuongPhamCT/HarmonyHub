@@ -33,6 +33,7 @@ import './MainPage.css'; // Import the CSS file for styling
 import Playbar from './Playbar';
 import SearchBar from './SearchBar';
 import Sidebar from './Sidebar';
+import { loadPlaybarDataFromLocal } from './services/playbarServices.js';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
@@ -69,7 +70,7 @@ function MainPage() {
         const fetchData = async () => {
             // login
             autoLogin();
-
+            
             // setup Favorites song of user
             if (sAccessToken.value) {
                 // load favorite song by API
@@ -85,6 +86,8 @@ function MainPage() {
                     toggleFavorites(song.id);
                 });
             }
+            //sPlaybar.value.preLoadingPlaybarFunction();
+            await loadPlaybarDataFromLocal();
         }
         fetchData();
     }, []);

@@ -13,6 +13,7 @@ export const sPlaybar = signify ({
     clearPlaybarFunction: null,
     stopPlaybarFunction: null,
     replayPlaybarFunction: null,
+    preLoadingPlaybarFunction: null,
     playlist: [],
     played: [],
     playingIndex: 0,

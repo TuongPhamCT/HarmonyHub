@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import './Playbar.css';
-import { convertIntToTime, handleNextButton, handlePreviousButton, handleToggleShuffle } from './services/playbarServices';
+import { clearPlaybarDataFromLocal, convertIntToTime, handleNextButton, handlePreviousButton, handleToggleShuffle } from './services/playbarServices';
 
 import item_placeholder from '../../assets/img/placeholder_disc.png';
 import love_off from '../../assets/img/playbar/playbar-love-off.png';
@@ -55,22 +55,36 @@ export default function Playbar() {
   const [artist, setArtist] = useState("Artist");
   const [lyric, setLyric] = useState("");
 
+  // const [storedSeek, setStoredSeek] = useState();
+
   // Cập nhật tiến độ khi nhạc đang phát
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       setProgress(audioRef.current.currentTime);
+      localStorage.setItem("playbar-currentTime", audioRef.current.currentTime);
     }
   };
 
   // Cập nhật thời lượng bài hát khi nhạc được load
-  const handleLoadedMetadata = () => {
+  const handleLoadedMetadata = useCallback(() => {
     if (audioRef.current) {
       setDuration(audioRef.current.duration);
+      
       if (playToggle) {
-        audioRef.current.play();
+        audioRef.current.play().catch(error => {
+          console.error("Playback failed", error);
+          setPlayToggle(false);
+        });;
       }
+
+      // if (playToggle && !storedSeek) {
+      //   audioRef.current.play();
+      // } else if (storedSeek) {
+      //   audioRef.current.currentTime = storedSeek;
+      //   setStoredSeek(undefined);
+      // }
     }
-  };
+  }, [playToggle]);
 
   // Hàm load audio mới
   const handleLoadAudio = useCallback(async (song) => {
@@ -93,9 +107,18 @@ export default function Playbar() {
 
     if (firstOpen) {
       setPlayToggle(true);
-    }
+      await SongService.playSong(song.id);
+    } 
 
-    await SongService.playSong(song.id);
+    // if (firstOpen && !storedSeek) {
+    //   setPlayToggle(true);
+    //   setStoredSeek(undefined);
+    //   await SongService.playSong(song.id);
+
+    // } else if (storedSeek) {
+    //   setPlayToggle(false);
+    //   setStoredSeek(undefined);
+    // }
     // console.log(response);
 
   }, [randomToggle, audioSource]);
@@ -106,6 +129,7 @@ export default function Playbar() {
     setMusicTitle("-");
     setAudioSource("");
     setLyric("");
+    clearPlaybarDataFromLocal();
   }, []);
 
   const handleReplay = useCallback(() => {
@@ -156,19 +180,36 @@ export default function Playbar() {
   }, [randomToggle, repeatToggle, handleStop, handleReplay]);
 
   // Initialize
+
+  const preLoading = useCallback(() => {
+    // pre loading
+    const savedVolume = localStorage.getItem("playbar-volume");
+    const savedRepeat = localStorage.getItem("playbar-repeat");
+    const savedRandom = localStorage.getItem("playbar-random");
+
+    if (savedVolume) setVolume(savedVolume);
+    if (savedRepeat) setRepeatToggle(savedRepeat);
+    if (savedRandom) setRandomToggle(savedRandom);
+
+  }, []);
+
   useEffect(() => {
     sPlaybar.set((v) => v.value.loadAudioFunction = handleLoadAudio);
     sPlaybar.set((v) => v.value.clearPlaybarFunction = handleClearPlaybar);
     sPlaybar.set((v) => v.value.stopPlaybarFunction = handleStop);
     sPlaybar.set((v) => v.value.replayPlaybarFunction = handleReplay);
+    sPlaybar.set((v) => v.value.preLoadingPlaybarFunction = preLoading);
 
     const audioElement = audioRef.current;
     audioElement.addEventListener('ended', handleSongEnd);
+
     return () => {
       audioElement.removeEventListener('ended', handleSongEnd);
     };
 
-  }, [handleLoadAudio, handleSongEnd, handleClearPlaybar, handleStop, handleReplay]);
+  }, [handleLoadAudio, handleSongEnd, handleClearPlaybar, handleStop, handleReplay, preLoading]);
+
+  // ========================================================
 
   const handleSeek = (e) => {
     const seekTime = e.target.value;
@@ -197,6 +238,7 @@ export default function Playbar() {
     setVolume(newVolume);
     if (audioRef.current) {
       audioRef.current.volume = newVolume; // Set volume cho audio
+      localStorage.setItem("playbar-volume", newVolume);
     }
 
     if (newVolume < 0.01 && speakerOn === true) {
@@ -212,12 +254,15 @@ export default function Playbar() {
       case "none":
         setRepeatToggle("once");
         sPlaybar.set((v) => v.value.repeat = 1);
+        localStorage.setItem("playbar-repeat", "once");
         break;
       case "once":
         setRepeatToggle("all");
+        localStorage.setItem("playbar-repeat", "all");
         break;
       case "all":
         setRepeatToggle("none");
+        localStorage.setItem("playbar-repeat", "none");
         break;
       default:
         break;
@@ -233,9 +278,11 @@ export default function Playbar() {
       setCacheVolume(volume);
       setVolume(0);
       setSpeakerOn(false);
+      localStorage("playbar-volume", 0);
     } else {
       setVolume(cacheVolume > 0 ? cacheVolume : 1);
       setSpeakerOn(true);
+      localStorage("playbar-volume", 1);
     }
   }
 
@@ -333,6 +380,7 @@ export default function Playbar() {
             className="playbar-button playbar-button-big-size"
             alt=""
             onClick={() => {
+              localStorage.setItem("playbar-random", !randomToggle);
               setRandomToggle(!randomToggle);
               handleToggleShuffle();
             }}
