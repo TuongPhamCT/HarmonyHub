@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import InputField from "./InputField";
 import axios from "axios";
 import Alert from "../Utils/Alert/Alert";
+import { showAlert } from "../MainPage/services/showAlertService";
 
 function CreateAccountForm( {handleClose} ) {
   const [alertMessage, setAlertMessage] = useState("");
@@ -26,12 +27,13 @@ function CreateAccountForm( {handleClose} ) {
         let responseData = await registerUser(username, email, password);
         console.log(responseData);
         // Set the alert message
-        setAlertMessage(JSON.stringify(responseData.message));
-        await alertRef.current.showDialog();
+        showAlert(JSON.stringify(responseData.message));
+        //await alertRef.current.showDialog();
         usernameRef.current.value = "";
         emailRef.current.value = "";
         passwordRef.current.value = "";
         passwordConfirmRef.current.value = "";
+        handleClose();
       }
     } catch (error) {
       console.error("Error:", error);
