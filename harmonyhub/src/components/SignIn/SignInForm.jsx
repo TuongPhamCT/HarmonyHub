@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { handleLogin } from '../../services/loginService.js';
+import { showAlert } from '../MainPage/services/showAlertService.js';
 import InputField from "./InputField";
 
 function SignInForm({handleClose}) {
@@ -41,14 +42,15 @@ function SignInForm({handleClose}) {
                 }
             );
             // Handle successful login
-            toast.success("Login successful!");
+            //toast.success("Login successful!");
             // clear input fields
             setInputValue({
                 email: "",
                 password: ""
             });
             handleLogin(data.accessToken, "userName", data.role);
-            window.location.reload();
+            showAlert("Login successfully!");
+            handleClose();
         } catch (error) {
             // Handle error
             console.error('Login failed:', error);
