@@ -1,3 +1,5 @@
+import { AlbumService } from "../../../services/apiCall/album";
+import { PlaylistService } from "../../../services/apiCall/playlist";
 import { SongService } from "../../../services/apiCall/song";
 import { getRandomItemInArray, shuffleArray } from "../../../services/arrayService";
 import { sPlaybar } from "../../../store";
@@ -21,6 +23,7 @@ export const handlePrevPlaySong = (song) => {
   if (sPlaybar.value.updatePlaylistFunction) {
     sPlaybar.value.updatePlaylistFunction();
   }
+  storePlaybarDataToLocal();
   sPlaybar.value.loadAudioFunction(song);
 }
 
@@ -123,7 +126,6 @@ export const handleNextButton = async (isShuffling) => {
 
     // has playlist
     if (isPlayingUserPlaylist) {
-      // console.log(currentPlaylist);
       if (currentIndex < currentPlaylist.length - 1) {
         const nextSong = sPlaybar.value.playlist.at(currentIndex + 1);
         handleLoadSongToPlaybar(nextSong);
@@ -133,7 +135,6 @@ export const handleNextButton = async (isShuffling) => {
       return;
     }
 
-    // console.log(currentPlaylist);
     if (currentIndex < currentPlaylist.length - 1) {
       const nextSong = sPlaybar.value.playlist.at(currentIndex + 1);
       handleLoadSongToPlaybar(nextSong);
@@ -207,4 +208,122 @@ export const storeRandomSongs = async () => {
     limit: "20",
   }) || [];
   sPlaybar.set((v) => v.value.storedRandomSongs = newSongs);
+}
+
+// store to local
+export const storePlaybarDataToLocal = () => {
+  const playbarData = sPlaybar.value;
+
+  localStorage.setItem("playbar-playingId", playbarData.playingSong.id);
+  localStorage.setItem("playbar-playlistIds", JSON.stringify(playbarData.playlist.map((i) => i.id)));
+  localStorage.setItem("playbar-albumId", playbarData.albumId);
+  localStorage.setItem("playbar-playlistId", playbarData.playlistId);
+  // localStorage.setItem("playbar-playedIds", );
+
+}
+
+export const loadPlaybarDataFromLocal = async () => {
+  const albumId = localStorage.getItem("playbar-albumId");
+  const playlistId = localStorage.getItem("playbar-playlistId");
+
+  if (albumId && albumId !== "null") {
+    const albumData = await AlbumService.getAlbumById(albumId);
+
+    if (albumData && albumData.songs.length > 0) {
+      const dataSongs = albumData.songs;
+
+      sPlaybar.set((v) => {
+        v.value.playlist = dataSongs;
+        v.value.albumId = albumId;
+        // v.value.played = JSON.parse(localStorage.getItem("playbar-playedIds")) || [];
+      });
+
+      const currentId = parseInt(localStorage.getItem("playbar-playingId"));
+      const currentSongIndex = dataSongs.findIndex((v) => v.id === currentId);
+
+      if (currentSongIndex >= 0) {
+        handleLoadSongToPlaybar(dataSongs.at(currentSongIndex));
+      } else {
+        localStorage.removeItem("playbar-currentTime");
+        handleLoadSongToPlaybar(dataSongs.at(0));
+      }
+    }
+
+  } else if (playlistId && playlistId !== "null") {
+    const dataSongs = await PlaylistService.getPlaylistSongs(playlistId, {
+      sortBy: "createdAt",
+      order: "asc",
+    });
+
+    if (dataSongs.length > 0) {
+      sPlaybar.set((v) => {
+        v.value.playlist = dataSongs;
+        v.value.playlistId = playlistId;
+        // v.value.played = JSON.parse(localStorage.getItem("playbar-playedIds")) || [];
+      });
+
+      const currentId = parseInt(localStorage.getItem("playbar-playingId"));
+      const currentSongIndex = dataSongs.findIndex((v) => v.id === currentId);
+
+      if (currentSongIndex >= 0) {
+        handleLoadSongToPlaybar(dataSongs.at(currentSongIndex));
+      } else {
+        localStorage.removeItem("playbar-currentTime");
+        handleLoadSongToPlaybar(dataSongs.at(0));
+      }
+    }
+  } else {
+    const playlistIds = JSON.parse(localStorage.getItem("playbar-playlistIds")) || [];
+    
+
+    if (playlistIds.length > 0) {
+      
+      let newPlaylist = [];
+
+      for (const id of playlistIds) {
+        let songData = await SongService.getSongById(id);
+        songData.image =  "/public" + songData.image;
+        songData.fileURL = "/public" + songData.fileURL;
+        
+        if (songData) {
+          newPlaylist.push(songData);
+        }
+      }
+
+      if (newPlaylist.length > 0) {
+        sPlaybar.set((v) => {
+          v.value.playlist = newPlaylist;
+          // v.value.played = localStorage.getItem("playbar-playedIds") || [];
+        });
+  
+        const currentId = parseInt(localStorage.getItem("playbar-playingId"));
+        const currentSongIndex = newPlaylist.findIndex((v) => v.id === currentId);
+  
+        if (currentSongIndex >= 0) {
+          handleLoadSongToPlaybarFromLocal(newPlaylist.at(currentSongIndex), currentSongIndex);
+        } else {
+          //localStorage.removeItem("playbar-currentTime");
+          handleLoadSongToPlaybarFromLocal(newPlaylist.at(0), 0);
+        }
+      }
+
+    } else {
+      //localStorage.removeItem("playbar-currentTime");
+    }
+  }
+}
+
+const handleLoadSongToPlaybarFromLocal = (song, index) => {
+  sPlaybar.set((v) => {
+    v.value.playingSong = song;
+    v.value.playingIndex = index;
+  });
+  handlePrevPlaySong(song);
+}
+export const clearPlaybarDataFromLocal = () => {
+  localStorage.removeItem("playbar-playingId");
+  localStorage.removeItem("playbar-playlistIds");
+  localStorage.removeItem("playbar-albumId");
+  localStorage.removeItem("playbar-playlistId");
+  localStorage.removeItem("playbar-playedId");
 }
