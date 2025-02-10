@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Route, Routes, useLocation } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
 import goUpButton from '../../assets/img/component_up.png';
 import { SongService } from '../../services/apiCall/song.js';
 import { autoLogin } from '../../services/loginService.js';
@@ -32,8 +33,8 @@ import SearchResultsPage from '../SearchResultsPage/SearchResultsPage';
 import './MainPage.css'; // Import the CSS file for styling
 import Playbar from './Playbar';
 import SearchBar from './SearchBar';
-import Sidebar from './Sidebar';
 import { loadPlaybarDataFromLocal } from './services/playbarServices.js';
+import Sidebar from './Sidebar';
 
 const ssShowSidebar = sMainController.slice((n) => n.showSidebar);
 const ssPlayingSong = sPlaybar.slice((n) => n.playingSong);
@@ -55,6 +56,20 @@ function MainPage() {
         }
     };
 
+    // Call Alert
+    const showAlert = useCallback((message, isError) => {
+        // Handle successful login
+        if (isError) {
+            toast.error(message, {
+                autoClose: 2000,
+            });
+        } else {
+            toast.success(message, {
+                autoClose: 2000,
+            });
+        }
+    }, []);
+
     // tự scroll lên top khi đổi path
     useEffect(() => {
         const component = document.getElementById("content-area");
@@ -63,6 +78,8 @@ function MainPage() {
 
     // Initialize
     useEffect(() => {
+        sMainController.set((v) => v.value.callAlertFunction = showAlert);
+
         // handle Content Scroll
         const component = document.getElementById("content-area");
         component.addEventListener('wheel', handleContentScroll, { passive: false });
@@ -90,60 +107,63 @@ function MainPage() {
             await loadPlaybarDataFromLocal();
         }
         fetchData();
-    }, []);
+    }, [showAlert]);
 
     return (
-        <div className="playbar-wrapper">
-            <ssPlayingSong.Wrap>
-                {(playingSong) => (
-                    <div className="playbar" style={{ display: (playingSong !== null ? 'flex' : 'none') }}>
-                        <Playbar />
-                    </div>
-                )}
-            </ssPlayingSong.Wrap>
-            <div className="wrapper">
-                <ssShowSidebar.Wrap>
-                    {(sidebarToggle) => (
-                        <div className="mainpage_sidebar" style={{ display: (sidebarToggle ? 'flex' : 'none') }}>
-                            <Sidebar />
+        <div>
+            <div className="playbar-wrapper">
+                <ssPlayingSong.Wrap>
+                    {(playingSong) => (
+                        <div className="playbar" style={{ display: (playingSong !== null ? 'flex' : 'none') }}>
+                            <Playbar />
                         </div>
                     )}
-                </ssShowSidebar.Wrap>
-                <img id="go-up-button" src={goUpButton} alt="" className="txt_button" onClick={handleGoUp}></img>
+                </ssPlayingSong.Wrap>
+                <div className="wrapper">
+                    <ssShowSidebar.Wrap>
+                        {(sidebarToggle) => (
+                            <div className="mainpage_sidebar" style={{ display: (sidebarToggle ? 'flex' : 'none') }}>
+                                <Sidebar />
+                            </div>
+                        )}
+                    </ssShowSidebar.Wrap>
+                    <img id="go-up-button" src={goUpButton} alt="" className="txt_button" onClick={handleGoUp}></img>
 
-                <div className="mainpage_content_wrapper">
-                    <div className="mainpage_header">
-                        <SearchBar />
-                    </div>
-                    <div id="content-area" className="mainpage_content">
-                        <Routes>
-                            <Route path='/' element={<HomePage />} />
-                            <Route path='/discover' element={<DiscoverPage />} />
-                            <Route path='/albums' element={<AlbumsPage />} />
-                            <Route path='/albums/:view' element={<AllAlbumsPage />} />
-                            <Route path='/artist' element={<ArtistsPage />} />
-                            <Route path='/artist/:id' element={<ArtistDetailPage />} />
-                            <Route path='/yourplaylist' element={<YourPlaylistsPage />} />
-                            <Route path='/approve' element={<ApprovePage />} />
-                            <Route path='/addsong' element={<AddSongPage />} />
-                            <Route path='/library' element={<LibraryPage />} />
-                            <Route path='/about_us' element={<AboutPage />} />
-                            <Route path='/policy' element={<PolicyPage />} />
-                            <Route path='/social_media' element={<SocialMediaPage />} />
-                            <Route path='/support' element={<SupportPage />} />
-                            <Route path='/search/results' element={<SearchResultsPage />} />
-                            <Route path='/albumdetails/:id' element={<AlbumDetailsPage />} />
-                            <Route path='/mostplayed' element={<MostPlayedPage />} />
-                            <Route path='/songs/:view' element={<AllSongsPage />} />
-                            <Route path='/playlists/:view' element={<AllPlaylistsPage />} />
-                            <Route path='/playlist/:id' element={<PlaylistDetailPage />} />
-                            <Route path='/genres' element={<AllGenresPage />} />
-                            <Route path='/favorites' element={<YourFavoritesPage />} />
-                        </Routes>
-                        {/* <sMainController.DevTool name="sMainController"/> */}
+                    <div className="mainpage_content_wrapper">
+                        <div className="mainpage_header">
+                            <SearchBar />
+                        </div>
+                        <div id="content-area" className="mainpage_content">
+                            <Routes>
+                                <Route path='/' element={<HomePage />} />
+                                <Route path='/discover' element={<DiscoverPage />} />
+                                <Route path='/albums' element={<AlbumsPage />} />
+                                <Route path='/albums/:view' element={<AllAlbumsPage />} />
+                                <Route path='/artist' element={<ArtistsPage />} />
+                                <Route path='/artist/:id' element={<ArtistDetailPage />} />
+                                <Route path='/yourplaylist' element={<YourPlaylistsPage />} />
+                                <Route path='/approve' element={<ApprovePage />} />
+                                <Route path='/addsong' element={<AddSongPage />} />
+                                <Route path='/library' element={<LibraryPage />} />
+                                <Route path='/about_us' element={<AboutPage />} />
+                                <Route path='/policy' element={<PolicyPage />} />
+                                <Route path='/social_media' element={<SocialMediaPage />} />
+                                <Route path='/support' element={<SupportPage />} />
+                                <Route path='/search/results' element={<SearchResultsPage />} />
+                                <Route path='/albumdetails/:id' element={<AlbumDetailsPage />} />
+                                <Route path='/mostplayed' element={<MostPlayedPage />} />
+                                <Route path='/songs/:view' element={<AllSongsPage />} />
+                                <Route path='/playlists/:view' element={<AllPlaylistsPage />} />
+                                <Route path='/playlist/:id' element={<PlaylistDetailPage />} />
+                                <Route path='/genres' element={<AllGenresPage />} />
+                                <Route path='/favorites' element={<YourFavoritesPage />} />
+                            </Routes>
+                            {/* <sMainController.DevTool name="sMainController"/> */}
+                        </div>
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

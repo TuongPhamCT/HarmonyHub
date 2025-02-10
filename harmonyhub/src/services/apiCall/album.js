@@ -1,3 +1,4 @@
+import { showAlert, showErrorMessage } from '../../components/MainPage/services/showAlertService.js'
 import axios from '../../config/axios.js'
 
 export class AlbumService {
@@ -40,9 +41,11 @@ export class AlbumService {
                     "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
                 }
             })
-            return data
+            showAlert("Add new album successfully");
+            return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            showErrorMessage();
         }
     }
 
@@ -64,9 +67,11 @@ export class AlbumService {
                     "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
                 }
             })
+            showAlert("Update album successfully");
             return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            showErrorMessage();
         }
     }
 
@@ -111,6 +116,7 @@ export class AlbumService {
     static deleteAlbum = async (id) => {
         try {
             const { data } = await axios.delete(`/album/${id}`);
+            showAlert("Delete album successfully");
             return data;
         } catch (error) {
             console.log(error);
@@ -130,8 +136,9 @@ export class AlbumService {
 
     static removeSongFromAlbum = async (albumId, songId) => {
         try {
+            console.log("remove song");
             const { data } = await axios.delete(`/album/${albumId}/song`, {
-                songId
+                data: {songId}
             });
             return data;
         } catch (error) {

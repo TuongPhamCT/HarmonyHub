@@ -282,11 +282,14 @@ export const loadPlaybarDataFromLocal = async () => {
 
       for (const id of playlistIds) {
         let songData = await SongService.getSongById(id);
-        songData.image =  "/public" + songData.image;
-        songData.fileURL = "/public" + songData.fileURL;
-        
+
         if (songData) {
-          newPlaylist.push(songData);
+          songData.image =  "/public" + songData.image;
+          songData.fileURL = "/public" + songData.fileURL;
+          
+          if (songData) {
+            newPlaylist.push(songData);
+          }
         }
       }
 

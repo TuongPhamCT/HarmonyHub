@@ -150,7 +150,8 @@ module.exports.removeSongFromAlbum = async (req, res) => {
     if (!song) {
       return res.status(404).json({ message: "Song not found" });
     }
-    if (song.album_id !== albumId) {
+
+    if (song.album_id !== parseInt(albumId)) {
       return res
         .status(400)
         .json({ message: "Song does not belong to this album" });

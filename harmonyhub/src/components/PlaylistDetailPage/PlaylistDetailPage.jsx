@@ -23,10 +23,17 @@ const PlaylistDetailPage = () =>{
     const [image, setImage] = useState("");
     const [totalTime, setTotalTime] = useState(0);
 
-    const handleRemoveSong = useCallback((id) => {
-        setSongs((prev) => prev.filter((i) => id !== i.props.data.id));
-        setSongsData((prev) => prev.filter((i) => id !== i.props.data.id));
-    }, []);
+    const handleRemoveSong = useCallback(async (songId) => {
+        const newSongData = songsData.filter((i) => songId !== i.id);
+
+        setSongs((prev) => prev.filter((i) => songId !== i.props.data.id));
+        setSongsData(newSongData);
+        
+        const totalTime = newSongData.reduce((acc, item) => acc + item.duration, 0);
+        setTotalTime(convertIntToTime(totalTime, true));
+
+        await PlaylistService.removeSongFromPlaylist(id, songId);
+    }, [songsData, id]);
 
     useEffect(() => {
         const controller = new AbortController(); 
@@ -42,7 +49,11 @@ const PlaylistDetailPage = () =>{
                     }
                 ) || [];
                 
-                setImage(serverDomain + encodeURI(dataSongs[0].image));
+                if (dataSongs.length > 0) {
+                    setImage(serverDomain + encodeURI(dataSongs[0].image));
+                } else {
+                    setImage(playlist_placeholder);
+                }
                 const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
         
                 setTitle(sPlaylistDetail.value.title);

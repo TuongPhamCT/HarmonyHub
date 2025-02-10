@@ -5,7 +5,7 @@ import { TextButton } from '../TextButton';
 import { TransparentBackground } from '../../Utils/TransparentBackground/TransparentBackground';
 import { PlaylistService } from '../../../services/apiCall/playlist';
 
-export const CreatePlaylist = ({onClose}) => {
+export const CreatePlaylist = ({onUpdate, onClose}) => {
   const thisRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
   const [allowAdd, setAllowAdd] = useState(false);
@@ -18,6 +18,9 @@ export const CreatePlaylist = ({onClose}) => {
       isPublic: isPublic,
     });
     onClose();
+    if (onUpdate) {
+      onUpdate();
+    }
   }
 
   useEffect(() => {

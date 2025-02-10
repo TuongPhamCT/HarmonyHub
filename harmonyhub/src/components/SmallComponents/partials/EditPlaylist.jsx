@@ -55,7 +55,7 @@ export const EditPlaylist = ({data, onClose}) => {
         ref={thisRef}
         onClick={(event) => event.stopPropagation()}
       >
-        <p id={"create-playlist-title"}>New playlist</p>
+        <p id={"create-playlist-title"}>Edit playlist</p>
         <input
           type="text"
           id="create-playlist-input"
@@ -88,7 +88,7 @@ export const EditPlaylist = ({data, onClose}) => {
             backgroundColor={"transparent"}
             width={"40%"}
             height={"100%"}
-            text={"Add"}
+            text={"Edit"}
             disabled={!allowAdd}
             onClick={handleAddPlaylist}
           />

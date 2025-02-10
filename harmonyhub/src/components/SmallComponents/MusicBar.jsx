@@ -1,18 +1,16 @@
 import React, { useRef, useState } from 'react';
-import item_placeholder from '../../assets/img/placeholder_disc.png';
-import button_more from '../../assets/img/component_more_vertical.png';
-import button_love_on from '../../assets/img/component_love_on.png';
 import button_love_off from '../../assets/img/component_love_off.png';
-import './MusicBar.css';
-import { ItemDropDownMenu } from './partials/ItemDropDown';
-import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
-import { AddToPlaylist } from './partials/AddToPlaylist';
-import { CreatePlaylist } from './partials/CreatePlaylist';
+import button_love_on from '../../assets/img/component_love_on.png';
+import button_more from '../../assets/img/component_more_vertical.png';
+import item_placeholder from '../../assets/img/placeholder_disc.png';
 import { serverDomain, sUser } from '../../store';
 import { useFavorite } from '../Contexts/FavoriteContext';
-import { PlaylistService } from '../../services/apiCall/playlist';
+import { toggleMainContentScroll } from '../MainPage/services/contentAreaServices';
 import { sBoxAlts } from './componentStore';
-import { AlbumService } from '../../services/apiCall/album';
+import './MusicBar.css';
+import { AddToPlaylist } from './partials/AddToPlaylist';
+import { CreatePlaylist } from './partials/CreatePlaylist';
+import { ItemDropDownMenu } from './partials/ItemDropDown';
 
 const ssPrivilege = sUser.slice((n) => n.privilege);
 
@@ -64,7 +62,6 @@ export default function MusicBar(props) {
         const removeFromPlaylist = {
             name: "Remove from playlist",
             onClick: async () => {
-                PlaylistService.removeSongFromPlaylist(props.playlistId, props.data.id);
                 if (props.onRemove) {
                     props.onRemove();
                 }
@@ -74,7 +71,6 @@ export default function MusicBar(props) {
         const removeFromAlbum = {
             name: "Remove from album",
             onClick: async () => {
-                AlbumService.removeSongFromAlbum(props.albumId, props.data.id);
                 if (props.onRemove) {
                     props.onRemove();
                 }

@@ -30,6 +30,7 @@ export const sMainController = signify ({
     showSignIn: false,
     showSidebar: true,
     canScroll: true,
+    callAlertFunction: null,
 });
 
 export const serverDomain = "http://localhost:5000";
