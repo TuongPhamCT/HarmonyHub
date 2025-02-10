@@ -130,8 +130,9 @@ export class AlbumService {
 
     static removeSongFromAlbum = async (albumId, songId) => {
         try {
+            console.log("remove song");
             const { data } = await axios.delete(`/album/${albumId}/song`, {
-                songId
+                data: {songId}
             });
             return data;
         } catch (error) {

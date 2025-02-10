@@ -106,7 +106,7 @@ export class PlaylistService {
     static removeSongFromPlaylist = async (playlistId, songId) => {
         try {
             const { data } = await axios.delete(`/playlist/${playlistId}/song`, {
-                songId
+                data: {songId}
             })
             return data
         } catch (error) {

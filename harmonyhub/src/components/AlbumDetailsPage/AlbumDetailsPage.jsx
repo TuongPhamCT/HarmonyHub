@@ -24,10 +24,17 @@ const AlbumDetailsPage = () =>{
     const [image, setImage] = useState("");
     const [totalTime, setTotalTime] = useState();
 
-    const handleRemoveSong = useCallback((id) => {
-        setSongs((prev) => prev.filter((i) => id !== i.props.data.id));
-        setSongsData((prev) => prev.filter((i) => id !== i.props.data.id));
-    }, []);
+    const handleRemoveSong = useCallback(async (songId) => {
+        const newSongData = songsData.filter((i) => songId !== i.id);
+
+        setSongs((prev) => prev.filter((i) => songId !== i.props.data.id));
+        setSongsData(newSongData);
+        
+        const totalTime = newSongData.reduce((acc, item) => acc + item.duration, 0);
+        setTotalTime(convertIntToTime(totalTime, true));
+
+        await AlbumService.removeSongFromAlbum(id, songId);
+    }, [songsData, id]);
 
     useEffect(() => {
         // call api to get songs by playlist id
@@ -35,6 +42,8 @@ const AlbumDetailsPage = () =>{
         const fetchData =  async () => {
             const thisAlbum = await AlbumService.getAlbumById(id);
             const dataSongs = thisAlbum.songs;
+
+            console.log(dataSongs);
 
             const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
     
