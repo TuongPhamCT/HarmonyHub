@@ -1,0 +1,11 @@
+import { sMainController } from "../../../store"
+
+export const showAlert = (message) => {
+  if (sMainController.value.callAlertFunction) {
+    sMainController.value.callAlertFunction(message, false);
+  }
+}
+
+export const showErrorMessage = () => {
+  showAlert("Something went wrong. Please try again later.", false);
+}

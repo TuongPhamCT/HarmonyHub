@@ -278,11 +278,11 @@ export default function Playbar() {
       setCacheVolume(volume);
       setVolume(0);
       setSpeakerOn(false);
-      localStorage("playbar-volume", 0);
+      localStorage.setItem("playbar-volume", 0);
     } else {
       setVolume(cacheVolume > 0 ? cacheVolume : 1);
       setSpeakerOn(true);
-      localStorage("playbar-volume", 1);
+      localStorage.setItem("playbar-volume", 1);
     }
   }
 

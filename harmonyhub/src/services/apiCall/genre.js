@@ -1,3 +1,4 @@
+import { showAlert, showErrorMessage } from '../../components/MainPage/services/showAlertService.js'
 import axios from '../../config/axios.js'
 export class GenreService {
     static getGenres = async ({
@@ -46,9 +47,11 @@ export class GenreService {
                     "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
                 }
             })
+            showAlert("Add new genre successfully");
             return data;
         } catch (error) {
             console.log(error)
+            showErrorMessage();
         }
     }
 
@@ -78,18 +81,22 @@ export class GenreService {
                     "Content-Type": "multipart/form-data", // Bắt buộc khi gửi file
                 }
             })
+            showAlert("Update genre successfully");
             return data
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            showErrorMessage();
         }
     }
 
     static deleteGenre = async (id) => {
         try {
-            const { data } = await axios.delete(`/genre/${id}`)
-            return data
+            const { data } = await axios.delete(`/genre/${id}`);
+            showAlert("Delete genre successfully");
+            return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            showErrorMessage();
         }
     }
 }

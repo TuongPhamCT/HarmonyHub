@@ -1,4 +1,6 @@
+import { showAlert, showErrorMessage } from '../../components/MainPage/services/showAlertService.js';
 import axios from '../../config/axios.js'
+import { sUser } from '../../store.js';
 
 export class SongService {
   static createSong = async ({
@@ -69,9 +71,16 @@ export class SongService {
   static deleteSong = async (id) => {
     try {
       const { data } = await axios.delete(`/song/${id}`)
-      return data
+      if (sUser.value.privilege.includes(3)) {
+        showAlert("Deny song successfully");
+      } else {
+        showAlert("Delete song successfully");
+      }
+      
+      return data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      showErrorMessage();
     }
   }
 
@@ -169,9 +178,11 @@ export class SongService {
   static approveSong = async (id) => {
     try {
       const { data } = await axios.patch(`/song/${id}/approve`);
+      showAlert("Approve song successfully");
       return data;
     } catch (error) {
       console.log(error)
+      showErrorMessage();
     }
   }
 

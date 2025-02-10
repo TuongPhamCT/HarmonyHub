@@ -34,7 +34,7 @@ const AlbumDetailsPage = () =>{
         setTotalTime(convertIntToTime(totalTime, true));
 
         await AlbumService.removeSongFromAlbum(id, songId);
-    }, [songsData, id]);
+    }, [id]);
 
     useEffect(() => {
         // call api to get songs by playlist id
@@ -42,8 +42,6 @@ const AlbumDetailsPage = () =>{
         const fetchData =  async () => {
             const thisAlbum = await AlbumService.getAlbumById(id);
             const dataSongs = thisAlbum.songs;
-
-            console.log(dataSongs);
 
             const totalTime = dataSongs.reduce((acc, item) => acc + item.duration, 0);
     

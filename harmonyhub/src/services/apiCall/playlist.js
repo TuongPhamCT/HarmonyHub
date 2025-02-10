@@ -1,3 +1,4 @@
+import { showAlert, showErrorMessage } from "../../components/MainPage/services/showAlertService.js";
 import axios from "../../config/axios.js"
 
 export class PlaylistService {
@@ -63,9 +64,11 @@ export class PlaylistService {
                 title,
                 isPublic
             })
+            showAlert("Add playlist successfully");
             return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            
         }
     }
 
@@ -79,18 +82,22 @@ export class PlaylistService {
                 title,
                 isPublic
             })
+            showAlert("Update playlist successfully");
             return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            showErrorMessage();
         }
     }
 
     static deletePlaylist = async (id) => {
         try {
             const { data } = await axios.delete(`/playlist/${id}`)
-            return data
+            showAlert("Delete playlist successfully");
+            return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            showErrorMessage();
         }
     }
 
