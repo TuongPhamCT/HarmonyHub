@@ -12,6 +12,6 @@ export const handleLogout = () => {
   // phân quyền người dùng
 
   // guest
-  sUser.set((v) => v.value.privilege = [0, 1]);
+  sUser.set((v) => v.value.privilege = [0]);
   localStorage.setItem("userRole", "guest");
 }
