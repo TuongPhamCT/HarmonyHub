@@ -54,12 +54,12 @@ module.exports.changePathOfSongForClient = (song) => {
 
 module.exports.getMostPlaySongs = async (startTime, endTime, numberOfSongs) => {
   const songs = await sequelize.query(
-    `SELECT s.id, s.name, s.artist, s.duration, s."fileURL", s.image, s.album_id, s."createdAt", s.post_user_id, COUNT(*) as playCount 
+    `SELECT s.id, s.name, s.artist, s.duration, s."fileURL", s.image, s.album_id, s."createdAt", s.post_user_id, COUNT(*) as "playCount" 
        FROM play_history ph 
        JOIN song s ON ph.song_id = s.id 
        WHERE ph."playAt" BETWEEN :startTime AND :endTime 
        GROUP BY s.id 
-       ORDER BY playCount DESC 
+       ORDER BY "playCount" DESC 
        LIMIT :numberOfSongs`,
     {
       replacements: { startTime, endTime, numberOfSongs },
